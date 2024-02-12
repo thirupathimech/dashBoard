@@ -8,7 +8,9 @@
 </head>
 
 <body id="body">
-    <marquee><h2 id="headline" style="color:white">Thirupathi G</h2></marquee>
+    <marquee>
+        <h2 id="headline" style="color:white">Thirupathi G</h2>
+    </marquee>
     <center>
         <table border="1" collapse="true" style="
     font-weight: bold;
@@ -19,7 +21,9 @@
                     <th style="background-color:#fcfe86;color:black;font-weight:bold">Selected Color</th>
                 </tr>
                 <tr>
-                    <td id="colorDisplay" style="background-color: white; font-weight: bold;"></td>
+                    <td>
+                        <input type="text" id="colorDisplay" style="background-color: white; font-weight: bold;width: -webkit-fill-available;height: 100px;text-align: center;font-size: -webkit-xxx-large" />
+                    </td>
                 </tr>
             </tbody>
         </table>
@@ -34,18 +38,27 @@
 
         colorPicker.addEventListener('input', function(event) {
             var selectedColor = event.target.value;
-            colorDisplay.innerText = selectedColor;
-            colorDisplay.style.backgroundColor = 'white';
+            updateColors(selectedColor);
+        });
+
+        colorDisplay.addEventListener('input', function(event) {
+            var selectedColor = event.target.value;
+            updateColors(selectedColor);
+        });
+
+        function updateColors(selectedColor) {
+            colorDisplay.value = selectedColor;
+            colorPicker.value = selectedColor;
             body.style.backgroundColor = selectedColor;
             // Calculate the opposite color
             var oppositeColor = calculateOppositeColor(selectedColor);
             // Apply the opposite color to the headline
             headline.style.color = oppositeColor;
             copyColor();
-        });
+        }
 
         function copyColor() {
-            var colorText = colorDisplay.innerText;
+            var colorText = colorDisplay.value;
             var dummyInput = document.createElement("input");
             document.body.appendChild(dummyInput);
             dummyInput.setAttribute("value", colorText);
