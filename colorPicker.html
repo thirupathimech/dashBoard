@@ -1,18 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Color Code - THIRUPATHI G</title>
+    <style>
+        .color-info {
+            position: fixed;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            background-color: #f0f0f0;
+            padding: 10px;
+            text-align: center;
+            font-weight: bold;
+        }
+    </style>
 </head>
 
-<body id="body" style="background-color: rgb(255, 255, 255);">
+<body id="body" style="background-color: rgb(153, 0, 0);">
     <marquee style="
     margin-right: 33%;
     margin-left: 33%;
     backdrop-filter: blur(100px);
     text-shadow: 3px 8px 14px rgba(10, 10, 10, 50), 17px 20px 20px rgba(255, 255, 255, 36);">
-        <h2 id="headline" style="color: rgb(0, 0, 0);">Thirupathi G</h2>
+        <h2 id="headline" style="color: rgb(102, 255, 255);">Thirupathi G</h2>
     </marquee>
     <center>
         <table border="1" collapse="true" style="font-weight: bold;
@@ -30,12 +43,13 @@
         </table>
         <input type="color" style="margin-top: 20vh;height: 53px;border-radius: 13px;border-inline-color: red;border-style: dashed;border-width: medium;" id="colorPicker">
     </center>
-
+    <div class="color-info" id="colorInfo"></div>
     <script>
         var colorPicker = document.getElementById('colorPicker');
         var colorDisplay = document.getElementById('colorDisplay');
         var body = document.getElementById('body');
         var headline = document.getElementById('headline');
+
 
         colorPicker.addEventListener('input', function(event) {
             var selectedColor = event.target.value;
@@ -56,6 +70,10 @@
             // Apply the opposite color to the headline
             headline.style.color = oppositeColor;
             copyColor();
+            var colorInfo = document.getElementById('colorInfo');
+            colorInfo.style.backgroundColor = oppositeColor;
+            colorInfo.style.color = selectedColor;
+            colorInfo.textContent = 'Color ' + selectedColor + ' copied to clipboard!';
         }
 
         function copyColor() {
@@ -87,5 +105,8 @@
             return hex.length == 1 ? "0" + hex : hex;
         }
     </script>
+
+
 </body>
+
 </html>
