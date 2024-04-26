@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Thirupathi G</title>
+    <!-- Link Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        #topTitle:hover {
+            background-color: green;
+        }
+
+        #topTitle:active {
+            background-color: red;
+            cursor: grabbing;
+            font-family: cursive;
+        }
+
+        #topTitle:hover {
+            background-color: #17a2b8 !important;
+        }
+
+        .card:hover {
+            border-color: #17a2b8 !important;
+        }
+
+        .progress-bar-striped {
+            background-color: #28a745 !important;
+            background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+            background-size: 1rem 1rem;
+        }
+
+        .progress-bar-striped:hover {
+            animation: moveProgress 1.5s infinite linear;
+            cursor: grab;
+            background-color: #01c3c6 !important;
+        }
+
+        .progress-bar-striped:active {
+            cursor: grabbing;
+        }
+
+        @keyframes moveProgress {
+            0% {
+                background-position: 0 0;
+            }
+            100% {
+                background-position: 10rem 0;
+            }
+        }
+
+        /* Change table head color */
+
+        .table thead th {
+            background-color: #00bd42;
+            color: white;
+        }
+
+        /* Add striped rows to the table */
+
+        .table-striped tbody tr:nth-of-type(odd) {
+            background-color: #f9f9f9;
+        }
+
+        /* Hover effect on table rows */
+
+        .table-hover tbody tr:hover {
+            background-color: #cce5ff;
+            cursor: text;
+        }
+
+        #skills p {
+            margin-top: 1rem !important;
+        }
+
+        #printButton {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+
+        ::selection {
+            color: black;
+            background-color: yellow;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+
+        <button id="printButton" class="btn btn-primary">Print</button>
+
+        <!-- Top Title -->
+        <div id="topTitle" class="card shadow mb-4 bg-info text-white">
+            <div class="card-body">
+                <b> Thirupathi G </b>
+            </div>
+        </div>
+
+        <!-- OBJECTIVE -->
+
+        <div class="card shadow mb-4">
+            <div class="card-body">
+                <h2 class="card-title">Objective</h2>
+                <p class="card-text">Experienced Java developer adept at crafting robust and scalable solutions. Passionate about leveraging Java technologies to drive innovation and deliver impactful software solutions.</p>
+            </div>
+        </div>
+
+        <!-- EDUCATION DETAILS TABLE -->
+
+        <div class="card shadow mb-4">
+            <div class="card-body">
+                <h2 class="card-title">Education Details</h2>
+                <div class="table-responsive">
+                    <table class="table table-bordered table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th>Course</th>
+                                <th>Institution</th>
+                                <th>Grade</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>BE - Mechanical Engineering</td>
+                                <td>Dhirajlal Gandhi College Of Technology, Kadayampatti, Salem.</td>
+                                <td>7.7 / 10</td>
+                            </tr>
+                            <tr>
+                                <td>HSC</td>
+                                <td>Kalaimagal Matric Hr Sec School, Omalur, Salem.</td>
+                                <td>69 / 100</td>
+                            </tr>
+                            <tr>
+                                <td>SSLC</td>
+                                <td>Govt High School, Chinthamaniyur, Salem.</td>
+                                <td>87.2 / 100</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- SKILLS SECTION -->
+
+        <div class="card shadow mb-4">
+            <div class="card-body">
+                <h2 class="card-title">Skills</h2>
+                <div id="skills"></div>
+            </div>
+        </div>
+
+        <!-- PROJECTS SECTION -->
+
+        <div class="card shadow mb-4">
+            <div class="card-body">
+                <h2 class="card-title">Projects</h2>
+                <h4>Payroll</h4>
+                <p>The Payroll Software project is a comprehensive and efficient system designed to automate and streamline payroll management processes within an organization. It encompasses various modules and features that facilitate accurate and timely
+                    payroll calculations, employee data management, and reporting.</p>
+                <h4>Key Features and Functionalities:</h4>
+                <ul>
+                    <li>Employee Data Management: The software enables the storage and management of employee information, including personal details, salary details, tax information, and deductions. It allows HR administrators to easily add, edit, and update
+                        employee records.
+                    </li>
+                    <li>
+                        Payroll Calculation: The system automates the complex calculations involved in payroll processing. It takes into account various factors such as regular working hours, overtime, leave, deductions, and taxes to generate accurate and error-free payroll
+                        results.
+                    </li>
+                </ul>
+            </div>
+        </div>
+		
+		<div class="card shadow mb-4">
+            <div class="card-body">
+                <h2 class="card-title">Experiance Details</h2>
+				<div class="table-responsive">
+                    <table class="table table-bordered table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th>Company Name</th>
+                                <th>Role</th>
+                                <th>Duration</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Effitrac Solutions</td>
+                                <td>Program Analyst</td>
+                                <td>Apr 2022 - Apr 2023</td>
+                            </tr>
+                            <tr>
+                                <td>Ultramain Software India Private Limited</td>
+                                <td>Software Engineer</td>
+                                <td>Oct 2023 - currently working</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+			</div>
+        </div>
+				
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                var title = document.title = "Thirupathi G";
+
+                // Add event listener to the print button
+                var printButton = document.getElementById('printButton');
+                printButton.addEventListener('click', function() {
+                    window.print(); // Trigger the print functionality
+                });
+
+                // Listen for the print event and hide the print button
+                window.addEventListener('beforeprint', function() {
+                    printButton.style.display = 'none';
+                });
+
+                // Listen for the afterprint event and show the print button again
+                window.addEventListener('afterprint', function() {
+                    printButton.style.display = 'block';
+                });
+
+
+                // Skills list with name and percentage
+                var skillsList = [{
+                        name: "Java",
+                        percentage: 98
+                    },
+                    {
+                        name: "Jasper Reports",
+                        percentage: 85
+                    },
+                    {
+                        name: "REST APIs",
+                        percentage: 85
+                    },
+                    {
+                        name: "MySQL",
+                        percentage: 98
+                    },
+                    {
+                        name: "PostgreSQL",
+                        percentage: 90
+                    },
+                    {
+                        name: "Microsoft SQL",
+                        percentage: 88
+                    },
+                    {
+                        name: "Java Database Connectivity (JDBC)",
+                        percentage: 90
+                    },
+                    {
+                        name: "Hibernate",
+                        percentage: 100
+                    },
+                    {
+                        name: "Java Server Faces (JSF)",
+                        percentage: 87
+                    },
+                    {
+                        name: "Java Server Pages (JSP)",
+                        percentage: 99
+                    },
+                    {
+                        name: "Google Web Toolkit (GWT)",
+                        percentage: 99
+                    },
+                    {
+                        name: "Sencha Gxt",
+                        percentage: 88
+                    },
+                    {
+                        name: "JavaScript",
+                        percentage: 88
+                    },
+                    {
+                        name: "Ajax",
+                        percentage: 80
+                    },
+                    {
+                        name: "CSS",
+                        percentage: 75
+                    },
+                    {
+                        name: "GlassFish Server",
+                        percentage: 75
+                    },
+                    {
+                        name: "Wildfly Server",
+                        percentage: 90
+                    },
+                    {
+                        name: "Maven Projects",
+                        percentage: 85
+                    },
+                    {
+                        name: "Enterprise Java Bean (EJB)",
+                        percentage: 85
+                    },
+                    {
+                        name: "Selenium",
+                        percentage: 80
+                    },
+                    {
+                        name: "JQuery",
+                        percentage: 75
+                    },
+                    {
+                        name: "GitUp",
+                        percentage: 80
+                    }
+                ];
+
+                // Container for skills
+                var skillsContainer = document.getElementById('skills');
+
+                // Loop through skills list and generate HTML for each skill
+                skillsList.forEach(function(skill) {
+                    // Create progress bar for the skill
+                    var progressBarHTML = '<div class="progress">' +
+                        '<div class="progress-bar progress-bar-striped" style="width: ' + skill.percentage + '%;"></div>' +
+                        '</div>';
+
+                    // Create HTML for the skill name and append progress bar
+                    var skillHTML = '<p>' + skill.name + '</p>' + progressBarHTML;
+
+                    // Append skill HTML to skills container
+                    skillsContainer.innerHTML += skillHTML;
+                });
+
+
+            });
+        </script>
+    </div>
+
+    <!-- Link Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+
+</html>
