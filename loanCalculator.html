@@ -40,6 +40,7 @@
         <div id="result" class="mt-4">
             <h4>Monthly Payment: <span id="monthlyPayment">0.00</span></h4>
             <h4>Total Repayable Amount: <span id="totalRepayable">0.00</span></h4>
+             <h4>Total Interest Amount: <span id="totalInterest">0.00</span></h4>
             <h4>Payment Schedule:</h4>
             <table class="table table-striped schedule-table">
                 <thead>
@@ -71,10 +72,12 @@
             // Calculate monthly payment
             const monthlyPayment = (loanAmount * interestRate) / (1 - Math.pow(1 + interestRate, -tenure));
             const totalRepayable = monthlyPayment * tenure;
+            const totalInterest = totalRepayable - loanAmount;
 
             // Display the results
             document.getElementById('monthlyPayment').textContent = monthlyPayment.toFixed(2);
             document.getElementById('totalRepayable').textContent = totalRepayable.toFixed(2);
+            document.getElementById('totalInterest').textContent = totalInterest.toFixed(2);
 
             // Generate the payment schedule
             const scheduleBody = document.getElementById('scheduleBody');
