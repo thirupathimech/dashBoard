@@ -8,7 +8,8 @@
     <title>Loan Calculator</title>
     <!-- Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="icon" href="https://blogger.googleusercontent.com/img/a/AVvXsEgIFnXbCEgaASrlgiFnXz6MPaK-kyelPH7eTOt9s0-nWtY5YSMAIG5mN4k7dnxX6M-C0AmbO3U9jikPwhBdpp7G9848hK_1c7kXLbqxamlfCbhe_l-kEb8pe5V6mEH3fiIokyxkIyavBLAMlAzSApPTbcYA1r-P9YDwpu9GBIsL1SV4zGLvMwFulKOECQ4" type="image/x-icon">
+    <link rel="icon" href="https://blogger.googleusercontent.com/img/a/AVvXsEgIFnXbCEgaASrlgiFnXz6MPaK-kyelPH7eTOt9s0-nWtY5YSMAIG5mN4k7dnxX6M-C0AmbO3U9jikPwhBdpp7G9848hK_1c7kXLbqxamlfCbhe_l-kEb8pe5V6mEH3fiIokyxkIyavBLAMlAzSApPTbcYA1r-P9YDwpu9GBIsL1SV4zGLvMwFulKOECQ4"
+        type="image/x-icon">
     <style>
         body {
             margin-top: 50px;
@@ -76,7 +77,8 @@
     </div>
 
     <!-- JavaScript -->
-    <script src="https://cdn.jsdelivr.net/npm/jspdf@2.4.0/dist/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.13/jspdf.plugin.autotable.min.js"></script>
     <script>
         document.getElementById('loan-form').addEventListener('submit', function(event) {
             event.preventDefault();
@@ -124,20 +126,15 @@
             } = window.jspdf;
             const doc = new jsPDF();
 
-            doc.text('Loan Payment Schedule', 10, 10);
+            doc.text('Loan Payment Schedule - Powered by Thirupathi G', 10, 10);
 
-            const elementHTML = document.querySelector(".schedule-table");
-            const margins = {
-                top: 20,
-                bottom: 20,
-                left: 10,
-                width: 170
-            };
+            const scheduleTable = document.querySelector(".schedule-table");
 
             doc.autoTable({
-                html: elementHTML,
-                startY: 20,
-                margin: margins
+                head: [Array.from(scheduleTable.querySelectorAll('thead th')).map(th => th.innerText)],
+                body: Array.from(scheduleTable.querySelectorAll('tbody tr')).map(tr =>
+                    Array.from(tr.querySelectorAll('td')).map(td => td.innerText)
+                ),
             });
 
             doc.save('loan-schedule.pdf');
