@@ -4,10 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>File Upload and Replace</title>
+    <title>File Operations</title>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="icon" href="https://blogger.googleusercontent.com/img/a/AVvXsEgIFnXbCEgaASrlgiFnXz6MPaK-kyelPH7eTOt9s0-nWtY5YSMAIG5mN4k7dnxX6M-C0AmbO3U9jikPwhBdpp7G9848hK_1c7kXLbqxamlfCbhe_l-kEb8pe5V6mEH3fiIokyxkIyavBLAMlAzSApPTbcYA1r-P9YDwpu9GBIsL1SV4zGLvMwFulKOECQ4"
-        type="image/x-icon">
     <style>
         body {
             padding-top: 20px;
@@ -43,24 +41,46 @@
 
 <body>
     <div class="container">
-        <h2 class="text-center">Upload Files and Replace Text</h2>
-        <h3 class="text-center">☹️ ♾️ 😄</h3>
-        <div class="form-group">
-            <label for="fileInput">Select multiple files:</label>
-            <input type="file" class="form-control-file" id="fileInput" multiple>
+        <h2 class="text-center">File Operations</h2>
+        <ul class="nav nav-tabs" id="fileOperationsTab" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" id="java-tab" data-toggle="tab" href="#java" role="tab" aria-controls="java" aria-selected="true">Java File Renamer</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="replace-tab" data-toggle="tab" href="#replace" role="tab" aria-controls="replace" aria-selected="false">File Content Replacer</a>
+            </li>
+        </ul>
+        <div class="tab-content" id="fileOperationsTabContent">
+            <div class="tab-pane fade show active" id="java" role="tabpanel" aria-labelledby="java-tab">
+                <h3 class="text-center">Upload Java Files and Rename</h3>
+                <div class="form-group">
+                    <label for="javaFileInput">Select Java files:</label>
+                    <input type="file" class="form-control-file" id="javaFileInput" multiple accept=".java">
+                </div>
+                <button id="javaUploadBtn" class="btn btn-primary">Upload and Rename</button>
+                <button id="javaClearBtn" class="btn btn-secondary">Clear</button>
+                <div id="javaOutput" class="mt-4"></div>
+            </div>
+            <div class="tab-pane fade" id="replace" role="tabpanel" aria-labelledby="replace-tab">
+                <h3 class="text-center">Upload Files and Replace Text</h3>
+                <div class="form-group">
+                    <label for="replaceFileInput">Select multiple files:</label>
+                    <input type="file" class="form-control-file" id="replaceFileInput" multiple>
+                </div>
+                <div class="form-group">
+                    <label for="findText">Find Text:</label>
+                    <input type="text" class="form-control" id="findText">
+                </div>
+                <div class="form-group">
+                    <label for="replaceText">Replace Text:</label>
+                    <input type="text" class="form-control" id="replaceText">
+                </div>
+                <button id="replaceUploadBtn" class="btn btn-primary">Upload and Replace</button>
+                <button id="replaceClearBtn" class="btn btn-secondary">Clear</button>
+                <div id="replaceOutput" class="mt-4"></div>
+                <button id="replaceCompleteBtn" class="btn btn-success hidden">Complete</button>
+            </div>
         </div>
-        <div class="form-group">
-            <label for="findText">Find Text:</label>
-            <input type="text" class="form-control" id="findText">
-        </div>
-        <div class="form-group">
-            <label for="replaceText">Replace Text:</label>
-            <input type="text" class="form-control" id="replaceText">
-        </div>
-        <button id="uploadBtn" class="btn btn-primary">Upload and Replace</button>
-        <button id="completeBtn" class="btn btn-success hidden">Complete</button>
-        <button id="clearBtn" class="btn btn-secondary">Clear</button>
-        <div id="output" class="mt-4"></div>
     </div>
 
     <footer>
@@ -68,12 +88,75 @@
     </footer>
 
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
         $(document).ready(function() {
-            let filesProcessed = [];
+            let javaFilesProcessed = [];
 
-            $('#uploadBtn').click(function() {
-                const files = $('#fileInput')[0].files;
+            $('#javaUploadBtn').click(function() {
+                const files = $('#javaFileInput')[0].files;
+                if (files.length === 0) {
+                    alert('Please select Java files.');
+                    return;
+                }
+
+                $('#javaOutput').empty();
+                javaFilesProcessed = [];
+
+                Array.from(files).forEach((file) => {
+                    if (!file.name.endsWith('.java')) {
+                        alert('Please select only Java files.');
+                        return;
+                    }
+
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        const content = e.target.result;
+                        const classNameMatch = content.match(/class\s+(\w+)/);
+
+                        if (classNameMatch) {
+                            const className = classNameMatch[1];
+                            javaFilesProcessed.push({
+                                name: `${className}.java`,
+                                content: content
+                            });
+
+                            $('#javaOutput').append(`<p>File: ${file.name} renamed to ${className}.java</p>`);
+
+                            if (javaFilesProcessed.length === files.length) {
+                                $('#javaOutput').append('<button id="javaDownloadBtn" class="btn btn-success">Download All</button>');
+                                $('#javaDownloadBtn').click(function() {
+                                    javaFilesProcessed.forEach(file => {
+                                        const blob = new Blob([file.content], {
+                                            type: 'text/plain'
+                                        });
+                                        const a = document.createElement('a');
+                                        a.href = URL.createObjectURL(blob);
+                                        a.download = file.name;
+                                        document.body.appendChild(a);
+                                        a.click();
+                                        document.body.removeChild(a);
+                                        URL.revokeObjectURL(a.href);
+                                    });
+                                });
+                            }
+                        } else {
+                            $('#javaOutput').append(`<p>File: ${file.name} does not contain a class definition</p>`);
+                        }
+                    };
+                    reader.readAsText(file);
+                });
+            });
+
+            $('#javaClearBtn').click(function() {
+                $('#javaFileInput').val('');
+                $('#javaOutput').empty();
+            });
+
+            let replaceFilesProcessed = [];
+
+            $('#replaceUploadBtn').click(function() {
+                const files = $('#replaceFileInput')[0].files;
                 const findText = $('#findText').val();
                 const replaceText = $('#replaceText').val();
                 if (files.length === 0 || findText === '' || replaceText === '') {
@@ -81,8 +164,8 @@
                     return;
                 }
 
-                $('#output').empty();
-                filesProcessed = [];
+                $('#replaceOutput').empty();
+                replaceFilesProcessed = [];
 
                 Array.from(files).forEach((file) => {
                     const reader = new FileReader();
@@ -96,24 +179,24 @@
                             return replaceText;
                         });
 
-                        $('#output').append(`<p>File: ${file.name} - Replacements made: ${replacedCount}</p>`);
+                        $('#replaceOutput').append(`<p>File: ${file.name} - Replacements made: ${replacedCount}</p>`);
 
-                        filesProcessed.push({
+                        replaceFilesProcessed.push({
                             name: file.name,
                             content: content,
                             original: file
                         });
 
-                        if (filesProcessed.length === files.length) {
-                            $('#completeBtn').removeClass('hidden');
+                        if (replaceFilesProcessed.length === files.length) {
+                            $('#replaceCompleteBtn').removeClass('hidden');
                         }
                     };
                     reader.readAsText(file);
                 });
             });
 
-            $('#completeBtn').click(function() {
-                filesProcessed.forEach(file => {
+            $('#replaceCompleteBtn').click(function() {
+                replaceFilesProcessed.forEach(file => {
                     const blob = new Blob([file.content], {
                         type: 'text/plain'
                     });
@@ -128,12 +211,12 @@
                 alert('Files processed and ready for download.');
             });
 
-            $('#clearBtn').click(function() {
-                $('#fileInput').val('');
+            $('#replaceClearBtn').click(function() {
+                $('#replaceFileInput').val('');
                 $('#findText').val('');
                 $('#replaceText').val('');
-                $('#output').empty();
-                $('#completeBtn').addClass('hidden');
+                $('#replaceOutput').empty();
+                $('#replaceCompleteBtn').addClass('hidden');
             });
         });
     </script>
