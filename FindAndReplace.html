@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>File Operations</title>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-     <link rel="icon" href="https://blogger.googleusercontent.com/img/a/AVvXsEgIFnXbCEgaASrlgiFnXz6MPaK-kyelPH7eTOt9s0-nWtY5YSMAIG5mN4k7dnxX6M-C0AmbO3U9jikPwhBdpp7G9848hK_1c7kXLbqxamlfCbhe_l-kEb8pe5V6mEH3fiIokyxkIyavBLAMlAzSApPTbcYA1r-P9YDwpu9GBIsL1SV4zGLvMwFulKOECQ4"
+    <link rel="icon" href="https://blogger.googleusercontent.com/img/a/AVvXsEgIFnXbCEgaASrlgiFnXz6MPaK-kyelPH7eTOt9s0-nWtY5YSMAIG5mN4k7dnxX6M-C0AmbO3U9jikPwhBdpp7G9848hK_1c7kXLbqxamlfCbhe_l-kEb8pe5V6mEH3fiIokyxkIyavBLAMlAzSApPTbcYA1r-P9YDwpu9GBIsL1SV4zGLvMwFulKOECQ4"
         type="image/x-icon">
     <style>
         body {
@@ -69,14 +69,17 @@
                     <label for="replaceFileInput">Select multiple files:</label>
                     <input type="file" class="form-control-file" id="replaceFileInput" multiple>
                 </div>
-                <div class="form-group">
-                    <label for="findText">Find Text:</label>
-                    <input type="text" class="form-control" id="findText">
+                <div id="replaceFields">
+                    <div class="form-group">
+                        <label for="findText0">Find Text:</label>
+                        <input type="text" class="form-control findText" id="findText0">
+                    </div>
+                    <div class="form-group">
+                        <label for="replaceText0">Replace Text:</label>
+                        <input type="text" class="form-control replaceText" id="replaceText0">
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label for="replaceText">Replace Text:</label>
-                    <input type="text" class="form-control" id="replaceText">
-                </div>
+                <button id="addReplaceFieldBtn" class="btn btn-info">Add Another Replace Field</button>
                 <button id="replaceUploadBtn" class="btn btn-primary">Upload and Replace</button>
                 <button id="replaceClearBtn" class="btn btn-secondary">Clear</button>
                 <div id="replaceOutput" class="mt-4"></div>
@@ -128,18 +131,7 @@
                             if (javaFilesProcessed.length === files.length) {
                                 $('#javaOutput').append('<button id="javaDownloadBtn" class="btn btn-success">Download All</button>');
                                 $('#javaDownloadBtn').click(function() {
-                                    javaFilesProcessed.forEach(file => {
-                                        const blob = new Blob([file.content], {
-                                            type: 'text/plain'
-                                        });
-                                        const a = document.createElement('a');
-                                        a.href = URL.createObjectURL(blob);
-                                        a.download = file.name;
-                                        document.body.appendChild(a);
-                                        a.click();
-                                        document.body.removeChild(a);
-                                        URL.revokeObjectURL(a.href);
-                                    });
+                                    downloadFilesInBatches(javaFilesProcessed);
                                 });
                             }
                         } else {
@@ -157,12 +149,27 @@
 
             let replaceFilesProcessed = [];
 
+            $('#addReplaceFieldBtn').click(function() {
+                const index = $('.findText').length;
+                $('#replaceFields').append(`
+                    <div class="form-group">
+                        <label for="findText${index}">Find Text:</label>
+                        <input type="text" class="form-control findText" id="findText${index}">
+                    </div>
+                    <div class="form-group">
+                        <label for="replaceText${index}">Replace Text:</label>
+                        <input type="text" class="form-control replaceText" id="replaceText${index}">
+                    </div>
+                `);
+            });
+
             $('#replaceUploadBtn').click(function() {
                 const files = $('#replaceFileInput')[0].files;
-                const findText = $('#findText').val();
-                const replaceText = $('#replaceText').val();
-                if (files.length === 0 || findText === '' || replaceText === '') {
-                    alert('Please select files and enter both find and replace text.');
+                const findTexts = $('.findText').map((_, el) => $(el).val()).get();
+                const replaceTexts = $('.replaceText').map((_, el) => $(el).val()).get();
+
+                if (files.length === 0 || findTexts.includes('') || replaceTexts.includes('')) {
+                    alert('Please select files and enter all find and replace text.');
                     return;
                 }
 
@@ -173,15 +180,18 @@
                     const reader = new FileReader();
                     reader.onload = function(e) {
                         let content = e.target.result;
-                        let replacedCount = 0;
-
-                        const findPattern = new RegExp(`\\b${findText}\\b`, 'g');
-                        content = content.replace(findPattern, (match) => {
-                            replacedCount++;
-                            return replaceText;
+                        let totalReplacedCount = 0;
+                        findTexts.forEach((findText, index) => {
+                            const replaceText = replaceTexts[index];
+                            const findPattern = new RegExp(`\\b${findText}\\b`, 'g');
+                            let replacedCount = 0;
+                            content = content.replace(findPattern, (match) => {
+                                replacedCount++;
+                                totalReplacedCount++;
+                                return replaceText;
+                            });
+                            $('#replaceOutput').append(`<p>File: ${file.name} - Replacements for "${findText}" with "${replaceText}": ${replacedCount}</p>`);
                         });
-
-                        $('#replaceOutput').append(`<p>File: ${file.name} - Replacements made: ${replacedCount}</p>`);
 
                         replaceFilesProcessed.push({
                             name: file.name,
@@ -198,7 +208,26 @@
             });
 
             $('#replaceCompleteBtn').click(function() {
-                replaceFilesProcessed.forEach(file => {
+                downloadFilesInBatches(replaceFilesProcessed);
+                alert('Files processed and ready for download.');
+            });
+
+            $('#replaceClearBtn').click(function() {
+                $('#replaceFileInput').val('');
+                $('.findText').val('');
+                $('.replaceText').val('');
+                $('#replaceOutput').empty();
+                $('#replaceCompleteBtn').addClass('hidden');
+            });
+
+            function downloadFilesInBatches(files) {
+                const delay = 500; // Increased delay to ensure smoother downloads
+                let index = 0;
+
+                function downloadNext() {
+                    if (index >= files.length) return;
+
+                    const file = files[index];
                     const blob = new Blob([file.content], {
                         type: 'text/plain'
                     });
@@ -209,17 +238,13 @@
                     a.click();
                     document.body.removeChild(a);
                     URL.revokeObjectURL(a.href);
-                });
-                alert('Files processed and ready for download.');
-            });
 
-            $('#replaceClearBtn').click(function() {
-                $('#replaceFileInput').val('');
-                $('#findText').val('');
-                $('#replaceText').val('');
-                $('#replaceOutput').empty();
-                $('#replaceCompleteBtn').addClass('hidden');
-            });
+                    index++;
+                    setTimeout(downloadNext, delay);
+                }
+
+                downloadNext();
+            }
         });
     </script>
 </body>
