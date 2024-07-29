@@ -69,17 +69,10 @@
                     <label for="replaceFileInput">Select multiple files:</label>
                     <input type="file" class="form-control-file" id="replaceFileInput" multiple>
                 </div>
-                <div id="replaceFields">
-                    <div class="form-group">
-                        <label for="findText0">Find Text:</label>
-                        <input type="text" class="form-control findText" id="findText0">
-                    </div>
-                    <div class="form-group">
-                        <label for="replaceText0">Replace Text:</label>
-                        <input type="text" class="form-control replaceText" id="replaceText0">
-                    </div>
+                <div class="form-group">
+                    <label for="excelFileInput">Select Excel file:</label>
+                    <input type="file" class="form-control-file" id="excelFileInput" accept=".xlsx, .xls">
                 </div>
-                <button id="addReplaceFieldBtn" class="btn btn-info">Add Another Replace Field</button>
                 <button id="replaceUploadBtn" class="btn btn-primary">Upload and Replace</button>
                 <button id="replaceClearBtn" class="btn btn-secondary">Clear</button>
                 <div id="replaceOutput" class="mt-4"></div>
@@ -94,6 +87,7 @@
 
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.9/xlsx.full.min.js"></script>
     <script>
         $(document).ready(function() {
             let javaFilesProcessed = [];
@@ -149,62 +143,64 @@
 
             let replaceFilesProcessed = [];
 
-            $('#addReplaceFieldBtn').click(function() {
-                const index = $('.findText').length;
-                $('#replaceFields').append(`
-                    <div class="form-group">
-                        <label for="findText${index}">Find Text:</label>
-                        <input type="text" class="form-control findText" id="findText${index}">
-                    </div>
-                    <div class="form-group">
-                        <label for="replaceText${index}">Replace Text:</label>
-                        <input type="text" class="form-control replaceText" id="replaceText${index}">
-                    </div>
-                `);
-            });
-
             $('#replaceUploadBtn').click(function() {
                 const files = $('#replaceFileInput')[0].files;
-                const findTexts = $('.findText').map((_, el) => $(el).val()).get();
-                const replaceTexts = $('.replaceText').map((_, el) => $(el).val()).get();
+                const excelFile = $('#excelFileInput')[0].files[0];
 
-                if (files.length === 0 || findTexts.includes('') || replaceTexts.includes('')) {
-                    alert('Please select files and enter all find and replace text.');
+                if (files.length === 0 || !excelFile) {
+                    alert('Please select files and an Excel file.');
                     return;
                 }
 
                 $('#replaceOutput').empty();
                 replaceFilesProcessed = [];
 
-                Array.from(files).forEach((file) => {
-                    const reader = new FileReader();
-                    reader.onload = function(e) {
-                        let content = e.target.result;
-                        let totalReplacedCount = 0;
-                        findTexts.forEach((findText, index) => {
-                            const replaceText = replaceTexts[index];
-                            const findPattern = new RegExp(`\\b${findText}\\b`, 'g');
-                            let replacedCount = 0;
-                            content = content.replace(findPattern, (match) => {
-                                replacedCount++;
-                                totalReplacedCount++;
-                                return replaceText;
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const data = new Uint8Array(e.target.result);
+                    const workbook = XLSX.read(data, {
+                        type: 'array'
+                    });
+                    const firstSheet = workbook.Sheets[workbook.SheetNames[0]];
+                    const excelData = XLSX.utils.sheet_to_json(firstSheet, {
+                        header: 1
+                    });
+
+                    const replacePairs = excelData.slice(1).map(row => ({
+                        find: row[0],
+                        replace: row[1]
+                    }));
+
+                    Array.from(files).forEach((file) => {
+                        const reader = new FileReader();
+                        reader.onload = function(e) {
+                            let content = e.target.result;
+                            let totalReplacedCount = 0;
+                            replacePairs.forEach(pair => {
+                                const findPattern = new RegExp(`\\b${pair.find}\\b`, 'g');
+                                let replacedCount = 0;
+                                content = content.replace(findPattern, (match) => {
+                                    replacedCount++;
+                                    totalReplacedCount++;
+                                    return pair.replace;
+                                });
+                                $('#replaceOutput').append(`<p>File: ${file.name} - Replacements for "${pair.find}" with "${pair.replace}": ${replacedCount}</p>`);
                             });
-                            $('#replaceOutput').append(`<p>File: ${file.name} - Replacements for "${findText}" with "${replaceText}": ${replacedCount}</p>`);
-                        });
 
-                        replaceFilesProcessed.push({
-                            name: file.name,
-                            content: content,
-                            original: file
-                        });
+                            replaceFilesProcessed.push({
+                                name: file.name,
+                                content: content,
+                                original: file
+                            });
 
-                        if (replaceFilesProcessed.length === files.length) {
-                            $('#replaceCompleteBtn').removeClass('hidden');
-                        }
-                    };
-                    reader.readAsText(file);
-                });
+                            if (replaceFilesProcessed.length === files.length) {
+                                $('#replaceCompleteBtn').removeClass('hidden');
+                            }
+                        };
+                        reader.readAsText(file);
+                    });
+                };
+                reader.readAsArrayBuffer(excelFile);
             });
 
             $('#replaceCompleteBtn').click(function() {
@@ -214,8 +210,7 @@
 
             $('#replaceClearBtn').click(function() {
                 $('#replaceFileInput').val('');
-                $('.findText').val('');
-                $('.replaceText').val('');
+                $('#excelFileInput').val('');
                 $('#replaceOutput').empty();
                 $('#replaceCompleteBtn').addClass('hidden');
             });
