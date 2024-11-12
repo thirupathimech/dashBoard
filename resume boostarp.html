@@ -349,26 +349,7 @@
 
         <script>
             document.addEventListener('DOMContentLoaded', function() {
-
-                // Predefined password
-                var correctPassword = "password1234";
-
-                // Prompt user for password
-                var userPassword = prompt("Please enter the password to view this page:");
-
-                // Check if the password is correct
-                if (userPassword === correctPassword) {
-                    // Show page content
-                    document.getElementById("pageContent").style.display = "block";
-                } else {
-                    // If the password is incorrect, alert and reload the page
-                    alert("Incorrect password. Access denied.");
-                    location.reload();
-                }
-
-
-
-
+                // Application title
                 var title = document.title = "Thirupathi G";
                 // Container for skills
                 var skillsContainer = document.getElementById('skills');
