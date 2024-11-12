@@ -294,7 +294,8 @@
         <script>
             document.addEventListener('DOMContentLoaded', function() {
                 var title = document.title = "Thirupathi G";
-
+                // Container for skills
+                var skillsContainer = document.getElementById('skills');
                 // Add event listener to the print button
                 var printButton = document.getElementById('printButton');
                 printButton.addEventListener('click', function() {
@@ -304,11 +305,13 @@
                 // Listen for the print event and hide the print button
                 window.addEventListener('beforeprint', function() {
                     printButton.style.display = 'none';
+                    displaySkills('table');
                 });
 
                 // Listen for the afterprint event and show the print button again
                 window.addEventListener('afterprint', function() {
                     printButton.style.display = 'block';
+                    displaySkills('progress');
                 });
 
 
@@ -403,22 +406,54 @@
                     }
                 ];
 
-                // Container for skills
-                var skillsContainer = document.getElementById('skills');
+                displaySkills('progress');
+                
+                function displaySkills(format) {
+                    // Clear previous content in skillsContainer
+                    skillsContainer.innerHTML = '';
 
-                // Loop through skills list and generate HTML for each skill
-                skillsList.forEach(function(skill) {
-                    // Create progress bar for the skill
-                    var progressBarHTML = '<div class="progress">' +
-                        '<div class="progress-bar progress-bar-striped" style="width: ' + skill.percentage + '%;"></div>' +
-                        '</div>';
+                    if (format === 'progress') {
+                        // Loop through skills list and create progress bars
+                        skillsList.forEach(function(skill) {
+                            // Create progress bar HTML
+                            var progressBarHTML = '<div class="progress">' +
+                                '<div class="progress-bar progress-bar-striped" style="width: ' + skill.percentage + '%;"></div>' +
+                                '</div>';
 
-                    // Create HTML for the skill name and append progress bar
-                    var skillHTML = '<p>' + skill.name + '</p>' + progressBarHTML;
+                            // Create HTML for the skill name and append progress bar
+                            var skillHTML = '<p>' + skill.name + '</p>' + progressBarHTML;
 
-                    // Append skill HTML to skills container
-                    skillsContainer.innerHTML += skillHTML;
-                });
+                            // Append skill HTML to skills container
+                            skillsContainer.innerHTML += skillHTML;
+                        });
+                    } else if (format === 'table') {
+                        // Start the table HTML
+                        var tableHTML = '<table class="table table-bordered"><tbody>';
+
+                        // Loop through skills and create table rows
+                        skillsList.forEach(function(skill, index) {
+                            // Start a new row every 3 skills
+                            if (index % 3 === 0) {
+                                tableHTML += '<tr>';
+                            }
+
+                            // Add a cell for each skill
+                            tableHTML += '<td>' + skill.name + '</td>';
+
+                            // Close the row every 3 skills
+                            if (index % 3 === 2 || index === skillsList.length - 1) {
+                                tableHTML += '</tr>';
+                            }
+                        });
+
+                        // Close the table HTML
+                        tableHTML += '</tbody></table>';
+
+                        // Insert table HTML into skills container
+                        skillsContainer.innerHTML = tableHTML;
+                    }
+                }
+
 
             });
             $(".project").draggable({
