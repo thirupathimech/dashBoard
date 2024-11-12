@@ -294,7 +294,7 @@
 
         <!--PERSONNEL DETAILS-->
 
-        <div class="card shadow mb-4">
+        <div id="personnelDetails" class="card shadow mb-4">
             <div class="card-body">
                 <h2 class="card-title">Personnel Details</h2>
                 <div class="table-responsive">
@@ -353,6 +353,8 @@
                 var title = document.title = "Thirupathi G";
                 // Container for skills
                 var skillsContainer = document.getElementById('skills');
+                var personnelDetailsContainer = document.getElementById('personnelDetails');
+                personnelDetailsContainer.style.display= 'none';
                 // Add event listener to the print button
                 var printButton = document.getElementById('printButton');
                 printButton.addEventListener('click', function() {
@@ -362,12 +364,14 @@
                 // Listen for the print event and hide the print button
                 window.addEventListener('beforeprint', function() {
                     printButton.style.display = 'none';
+                    personnelDetailsContainer.style.display= 'none';
                     displaySkills('table');
                 });
 
                 // Listen for the afterprint event and show the print button again
                 window.addEventListener('afterprint', function() {
                     printButton.style.display = 'block';
+                    personnelDetailsContainer.style.display= 'block';
                     displaySkills('progress');
                 });
 
