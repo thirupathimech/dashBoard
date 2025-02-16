@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Face Detection & Capture</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body {
+            background: linear-gradient(45deg, #ff9a9e, #fad0c4, #fad0c4, #ffdde1);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            text-align: center;
+        }
+        #video {
+            border: 5px solid #fff;
+            border-radius: 10px;
+            box-shadow: 0px 0px 20px rgba(0,0,0,0.2);
+        }
+        .hidden { display: none; }
+    </style>
+</head>
+<body>
+    <h1 class="text-white">Face Detection & Image Capture</h1>
+    <video id="video" width="400" height="300" autoplay></video>
+    <button id="capture" class="btn btn-success mt-3">Capture Image</button>
+    <canvas id="canvas" class="hidden"></canvas>
+    <p id="error" class="text-danger hidden">Face Not Detected! Please try again.</p>
+    
+    <script>
+        $(document).ready(function(){
+            let video = document.getElementById("video");
+            let canvas = document.getElementById("canvas");
+            let context = canvas.getContext("2d");
+            
+            navigator.mediaDevices.getUserMedia({ video: true })
+                .then(stream => { video.srcObject = stream; })
+                .catch(err => { alert("Camera access denied!"); });
+            
+            $("#capture").click(function(){
+                context.drawImage(video, 0, 0, canvas.width, canvas.height);
+                let imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+                let pixels = imageData.data;
+                let detected = false;
+                
+                for (let i = 0; i < pixels.length; i += 4 * 10) {
+                    if (pixels[i] > 100 && pixels[i + 1] > 100 && pixels[i + 2] > 100) {
+                        detected = true;
+                        break;
+                    }
+                }
+                
+                if (detected) {
+                    $("#error").addClass("hidden");
+                    let link = document.createElement('a');
+                    link.href = canvas.toDataURL();
+                    link.download = 'captured_face.png';
+                    link.click();
+                } else {
+                    $("#error").removeClass("hidden");
+                }
+            });
+        });
+    </script>
+</body>
+</html>
