@@ -25,9 +25,11 @@
     </style>
 </head>
 <body>
-    <h1 class="text-white">Face Detection & Image Capture</h1>
+    <h1 class="text-white">Face Detection & Image/Video Capture</h1>
     <video id="video" width="400" height="300" autoplay></video>
     <button id="capture" class="btn btn-success mt-3">Capture Image</button>
+    <button id="startRecord" class="btn btn-primary mt-3">Start Recording</button>
+    <button id="stopRecord" class="btn btn-danger mt-3 hidden">Stop Recording</button>
     <canvas id="canvas" class="hidden"></canvas>
     <p id="error" class="text-danger hidden">Face Not Detected! Please try again.</p>
     
@@ -36,9 +38,25 @@
             let video = document.getElementById("video");
             let canvas = document.getElementById("canvas");
             let context = canvas.getContext("2d");
+            let mediaRecorder;
+            let stream;
+            let recordedChunks = [];
             
             navigator.mediaDevices.getUserMedia({ video: true })
-                .then(stream => { video.srcObject = stream; })
+                .then(stream => { 
+                    video.srcObject = stream;
+                    mediaRecorder = new MediaRecorder(stream);
+                    mediaRecorder = new MediaRecorder(stream);
+                    
+                    mediaRecorder.ondataavailable = event => recordedChunks.push(event.data);
+                    mediaRecorder.onstop = () => {
+                        let blob = new Blob(recordedChunks, { type: "video/webm" });
+                        let link = document.createElement("a");
+                        link.href = URL.createObjectURL(blob);
+                        link.download = "recorded_video.webm";
+                        link.click();
+                    };
+                })
                 .catch(err => { alert("Camera access denied!"); });
             
             $("#capture").click(function(){
@@ -63,6 +81,19 @@
                 } else {
                     $("#error").removeClass("hidden");
                 }
+            });
+            
+            $("#startRecord").click(function(){
+                recordedChunks = [];
+                mediaRecorder.start();
+                $("#startRecord").addClass("hidden");
+                $("#stopRecord").removeClass("hidden");
+            });
+            
+            $("#stopRecord").click(function(){
+                mediaRecorder.stop();
+                $("#stopRecord").addClass("hidden");
+                $("#startRecord").removeClass("hidden");
             });
         });
     </script>
