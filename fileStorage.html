@@ -4,9 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>File Upload Manager</title>
-    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- jQuery UI for Datepicker -->
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <style>
         .file-card { margin: 10px; padding: 15px; border: 1px solid #ddd; border-radius: 5px; }
@@ -18,7 +16,6 @@
     <div class="container mt-4">
         <h1 class="mb-4">File Upload Manager</h1>
         
-        <!-- Upload Section -->
         <div class="card mb-4">
             <div class="card-body">
                 <h5 class="card-title">Upload Files</h5>
@@ -36,7 +33,6 @@
             </div>
         </div>
 
-        <!-- View Section -->
         <div class="card">
             <div class="card-body">
                 <h5 class="card-title">View Uploaded Files</h5>
@@ -59,43 +55,30 @@
         </div>
     </div>
 
-    <!-- Scripts -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     
     <script>
         $(document).ready(function() {
-            // Initialize datepickers
             $("#dateInput, #viewDatePicker").datepicker({
                 dateFormat: 'yy-mm-dd',
                 changeMonth: true,
                 changeYear: true
             });
 
-            // GitHub configuration - REPLACE THESE WITH YOUR VALUES
-            const GITHUB_USERNAME = 'thirupathimech';
-            const GITHUB_REPO = 'dashBoard';
-            const GITHUB_BRANCH = 'main'; // or 'gh-pages' for GitHub Pages
+            const GITHUB_USERNAME = 'thirupathimech'; // Replace with your username
+            const GITHUB_REPO = 'dashBoard';    // Replace with your repo name
+            const GITHUB_BRANCH = 'main';                 // Adjust if using a different branch
 
-            // Upload to GitHub
             $("#uploadBtn").click(function() {
                 const files = $("#fileInput")[0].files;
                 const selectedDate = $("#dateInput").val();
                 const token = $("#githubToken").val();
 
-                if (!files.length) {
-                    alert("Please select at least one file");
-                    return;
-                }
-                if (!selectedDate) {
-                    alert("Please select a date");
-                    return;
-                }
-                if (!token) {
-                    alert("Please enter your GitHub Personal Access Token");
-                    return;
-                }
+                if (!files.length) return alert("Please select at least one file");
+                if (!selectedDate) return alert("Please select a date");
+                if (!token) return alert("Please enter your GitHub Personal Access Token");
 
                 const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
                 
@@ -104,7 +87,7 @@
                     const reader = new FileReader();
                     
                     reader.onload = function(e) {
-                        const content = e.target.result.split(',')[1]; // Get base64 content
+                        const content = e.target.result.split(',')[1];
                         uploadToGitHub(uniqueName, content, token, selectedDate);
                     };
                     reader.readAsDataURL(file);
@@ -125,27 +108,26 @@
                         content: content,
                         branch: GITHUB_BRANCH
                     }),
-                    success: function() {
+                    success: function(response) {
                         alert(`File ${filename} uploaded successfully!`);
                         $("#fileInput").val('');
                         $("#dateInput").val('');
                     },
                     error: function(xhr) {
-                        alert('Upload failed: ' + xhr.responseJSON.message);
+                        const msg = xhr.responseJSON ? xhr.responseJSON.message : 'Unknown error';
+                        alert(`Upload failed: ${msg}`);
+                        console.error('Upload error:', xhr);
                     }
                 });
             }
 
-            // View files from GitHub
             $("#viewDatePicker").on("change", function() {
                 const selectedDate = $(this).val();
                 $("#fileList").empty();
 
                 $.ajax({
                     url: `https://api.github.com/repos/${GITHUB_USERNAME}/${GITHUB_REPO}/contents/uploads/${selectedDate}`,
-                    headers: {
-                        'Accept': 'application/vnd.github.v3+json'
-                    },
+                    headers: { 'Accept': 'application/vnd.github.v3+json' },
                     success: function(files) {
                         if (!Array.isArray(files)) {
                             $("#fileList").html('<p class="col-12">No files found for this date.</p>');
@@ -161,6 +143,8 @@
                                 const content = `data:${getMimeType(file.name)};base64,${data}`;
                                 const fileCard = createFileCard(file.name, originalName, content, timestamp);
                                 $("#fileList").append(fileCard);
+                            }).fail(function(xhr) {
+                                console.error('Download error:', xhr);
                             });
                         });
                     },
@@ -174,8 +158,7 @@
                 const ext = filename.split('.').pop().toLowerCase();
                 const mimeTypes = {
                     'jpg': 'image/jpeg', 'jpeg': 'image/jpeg', 'png': 'image/png',
-                    'mp3': 'audio/mpeg', 'wav': 'audio/wav',
-                    'mp4': 'video/mp4',
+                    'mp3': 'audio/mpeg', 'wav': 'audio/wav', 'mp4': 'video/mp4',
                     'pdf': 'application/pdf',
                     'doc': 'application/msword', 'docx': 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
                 };
