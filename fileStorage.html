@@ -60,140 +60,146 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     
     <script>
-        $(document).ready(function() {
-            $("#dateInput, #viewDatePicker").datepicker({
-                dateFormat: 'yy-mm-dd',
-                changeMonth: true,
-                changeYear: true
-            });
+		$(document).ready(function() {
+    $("#dateInput, #viewDatePicker").datepicker({
+        dateFormat: 'yy-mm-dd',
+        changeMonth: true,
+        changeYear: true
+    });
 
-            const GITHUB_USERNAME = 'thirupathimech'; // Replace with your username
-            const GITHUB_REPO = 'dashBoard';    // Replace with your repo name
-            const GITHUB_BRANCH = 'main';                 // Adjust if using a different branch
+    const GITHUB_USERNAME = 'thirupathimech'; // Replace with your username
+    const GITHUB_REPO = 'dashBoard';    // Replace with your repo name
+    const GITHUB_BRANCH = 'main';       // Adjust if using a different branch
 
-            $("#uploadBtn").click(function() {
-                const files = $("#fileInput")[0].files;
-                const selectedDate = $("#dateInput").val();
-                const token = $("#githubToken").val();
+    $("#uploadBtn").click(function() {
+        const files = $("#fileInput")[0].files;
+        const selectedDate = $("#dateInput").val();
+        const token = $("#githubToken").val();
 
-                if (!files.length) return alert("Please select at least one file");
-                if (!selectedDate) return alert("Please select a date");
-                if (!token) return alert("Please enter your GitHub Personal Access Token");
+        if (!files.length) return alert("Please select at least one file");
+        if (!selectedDate) return alert("Please select a date");
+        if (!token) return alert("Please enter your GitHub Personal Access Token");
 
-                const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
-                
-                Array.from(files).forEach(file => {
-                    const uniqueName = `${selectedDate}_${timestamp}_${file.name}`;
-                    const reader = new FileReader();
-                    
-                    reader.onload = function(e) {
-                        const content = e.target.result.split(',')[1];
-                        uploadToGitHub(uniqueName, content, token, selectedDate);
-                    };
-                    reader.readAsDataURL(file);
-                });
-            });
+        const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+        
+        Array.from(files).forEach(file => {
+            const uniqueName = `${selectedDate}_${timestamp}_${file.name}`;
+            const reader = new FileReader();
+            
+            reader.onload = function(e) {
+                const content = e.target.result.split(',')[1];
+                uploadToGitHub(uniqueName, content, token, selectedDate);
+            };
+            reader.onerror = function(e) {
+                console.error('FileReader error:', e);
+                alert('Failed to read file. Please try again.');
+            };
+            reader.readAsDataURL(file);
+        });
+    });
 
-            function uploadToGitHub(filename, content, token, date) {
-                const path = `uploads/${date}/${filename}`;
-                $.ajax({
-                    url: `https://api.github.com/repos/${GITHUB_USERNAME}/${GITHUB_REPO}/contents/${path}`,
-                    method: 'PUT',
-                    headers: {
-                        'Authorization': `token ${token}`,
-                        'Accept': 'application/vnd.github.v3+json'
-                    },
-                    data: JSON.stringify({
-                        message: `Add file ${filename}`,
-                        content: content,
-                        branch: GITHUB_BRANCH
-                    }),
-                    success: function(response) {
-                        alert(`File ${filename} uploaded successfully!`);
-                        $("#fileInput").val('');
-                        $("#dateInput").val('');
-                    },
-                    error: function(xhr) {
-                        const msg = xhr.responseJSON ? xhr.responseJSON.message : 'Unknown error';
-                        alert(`Upload failed: ${msg}`);
-                        console.error('Upload error:', xhr);
-                    }
-                });
-            }
-
-            $("#viewDatePicker").on("change", function() {
-                const selectedDate = $(this).val();
-                $("#fileList").empty();
-
-                $.ajax({
-                    url: `https://api.github.com/repos/${GITHUB_USERNAME}/${GITHUB_REPO}/contents/uploads/${selectedDate}`,
-                    headers: { 'Accept': 'application/vnd.github.v3+json' },
-                    success: function(files) {
-                        if (!Array.isArray(files)) {
-                            $("#fileList").html('<p class="col-12">No files found for this date.</p>');
-                            return;
-                        }
-
-                        files.forEach(file => {
-                            const fileNameParts = file.name.split('_');
-                            const originalName = fileNameParts.slice(3).join('_');
-                            const timestamp = fileNameParts[1] + '_' + fileNameParts[2];
-
-                            $.get(file.download_url, function(data) {
-                                const content = `data:${getMimeType(file.name)};base64,${data}`;
-                                const fileCard = createFileCard(file.name, originalName, content, timestamp);
-                                $("#fileList").append(fileCard);
-                            }).fail(function(xhr) {
-                                console.error('Download error:', xhr);
-                            });
-                        });
-                    },
-                    error: function() {
-                        $("#fileList").html('<p class="col-12">No files found for this date.</p>');
-                    }
-                });
-            });
-
-            function getMimeType(filename) {
-                const ext = filename.split('.').pop().toLowerCase();
-                const mimeTypes = {
-                    'jpg': 'image/jpeg', 'jpeg': 'image/jpeg', 'png': 'image/png',
-                    'mp3': 'audio/mpeg', 'wav': 'audio/wav', 'mp4': 'video/mp4',
-                    'pdf': 'application/pdf',
-                    'doc': 'application/msword', 'docx': 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
-                };
-                return mimeTypes[ext] || 'application/octet-stream';
-            }
-
-            function createFileCard(savedName, originalName, content, timestamp) {
-                const type = content.split(';')[0].split(':')[1];
-                let preview = '';
-                
-                if (type.startsWith('image/')) {
-                    preview = `<img src="${content}" class="img-fluid" alt="${originalName}">`;
-                } else if (type.startsWith('audio/')) {
-                    preview = `<audio controls><source src="${content}" type="${type}"></audio>`;
-                } else if (type.startsWith('video/')) {
-                    preview = `<video controls class="img-fluid"><source src="${content}" type="${type}"></video>`;
-                } else if (type === 'application/pdf') {
-                    preview = `<a href="${content}" target="_blank">View PDF: ${originalName}</a>`;
-                } else {
-                    preview = `<a href="${content}" download="${originalName}">Download: ${originalName}</a>`;
-                }
-
-                return `
-                    <div class="col-md-4">
-                        <div class="file-card">
-                            <div class="preview-container">${preview}</div>
-                            <p><strong>Original Name:</strong> ${originalName}</p>
-                            <p><strong>Saved As:</strong> ${savedName}</p>
-                            <p><strong>Type:</strong> ${type}</p>
-                            <p><strong>Uploaded:</strong> ${new Date(timestamp.replace(/-/g, ':')).toLocaleString()}</p>
-                        </div>
-                    </div>
-                `;
+    function uploadToGitHub(filename, content, token, date) {
+        const path = `uploads/${date}/${filename}`;
+        $.ajax({
+            url: `https://api.github.com/repos/${GITHUB_USERNAME}/${GITHUB_REPO}/contents/${path}`,
+            method: 'PUT',
+            headers: {
+                'Authorization': `token ${token}`,
+                'Accept': 'application/vnd.github.v3+json'
+            },
+            data: JSON.stringify({
+                message: `Add file ${filename}`,
+                content: content,
+                branch: GITHUB_BRANCH
+            }),
+            success: function(response) {
+                alert(`File ${filename} uploaded successfully!`);
+                $("#fileInput").val('');
+                $("#dateInput").val('');
+            },
+            error: function(xhr) {
+                const msg = xhr.responseJSON ? xhr.responseJSON.message : 'Unknown error';
+                alert(`Upload failed: ${msg}`);
+                console.error('Upload error:', xhr);
             }
         });
+    }
+
+    $("#viewDatePicker").on("change", function() {
+        const selectedDate = $(this).val();
+        $("#fileList").empty();
+
+        $.ajax({
+            url: `https://api.github.com/repos/${GITHUB_USERNAME}/${GITHUB_REPO}/contents/uploads/${selectedDate}`,
+            headers: { 'Accept': 'application/vnd.github.v3+json' },
+            success: function(files) {
+                if (!Array.isArray(files)) {
+                    $("#fileList").html('<p class="col-12">No files found for this date.</p>');
+                    return;
+                }
+
+                files.forEach(file => {
+                    const fileNameParts = file.name.split('_');
+                    const originalName = fileNameParts.slice(3).join('_');
+                    const timestamp = fileNameParts[1] + '_' + fileNameParts[2];
+
+                    $.get(file.download_url, function(data) {
+                        const content = `data:${getMimeType(file.name)};base64,${data}`;
+                        const fileCard = createFileCard(file.name, originalName, content, timestamp);
+                        $("#fileList").append(fileCard);
+                    }).fail(function(xhr) {
+                        console.error('Download error:', xhr);
+                        alert('Failed to download file. Please try again.');
+                    });
+                });
+            },
+            error: function(xhr) {
+                console.error('API error:', xhr);
+                $("#fileList").html('<p class="col-12">No files found for this date.</p>');
+            }
+        });
+    });
+
+    function getMimeType(filename) {
+        const ext = filename.split('.').pop().toLowerCase();
+        const mimeTypes = {
+            'jpg': 'image/jpeg', 'jpeg': 'image/jpeg', 'png': 'image/png',
+            'mp3': 'audio/mpeg', 'wav': 'audio/wav', 'mp4': 'video/mp4',
+            'pdf': 'application/pdf',
+            'doc': 'application/msword', 'docx': 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+        };
+        return mimeTypes[ext] || 'application/octet-stream';
+    }
+
+    function createFileCard(savedName, originalName, content, timestamp) {
+        const type = content.split(';')[0].split(':')[1];
+        let preview = '';
+        
+        if (type.startsWith('image/')) {
+            preview = `<img src="${content}" class="img-fluid" alt="${originalName}">`;
+        } else if (type.startsWith('audio/')) {
+            preview = `<audio controls><source src="${content}" type="${type}"></audio>`;
+        } else if (type.startsWith('video/')) {
+            preview = `<video controls class="img-fluid"><source src="${content}" type="${type}"></video>`;
+        } else if (type === 'application/pdf') {
+            preview = `<a href="${content}" target="_blank">View PDF: ${originalName}</a>`;
+        } else {
+            preview = `<a href="${content}" download="${originalName}">Download: ${originalName}</a>`;
+        }
+
+        return `
+            <div class="col-md-4">
+                <div class="file-card">
+                    <div class="preview-container">${preview}</div>
+                    <p><strong>Original Name:</strong> ${originalName}</p>
+                    <p><strong>Saved As:</strong> ${savedName}</p>
+                    <p><strong>Type:</strong> ${type}</p>
+                    <p><strong>Uploaded:</strong> ${new Date(timestamp.replace(/-/g, ':')).toLocaleString()}</p>
+                </div>
+            </div>
+        `;
+    }
+});
     </script>
 </body>
 </html>
