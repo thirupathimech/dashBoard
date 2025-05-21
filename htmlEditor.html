@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML Editor - Thirupathi G</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.7/codemirror.min.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            margin: 0;
+            background: linear-gradient(135deg, #214520, #033504);
+        }
+
+        .glass {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            border-radius: 1rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .glass:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .home-button {
+            position: fixed;
+            top: 1rem;
+            left: 1rem;
+            z-index: 999;
+            width: 3rem;
+            height: 3rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 0.75rem;
+            transition: transform 0.3s ease;
+        }
+
+        .home-button:hover {
+            transform: scale(1.1);
+        }
+
+        .CodeMirror {
+            height: 100% !important;
+            border-radius: 0.75rem;
+            font-size: 1rem;
+            line-height: 1.5;
+        }
+
+        .editor-container {
+            height: 400px;
+            max-height: 50vh;
+        }
+
+        .format-button, .clear-button, .preview-button {
+            background: linear-gradient(45deg, #10b981, #34d399);
+            transition: transform 0.3s ease, background 0.3s ease;
+        }
+
+        .format-button:hover, .clear-button:hover, .preview-button:hover {
+            transform: scale(1.05);
+            background: linear-gradient(45deg, #059669, #10b981);
+        }
+
+        .preview-container {
+            background: #fff;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            border-radius: 0.75rem;
+            overflow: hidden;
+            height: 95%;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .animate-fade-in {
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        footer {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(12px);
+            margin-top: auto;
+            padding: 1rem;
+            text-align: center;
+            color: #fff;
+            font-weight: 500;
+        }
+
+        @media (max-width: 768px) {
+            .editor-container {
+                height: 300px;
+            }
+            .home-button {
+                width: 2.5rem;
+                height: 2.5rem;
+            }
+            .preview-container {
+                height: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Home Button -->
+    <button class="home-button" onclick="window.location.href='index.html'" title="Back to Home">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+        </svg>
+    </button>
+
+    <!-- Header -->
+    <header class="glass py-4 text-center">
+        <h1 class="text-3xl md:text-4xl font-bold text-white">HTML Editor</h1>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container mx-auto px-4 py-8 animate-fade-in">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- Editors -->
+            <div class="flex flex-col space-y-4">
+                <div class="glass p-4">
+                    <div class="flex justify-between items-center mb-2 space-x-2">
+                        <h2 class="text-lg font-semibold text-white">HTML</h2>
+                        <div class="flex space-x-2">
+                            <button id="formatHtmlButton" class="format-button text-white font-medium py-2 px-4 rounded-lg">Format</button>
+                            <button id="clearButton" class="clear-button text-white font-medium py-2 px-4 rounded-lg">Clear</button>
+                        </div>
+                    </div>
+                    <div class="editor-container">
+                        <textarea id="htmlEditor"><h1>Hello, World!</h1>
+<p>Write your HTML here...</p></textarea>
+                    </div>
+                </div>
+                <div class="glass p-4">
+                    <div class="flex justify-between items-center mb-2">
+                        <h2 class="text-lg font-semibold text-white">CSS</h2>
+                        <button id="formatCssButton" class="format-button text-white font-medium py-2 px-4 rounded-lg">Format</button>
+                    </div>
+                    <div class="editor-container">
+                        <textarea id="cssEditor">h1 {
+    color: #10b981;
+    text-align: center;
+}
+p {
+    font-size: 1.2rem;
+}</textarea>
+                    </div>
+                </div>
+            </div>
+            <!-- Preview -->
+            <div class="glass p-4">
+                <div class="flex justify-between items-center mb-2">
+                    <h2 class="text-lg font-semibold text-white">Preview</h2>
+                    <button id="previewNewTabButton" class="preview-button text-white font-medium py-2 px-4 rounded-lg">Preview in New Tab</button>
+                </div>
+                <div class="preview-container">
+                    <iframe id="preview" class="w-full h-96 md:h-full"></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="glass">Powered By Thirupathi G</footer>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.7/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.7/mode/xml/xml.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.7/mode/css/css.min.js"></script>
+    <script src="https://unpkg.com/prettier@2.3.2/standalone.js"></script>
+    <script src="https://unpkg.com/prettier@2.3.2/parser-html.js"></script>
+    <script src="https://unpkg.com/prettier@2.3.2/parser-postcss.js"></script>
+    <script>
+        // Initialize CodeMirror for HTML
+        const htmlEditor = CodeMirror.fromTextArea(document.getElementById('htmlEditor'), {
+            mode: 'xml',
+            theme: 'default',
+            lineNumbers: true,
+            indentWithTabs: true,
+            indentUnit: 2,
+            autoCloseTags: true
+        });
+
+        // Initialize CodeMirror for CSS
+        const cssEditor = CodeMirror.fromTextArea(document.getElementById('cssEditor'), {
+            mode: 'css',
+            theme: 'default',
+            lineNumbers: true,
+            indentWithTabs: true,
+            indentUnit: 2,
+            extraKeys: { 'Ctrl-Space': 'autocomplete' }
+        });
+
+        // Live Preview
+        function updatePreview() {
+            const html = htmlEditor.getValue();
+            const css = `<style>${cssEditor.getValue()}</style>`;
+            const preview = document.getElementById('preview');
+            preview.srcdoc = html + css;
+        }
+
+        // Update preview on input
+        htmlEditor.on('change', updatePreview);
+        cssEditor.on('change', updatePreview);
+
+        // Format HTML
+        document.getElementById('formatHtmlButton').addEventListener('click', () => {
+            const formatted = prettier.format(htmlEditor.getValue(), {
+                parser: 'html',
+                plugins: prettierPlugins
+            });
+            htmlEditor.setValue(formatted);
+            updatePreview();
+        });
+
+        // Format CSS
+        document.getElementById('formatCssButton').addEventListener('click', () => {
+            const formatted = prettier.format(cssEditor.getValue(), {
+                parser: 'css',
+                plugins: prettierPlugins
+            });
+            cssEditor.setValue(formatted);
+            updatePreview();
+        });
+
+        // Clear Editors
+        document.getElementById('clearButton').addEventListener('click', () => {
+            htmlEditor.setValue('');
+            cssEditor.setValue('');
+            updatePreview();
+        });
+
+        // Preview in New Tab
+        document.getElementById('previewNewTabButton').addEventListener('click', () => {
+            const html = htmlEditor.getValue();
+            const css = `<style>${cssEditor.getValue()}</style>`;
+            const content = html + css;
+            const blob = new Blob([content], { type: 'text/html' });
+            const url = URL.createObjectURL(blob);
+            window.open(url, '_blank');
+            // Clean up the URL object after a short delay
+            setTimeout(() => URL.revokeObjectURL(url), 1000);
+        });
+
+        // Initial preview
+        updatePreview();
+    </script>
+</body>
+</html>
