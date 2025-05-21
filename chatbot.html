@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chatbot</title>
+  <!-- Bootstrap CSS CDN -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      background: linear-gradient(135deg, #74ebd5, #acb6e5);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: 'Segoe UI', sans-serif;
+    }
+    .chat-container {
+      width: 100%;
+      max-width: 400px;
+      height: 500px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      box-shadow: 0 8px 32px rgba(31, 38, 135, 0.37);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .chat-header {
+      background: rgba(255, 255, 255, 0.2);
+      padding: 15px;
+      text-align: center;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .chat-header h2 {
+      color: #fff;
+      margin: 0;
+      font-size: 1.5rem;
+    }
+    .chat-body {
+      flex: 1;
+      padding: 15px;
+      overflow-y: auto;
+      background: rgba(255, 255, 255, 0.05);
+    }
+    .chat-message {
+      margin-bottom: 15px;
+      display: flex;
+      flex-direction: column;
+    }
+    .user-message {
+      align-self: flex-end;
+      background: #007bff;
+      color: #fff;
+      padding: 10px 15px;
+      border-radius: 15px 15px 0 15px;
+      max-width: 70%;
+      word-wrap: break-word;
+    }
+    .bot-message {
+      align-self: flex-start;
+      background: rgba(255, 255, 255, 0.3);
+      color: #333;
+      padding: 10px 15px;
+      border-radius: 15px 15px 15px 0;
+      max-width: 70%;
+      word-wrap: break-word;
+    }
+    .chat-footer {
+      padding: 10px;
+      background: rgba(255, 255, 255, 0.2);
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .chat-footer form {
+      display: flex;
+      gap: 10px;
+    }
+    .chat-footer input {
+      flex: 1;
+      padding: 10px;
+      border: none;
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.3);
+      color: #333;
+      outline: none;
+    }
+    .chat-footer button {
+      padding: 10px 20px;
+      border-radius: 20px;
+    }
+    /* Scrollbar Styling */
+    .chat-body::-webkit-scrollbar {
+      width: 8px;
+    }
+    .chat-body::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.3);
+      border-radius: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="chat-container">
+    <div class="chat-header">
+      <h2>MistyBot 😎</h2>
+    </div>
+    <div class="chat-body" id="chatBody">
+      <div class="chat-message bot-message">Hi Dude! I'm Misty Bot, ready to chat. What's up? Try saying 'hi' or 'portfolio'!</div>
+    </div>
+    <div class="chat-footer">
+      <form id="chatForm">
+        <input type="text" id="userInput" placeholder="Type your message..." required>
+        <button type="submit" class="btn btn-primary">Send</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Bootstrap JS and Popper.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    // Get DOM elements
+    const chatBody = document.getElementById('chatBody');
+    const chatForm = document.getElementById('chatForm');
+    const userInput = document.getElementById('userInput');
+
+    // Dynamic response sets for variety
+    const responseSets = {
+  hi: [
+    "Hey there, what's good?",
+    "Yo, how's it going?",
+    "Hi there, ready to rock?",
+    "Hey! What's new with you?",
+    "Great energy! Hello!",
+    "Hey hey! Glad you're here!",
+    "What's poppin'?",
+    "Hey buddy, what's the plan?",
+    "Good to see you!",
+    "Hey friend, welcome back!",
+    "Hey champ!",
+    "Hi there! What's up?",
+    "Hello! Feeling good today?",
+    "Yo! What's the vibe?",
+    "Hi! All set for a good time?",
+    "Hey you! How's your day?",
+    "Sup!",
+    "Hi, nice of you to drop in!",
+    "Hey! What brings you here?",
+    "Yo! Good mood or what?"
+  ],
+  hello: [
+    "Hello! What's the vibe?",
+    "Hey, nice to see you!",
+    "Hello, what's up?",
+    "Tell me, what's going on?",
+    "Hey there, how’s your day?",
+    "Hello again! You doing good?",
+    "Hi! Ready for something cool?",
+    "What’s up, hello there!",
+    "Hey hey, welcome!",
+    "Hello! Feeling awesome?",
+    "Hi! What can I do for you?",
+    "Yo! Back again?",
+    "Hello! Let’s do this!",
+    "Hey! What's cooking?",
+    "Hello, superstar!",
+    "Greetings, friend!",
+    "Nice seeing you!",
+    "Hey, long time no see!",
+    "Hello, let’s catch up!",
+    "Hi, hope you're well!"
+  ],
+  "how are you": [
+    "I'm doing great! How about you?",
+    "Feeling awesome! How are you?",
+    "All good here, how are things with you?",
+    "I'm good! You doing okay?",
+    "Everything’s chill. What about you?",
+    "Super cool and ready to chat! You?",
+    "I'm vibing! You?",
+    "Doing my best — and you?",
+    "Feeling fantastic. You?",
+    "I'm fresh and focused! What about you?",
+    "Top-notch! You holding up well?",
+    "Can’t complain! How about you?",
+    "Running smooth! How’s life?",
+    "In a good space. You too?",
+    "Always ready! How are you doing?",
+    "Awesome as usual. What’s your status?",
+    "Totally fine! What’s up with you?",
+    "Living the digital dream. You?",
+    "Cool and calm! How’s your mood?",
+    "100%! Hope you are too!"
+  ],
+  help: [
+    "Need help? Ask away!",
+    "I'm here for you! What do you need?",
+    "Got questions? Fire away!",
+    "Just let me know what you need help with.",
+    "Of course! How can I assist?",
+    "Shoot your question, I'm ready!",
+    "Ask me anything!",
+    "Need something specific?",
+    "Help is one message away!",
+    "I’ve got your back. What’s the issue?",
+    "Ready when you are!",
+    "I can assist — just say the word!",
+    "Need support? I’m all ears.",
+    "How can I be useful today?",
+    "Stuck? Let’s fix it together.",
+    "Help mode: activated!",
+    "Don't stress — I’m here to help!",
+    "Say the word and I’ll guide you.",
+    "Let's sort it out together!",
+    "You ask, I answer!"
+  ],
+  bye: [
+    "Catch you later!",
+    "Peace out!",
+    "See you soon, take care!",
+    "Alright then, goodbye!",
+    "Take care and stay cool!",
+    "See you next time!",
+    "Later, friend!",
+    "Goodbye! Stay awesome!",
+    "Bye! Come back soon!",
+    "Catch you on the flip side!",
+    "Logging off? See you again!",
+    "Take it easy!",
+    "Until next time!",
+    "Farewell for now!",
+    "Signing off!",
+    "Hope to chat again soon!",
+    "Bye for now!",
+    "Adios!",
+    "Catch you around!",
+    "See you later, alligator!"
+  ],
+  portfolio: [
+    "This chatbot is part of your portfolio! Want tips to improve it?",
+    "Looks great in your portfolio! Want to add more features?",
+    "Your portfolio is looking awesome with this! Need ideas?",
+    "This adds value to your portfolio! Want to enhance it more?",
+    "Include this and your portfolio will stand out even more!",
+    "It’s a smart touch for your portfolio!",
+    "Want to integrate more tech into this?",
+    "Clean UI and fun UX — perfect for your site!",
+    "Nice start! You can level it up too.",
+    "Consider adding animations or themes!",
+    "Impressive! Want to make it more interactive?",
+    "Your work is solid — time to show it off!",
+    "Portfolio goals! You're on the right track.",
+    "This project shows great initiative!",
+    "Want to connect it with a backend too?",
+    "How about adding a dark mode toggle?",
+    "Mobile-friendly version next?",
+    "Need help styling it? I can help!",
+    "Perfect feature for a dev portfolio!",
+    "This will definitely get attention!"
+  ],
+  default: [
+    "Hmm, I didn't catch that. Try saying 'hi' or 'help'!",
+    "I'm not sure what you meant. Try something else!",
+    "Oops, I lost you there. Try 'portfolio' or 'hi'!",
+    "Could you say that more clearly?",
+    "Didn't get that. Maybe try 'hello' or 'help'.",
+    "Try again with a clearer message!",
+    "That doesn't compute — try a valid input!",
+    "I’m a bit confused — mind rephrasing?",
+    "Say what? Try something I can understand!",
+    "Hmm, not a recognized input. Try again!",
+    "Still listening — just need a better cue!",
+    "Invalid input — want to start over?",
+    "Not sure I understand. Need help?",
+    "Try something like 'hi', 'help', or 'bye'.",
+    "That doesn't seem to match anything.",
+    "Oops, that’s outside my brainpower!",
+    "Give it another shot!",
+    "No clue what that means, sorry!",
+    "Want to see what I can do? Type 'help'.",
+    "Not sure how to respond to that one!"
+  ]
+};
+
+
+
+    // Function to pick a random response
+    function getRandomResponse(responses) {
+      return responses[Math.floor(Math.random() * responses.length)];
+    }
+
+    // Handle form submission
+    chatForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      const userText = userInput.value.trim().toLowerCase();
+      if (!userText) return;
+
+      // Add user message
+      const userMessage = document.createElement('div');
+      userMessage.className = 'chat-message user-message';
+      userMessage.textContent = userText;
+      chatBody.appendChild(userMessage);
+
+      // Find bot response
+      let botReply = getRandomResponse(responseSets.default);
+      for (let key in responseSets) {
+        if (userText.includes(key)) {
+          botReply = getRandomResponse(responseSets[key]);
+          break;
+        }
+      }
+
+      // Add bot message
+      const botMessage = document.createElement('div');
+      botMessage.className = 'chat-message bot-message';
+      botMessage.textContent = botReply;
+      chatBody.appendChild(botMessage);
+
+      // Clear input
+      userInput.value = '';
+
+      // Scroll to bottom
+      chatBody.scrollTop = chatBody.scrollHeight;
+    });
+
+    // Allow Enter key to submit
+    userInput.addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') {
+        chatForm.dispatchEvent(new Event('submit'));
+      }
+    });
+  </script>
+</body>
+</html>
