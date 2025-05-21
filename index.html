@@ -1,25 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Thirupathi G</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="icon" href="https://blogger.googleusercontent.com/img/a/AVvXsEgIFnXbCEgaASrlgiFnXz6MPaK-kyelPH7eTOt9s0-nWtY5YSMAIG5mN4k7dnxX6M-C0AmbO3U9jikPwhBdpp7G9848hK_1c7kXLbqxamlfCbhe_l-kEb8pe5V6mEH3fiIokyxkIyavBLAMlAzSApPTbcYA1r-P9YDwpu9GBIsL1SV4zGLvMwFulKOECQ4"
-        type="image/x-icon">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thirupathi G | Portfolio</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" href="https://blogger.googleusercontent.com/img/a/AVvXsEgIFnXbCEgaASrlgiFnXz6MPaK-kyelPH7eTOt9s0-nWtY5YSMAIG5mN4k7dnxX6M-C0AmbO3U9jikPwhBdpp7G9848hK_1c7kXLbqxamlfCbhe_l-kEb8pe5V6mEH3fiIokyxkIyavBLAMlAzSApPTbcYA1r-P9YDwpu9GBIsL1SV4zGLvMwFulKOECQ4" type="image/x-icon">
     <style>
         body {
-            background-color: #e6f9e6;
-            font-family: 'Arial', sans-serif;
+            background: linear-gradient(192deg, #2b8958, #000000);
+            font-family: 'Inter', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
 
-        /* Sticky Navbar Style */
+        .glass {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            border-radius: 1rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
 
-        .navbar,
-        footer {
-            background-color: #28a745;
-            color: #ffffff;
+        .glass:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
         }
 
         .navbar {
@@ -28,250 +36,125 @@
             z-index: 1000;
         }
 
-        .navbar-brand {
-            font-weight: bold;
-            font-size: 1.5rem;
-            color: #ffffff !important;
-        }
-
-        .nav-link {
-            color: #ffffff !important;
-        }
-
-        .nav-link:hover {
-            color: #d4edda !important;
-        }
-
-        /* Sticky Footer Style */
-
-        footer {
-            position: sticky;
-            bottom: 0;
-            width: 100%;
-            text-align: center;
-            padding: 10px 0;
-        }
-
-        /* Card Style */
-
-        .card {
-            border: none;
-            border-radius: 1rem;
-            overflow: hidden;
-            transition: transform 0.3s, box-shadow 0.3s;
-            margin-bottom: 20px;
-            background-color: #ffffff;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        }
-
-        .card img {
-            border-bottom: 1px solid #dee2e6;
-            transition: transform 0.3s ease-in-out;
-        }
-
-        .card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-        }
-
-        .card:hover img {
-            transform: scale(1.1);
-        }
-
-        .card-title {
-            font-size: 1.25rem;
-            font-weight: bold;
-        }
-
-        .card-text {
-            font-size: 0.9rem;
-            color: #6c757d;
-        }
-
         .animated-button {
-            transition: transform 0.3s ease-in-out, background-color 0.3s;
-            background-color: #28a745;
-            border: none;
-            color: #ffffff;
-            padding: 10px 20px;
-            border-radius: 5px;
-            cursor: pointer;
+            background: linear-gradient(45deg, #10b981, #34d399);
+            transition: transform 0.3s ease, background 0.3s ease;
         }
 
         .animated-button:hover {
             transform: scale(1.05);
-            background-color: #218838;
+            background: linear-gradient(45deg, #059669, #10b981);
         }
-
-        /* Container Adjustment */
-
-        .container {
-            margin-top: 80px;
-            margin-bottom: 60px;
-        }
-
-        /* Animation */
 
         @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-            to {
-                opacity: 1;
-            }
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
-        .animated {
+        .animate-fade-in {
             animation: fadeIn 1s ease-in-out;
+        }
+
+        footer {
+            background: rgba(16, 185, 129, 0.1);
+            backdrop-filter: blur(12px);
+            margin-top: auto;
+        }
+
+        @media (max-width: 640px) {
+            .container {
+                padding: 1rem;
+            }
         }
     </style>
 </head>
-
 <body>
-
     <!-- Navigation Bar -->
-    <nav class="navbar navbar-expand-lg navbar-dark">
-        <div class="container">
-            <a class="navbar-brand" href="#">Thirupathi G</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ml-auto">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="#">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">About</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Contact</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="https://thirupathimech.github.io/dashBoard/colorPicker.html">Color Picker</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="https://thirupathimech.github.io/dashBoard/resume boostarp.html">My Resume</a>
-                    </li>
-                </ul>
+    <nav class="navbar glass bg-opacity-10 py-4">
+        <div class="container mx-auto px-4 flex justify-between items-center">
+            <a class="text-2xl font-bold text-white" href="#">Thirupathi G</a>
+            <div class="space-x-4">
+                <a class="text-white hover:text-emerald-200 transition" href="#">Home</a>
+                <a class="text-white hover:text-emerald-200 transition" href="#">About</a>
+                <a class="text-white hover:text-emerald-200 transition" href="#">Contact</a>
+                <a class="text-white hover:text-emerald-200 transition" href="https://thirupathimech.github.io/dashBoard/colorPicker.html">Color Picker</a>
+                <a class="text-white hover:text-emerald-200 transition" href="https://thirupathimech.github.io/dashBoard/resume%20boostarp.html">My Resume</a>
             </div>
         </div>
     </nav>
 
     <!-- Content -->
-    <div class="container animated">
-        <div class="row">
-            <div class="col-md-4 d-flex">
-                <!-- Card 1 -->
-                <div class="card flex-fill">
-                    <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhLxo64PYBOoIM_9vdkU1blpfCnpWLkoGq9Dp9NQcfekFOg-OfCZCi9ed4FikrrKp5qPO4OIDLfNOIRQu6COT_KbjVSPxweJ8VbqOixTtKwI8ka5w4eRO9fI_hijBuVmSgkTrr8DQrRrPP0CCQGNLBFApphJ5_tpB5NRJUdkZqybuzEupGWMP-HWrxPi-w/s7500/CV%20of%20best%20candidate%20in%20mans%20hands%20flat%20vector%20illustration.jpg"
-                        class="card-img-top" alt="Employee Form">
-                    <div class="card-body">
-                        <h5 class="card-title">Employee Form</h5>
-                        <p class="card-text">🚀 Simplify the management of employee payroll information with this user-friendly application.</p>
-                        <button class="animated-button" onclick="window.location.href='https://thirupathimech.github.io/dashBoard/employeeForm'">Show</button>
-                    </div>
+    <div class="container mx-auto px-4 py-12 animate-fade-in">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="glass p-6 flex flex-col justify-between">
+                <div>
+                    <h2 class="text-xl font-semibold text-white mb-3">Employee Form</h2>
+                    <p class="text-gray-200 text-sm">🚀 Simplify the management of employee payroll information with this user-friendly application.</p>
                 </div>
+                <button class="animated-button text-white font-medium py-2 px-4 rounded-lg mt-4" onclick="window.location.href='https://thirupathimech.github.io/dashBoard/employeeForm'">Show</button>
             </div>
 
-            <div class="col-md-4 d-flex">
-                <!-- Card 2 -->
-                <div class="card flex-fill">
-                    <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgdyz0zVgL1cR86VPCWLqU2nmT-0UWsJN0dr7aH7pzf4OFzZpX9LOgMMQqot-JnEOOA6X868AHrJX6I5kcMBVhpRmWF_c28UxKcYSS0m-5ymkrqlnLsWHGTqOnLyaJ6bHc9Z3OZXrfqREsgDaSl5MC0jtdg0sXl9kSUoZZ75AxmE2BmhnhrBRYflQaMP4hU/s2000/snake%20game%20pic.jpg"
-                        class="card-img-top" alt="Snake Game">
-                    <div class="card-body">
-                        <h5 class="card-title">Snake Game</h5>
-                        <p class="card-text">🐍 Enjoy a classic Snake Game with enhanced visuals and gameplay.</p>
-                        <button class="animated-button" onclick="window.location.href='https://thirupathimech.github.io/snakeGame'">Show</button>
-                    </div>
+            <div class="glass p-6 flex flex-col justify-between">
+                <div>
+                    <h2 class="text-xl font-semibold text-white mb-3">Snake Game</h2>
+                    <p class="text-gray-200 text-sm">🐍 Enjoy a classic Snake Game with enhanced visuals and gameplay.</p>
                 </div>
+                <button class="animated-button text-white font-medium py-2 px-4 rounded-lg mt-4" onclick="window.location.href='https://thirupathimech.github.io/snakeGame'">Show</button>
             </div>
 
-            <div class="col-md-4 d-flex">
-                <!-- Card 3 -->
-                <div class="card flex-fill">
-                    <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEj3oDVfOQf4VKs5AbmyVYGMHFLrWHmdVfyGHZOv2YpPO9reBa3ECQ708HI2kvFsrRa-V8m7zXvMBAoQrSLX4XfdoeMP2q6TJh14niJ-JalYQikJ7aqEyOVJQCu9UrRr53f85ajAnUIjKTStuhXqW-iMbq7SrxAd-IpWdxwWUOSnSM3hrSIVzbx8UdVzANCh/s2000/windows%20cmd.jpg"
-                        class="card-img-top" alt="Windows CMD">
-                    <div class="card-body">
-                        <h5 class="card-title">Windows CMD</h5>
-                        <p class="card-text">💻 A terminal interface for Windows to execute commands and run scripts efficiently.</p>
-                        <button class="animated-button" onclick="window.location.href='https://thirupathimech.github.io/dashBoard/cmd.html'">Show</button>
-                    </div>
+            <div class="glass p-6 flex flex-col justify-between">
+                <div>
+                    <h2 class="text-xl font-semibold text-white mb-3">Windows CMD</h2>
+                    <p class="text-gray-200 text-sm">💻 A terminal interface for Windows to execute commands and run scripts efficiently.</p>
                 </div>
+                <button class="animated-button text-white font-medium py-2 px-4 rounded-lg mt-4" onclick="window.location.href='https://thirupathimech.github.io/dashBoard/cmd.html'">Show</button>
             </div>
 
-            <div class="col-md-4 d-flex">
-                <!-- Card 4 -->
-                <div class="card flex-fill">
-                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR4SC_5ocUdFEIguPqcC-cnNg9U-KqV9-B7-g&s" class="card-img-top" alt="HTML Online Compiler">
-                    <div class="card-body">
-                        <h5 class="card-title">HTML Online Compiler</h5>
-                        <p class="card-text">🚀 An HTML viewer with a toolbar for easy input and formatting of HTML code.</p>
-                        <button class="animated-button" onclick="window.location.href='https://thirupathimech.github.io/htmlCompilerOnline/'">Show</button>
-                    </div>
+            <div class="glass p-6 flex flex-col justify-between">
+                <div>
+                    <h2 class="text-xl font-semibold text-white mb-3">HTML Online Compiler</h2>
+                    <p class="text-gray-200 text-sm">🚀 An HTML viewer with a toolbar for easy input and formatting of HTML code.</p>
                 </div>
+                <button class="animated-button text-white font-medium py-2 px-4 rounded-lg mt-4" onclick="window.location.href='https://thirupathimech.github.io/htmlCompilerOnline/'">Show</button>
             </div>
 
-            <div class="col-md-4 d-flex">
-                <!-- Card 5 -->
-                <div class="card flex-fill">
-                    <img src="https://play-lh.googleusercontent.com/0rw27PAnX9qseI9CP2UgSqWQoISdTywmEFjoWPp3uPD5RC9Bz1fozjhPVS3PzfkM-rI" class="card-img-top" alt="Loan Calculator">
-                    <div class="card-body">
-                        <h5 class="card-title">Loan Calculator</h5>
-                        <p class="card-text">🏦 Understand your loan payments and schedule with this easy-to-use calculator.</p>
-                        <button class="animated-button" onclick="window.location.href='https://thirupathimech.github.io/dashBoard/loanCalculator'">Show</button>
-                    </div>
+            <div class="glass p-6 flex flex-col justify-between">
+                <div>
+                    <h2 class="text-xl font-semibold text-white mb-3">Loan Calculator</h2>
+                    <p class="text-gray-200 text-sm">🏦 Understand your loan payments and schedule with this easy-to-use calculator.</p>
                 </div>
+                <button class="animated-button text-white font-medium py-2 px-4 rounded-lg mt-4" onclick="window.location.href='https://thirupathimech.github.io/dashBoard/loanCalculator'">Show</button>
             </div>
 
-              <div class="col-md-4 d-flex">
-                <!-- Card 6 -->
-                <div class="card flex-fill">
-                    <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjY5FZPJj2o_0D3H1IAyekcpMqI2gINdWukXCQUMAUUPQxbWW3ur0eBOEnjzto28dQYNT5AU8sfaLCz80ODQW5MLp-9-gOnOYEteKvKIH36n1I_GYzJQ4LgQ1vyrPPLBJA8q520qCaFKHgJiTisPm8_eaO9QBqPyMfMlGr_kUzTBlMmkZ8XOesWwnfNsX4/s1000/2148568026.jpg" alt="Find And Replace Image Not Found">
-                    <div class="card-body">
-                        <h5 class="card-title">Find And Replace</h5>
-                        <p class="card-text">Power By Thirupathi G</p>
-                        <button class="animated-button" onclick="window.location.href='https://thirupathimech.github.io/dashBoard/FindAndReplace'">Show</button>
-                    </div>
+            <div class="glass p-6 flex flex-col justify-between">
+                <div>
+                    <h2 class="text-xl font-semibold text-white mb-3">Find And Replace</h2>
+                    <p class="text-gray-200 text-sm">🔍 Streamline text editing with this powerful find and replace tool.</p>
                 </div>
+                <button class="animated-button text-white font-medium py-2 px-4 rounded-lg mt-4" onclick="window.location.href='https://thirupathimech.github.io/dashBoard/FindAndReplace'">Show</button>
             </div>
 
-              <div class="col-md-4 d-flex">
-                <!-- Card 7 -->
-                <div class="card flex-fill">
-                    <img src="" alt="Capture Image Or Video">
-                    <div class="card-body">
-                        <h5 class="card-title">Capture Image Or Video</h5>
-                        <p class="card-text">Power By Thirupathi G</p>
-                        <button class="animated-button" onclick="window.location.href='FaceRecognization.html'">Show</button>
-                    </div>
+            <div class="glass p-6 flex flex-col justify-between">
+                <div>
+                    <h2 class="text-xl font-semibold text-white mb-3">Capture Image Or Video</h2>
+                    <p class="text-gray-200 text-sm">📸 Capture and process images or videos with ease.</p>
                 </div>
+                <button class="animated-button text-white font-medium py-2 px-4 rounded-lg mt-4" onclick="window.location.href='FaceRecognization.html'">Show</button>
             </div>
 
-             <div class="col-md-4 d-flex">
-                <!-- Card 7 -->
-                <div class="card flex-fill">
-                    <img src="" alt="DataMigration Image">
-                    <div class="card-body">
-                        <h5 class="card-title">Datamigration File Scanner</h5>
-                        <p class="card-text">Power By Thirupathi G</p>
-                        <button class="animated-button" onclick="window.location.href='datamigrationFilePathScanner.html'">Show</button>
-                    </div>
+            <div class="glass p-6 flex flex-col justify-between">
+                <div>
+                    <h2 class="text-xl font-semibold text-white mb-3">Data Migration File Scanner</h2>
+                    <p class="text-gray-200 text-sm">📁 Scan and manage files for seamless data migration.</p>
                 </div>
+                <button class="animated-button text-white font-medium py-2 px-4 rounded-lg mt-4" onclick="window.location.href='datamigrationFilePathScanner.html'">Show</button>
             </div>
-            
         </div>
     </div>
 
     <!-- Footer -->
-    <footer>
-        <p>&copy; 2024 Thirupathi G Developments</p>
+    <footer class="glass py-4 text-center text-white">
+        <p>© 2025 Thirupathi G Developments</p>
     </footer>
-
-    <!-- Bootstrap JS and jQuery -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.8/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
-
 </html>
