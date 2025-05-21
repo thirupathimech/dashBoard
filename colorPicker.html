@@ -1,55 +1,120 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Color Code - THIRUPATHI G</title>
+    <title>Color Code - Thirupathi G</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
-        .color-info {
-            position: fixed;
-            left: 0;
-            bottom: 0;
-            width: 100%;
-            background-color: #f0f0f0;
-            padding: 10px;
+        body {
+            font-family: 'Inter', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            margin: 0;
+            background-color: #990000; /* Initial background color */
+        }
+
+        .glass {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            border-radius: 1rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .glass:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .color-picker {
+            width: 100px;
+            height: 100px;
+            border-radius: 12px;
+            border: 3px dashed #10b981;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .color-picker:hover {
+            transform: scale(1.1);
+        }
+
+        .color-display {
+            font-size: 2.5rem;
+            font-weight: 600;
             text-align: center;
-            font-weight: bold;
+            padding: 1rem;
+            border: none;
+            border-radius: 0.75rem;
+            width: 100%;
+            max-width: 600px;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            color: #fff;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .color-display:focus {
+            outline: none;
+            transform: scale(1.02);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .animate-fade-in {
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        footer {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(12px);
+            margin-top: auto;
+            padding: 1rem;
+            text-align: center;
+            color: #fff;
+            font-weight: 500;
+        }
+
+        @media (max-width: 640px) {
+            .color-display {
+                font-size: 1.5rem;
+                max-width: 100%;
+            }
+            .color-picker {
+                width: 80px;
+                height: 80px;
+            }
         }
     </style>
 </head>
+<body id="body">
+    <!-- Header -->
+    <header class="glass py-4 text-center">
+        <h1 class="text-3xl md:text-4xl font-bold text-white">Color Picker</h1>
+    </header>
 
-<body id="body" style="background-color: rgb(153, 0, 0);">
-    <marquee style="
-    margin-right: 33%;
-    margin-left: 33%;
-    backdrop-filter: blur(100px);
-    text-shadow: 3px 8px 14px rgba(10, 10, 10, 50), 17px 20px 20px rgba(255, 255, 255, 36);">
-        <h2 id="headline" style="color: rgb(102, 255, 255);">Thirupathi G</h2>
-    </marquee>
-    <center>
-        <table border="1" collapse="true" style="font-weight: bold;
-    font-size: 80px;">
-            <tbody>
-                <tr>
-                    <th style="background-color:#fcfe86;color:black;font-weight:bold">Selected Color</th>
-                </tr>
-                <tr>
-                    <td>
-                        <input type="text" id="colorDisplay" style="background-color: white; font-weight: bold;width: -webkit-fill-available;height: 100px;text-align: center;font-size: -webkit-xxx-large">
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-        <input type="color" style="margin-top: 20vh;height: 53px;border-radius: 13px;border-inline-color: red;border-style: dashed;border-width: medium;" id="colorPicker">
-    </center>
-    <div class="color-info" id="colorInfo"></div>
+    <!-- Main Content -->
+    <div class="container mx-auto px-4 py-12 flex flex-col items-center justify-center animate-fade-in">
+        <input type="text" id="colorDisplay" class="color-display mb-8" placeholder="#990000">
+        <input type="color" id="colorPicker" class="color-picker">
+    </div>
+
+    <!-- Footer -->
+    <footer id="colorInfo" class="text-white glass">Powered By Thirupathi G</footer>
+
     <script>
         var colorPicker = document.getElementById('colorPicker');
         var colorDisplay = document.getElementById('colorDisplay');
         var body = document.getElementById('body');
-        var headline = document.getElementById('headline');
-
+        var colorInfo = document.getElementById('colorInfo');
 
         colorPicker.addEventListener('input', function(event) {
             var selectedColor = event.target.value;
@@ -65,15 +130,8 @@
             colorDisplay.value = selectedColor;
             colorPicker.value = selectedColor;
             body.style.backgroundColor = selectedColor;
-            // Calculate the opposite color
-            var oppositeColor = calculateOppositeColor(selectedColor);
-            // Apply the opposite color to the headline
-            headline.style.color = oppositeColor;
+            colorInfo.textContent = 'Color ' + selectedColor + ' copied to clipboard! - Powered By Thirupathi G';
             copyColor();
-            var colorInfo = document.getElementById('colorInfo');
-            colorInfo.style.backgroundColor = oppositeColor;
-            colorInfo.style.color = selectedColor;
-            colorInfo.textContent = 'Color ' + selectedColor + ' copied to clipboard!';
         }
 
         function copyColor() {
@@ -86,27 +144,6 @@
             document.body.removeChild(dummyInput);
         }
 
-        function calculateOppositeColor(color) {
-            // Convert the color to RGB
-            var r = parseInt(color.substring(1, 3), 16);
-            var g = parseInt(color.substring(3, 5), 16);
-            var b = parseInt(color.substring(5, 7), 16);
-            // Calculate the opposite color by subtracting each component from 255
-            var oppositeR = 255 - r;
-            var oppositeG = 255 - g;
-            var oppositeB = 255 - b;
-            // Convert the opposite color back to hex format
-            var oppositeHex = '#' + componentToHex(oppositeR) + componentToHex(oppositeG) + componentToHex(oppositeB);
-            return oppositeHex;
-        }
-
-        function componentToHex(c) {
-            var hex = c.toString(16);
-            return hex.length == 1 ? "0" + hex : hex;
-        }
     </script>
-
-
 </body>
-
 </html>
