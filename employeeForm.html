@@ -1,272 +1,508 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Payroll Application - Thirupathi G</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="icon" href="https://blogger.googleusercontent.com/img/a/AVvXsEgIFnXbCEgaASrlgiFnXz6MPaK-kyelPH7eTOt9s0-nWtY5YSMAIG5mN4k7dnxX6M-C0AmbO3U9jikPwhBdpp7G9848hK_1c7kXLbqxamlfCbhe_l-kEb8pe5V6mEH3fiIokyxkIyavBLAMlAzSApPTbcYA1r-P9YDwpu9GBIsL1SV4zGLvMwFulKOECQ4" type="image/x-icon">
     <style>
-        /* Thirupathi G Program */
-        /* Add custom styles here */
+        body {
+            font-family: 'Inter', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            margin: 0;
+            background: linear-gradient(135deg, #214520, #033504);
+        }
+
+        .glass {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            border-radius: 1rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .glass:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .home-button {
+            position: fixed;
+            top: 1rem;
+            left: 1rem;
+            z-index: 999;
+            width: 3rem;
+            height: 3rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 0.75rem;
+            transition: transform 0.3s ease;
+        }
+
+        .home-button:hover {
+            transform: scale(1.1);
+        }
+
+        .tab-button {
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem 0.5rem 0 0;
+            transition: background 0.3s ease;
+        }
+
+        .tab-button.active {
+            background: rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(12px);
+        }
+
+        .tab-button:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .form-input {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: #fff;
+            border-radius: 0.5rem;
+            padding: 0.75rem;
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+
+        .form-input:focus {
+            outline: none;
+            transform: scale(1.02);
+            border-color: #10b981;
+        }
+
+        .form-input.invalid {
+            border: 2px solid #ef4444;
+        }
+
+        .action-button {
+            background: linear-gradient(45deg, #10b981, #34d399);
+            transition: transform 0.3s ease, background 0.3s ease;
+        }
+
+        .action-button:hover {
+            transform: scale(1.05);
+            background: linear-gradient(45deg, #059669, #10b981);
+        }
+
+        .clear-button {
+            background: linear-gradient(45deg, #ef4444, #f87171);
+            transition: transform 0.3s ease, background 0.3s ease;
+        }
+
+        .clear-button:hover {
+            transform: scale(1.05);
+            background: linear-gradient(45deg, #dc2626, #ef4444);
+        }
+
+        .table-row:nth-child(even) {
+            background: rgba(31, 41, 55, 0.2);
+        }
+
+        .table-row:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .table-row {
+            transition: transform 0.3s ease, background 0.3s ease;
+            animation: rowFadeIn 0.5s ease-in-out;
+        }
+
+        @keyframes rowFadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .animate-fade-in {
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        footer {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(12px);
+            margin-top: auto;
+            padding: 1rem;
+            text-align: center;
+            color: #fff;
+            font-weight: 500;
+        }
+
+        .error-text {
+            color: #ef4444;
+            font-size: 0.85rem;
+            margin-top: 0.25rem;
+            display: none;
+        }
+
+        .table th, .table td {
+            min-width: 100px;
+            text-align: left;
+        }
+
+        @media (max-width: 768px) {
+            .tab-button {
+                padding: 0.5rem 1rem;
+                font-size: 0.9rem;
+            }
+            .form-input {
+                font-size: 0.9rem;
+            }
+            .table th, .table td {
+                font-size: 0.85rem;
+                padding: 0.5rem;
+                min-width: 80px;
+            }
+        }
     </style>
 </head>
 <body>
-    <div class="container mt-5">
-        <ul class="nav nav-tabs" id="myTabs">
-            <li class="nav-item">
-                <a class="nav-link active" id="addEmployeeTab" data-toggle="tab" href="#addEmployee">Add Employee</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" id="searchTab" data-toggle="tab" href="#search">Search</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" id="downloadTab" data-toggle="tab" href="#download">Download</a>
-            </li>
-        </ul>
+    <!-- Home Button -->
+    <button class="home-button" onclick="window.location.href='index.html'" title="Back to Home">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+        </svg>
+    </button>
 
-        <div class="tab-content mt-3">
+    <!-- Header -->
+    <header class="glass py-4 text-center">
+        <h1 class="text-3xl md:text-4xl font-bold text-white">Thirupathi G Software Payroll</h1>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container mx-auto px-4 py-8 animate-fade-in">
+        <!-- Tabs -->
+        <div class="flex border-b border-gray-200 mb-6">
+            <button class="tab-button active" onclick="showTab('addEmployee')">Add Employee</button>
+            <button class="tab-button" onclick="showTab('search')">Search</button>
+            <button class="tab-button" onclick="showTab('download')">Download</button>
+        </div>
+
+        <!-- Tab Content -->
+        <div id="tabContent">
             <!-- Add Employee Tab -->
-            <div class="tab-pane fade show active" id="addEmployee">
-                <h2>Thirupathi G Software Payroll</h2>
-                <form id="payrollForm">
-                    <label for="firstName">First Name:</label>
-                    <input type="text" id="firstName" class="form-control" required>
-
-                    <label for="lastName">Last Name:</label>
-                    <input type="text" id="lastName" class="form-control" required>
-
-                    <label for="dob">Date of Birth:</label>
-                    <input type="date" id="dob" class="form-control" required>
-
-                    <label for="mobile">Mobile Number:</label>
-                    <input type="tel" id="mobile" class="form-control" pattern="[0-9]{10}" required>
-
-                    <label for="address">Address:</label>
-                    <input type="text" id="address" class="form-control" required>
-
-                    <label for="pincode">Pin Code:</label>
-                    <input type="text" id="pincode" class="form-control" pattern="[0-9]{6}" required>
-
-                    <button type="button" class="btn btn-primary mt-3" onclick="saveDetails()">Save</button>
+            <div id="addEmployee" class="tab-pane glass p-6">
+                <form id="payrollForm" class="space-y-4">
+                    <input type="hidden" id="editIndex" value="-1">
+                    <div>
+                        <label for="firstName" class="block text-white font-medium">First Name</label>
+                        <input type="text" id="firstName" class="form-input w-full" required>
+                        <p id="firstNameError" class="error-text">First Name is required</p>
+                    </div>
+                    <div>
+                        <label for="lastName" class="block text-white font-medium">Last Name</label>
+                        <input type="text" id="lastName" class="form-input w-full" required>
+                        <p id="lastNameError" class="error-text">Last Name is required</p>
+                    </div>
+                    <div>
+                        <label for="dob" class="block text-white font-medium">Date of Birth</label>
+                        <input type="date" id="dob" class="form-input w-full" max="2025-05-21" required>
+                        <p id="dobError" class="error-text">Please select a valid past date</p>
+                    </div>
+                    <div>
+                        <label for="mobile" class="block text-white font-medium">Mobile Number</label>
+                        <input type="tel" id="mobile" class="form-input w-full" required>
+                        <p id="mobileError" class="error-text">Please enter a valid 10-digit mobile number</p>
+                    </div>
+                    <div>
+                        <label for="address" class="block text-white font-medium">Address</label>
+                        <input type="text" id="address" class="form-input w-full" required>
+                        <p id="addressError" class="error-text">Address is required</p>
+                    </div>
+                    <div>
+                        <label for="pincode" class="block text-white font-medium">Pin Code</label>
+                        <input type="text" id="pincode" class="form-input w-full" required>
+                        <p id="pincodeError" class="error-text">Please enter a valid 6-digit pin code</p>
+                    </div>
+                    <div class="flex space-x-4">
+                        <button type="button" class="action-button text-white font-medium py-2 px-4 rounded-lg" onclick="saveDetails()">Save</button>
+                        <button type="button" class="clear-button text-white font-medium py-2 px-4 rounded-lg" onclick="clearForm()">Clear</button>
+                    </div>
                 </form>
 
-                <div class="mt-4">
-                    <h3>Employee Details</h3>
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>First Name</th>
-                                <th>Last Name</th>
-                                <th>Date of Birth</th>
-                                <th>Mobile Number</th>
-                                <th>Address</th>
-                                <th>Pin Code</th>
-                                <th>Edit</th>
-                                <th>Delete</th>
-                            </tr>
-                        </thead>
-                        <tbody id="employeeTableBody">
-                            <!-- Employee details will be added here dynamically -->
-                        </tbody>
-                    </table>
+                <div class="mt-6">
+                    <h3 class="text-lg font-semibold text-white mb-2">Employee Details</h3>
+                    <div class="overflow-x-auto">
+                        <table class="table w-full text-white">
+                            <thead>
+                                <tr>
+                                    <th class="p-2">First Name</th>
+                                    <th class="p-2">Last Name</th>
+                                    <th class="p-2">Date of Birth</th>
+                                    <th class="p-2">Mobile Number</th>
+                                    <th class="p-2">Address</th>
+                                    <th class="p-2">Pin Code</th>
+                                    <th class="p-2">Edit</th>
+                                    <th class="p-2">Delete</th>
+                                </tr>
+                            </thead>
+                            <tbody id="employeeTableBody">
+                                <!-- Employee details will be added here dynamically -->
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
 
             <!-- Search Tab -->
-            <div class="tab-pane fade" id="search">
-                <label for="searchInput">Search:</label>
-                <input type="text" id="searchInput" class="form-control" placeholder="Search by First Name or Last Name">
-                <button type="button" class="btn btn-secondary mt-2" onclick="searchDetails()">Search</button>
-
-                <div class="mt-4">
-                    <h3>Search Results</h3>
-                    <table class="table">
-                        <thead>
-                            <!-- Table headers for search results -->
-                            <tr>
-                                <th>First Name</th>
-                                <th>Last Name</th>
-                                <th>Date of Birth</th>
-                                <th>Mobile Number</th>
-                                <th>Address</th>
-                                <th>Pin Code</th>
-                            </tr>
-                        </thead>
-                        <tbody id="searchResultTableBody">
-                            <!-- Search results will be added here dynamically -->
-                        </tbody>
-                    </table>
+            <div id="search" class="tab-pane glass p-6 hidden">
+                <div class="flex space-x-2 mb-4">
+                    <input type="text" id="searchInput" class="form-input w-full" placeholder="Search by First Name or Last Name">
+                    <button type="button" class="action-button text-white font-medium py-2 px-4 rounded-lg" onclick="searchDetails()">Search</button>
+                </div>
+                <div class="mt-6">
+                    <h3 class="text-lg font-semibold text-white mb-2">Search Results</h3>
+                    <div class="overflow-x-auto">
+                        <table class="table w-full text-white">
+                            <thead>
+                                <tr>
+                                    <th class="p-2">First Name</th>
+                                    <th class="p-2">Last Name</th>
+                                    <th class="p-2">Date of Birth</th>
+                                    <th class="p-2">Mobile Number</th>
+                                    <th class="p-2">Address</th>
+                                    <th class="p-2">Pin Code</th>
+                                </tr>
+                            </thead>
+                            <tbody id="searchResultTableBody">
+                                <!-- Search results will be added here dynamically -->
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
 
             <!-- Download Tab -->
-            <div class="tab-pane fade" id="download">
-                <div class="mt-4">
-                    <button type="button" class="btn btn-success" onclick="downloadExcel()">Download Excel</button>
-                </div>
+            <div id="download" class="tab-pane glass p-6 hidden">
+                <button type="button" class="action-button text-white font-medium py-2 px-4 rounded-lg" onclick="downloadExcel()">Download Excel</button>
             </div>
         </div>
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <!-- Footer -->
+    <footer class="glass">Powered By Thirupathi G</footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
     <script>
         let employeeDetails = [];
+        let lastSearchTerm = '';
 
-        function saveDetails() {
-            let firstName = document.getElementById('firstName').value;
-            let lastName = document.getElementById('lastName').value;
-            let dob = document.getElementById('dob').value;
-            let mobile = document.getElementById('mobile').value;
-            let address = document.getElementById('address').value;
-            let pincode = document.getElementById('pincode').value;
-
-            employeeDetails.push({
-                firstName: firstName,
-                lastName: lastName,
-                dob: dob,
-                mobile: mobile,
-                address: address,
-                pincode: pincode
-            });
-            saveToCookies();
-            document.getElementById('payrollForm').reset();
-
-            displayEmployeeDetails();
-        }
-
-        function saveToCookies() {
-            // Convert the employeeDetails array to a JSON string
-            let employeeDetailsJSON = JSON.stringify(employeeDetails);
-
-            // Set the cookie with the JSON string
-            document.cookie = `employeeDetails=${employeeDetailsJSON}; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/`;
-        }
-
-        // Function to retrieve employeeDetails from cookies
-        function retrieveFromCookies() {
-            // Get the value of the 'employeeDetails' cookie
-            let cookieValue = document.cookie.replace(/(?:(?:^|.*;\s*)employeeDetails\s*=\s*([^;]*).*$)|^.*$/, "$1");
-
-            // Check if the cookie exists
-            if (cookieValue) {
-                // Parse the JSON string to reconstruct the array
-                employeeDetails = JSON.parse(cookieValue);
-
-                // Display the retrieved employeeDetails
+        function showTab(tabId) {
+            document.querySelectorAll('.tab-pane').forEach(pane => pane.classList.add('hidden'));
+            document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
+            document.getElementById(tabId).classList.remove('hidden');
+            document.querySelector(`button[onclick="showTab('${tabId}')"]`).classList.add('active');
+            if (tabId === 'search') {
+                document.getElementById('searchInput').value = lastSearchTerm;
+                searchDetails();
+            } else if (tabId === 'addEmployee') {
                 displayEmployeeDetails();
             }
         }
 
-        function displayEmployeeDetails() {
-            let tableBody = document.getElementById('employeeTableBody');
-            tableBody.innerHTML = '';
+        function validateForm() {
+            let isValid = true;
+            const fields = [
+                { id: 'firstName', errorId: 'firstNameError', condition: val => val.trim().length > 0, error: 'First Name is required' },
+                { id: 'lastName', errorId: 'lastNameError', condition: val => val.trim().length > 0, error: 'Last Name is required' },
+                { id: 'dob', errorId: 'dobError', condition: val => val && new Date(val) <= new Date('2025-05-21'), error: 'Please select a valid past date' },
+                { id: 'mobile', errorId: 'mobileError', condition: val => /^\d{10}$/.test(val), error: 'Please enter a valid 10-digit mobile number' },
+                { id: 'address', errorId: 'addressError', condition: val => val.trim().length > 0, error: 'Address is required' },
+                { id: 'pincode', errorId: 'pincodeError', condition: val => /^\d{6}$/.test(val), error: 'Please enter a valid 6-digit pin code' }
+            ];
 
+            fields.forEach(field => {
+                const input = document.getElementById(field.id);
+                const error = document.getElementById(field.errorId);
+                const value = input.value;
+                if (!field.condition(value)) {
+                    input.classList.add('invalid');
+                    error.style.display = 'block';
+                    isValid = false;
+                } else {
+                    input.classList.remove('invalid');
+                    error.style.display = 'none';
+                }
+            });
+
+            return isValid;
+        }
+
+        function saveDetails() {
+            if (!validateForm()) {
+                alert('Please fix the errors in the form.');
+                return;
+            }
+
+            const editIndex = parseInt(document.getElementById('editIndex').value);
+            const employee = {
+                firstName: document.getElementById('firstName').value,
+                lastName: document.getElementById('lastName').value,
+                dob: document.getElementById('dob').value,
+                mobile: document.getElementById('mobile').value,
+                address: document.getElementById('address').value,
+                pincode: document.getElementById('pincode').value
+            };
+
+            if (editIndex >= 0) {
+                employeeDetails[editIndex] = employee;
+            } else {
+                employeeDetails.push(employee);
+            }
+
+            saveToStorage();
+            clearForm();
+            refreshTables();
+        }
+
+        function clearForm() {
+            document.getElementById('payrollForm').reset();
+            document.getElementById('editIndex').value = '-1';
+            document.querySelectorAll('.form-input').forEach(input => input.classList.remove('invalid'));
+            document.querySelectorAll('.error-text').forEach(error => error.style.display = 'none');
+        }
+
+        function saveToStorage() {
+            try {
+                localStorage.setItem('employeeDetails', JSON.stringify(employeeDetails));
+            } catch (e) {
+                alert('Error saving data. Storage may be full.');
+            }
+        }
+
+        function retrieveFromStorage() {
+            try {
+                const data = localStorage.getItem('employeeDetails');
+                if (data) {
+                    employeeDetails = JSON.parse(data);
+                    refreshTables();
+                }
+            } catch (e) {
+                console.error('Error retrieving data:', e);
+                employeeDetails = [];
+            }
+        }
+
+        function refreshTables() {
+            displayEmployeeDetails();
+            if (lastSearchTerm) {
+                searchDetails();
+            }
+        }
+
+        function displayEmployeeDetails() {
+            const tableBody = document.getElementById('employeeTableBody');
+            tableBody.innerHTML = '';
             employeeDetails.forEach((employee, index) => {
-                let row = tableBody.insertRow();
+                const row = tableBody.insertRow();
+                row.className = 'table-row';
                 row.innerHTML = `
-          <td>${employee.firstName}</td>
-          <td>${employee.lastName}</td>
-          <td>${employee.dob}</td>
-          <td>${employee.mobile}</td>
-          <td>${employee.address}</td>
-          <td>${employee.pincode}</td>
-          <td><button class="btn btn-warning" onclick="editDetails(${index})">Edit</button></td>
-          <td><button class="btn btn-danger" onclick="deleteDetails(${index})">Delete</button></td>
-        `;
+                    <td class="p-2">${employee.firstName}</td>
+                    <td class="p-2">${employee.lastName}</td>
+                    <td class="p-2">${employee.dob}</td>
+                    <td class="p-2">${employee.mobile}</td>
+                    <td class="p-2">${employee.address}</td>
+                    <td class="p-2">${employee.pincode}</td>
+                    <td class="p-2"><button class="bg-emerald-500 text-white font-medium py-1 px-2 rounded-lg hover:bg-emerald-600" onclick="editDetails(${index})">Edit</button></td>
+                    <td class="p-2"><button class="bg-red-500 text-white font-medium py-1 px-2 rounded-lg hover:bg-red-600" onclick="deleteDetails(${index})">Delete</button></td>
+                `;
             });
         }
 
         function editDetails(index) {
-            let employee = employeeDetails[index];
+            const employee = employeeDetails[index];
             document.getElementById('firstName').value = employee.firstName;
             document.getElementById('lastName').value = employee.lastName;
             document.getElementById('dob').value = employee.dob;
             document.getElementById('mobile').value = employee.mobile;
             document.getElementById('address').value = employee.address;
             document.getElementById('pincode').value = employee.pincode;
-
-            // Remove the edited employee from the array
-            employeeDetails.splice(index, 1);
-
-            // Update the table
-            displayEmployeeDetails();
+            document.getElementById('editIndex').value = index;
         }
-
 
         function deleteDetails(index) {
             if (confirm("Are you sure you want to delete this record?")) {
                 employeeDetails.splice(index, 1);
-                saveToCookies();
-                displayEmployeeDetails();
+                saveToStorage();
+                refreshTables();
             }
         }
 
         function searchDetails() {
-            let searchTerm = document.getElementById('searchInput').value.toLowerCase();
-            let filteredEmployees = employeeDetails.filter(employee =>
-                employee.firstName.toLowerCase().includes(searchTerm) ||
-                employee.lastName.toLowerCase().includes(searchTerm)
+            lastSearchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const filteredEmployees = employeeDetails.filter(employee =>
+                employee.firstName.toLowerCase().includes(lastSearchTerm) ||
+                employee.lastName.toLowerCase().includes(lastSearchTerm)
             );
-
             displayFilteredDetails(filteredEmployees);
         }
 
         function displayFilteredDetails(filteredEmployees) {
-            let tableBody = document.getElementById('searchResultTableBody');
+            const tableBody = document.getElementById('searchResultTableBody');
             tableBody.innerHTML = '';
-
             filteredEmployees.forEach(employee => {
-                let row = tableBody.insertRow();
+                const row = tableBody.insertRow();
+                row.className = 'table-row';
                 row.innerHTML = `
-          <td>${employee.firstName}</td>
-          <td>${employee.lastName}</td>
-          <td>${employee.dob}</td>
-          <td>${employee.mobile}</td>
-          <td>${employee.address}</td>
-          <td>${employee.pincode}</td>
-        `;
+                    <td class="p-2">${employee.firstName}</td>
+                    <td class="p-2">${employee.lastName}</td>
+                    <td class="p-2">${employee.dob}</td>
+                    <td class="p-2">${employee.mobile}</td>
+                    <td class="p-2">${employee.address}</td>
+                    <td class="p-2">${employee.pincode}</td>
+                `;
             });
         }
 
         function downloadExcel() {
-            // Create a CSV content
-            let content = "Thirupathi G Software\n"; // Your company name as the header
-            content += "First Name,Last Name,Date of Birth,Mobile Number,Address,Pin Code\n";
-
-            employeeDetails.forEach(employee => {
-                content += `${employee.firstName},${employee.lastName},${employee.dob},${employee.mobile},${employee.address},${employee.pincode}\n`;
-            });
-
-            // Create a Blob with the CSV content
-            let blob = new Blob([content], {
-                type: 'text/csv'
-            });
-
-            // Create a link element
-            let link = document.createElement('a');
-
-            // Set the href attribute with the object URL of the Blob
-            link.href = URL.createObjectURL(blob);
-
-            // Set the download attribute with the desired file name
-            link.download = 'EmployeeDetails.csv';
-
-            // Append the link to the document
-            document.body.appendChild(link);
-
-            // Trigger a click on the link to start the download
-            link.click();
-
-            // Remove the link from the document
-            document.body.removeChild(link);
+            try {
+                const data = [
+                    ['Thirupathi G Software'],
+                    ['First Name', 'Last Name', 'Date of Birth', 'Mobile Number', 'Address', 'Pin Code'],
+                    ...employeeDetails.map(employee => [
+                        employee.firstName,
+                        employee.lastName,
+                        employee.dob,
+                        employee.mobile,
+                        employee.address,
+                        employee.pincode
+                    ])
+                ];
+                const ws = XLSX.utils.aoa_to_sheet(data);
+                ws['!cols'] = [{ wch: 15 }, { wch: 15 }, { wch: 12 }, { wch: 15 }, { wch: 30 }, { wch: 10 }];
+                ws['A1'].s = { font: { bold: true } };
+                const wb = XLSX.utils.book_new();
+                XLSX.utils.book_append_sheet(wb, ws, 'EmployeeDetails');
+                XLSX.writeFile(wb, 'EmployeeDetails.xlsx');
+            } catch (e) {
+                alert('Error generating Excel file.');
+            }
         }
-        // Call retrieveFromCookies when the page loads to retrieve the saved data
-        window.onload = retrieveFromCookies;
+
+        window.onload = () => {
+            retrieveFromStorage();
+            showTab('addEmployee');
+        };
     </script>
 </body>
-
 </html>
