@@ -161,7 +161,7 @@
         </svg>
     </button>
     
-    <div class="container py-5">
+     <div class="container py-5">
         <h1 class="display-5 fw-bold text-white mb-4">MySQL Topics Explorer</h1>
         <p class="lead text-light mb-4">Discover all MySQL concepts with categorized sections, descriptions, and syntax-highlighted example queries.</p>
         <!-- Search Bar -->
@@ -183,6 +183,8 @@
                         <p>Retrieves data from tables.</p>
                         <pre><code class="language-sql">SELECT first_name, last_name FROM customers WHERE city = 'Chennai';</code></pre>
                         <pre><code class="language-sql">SELECT * FROM products WHERE price > 500;</code></pre>
+                        <pre><code class="language-sql">SELECT id, name FROM employees WHERE dept_id = 2;</code></pre>
+                        <pre><code class="language-sql">SELECT product_name, price FROM inventory WHERE stock > 0;</code></pre>
                     </div>
                 </div>
             </div>
@@ -197,6 +199,8 @@
                         <p>Filters records based on a condition.</p>
                         <pre><code class="language-sql">SELECT * FROM employees WHERE dept_id = 3;</code></pre>
                         <pre><code class="language-sql">SELECT * FROM orders WHERE order_date >= '2025-01-01';</code></pre>
+                        <pre><code class="language-sql">SELECT name FROM products WHERE category = 'Electronics';</code></pre>
+                        <pre><code class="language-sql">SELECT * FROM users WHERE status = 'active';</code></pre>
                     </div>
                 </div>
             </div>
@@ -211,6 +215,8 @@
                         <p>Combines conditions in a WHERE clause.</p>
                         <pre><code class="language-sql">SELECT * FROM products WHERE price > 100 AND category = 'Electronics' OR NOT in_stock;</code></pre>
                         <pre><code class="language-sql">SELECT * FROM users WHERE age >= 18 AND NOT status = 'inactive';</code></pre>
+                        <pre><code class="language-sql">SELECT * FROM orders WHERE customer_id = 101 AND order_date < '2025-01-01';</code></pre>
+                        <pre><code class="language-sql">SELECT * FROM employees WHERE dept_id = 5 OR NOT salary > 50000;</code></pre>
                     </div>
                 </div>
             </div>
@@ -225,6 +231,8 @@
                         <p>Sorts the result set by columns.</p>
                         <pre><code class="language-sql">SELECT * FROM products ORDER BY price DESC;</code></pre>
                         <pre><code class="language-sql">SELECT name, age FROM users ORDER BY age ASC, name DESC;</code></pre>
+                        <pre><code class="language-sql">SELECT * FROM orders ORDER BY order_date DESC;</code></pre>
+                        <pre><code class="language-sql">SELECT name, salary FROM employees ORDER BY salary ASC;</code></pre>
                     </div>
                 </div>
             </div>
@@ -239,6 +247,8 @@
                         <p>Adds new rows to a table.</p>
                         <pre><code class="language-sql">INSERT INTO orders (customer_id, order_date) VALUES (101, '2025-05-23');</code></pre>
                         <pre><code class="language-sql">INSERT INTO products (name, price) VALUES ('Laptop', 75000);</code></pre>
+                        <pre><code class="language-sql">INSERT INTO employees (name, dept_id) VALUES ('John', 3);</code></pre>
+                        <pre><code class="language-sql">INSERT INTO users (username, status) VALUES ('alice', 'active');</code></pre>
                     </div>
                 </div>
             </div>
@@ -253,6 +263,8 @@
                         <p>Handles NULL values in queries.</p>
                         <pre><code class="language-sql">SELECT * FROM employees WHERE email IS NULL;</code></pre>
                         <pre><code class="language-sql">SELECT * FROM orders WHERE shipped_date IS NOT NULL;</code></pre>
+                        <pre><code class="language-sql">SELECT name FROM customers WHERE phone IS NULL;</code></pre>
+                        <pre><code class="language-sql">SELECT * FROM products WHERE description IS NOT NULL;</code></pre>
                     </div>
                 </div>
             </div>
@@ -267,6 +279,8 @@
                         <p>Modifies existing data in a table.</p>
                         <pre><code class="language-sql">UPDATE employees SET salary = salary + 5000 WHERE dept_id = 3;</code></pre>
                         <pre><code class="language-sql">UPDATE products SET price = 600 WHERE id = 101;</code></pre>
+                        <pre><code class="language-sql">UPDATE users SET status = 'inactive' WHERE last_login < '2024-01-01';</code></pre>
+                        <pre><code class="language-sql">UPDATE orders SET shipped_date = '2025-05-24' WHERE order_id = 1001;</code></pre>
                     </div>
                 </div>
             </div>
@@ -281,6 +295,8 @@
                         <p>Removes rows based on a condition.</p>
                         <pre><code class="language-sql">DELETE FROM orders WHERE order_date < '2024-01-01';</code></pre>
                         <pre><code class="language-sql">DELETE FROM users WHERE status = 'inactive';</code></pre>
+                        <pre><code class="language-sql">DELETE FROM products WHERE stock = 0;</code></pre>
+                        <pre><code class="language-sql">DELETE FROM employees WHERE dept_id = 4;</code></pre>
                     </div>
                 </div>
             </div>
@@ -295,6 +311,8 @@
                         <p>Limits the number of rows returned.</p>
                         <pre><code class="language-sql">SELECT * FROM products LIMIT 10;</code></pre>
                         <pre><code class="language-sql">SELECT * FROM orders ORDER BY order_date DESC LIMIT 5;</code></pre>
+                        <pre><code class="language-sql">SELECT name FROM employees LIMIT 3;</code></pre>
+                        <pre><code class="language-sql">SELECT * FROM customers ORDER BY id ASC LIMIT 20;</code></pre>
                     </div>
                 </div>
             </div>
@@ -309,6 +327,8 @@
                         <p>Finds the minimum or maximum value in a column.</p>
                         <pre><code class="language-sql">SELECT MIN(price), MAX(price) FROM products;</code></pre>
                         <pre><code class="language-sql">SELECT MIN(order_date), MAX(order_date) FROM orders;</code></pre>
+                        <pre><code class="language-sql">SELECT MIN(salary), MAX(salary) FROM employees;</code></pre>
+                        <pre><code class="language-sql">SELECT MIN(stock), MAX(stock) FROM inventory;</code></pre>
                     </div>
                 </div>
             </div>
@@ -323,6 +343,8 @@
                         <p>Aggregate functions for counting, averaging, and summing.</p>
                         <pre><code class="language-sql">SELECT COUNT(*), AVG(salary), SUM(salary) FROM employees;</code></pre>
                         <pre><code class="language-sql">SELECT COUNT(id), SUM(quantity) FROM orders WHERE status = 'shipped';</code></pre>
+                        <pre><code class="language-sql">SELECT COUNT(*), AVG(price), SUM(price) FROM products;</code></pre>
+                        <pre><code class="language-sql">SELECT COUNT(id), SUM(stock) FROM inventory WHERE location = 'Warehouse';</code></pre>
                     </div>
                 </div>
             </div>
@@ -337,6 +359,8 @@
                         <p>Searches for a specified pattern in a column.</p>
                         <pre><code class="language-sql">SELECT * FROM products WHERE name LIKE 'Phone%';</code></pre>
                         <pre><code class="language-sql">SELECT * FROM customers WHERE email LIKE '%@gmail.com';</code></pre>
+                        <pre><code class="language-sql">SELECT name FROM employees WHERE name LIKE '%son';</code></pre>
+                        <pre><code class="language-sql">SELECT * FROM orders WHERE order_notes LIKE '%urgent%';</code></pre>
                     </div>
                 </div>
             </div>
@@ -351,6 +375,8 @@
                         <p>Uses % and _ for pattern matching with LIKE.</p>
                         <pre><code class="language-sql">SELECT * FROM customers WHERE email LIKE '%@gmail.com';</code></pre>
                         <pre><code class="language-sql">SELECT * FROM products WHERE name LIKE 'Lapt_p';</code></pre>
+                        <pre><code class="language-sql">SELECT name FROM employees WHERE name LIKE 'J_n%';</code></pre>
+                        <pre><code class="language-sql">SELECT * FROM orders WHERE order_id LIKE '2025[0-5]%';</code></pre>
                     </div>
                 </div>
             </div>
@@ -365,6 +391,8 @@
                         <p>Specifies multiple values in a WHERE clause.</p>
                         <pre><code class="language-sql">SELECT * FROM products WHERE category IN ('Electronics', 'Appliances');</code></pre>
                         <pre><code class="language-sql">SELECT * FROM employees WHERE dept_id IN (1, 2, 3);</code></pre>
+                        <pre><code class="language-sql">SELECT name FROM users WHERE status IN ('active', 'pending');</code></pre>
+                        <pre><code class="language-sql">SELECT * FROM orders WHERE customer_id IN (101, 102, 103);</code></pre>
                     </div>
                 </div>
             </div>
@@ -379,6 +407,8 @@
                         <p>Selects values within a given range, inclusive.</p>
                         <pre><code class="language-sql">SELECT * FROM employees WHERE salary BETWEEN 30000 AND 50000;</code></pre>
                         <pre><code class="language-sql">SELECT * FROM orders WHERE order_date BETWEEN '2025-01-01' AND '2025-12-31';</code></pre>
+                        <pre><code class="language-sql">SELECT * FROM products WHERE price BETWEEN 100 AND 1000;</code></pre>
+                        <pre><code class="language-sql">SELECT name FROM users WHERE age BETWEEN 20 AND 30;</code></pre>
                     </div>
                 </div>
             </div>
@@ -393,6 +423,8 @@
                         <p>Renames a column or table for the query result.</p>
                         <pre><code class="language-sql">SELECT first_name AS fname FROM customers;</code></pre>
                         <pre><code class="language-sql">SELECT p.name AS product_name FROM products p;</code></pre>
+                        <pre><code class="language-sql">SELECT e.name AS employee_name FROM employees e;</code></pre>
+                        <pre><code class="language-sql">SELECT order_date AS o_date FROM orders o;</code></pre>
                     </div>
                 </div>
             </div>
@@ -407,6 +439,8 @@
                         <p>Combines rows from two tables where the join condition is met.</p>
                         <pre><code class="language-sql">SELECT c.name, o.order_date FROM customers c INNER JOIN orders o ON c.id = o.customer_id;</code></pre>
                         <pre><code class="language-sql">SELECT e.name, d.dept_name FROM employees e INNER JOIN departments d ON e.dept_id = d.id;</code></pre>
+                        <pre><code class="language-sql">SELECT p.name, i.stock FROM products p INNER JOIN inventory i ON p.id = i.product_id;</code></pre>
+                        <pre><code class="language-sql">SELECT u.name, r.role_name FROM users u INNER JOIN roles r ON u.role_id = r.id;</code></pre>
                     </div>
                 </div>
             </div>
@@ -421,6 +455,8 @@
                         <p>Returns all rows from the left table, with matching rows from the right table.</p>
                         <pre><code class="language-sql">SELECT c.name, o.order_date FROM customers c LEFT JOIN orders o ON c.id = o.customer_id;</code></pre>
                         <pre><code class="language-sql">SELECT e.name, d.dept_name FROM employees e LEFT JOIN departments d ON e.dept_id = d.id;</code></pre>
+                        <pre><code class="language-sql">SELECT p.name, i.stock FROM products p LEFT JOIN inventory i ON p.id = i.product_id;</code></pre>
+                        <pre><code class="language-sql">SELECT u.name, r.role_name FROM users u LEFT JOIN roles r ON u.role_id = r.id;</code></pre>
                     </div>
                 </div>
             </div>
@@ -435,6 +471,8 @@
                         <p>Returns all rows from the right table, with matching rows from the left table.</p>
                         <pre><code class="language-sql">SELECT c.name, o.order_date FROM customers c RIGHT JOIN orders o ON c.id = o.customer_id;</code></pre>
                         <pre><code class="language-sql">SELECT e.name, d.dept_name FROM employees e RIGHT JOIN departments d ON e.dept_id = d.id;</code></pre>
+                        <pre><code class="language-sql">SELECT p.name, i.stock FROM products p RIGHT JOIN inventory i ON p.id = i.product_id;</code></pre>
+                        <pre><code class="language-sql">SELECT u.name, r.role_name FROM users u RIGHT JOIN roles r ON u.role_id = r.id;</code></pre>
                     </div>
                 </div>
             </div>
@@ -449,6 +487,8 @@
                         <p>Produces a Cartesian product of two tables.</p>
                         <pre><code class="language-sql">SELECT * FROM colors CROSS JOIN sizes;</code></pre>
                         <pre><code class="language-sql">SELECT e.name, r.role_name FROM employees e CROSS JOIN roles r;</code></pre>
+                        <pre><code class="language-sql">SELECT p.name, c.category_name FROM products p CROSS JOIN categories c;</code></pre>
+                        <pre><code class="language-sql">SELECT u.name, d.dept_name FROM users u CROSS JOIN departments d;</code></pre>
                     </div>
                 </div>
             </div>
@@ -463,6 +503,8 @@
                         <p>Joins a table with itself.</p>
                         <pre><code class="language-sql">SELECT e1.name, e2.name FROM employees e1 INNER JOIN employees e2 ON e1.manager_id = e2.id;</code></pre>
                         <pre><code class="language-sql">SELECT p1.name, p2.name FROM products p1 INNER JOIN products p2 ON p1.category = p2.category WHERE p1.id < p2.id;</code></pre>
+                        <pre><code class="language-sql">SELECT c1.name, c2.name FROM customers c1 INNER JOIN customers c2 ON c1.referred_by = c2.id;</code></pre>
+                        <pre><code class="language-sql">SELECT u1.username, u2.username FROM users u1 INNER JOIN users u2 ON u1.team_id = u2.team_id WHERE u1.id != u2.id;</code></pre>
                     </div>
                 </div>
             </div>
@@ -477,6 +519,8 @@
                         <p>Combines the results of two or more SELECT queries.</p>
                         <pre><code class="language-sql">SELECT name FROM customers UNION SELECT name FROM suppliers;</code></pre>
                         <pre><code class="language-sql">SELECT email FROM users UNION SELECT email FROM admins;</code></pre>
+                        <pre><code class="language-sql">SELECT product_name FROM products UNION SELECT item_name FROM inventory;</code></pre>
+                        <pre><code class="language-sql">SELECT dept_name FROM departments UNION SELECT team_name FROM teams;</code></pre>
                     </div>
                 </div>
             </div>
@@ -491,6 +535,8 @@
                         <p>Groups rows for aggregate functions.</p>
                         <pre><code class="language-sql">SELECT dept_id, COUNT(*) AS emp_count FROM employees GROUP BY dept_id;</code></pre>
                         <pre><code class="language-sql">SELECT category, SUM(price) AS total_price FROM products GROUP BY category;</code></pre>
+                        <pre><code class="language-sql">SELECT customer_id, COUNT(*) AS order_count FROM orders GROUP BY customer_id;</code></pre>
+                        <pre><code class="language-sql">SELECT status, AVG(salary) AS avg_salary FROM users GROUP BY status;</code></pre>
                     </div>
                 </div>
             </div>
@@ -505,6 +551,8 @@
                         <p>Filters grouped results from a GROUP BY clause.</p>
                         <pre><code class="language-sql">SELECT dept_id, COUNT(*) AS emp_count FROM employees GROUP BY dept_id HAVING COUNT(*) > 5;</code></pre>
                         <pre><code class="language-sql">SELECT category, SUM(price) AS total FROM products GROUP BY category HAVING SUM(price) > 10000;</code></pre>
+                        <pre><code class="language-sql">SELECT customer_id, COUNT(*) AS order_count FROM orders GROUP BY customer_id HAVING COUNT(*) >= 3;</code></pre>
+                        <pre><code class="language-sql">SELECT status, AVG(salary) AS avg_salary FROM employees GROUP BY status HAVING AVG(salary) < 40000;</code></pre>
                     </div>
                 </div>
             </div>
@@ -519,6 +567,8 @@
                         <p>Tests for the existence of rows in a subquery.</p>
                         <pre><code class="language-sql">SELECT name FROM customers WHERE EXISTS (SELECT 1 FROM orders WHERE orders.customer_id = customers.id);</code></pre>
                         <pre><code class="language-sql">SELECT name FROM products WHERE EXISTS (SELECT 1 FROM inventory WHERE inventory.product_id = products.id);</code></pre>
+                        <pre><code class="language-sql">SELECT name FROM employees WHERE EXISTS (SELECT 1 FROM projects WHERE projects.emp_id = employees.id);</code></pre>
+                        <pre><code class="language-sql">SELECT username FROM users WHERE EXISTS (SELECT 1 FROM logs WHERE logs.user_id = users.id);</code></pre>
                     </div>
                 </div>
             </div>
@@ -533,6 +583,8 @@
                         <p>Compares a value to any or all values in a subquery.</p>
                         <pre><code class="language-sql">SELECT name FROM products WHERE price > ALL (SELECT price FROM products WHERE category = 'Electronics');</code></pre>
                         <pre><code class="language-sql">SELECT name FROM employees WHERE salary > ANY (SELECT salary FROM employees WHERE dept_id = 2);</code></pre>
+                        <pre><code class="language-sql">SELECT name FROM orders WHERE total > ALL (SELECT total FROM orders WHERE customer_id = 101);</code></pre>
+                        <pre><code class="language-sql">SELECT name FROM users WHERE age < ANY (SELECT age FROM users WHERE status = 'active');</code></pre>
                     </div>
                 </div>
             </div>
@@ -547,6 +599,8 @@
                         <p>Inserts data into a table from a SELECT query.</p>
                         <pre><code class="language-sql">INSERT INTO archive_orders SELECT * FROM orders WHERE order_date < '2024-01-01';</code></pre>
                         <pre><code class="language-sql">INSERT INTO backup_users SELECT * FROM users WHERE status = 'inactive';</code></pre>
+                        <pre><code class="language-sql">INSERT INTO old_products SELECT * FROM products WHERE discontinued = 1;</code></pre>
+                        <pre><code class="language-sql">INSERT INTO temp_logs SELECT * FROM logs WHERE log_date < '2025-01-01';</code></pre>
                     </div>
                 </div>
             </div>
@@ -561,6 +615,8 @@
                         <p>Provides conditional logic in a query.</p>
                         <pre><code class="language-sql">SELECT name, CASE WHEN salary > 50000 THEN 'High' ELSE 'Low' END AS salary_level FROM employees;</code></pre>
                         <pre><code class="language-sql">SELECT product_name, CASE WHEN stock > 0 THEN 'In Stock' ELSE 'Out of Stock' END AS availability FROM products;</code></pre>
+                        <pre><code class="language-sql">SELECT order_id, CASE WHEN total > 1000 THEN 'Large' ELSE 'Small' END AS order_size FROM orders;</code></pre>
+                        <pre><code class="language-sql">SELECT username, CASE WHEN age < 18 THEN 'Minor' ELSE 'Adult' END AS age_group FROM users;</code></pre>
                     </div>
                 </div>
             </div>
@@ -575,6 +631,8 @@
                         <p>Handles NULL values (e.g., IFNULL, COALESCE).</p>
                         <pre><code class="language-sql">SELECT name, IFNULL(email, 'No Email') AS email FROM customers;</code></pre>
                         <pre><code class="language-sql">SELECT name, COALESCE(phone, mobile, 'No Contact') AS contact FROM users;</code></pre>
+                        <pre><code class="language-sql">SELECT product_name, IFNULL(description, 'No Description') AS desc FROM products;</code></pre>
+                        <pre><code class="language-sql">SELECT order_id, COALESCE(shipped_date, 'Not Shipped') AS status FROM orders;</code></pre>
                     </div>
                 </div>
             </div>
@@ -590,6 +648,9 @@
                         <pre><code class="language-sql">-- This is a single-line comment
 SELECT * FROM employees;</code></pre>
                         <pre><code class="language-sql">SELECT * FROM products /* This is a multi-line comment */ WHERE price > 100;</code></pre>
+                        <pre><code class="language-sql">-- Fetch all active users
+SELECT * FROM users WHERE status = 'active';</code></pre>
+                        <pre><code class="language-sql">SELECT * FROM orders /* Filter by year 2025 */ WHERE order_date LIKE '2025%';</code></pre>
                     </div>
                 </div>
             </div>
@@ -604,6 +665,8 @@ SELECT * FROM employees;</code></pre>
                         <p>Uses operators like =, <>, >, <, etc., in queries.</p>
                         <pre><code class="language-sql">SELECT * FROM products WHERE price > 100 AND stock <> 0;</code></pre>
                         <pre><code class="language-sql">SELECT * FROM employees WHERE salary <= 40000 OR dept_id = 5;</code></pre>
+                        <pre><code class="language-sql">SELECT name FROM users WHERE age >= 18 AND age < 30;</code></pre>
+                        <pre><code class="language-sql">SELECT * FROM orders WHERE total != 0 AND customer_id = 101;</code></pre>
                     </div>
                 </div>
             </div>
@@ -618,6 +681,8 @@ SELECT * FROM employees;</code></pre>
                         <p>A query nested within another query.</p>
                         <pre><code class="language-sql">SELECT name FROM employees WHERE dept_id = (SELECT id FROM departments WHERE name = 'Sales');</code></pre>
                         <pre><code class="language-sql">SELECT * FROM products WHERE price > (SELECT AVG(price) FROM products);</code></pre>
+                        <pre><code class="language-sql">SELECT name FROM customers WHERE id IN (SELECT customer_id FROM orders WHERE total > 5000);</code></pre>
+                        <pre><code class="language-sql">SELECT username FROM users WHERE id = (SELECT user_id FROM logs WHERE log_date = '2025-05-24');</code></pre>
                     </div>
                 </div>
             </div>
@@ -632,6 +697,8 @@ SELECT * FROM employees;</code></pre>
                         <p>Removes all rows from a table but keeps the structure.</p>
                         <pre><code class="language-sql">TRUNCATE TABLE logs;</code></pre>
                         <pre><code class="language-sql">TRUNCATE TABLE temp_data;</code></pre>
+                        <pre><code class="language-sql">TRUNCATE TABLE old_orders;</code></pre>
+                        <pre><code class="language-sql">TRUNCATE TABLE backup_users;</code></pre>
                     </div>
                 </div>
             </div>
@@ -646,6 +713,8 @@ SELECT * FROM employees;</code></pre>
                         <p>Divides rows into partitions for window functions.</p>
                         <pre><code class="language-sql">SELECT name, salary, RANK() OVER (PARTITION BY dept_id ORDER BY salary DESC) AS rank FROM employees;</code></pre>
                         <pre><code class="language-sql">SELECT product_name, price, SUM(price) OVER (PARTITION BY category) AS total_category_price FROM products;</code></pre>
+                        <pre><code class="language-sql">SELECT order_id, total, ROW_NUMBER() OVER (PARTITION BY customer_id ORDER BY order_date) AS order_num FROM orders;</code></pre>
+                        <pre><code class="language-sql">SELECT username, age, DENSE_RANK() OVER (PARTITION BY status ORDER BY age) AS age_rank FROM users;</code></pre>
                     </div>
                 </div>
             </div>
@@ -660,6 +729,8 @@ SELECT * FROM employees;</code></pre>
                         <p>Defines a Common Table Expression for reusable subqueries.</p>
                         <pre><code class="language-sql">WITH high_salary AS (SELECT * FROM employees WHERE salary > 50000) SELECT * FROM high_salary WHERE dept_id = 1;</code></pre>
                         <pre><code class="language-sql">WITH recent_orders AS (SELECT * FROM orders WHERE order_date >= '2025-01-01') SELECT customer_id, COUNT(*) FROM recent_orders GROUP BY customer_id;</code></pre>
+                        <pre><code class="language-sql">WITH top_products AS (SELECT * FROM products WHERE price > 1000) SELECT * FROM top_products WHERE category = 'Electronics';</code></pre>
+                        <pre><code class="language-sql">WITH active_users AS (SELECT * FROM users WHERE status = 'active') SELECT username, age FROM active_users WHERE age > 25;</code></pre>
                     </div>
                 </div>
             </div>
@@ -674,6 +745,8 @@ SELECT * FROM employees;</code></pre>
                         <p>Updates a row if a duplicate key is encountered during insertion.</p>
                         <pre><code class="language-sql">INSERT INTO users (id, name, email) VALUES (1, 'John', 'john@example.com') ON DUPLICATE KEY UPDATE email = 'john@example.com';</code></pre>
                         <pre><code class="language-sql">INSERT INTO products (id, stock) VALUES (101, 50) ON DUPLICATE KEY UPDATE stock = stock + 50;</code></pre>
+                        <pre><code class="language-sql">INSERT INTO employees (id, salary) VALUES (5, 60000) ON DUPLICATE KEY UPDATE salary = 60000;</code></pre>
+                        <pre><code class="language-sql">INSERT INTO orders (order_id, total) VALUES (1001, 1500) ON DUPLICATE KEY UPDATE total = 1500;</code></pre>
                     </div>
                 </div>
             </div>
@@ -688,6 +761,8 @@ SELECT * FROM employees;</code></pre>
                         <p>Replaces a row if a duplicate key exists, or inserts a new row.</p>
                         <pre><code class="language-sql">REPLACE INTO users (id, name, email) VALUES (1, 'John', 'john@example.com');</code></pre>
                         <pre><code class="language-sql">REPLACE INTO products (id, name, price) VALUES (101, 'Laptop', 75000);</code></pre>
+                        <pre><code class="language-sql">REPLACE INTO employees (id, name, dept_id) VALUES (5, 'Alice', 3);</code></pre>
+                        <pre><code class="language-sql">REPLACE INTO orders (order_id, customer_id, total) VALUES (1001, 101, 2000);</code></pre>
                     </div>
                 </div>
             </div>
@@ -702,6 +777,8 @@ SELECT * FROM employees;</code></pre>
                         <p>Shows how MySQL executes a query.</p>
                         <pre><code class="language-sql">EXPLAIN SELECT * FROM employees WHERE dept_id = 3;</code></pre>
                         <pre><code class="language-sql">EXPLAIN SELECT * FROM orders WHERE customer_id = 101;</code></pre>
+                        <pre><code class="language-sql">EXPLAIN SELECT * FROM products WHERE price > 500;</code></pre>
+                        <pre><code class="language-sql">EXPLAIN SELECT * FROM users WHERE status = 'active';</code></pre>
                     </div>
                 </div>
             </div>
@@ -716,6 +793,8 @@ SELECT * FROM employees;</code></pre>
                         <p>Displays information about databases, tables, etc.</p>
                         <pre><code class="language-sql">SHOW DATABASES;</code></pre>
                         <pre><code class="language-sql">SHOW TABLES;</code></pre>
+                        <pre><code class="language-sql">SHOW COLUMNS FROM employees;</code></pre>
+                        <pre><code class="language-sql">SHOW INDEX FROM products;</code></pre>
                     </div>
                 </div>
             </div>
@@ -736,6 +815,8 @@ SELECT * FROM employees;</code></pre>
                         <p>Creates a new database.</p>
                         <pre><code class="language-sql">CREATE DATABASE company_db;</code></pre>
                         <pre><code class="language-sql">CREATE DATABASE inventory_db;</code></pre>
+                        <pre><code class="language-sql">CREATE DATABASE sales_db;</code></pre>
+                        <pre><code class="language-sql">CREATE DATABASE hr_db;</code></pre>
                     </div>
                 </div>
             </div>
@@ -750,6 +831,8 @@ SELECT * FROM employees;</code></pre>
                         <p>Deletes a database.</p>
                         <pre><code class="language-sql">DROP DATABASE company_db;</code></pre>
                         <pre><code class="language-sql">DROP DATABASE inventory_db;</code></pre>
+                        <pre><code class="language-sql">DROP DATABASE sales_db;</code></pre>
+                        <pre><code class="language-sql">DROP DATABASE hr_db;</code></pre>
                     </div>
                 </div>
             </div>
@@ -764,6 +847,8 @@ SELECT * FROM employees;</code></pre>
                         <p>Creates a new table with specified columns.</p>
                         <pre><code class="language-sql">CREATE TABLE students (id INT PRIMARY KEY, name VARCHAR(50), age INT);</code></pre>
                         <pre><code class="language-sql">CREATE TABLE products (id INT, name VARCHAR(100), price DECIMAL(10,2));</code></pre>
+                        <pre><code class="language-sql">CREATE TABLE orders (order_id INT, customer_id INT, order_date DATE);</code></pre>
+                        <pre><code class="language-sql">CREATE TABLE employees (emp_id INT, name VARCHAR(50), dept_id INT);</code></pre>
                     </div>
                 </div>
             </div>
@@ -778,6 +863,8 @@ SELECT * FROM employees;</code></pre>
                         <p>Deletes a table and its data permanently.</p>
                         <pre><code class="language-sql">DROP TABLE temp_data;</code></pre>
                         <pre><code class="language-sql">DROP TABLE old_logs;</code></pre>
+                        <pre><code class="language-sql">DROP TABLE archive_orders;</code></pre>
+                        <pre><code class="language-sql">DROP TABLE backup_users;</code></pre>
                     </div>
                 </div>
             </div>
@@ -792,6 +879,8 @@ SELECT * FROM employees;</code></pre>
                         <p>Modifies the structure of an existing table.</p>
                         <pre><code class="language-sql">ALTER TABLE employees ADD COLUMN email VARCHAR(100);</code></pre>
                         <pre><code class="language-sql">ALTER TABLE products MODIFY COLUMN price DECIMAL(12,2);</code></pre>
+                        <pre><code class="language-sql">ALTER TABLE orders DROP COLUMN notes;</code></pre>
+                        <pre><code class="language-sql">ALTER TABLE users ADD COLUMN last_login DATE;</code></pre>
                     </div>
                 </div>
             </div>
@@ -806,6 +895,8 @@ SELECT * FROM employees;</code></pre>
                         <p>Ensures a column cannot have NULL values.</p>
                         <pre><code class="language-sql">CREATE TABLE users (id INT NOT NULL, username VARCHAR(50));</code></pre>
                         <pre><code class="language-sql">ALTER TABLE employees MODIFY COLUMN name VARCHAR(50) NOT NULL;</code></pre>
+                        <pre><code class="language-sql">CREATE TABLE orders (order_id INT NOT NULL, customer_id INT);</code></pre>
+                        <pre><code class="language-sql">ALTER TABLE products MODIFY COLUMN name VARCHAR(100) NOT NULL;</code></pre>
                     </div>
                 </div>
             </div>
@@ -820,6 +911,8 @@ SELECT * FROM employees;</code></pre>
                         <p>Ensures all values in a column are unique.</p>
                         <pre><code class="language-sql">CREATE TABLE users (id INT, email VARCHAR(100) UNIQUE);</code></pre>
                         <pre><code class="language-sql">ALTER TABLE products ADD CONSTRAINT unique_name UNIQUE (name);</code></pre>
+                        <pre><code class="language-sql">CREATE TABLE employees (emp_id INT, employee_code VARCHAR(10) UNIQUE);</code></pre>
+                        <pre><code class="language-sql">ALTER TABLE orders ADD CONSTRAINT unique_order UNIQUE (order_id);</code></pre>
                     </div>
                 </div>
             </div>
@@ -834,6 +927,8 @@ SELECT * FROM employees;</code></pre>
                         <p>Uniquely identifies each row in a table.</p>
                         <pre><code class="language-sql">CREATE TABLE orders (order_id INT PRIMARY KEY, customer_id INT);</code></pre>
                         <pre><code class="language-sql">ALTER TABLE users ADD PRIMARY KEY (id);</code></pre>
+                        <pre><code class="language-sql">CREATE TABLE products (id INT PRIMARY KEY, name VARCHAR(100));</code></pre>
+                        <pre><code class="language-sql">ALTER TABLE employees ADD PRIMARY KEY (emp_id);</code></pre>
                     </div>
                 </div>
             </div>
@@ -848,6 +943,8 @@ SELECT * FROM employees;</code></pre>
                         <p>Links two tables together.</p>
                         <pre><code class="language-sql">CREATE TABLE orders (order_id INT, customer_id INT, FOREIGN KEY (customer_id) REFERENCES customers(id));</code></pre>
                         <pre><code class="language-sql">ALTER TABLE employees ADD FOREIGN KEY (dept_id) REFERENCES departments(id);</code></pre>
+                        <pre><code class="language-sql">CREATE TABLE order_details (id INT, order_id INT, FOREIGN KEY (order_id) REFERENCES orders(order_id));</code></pre>
+                        <pre><code class="language-sql">ALTER TABLE products ADD FOREIGN KEY (category_id) REFERENCES categories(id);</code></pre>
                     </div>
                 </div>
             </div>
@@ -862,6 +959,8 @@ SELECT * FROM employees;</code></pre>
                         <p>Ensures values in a column meet a specific condition.</p>
                         <pre><code class="language-sql">CREATE TABLE employees (id INT, age INT CHECK (age >= 18));</code></pre>
                         <pre><code class="language-sql">ALTER TABLE products ADD CONSTRAINT check_price CHECK (price > 0);</code></pre>
+                        <pre><code class="language-sql">CREATE TABLE orders (order_id INT, total DECIMAL(10,2) CHECK (total >= 0));</code></pre>
+                        <pre><code class="language-sql">ALTER TABLE users ADD CONSTRAINT check_age CHECK (age <= 100);</code></pre>
                     </div>
                 </div>
             </div>
@@ -876,6 +975,8 @@ SELECT * FROM employees;</code></pre>
                         <p>Sets a default value for a column.</p>
                         <pre><code class="language-sql">CREATE TABLE users (id INT, status VARCHAR(20) DEFAULT 'active');</code></pre>
                         <pre><code class="language-sql">ALTER TABLE orders MODIFY COLUMN order_date DATE DEFAULT '2025-01-01';</code></pre>
+                        <pre><code class="language-sql">CREATE TABLE products (id INT, stock INT DEFAULT 0);</code></pre>
+                        <pre><code class="language-sql">ALTER TABLE employees MODIFY COLUMN dept_id INT DEFAULT 1;</code></pre>
                     </div>
                 </div>
             </div>
@@ -890,6 +991,8 @@ SELECT * FROM employees;</code></pre>
                         <p>Creates an index to improve query performance.</p>
                         <pre><code class="language-sql">CREATE INDEX idx_name ON customers (last_name);</code></pre>
                         <pre><code class="language-sql">CREATE INDEX idx_price ON products (price);</code></pre>
+                        <pre><code class="language-sql">CREATE INDEX idx_order_date ON orders (order_date);</code></pre>
+                        <pre><code class="language-sql">CREATE INDEX idx_dept ON employees (dept_id);</code></pre>
                     </div>
                 </div>
             </div>
@@ -904,6 +1007,8 @@ SELECT * FROM employees;</code></pre>
                         <p>Automatically generates unique values for a column.</p>
                         <pre><code class="language-sql">CREATE TABLE users (id INT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(50));</code></pre>
                         <pre><code class="language-sql">ALTER TABLE products MODIFY COLUMN id INT AUTO_INCREMENT;</code></pre>
+                        <pre><code class="language-sql">CREATE TABLE orders (order_id INT AUTO_INCREMENT PRIMARY KEY, customer_id INT);</code></pre>
+                        <pre><code class="language-sql">ALTER TABLE employees MODIFY COLUMN emp_id INT AUTO_INCREMENT;</code></pre>
                     </div>
                 </div>
             </div>
@@ -918,6 +1023,8 @@ SELECT * FROM employees;</code></pre>
                         <p>Handles date and time data types.</p>
                         <pre><code class="language-sql">SELECT * FROM events WHERE event_date = '2025-05-23';</code></pre>
                         <pre><code class="language-sql">SELECT * FROM orders WHERE order_date >= NOW();</code></pre>
+                        <pre><code class="language-sql">SELECT * FROM users WHERE last_login < '2025-01-01';</code></pre>
+                        <pre><code class="language-sql">SELECT * FROM logs WHERE log_timestamp BETWEEN '2025-01-01' AND '2025-12-31';</code></pre>
                     </div>
                 </div>
             </div>
@@ -932,6 +1039,8 @@ SELECT * FROM employees;</code></pre>
                         <p>Creates a virtual table from a SELECT query.</p>
                         <pre><code class="language-sql">CREATE VIEW active_users AS SELECT * FROM users WHERE status = 'active';</code></pre>
                         <pre><code class="language-sql">CREATE VIEW high_value_orders AS SELECT * FROM orders WHERE total > 10000;</code></pre>
+                        <pre><code class="language-sql">CREATE VIEW dept_employees AS SELECT * FROM employees WHERE dept_id = 3;</code></pre>
+                        <pre><code class="language-sql">CREATE VIEW product_stock AS SELECT * FROM products WHERE stock > 0;</code></pre>
                     </div>
                 </div>
             </div>
@@ -941,7 +1050,7 @@ SELECT * FROM employees;</code></pre>
             <i class="fas fa-book"></i> MySQL References
         </div>
         <div class="accordion glassmorphism mb-5" id="mysqlReferencesAccordion">
-            <div class="accordion-item" data-topic="Data Types" style="--index: 1;">
+           <div class="accordion-item" data-topic="Data Types" style="--index: 1;">
                 <h2 class="accordion-header">
                     <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#refCollapse1">
                         Data Types
@@ -952,6 +1061,8 @@ SELECT * FROM employees;</code></pre>
                         <p>Defines the type of data a column can hold (e.g., INT, VARCHAR, DATE).</p>
                         <pre><code class="language-sql">CREATE TABLE products (id INT, name VARCHAR(100), price DECIMAL(10,2), created_at DATE);</code></pre>
                         <pre><code class="language-sql">CREATE TABLE logs (id INT, message TEXT, timestamp DATETIME);</code></pre>
+                        <pre><code class="language-sql">CREATE TABLE users (id INT, username VARCHAR(50), age SMALLINT, active BOOLEAN);</code></pre>
+                        <pre><code class="language-sql">CREATE TABLE orders (order_id INT, total DECIMAL(10,2), order_date DATE, notes LONGTEXT);</code></pre>
                     </div>
                 </div>
             </div>
@@ -987,7 +1098,7 @@ SELECT * FROM employees;</code></pre>
                     $(this).toggle(topic.includes(value));
                 });
             });
-            
+
             // Back to Top button visibility
             $(window).scroll(function() {
                 if ($(this).scrollTop() > 300) {
