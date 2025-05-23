@@ -986,15 +986,7 @@ SELECT * FROM employees;</code></pre>
                     $(this).toggle(topic.includes(value));
                 });
             });
-
-            // Smooth scroll to accordion item on click
-            $('.accordion-button').on('click', function() {
-                const target = $(this).data('bs-target');
-                $('html, body').animate({
-                    scrollTop: $(target).offset().top - 100
-                }, 300);
-            });
-
+            
             // Back to Top button visibility
             $(window).scroll(function() {
                 if ($(this).scrollTop() > 300) {
