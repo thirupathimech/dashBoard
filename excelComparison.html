@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Excel Comparison - Epic Glassmorphism</title>
+    <!-- Bootstrap CSS CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+    <!-- SheetJS CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <!-- Poppins Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+	<link rel="icon" href="https://blogger.googleusercontent.com/img/a/AVvXsEgIFnXbCEgaASrlgiFnXz6MPaK-kyelPH7eTOt9s0-nWtY5YSMAIG5mN4k7dnxX6M-C0AmbO3U9jikPwhBdpp7G9848hK_1c7kXLbqxamlfCbhe_l-kEb8pe5V6mEH3fiIokyxkIyavBLAMlAzSApPTbcYA1r-P9YDwpu9GBIsL1SV4zGLvMwFulKOECQ4"
+        type="image/x-icon">
+    <style>
+        body {
+            background: linear-gradient(135deg, #1e1e2e, #3b0764);
+            min-height: 100vh;
+            font-family: 'Poppins', sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow-x: hidden;
+            margin: 0;
+        }
+        .container {
+            max-width: 900px;
+            padding: 20px;
+        }
+        .card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(12px);
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+        }
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 50px rgba(147, 51, 234, 0.4);
+        }
+        .card-header {
+            background: linear-gradient(45deg, #7c3aed, #db2777);
+            color: white;
+            border-radius: 20px 20px 0 0;
+            padding: 25px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .card-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: 0.5s;
+        }
+        .card-header:hover::before {
+            left: 100%;
+        }
+        .card-body {
+            padding: 30px;
+        }
+        .file-input {
+            margin-bottom: 20px;
+        }
+        .form-control {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: #e0e7ff;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+        .form-control:focus {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: #a78bfa;
+            box-shadow: 0 0 10px rgba(167, 139, 250, 0.5);
+        }
+        .form-control::file-selector-button {
+            background: linear-gradient(45deg, #6d28d9, #db2777);
+            border: none;
+            color: white;
+            border-radius: 8px;
+            padding: 8px 16px;
+            transition: all 0.3s ease;
+        }
+        .form-control::file-selector-button:hover {
+            background: linear-gradient(45deg, #5b21b6, #be185d);
+        }
+        .form-label {
+            color: #e0e7ff;
+            font-weight: 600;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+        }
+        .btn-primary {
+            background: linear-gradient(45deg, #7c3aed, #db2777);
+            border: none;
+            padding: 12px 24px;
+            border-radius: 10px;
+            font-weight: 600;
+            transition: all 0.4s ease;
+        }
+        .btn-primary:hover {
+            background: linear-gradient(45deg, #6d28d9, #be185d);
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(167, 139, 250, 0.5);
+        }
+        .btn-success {
+            background: linear-gradient(45deg, #10b981, #22d3ee);
+            border: none;
+            padding: 12px 24px;
+            border-radius: 10px;
+            font-weight: 600;
+            transition: all 0.4s ease;
+        }
+        .btn-success:hover {
+            background: linear-gradient(45deg, #0d9488, #06b6d4);
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(34, 211, 238, 0.5);
+        }
+        .checkboxes {
+            margin: 25px 0;
+        }
+        .form-check-label {
+            color: #e0e7ff;
+            font-weight: 500;
+        }
+        .form-check-input {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            cursor: pointer;
+        }
+        .form-check-input:checked {
+            background-color: #a78bfa;
+            border-color: #a78bfa;
+        }
+        .alert {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: #e0e7ff;
+            border-radius: 10px;
+            backdrop-filter: blur(5px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+        .spinner-border {
+            display: none;
+            margin-left: 10px;
+        }
+        .fade-in {
+            animation: fadeIn 0.6s ease-in;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .slide-in {
+            animation: slideIn 0.6s ease-out;
+        }
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-30px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        @media (max-width: 576px) {
+            .card-header h2 {
+                font-size: 1.3rem;
+            }
+            .btn-primary, .btn-success {
+                width: 100%;
+                font-size: 0.85rem;
+            }
+            .form-label {
+                font-size: 0.8rem;
+            }
+            .card-body {
+                padding: 20px;
+            }
+            .container {
+                padding: 10px;
+            }
+        }
+	  .home-button {
+            position: fixed;
+            box-shadow: 2px 3px 20px 0px;
+            top: 1rem;
+            left: 1rem;
+            z-index: 999;
+            width: 3rem;
+            height: 3rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 0.75rem;
+            transition: transform 0.3s ease;
+        }
+
+        .home-button:hover {
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+<body>
+   <button class="home-button" onclick="window.location.href='index.html'" title="Back to Home">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+        </svg>
+    </button>
+    <div class="container">
+        <div class="card slide-in">
+            <div class="card-header">
+                <h2><i class="fas fa-file-excel me-2 pulse"></i> Excel Comparison</h2>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-12 col-md-6 file-input slide-in">
+                        <label for="file1" class="form-label"><i class="fas fa-upload me-2"></i>First Excel File</label>
+                        <input type="file" id="file1" class="form-control" accept=".xlsx, .xls">
+                    </div>
+                    <div class="col-12 col-md-6 file-input slide-in">
+                        <label for="file2" class="form-label"><i class="fas fa-upload me-2"></i>Second Excel File</label>
+                        <input type="file" id="file2" class="form-control" accept=".xlsx, .xls">
+                    </div>
+                </div>
+                <div class="text-center mt-4">
+                    <button class="btn btn-primary pulse" onclick="compareSheets()">
+                        <i class="fas fa-sync-alt me-2"></i>Compare Sheets
+                        <span class="spinner-border spinner-border-sm" id="spinner" role="status" aria-hidden="true"></span>
+                    </button>
+                </div>
+                <div class="checkboxes mt-4" id="checkboxes" style="display: none;">
+                    <div class="form-check slide-in">
+                        <input class="form-check-input" type="checkbox" id="sheet1Diff" checked>
+                        <label class="form-check-label" for="sheet1Diff"><i class="fas fa-table me-2"></i>Download differences from First Sheet</label>
+                    </div>
+                    <div class="form-check slide-in">
+                        <input class="form-check-input" type="checkbox" id="sheet2Diff" checked>
+                        <label class="form-check-label" for="sheet2Diff"><i class="fas fa-table me-2"></i>Download differences from Second Sheet</label>
+                    </div>
+                </div>
+                <div id="result" class="mt-4 fade-in"></div>
+                <div class="text-center">
+                    <button class="btn btn-success mt-3 pulse" id="downloadBtn" style="display: none;" onclick="downloadDifferences()">
+                        <i class="fas fa-download me-2"></i>Download Differences
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let sheet1Data, sheet2Data, sheet1Name, sheet2Name, commonColumns, diffSheet1, diffSheet2;
+
+        async function compareSheets() {
+            const file1 = document.getElementById('file1').files[0];
+            const file2 = document.getElementById('file2').files[0];
+            const spinner = document.getElementById('spinner');
+            const resultDiv = document.getElementById('result');
+
+            if (!file1 || !file2) {
+                showAlert('Please upload both Excel files.', 'danger');
+                return;
+            }
+
+            spinner.style.display = 'inline-block';
+            resultDiv.innerHTML = '';
+
+            try {
+                const reader1 = new FileReader();
+                reader1.onload = async function (e) {
+                    const data1 = new Uint8Array(e.target.result);
+                    const workbook1 = XLSX.read(data1, { type: 'array' });
+                    sheet1Name = workbook1.SheetNames[0];
+                    const worksheet1 = workbook1.Sheets[sheet1Name];
+                    sheet1Data = XLSX.utils.sheet_to_json(worksheet1, { header: 1 });
+
+                    const reader2 = new FileReader();
+                    reader2.onload = async function (e) {
+                        const data2 = new Uint8Array(e.target.result);
+                        const workbook2 = XLSX.read(data2, { type: 'array' });
+                        sheet2Name = workbook2.SheetNames[0];
+                        const worksheet2 = workbook2.Sheets[sheet2Name];
+                        sheet2Data = XLSX.utils.sheet_to_json(worksheet2, { header: 1 });
+
+                        performComparison();
+                        spinner.style.display = 'none';
+                    };
+                    reader2.readAsArrayBuffer(file2);
+                };
+                reader1.readAsArrayBuffer(file1);
+            } catch (error) {
+                spinner.style.display = 'none';
+                showAlert('Error reading files. Please ensure they are valid Excel files.', 'danger');
+            }
+        }
+
+        function performComparison() {
+            const headers1 = sheet1Data[0];
+            const headers2 = sheet2Data[0];
+
+            commonColumns = headers1.filter(col => headers2.includes(col));
+            if (commonColumns.length === 0) {
+                showAlert('No common columns found between sheets.', 'warning');
+                return;
+            }
+
+            const data1 = sheet1Data.slice(1).map(row => {
+                let obj = {};
+                commonColumns.forEach(col => {
+                    const colIndex = headers1.indexOf(col);
+                    obj[col] = row[colIndex];
+                });
+                return obj;
+            });
+
+            const data2 = sheet2Data.slice(1).map(row => {
+                let obj = {};
+                commonColumns.forEach(col => {
+                    const colIndex = headers2.indexOf(col);
+                    obj[col] = row[colIndex];
+                });
+                return obj;
+            });
+
+            diffSheet1 = [];
+            diffSheet2 = [];
+
+            const data2Set = new Set(data2.map(row => JSON.stringify(row)));
+            data1.forEach((row, index) => {
+                if (!data2Set.has(JSON.stringify(row))) {
+                    diffSheet1.push(sheet1Data[index + 1]);
+                }
+            });
+
+            const data1Set = new Set(data1.map(row => JSON.stringify(row)));
+            data2.forEach((row, index) => {
+                if (!data1Set.has(JSON.stringify(row))) {
+                    diffSheet2.push(sheet2Data[index + 1]);
+                }
+            });
+
+            let resultHtml = `<h4 class="mt-4 text-light">Comparison Results</h4>`;
+            resultHtml += `<p class="text-light"><strong>Common Columns:</strong> ${commonColumns.join(', ')}</p>`;
+            resultHtml += `<p class="text-light"><strong>Rows in ${sheet1Name} not in ${sheet2Name}:</strong> ${diffSheet1.length}</p>`;
+            resultHtml += `<p class="text-light"><strong>Rows in ${sheet2Name} not in ${sheet1Name}:</strong> ${diffSheet2.length}</p>`;
+
+            document.getElementById('result').innerHTML = resultHtml;
+            document.getElementById('checkboxes').style.display = 'block';
+            document.getElementById('downloadBtn').style.display = 'block';
+        }
+
+        function downloadDifferences() {
+            const sheet1DiffChecked = document.getElementById('sheet1Diff').checked;
+            const sheet2DiffChecked = document.getElementById('sheet2Diff').checked;
+
+            if (!sheet1DiffChecked && !sheet2DiffChecked) {
+                showAlert('Please select at least one sheet to download differences.', 'warning');
+                return;
+            }
+
+            const wb = XLSX.utils.book_new();
+
+            if (sheet1DiffChecked && diffSheet1.length > 0) {
+                const ws = XLSX.utils.json_to_sheet([sheet1Data[0], ...diffSheet1]);
+                XLSX.utils.book_append_sheet(wb, ws, `${sheet1Name}_Diff`);
+            }
+
+            if (sheet2DiffChecked && diffSheet2.length > 0) {
+                const ws = XLSX.utils.json_to_sheet([sheet2Data[0], ...diffSheet2]);
+                XLSX.utils.book_append_sheet(wb, ws, `${sheet2Name}_Diff`);
+            }
+
+            if (wb.SheetNames.length > 0) {
+                XLSX.writeFile(wb, 'differences.xlsx');
+            } else {
+                showAlert('No differences to download.', 'info');
+            }
+        }
+
+        function showAlert(message, type) {
+            document.getElementById('result').innerHTML = `
+                <div class="alert alert-${type} alert-dismissible fade show" role="alert">
+                    <i class="fas fa-${type === 'danger' ? 'exclamation-circle' : type === 'warning' ? 'exclamation-triangle' : 'info-circle'} me-2"></i>
+                    ${message}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>`;
+        }
+    </script>
+    <!-- Bootstrap JS CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
