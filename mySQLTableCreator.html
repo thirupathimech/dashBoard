@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MySQL Table Creator - Mass Edition</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Toastr CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet">
+    <link rel="icon" href="https://blogger.googleusercontent.com/img/a/AVvXsEgIFnXbCEgaASrlgiFnXz6MPaK-kyelPH7eTOt9s0-nWtY5YSMAIG5mN4k7dnxX6M-C0AmbO3U9jikPwhBdpp7G9848hK_1c7kXLbqxamlfCbhe_l-kEb8pe5V6mEH3fiIokyxkIyavBLAMlAzSApPTbcYA1r-P9YDwpu9GBIsL1SV4zGLvMwFulKOECQ4"
+        type="image/x-icon">
+    <style>
+        body {
+            background: linear-gradient(135deg, #0f172a, #1e293b);
+            color: #e0e0e0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding: 20px;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+            animation: slideIn 0.5s ease-in-out;
+        }
+        h1 {
+            color: #06b6d4;
+            text-shadow: 0 0 15px rgba(6, 182, 212, 0.6);
+            animation: fadeIn 1s ease-in;
+        }
+        h4 {
+            color: #22d3ee;
+            text-shadow: 0 0 10px rgba(34, 211, 238, 0.5);
+        }
+        .form-label {
+            color: #22d3ee;
+            font-weight: 500;
+        }
+        .form-control, .form-select {
+            background: #1e293b;
+            border: 1px solid #06b6d4;
+            color: #e0e0e0;
+            transition: all 0.3s ease;
+        }
+        .form-control:focus, .form-select:focus {
+            background: #1e293b;
+            border-color: #f97316;
+            box-shadow: 0 0 10px rgba(249, 115, 22, 0.5);
+            color: #e0e0e0;
+        }
+        .form-control::placeholder {
+            color: #94a3b8;
+            opacity: 0.7;
+        }
+        .btn-primary {
+            background: linear-gradient(45deg, #f97316, #06b6d4);
+            border: none;
+            transition: all 0.3s ease;
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(6, 182, 212, 0.5);
+        }
+        .btn-secondary {
+            background: linear-gradient(45deg, #64748b, #94a3b8);
+            border: none;
+        }
+        .btn-secondary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(100, 116, 139, 0.5);
+        }
+        .copy-btn {
+            background: linear-gradient(45deg, #10b981, #34d399);
+            border: none;
+            transition: all 0.3s ease;
+        }
+        .copy-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(16, 185, 129, 0.5);
+        }
+        .remove-btn {
+            background: linear-gradient(45deg, #dc3545, #ef4444);
+            border: none;
+            transition: all 0.3s ease;
+        }
+        .remove-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(220, 53, 69, 0.5);
+        }
+        .column-row {
+            background: rgba(255, 255, 255, 0.03);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            animation: slideIn 0.3s ease-in-out;
+        }
+        #query-output {
+            white-space: pre-wrap;
+            background: #0f172a;
+            padding: 20px;
+            border-radius: 10px;
+            border: 1px solid #06b6d4;
+            color: #e0e0e0;
+            font-family: 'Courier New', Courier, monospace;
+            box-shadow: 0 0 15px rgba(6, 182, 212, 0.3);
+        }
+        .is-invalid {
+            border-color: #dc3545 !important;
+        }
+        .invalid-feedback {
+            color: #dc3545;
+            font-size: 0.875em;
+        }
+         .home-button {
+            position: fixed;
+            box-shadow: 2px 3px 20px 0px;
+            top: 1rem;
+            left: 1rem;
+            z-index: 999;
+            width: 3rem;
+            height: 3rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 0.75rem;
+            transition: transform 0.3s ease;
+        }
+
+        .home-button:hover {
+            transform: scale(1.1);
+        }
+        @keyframes slideIn {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <button class="home-button" onclick="window.location.href='index.html'" title="Back to Home">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+        </svg>
+    </button>
+    <div class="container">
+        <h1 class="text-center my-4">MySQL Table Creator</h1>
+        <form id="tableForm" onsubmit="generateQuery(event)">
+            <div class="mb-3">
+                <label for="tableName" class="form-label">Table Name</label>
+                <input type="text" class="form-control" id="tableName" name="tableName" placeholder="e.g., users" required>
+                <div class="invalid-feedback" id="tableNameError"></div>
+            </div>
+
+            <div id="columns">
+                <h4>Columns</h4>
+                <div class="column-row" data-column-index="0">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <input type="text" class="form-control" name="columns[0][name]" placeholder="Column Name" required>
+                            <div class="invalid-feedback" id="columnNameError0"></div>
+                        </div>
+                        <div class="col-md-2">
+                            <select class="form-select" name="columns[0][type]" onchange="toggleLengthField(this, 0)" required>
+                                <option value="">Data Type</option>
+                                <option value="INT">INT</option>
+                                <option value="VARCHAR">VARCHAR</option>
+                                <option value="CHAR">CHAR</option>
+                                <option value="TEXT">TEXT</option>
+                                <option value="DATE">DATE</option>
+                                <option value="DATETIME">DATETIME</option>
+                                <option value="FLOAT">FLOAT</option>
+                                <option value="DECIMAL">DECIMAL</option>
+                                <option value="BOOLEAN">BOOLEAN</option>
+                            </select>
+                            <div class="invalid-feedback" id="columnTypeError0"></div>
+                        </div>
+                        <div class="col-md-2 length-section" id="length0" style="display: none;">
+                            <input type="text" class="form-control" name="columns[0][length]" placeholder="Length (e.g., 255)">
+                            <div class="invalid-feedback" id="columnLengthError0"></div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input" name="columns[0][primary]" value="1"> Primary Key
+                            </div>
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input" name="columns[0][notnull]" value="1"> Not Null
+                            </div>
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input" name="columns[0][auto]" value="1"> Auto Increment
+                            </div>
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input" name="columns[0][unique]" value="1"> Unique
+                            </div>
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input" name="columns[0][foreign]" value="1" onchange="toggleForeignKey(this, 0)"> Foreign Key
+                            </div>
+                            <div class="invalid-feedback" id="columnConstraintError0"></div>
+                        </div>
+                        <div class="col-md-2">
+                            <input type="text" class="form-control" name="columns[0][default]" placeholder="Default Value">
+                            <div class="invalid-feedback" id="columnDefaultError0"></div>
+                        </div>
+                        <div class="col-md-6 foreign-key-section" style="display: none;" id="foreignKey0">
+                            <input type="text" class="form-control mb-2" name="columns[0][fk_table]" placeholder="Reference Table (e.g., users)">
+                            <div class="invalid-feedback" id="fkTableError0"></div>
+                            <input type="text" class="form-control" name="columns[0][fk_column]" placeholder="Reference Column (e.g., id)">
+                            <div class="invalid-feedback" id="fkColumnError0"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button type="button" class="btn btn-secondary mb-3" onclick="addColumn()">Add Column</button>
+
+            <h4>Table Options</h4>
+            <div class="row mb-3">
+                <div class="col-md-4">
+                    <label for="engine" class="form-label">Engine</label>
+                    <select class="form-select" name="engine">
+                        <option value="InnoDB">InnoDB</option>
+                        <option value="MyISAM">MyISAM</option>
+                        <option value="MEMORY">MEMORY</option>
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <label for="charset" class="form-label">Charset</label>
+                    <select class="form-select" name="charset">
+                        <option value="utf8mb4">utf8mb4</option>
+                        <option value="utf8">utf8</option>
+                        <option value="latin1">latin1</option>
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <label for="collation" class="form-label">Collation</label>
+                    <select class="form-select" name="collation">
+                        <option value="utf8mb4_unicode_ci">utf8mb4_unicode_ci</option>
+                        <option value="utf8_general_ci">utf8_general_ci</option>
+                        <option value="latin1_swedish_ci">latin1_swedish_ci</option>
+                    </select>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Generate Query</button>
+        </form>
+
+        <div class="mt-4" id="queryOutput"></div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Toastr JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script>
+        // Toastr configuration
+        toastr.options = {
+            closeButton: true,
+            progressBar: true,
+            positionClass: 'toast-top-right',
+            timeOut: 3000,
+            showMethod: 'slideDown',
+            hideMethod: 'slideUp'
+        };
+
+        let columnCount = 1;
+        const lengthApplicableTypes = ['VARCHAR', 'CHAR', 'INT', 'FLOAT', 'DECIMAL'];
+        const integerTypes = ['INT'];
+        const numericTypes = ['INT', 'FLOAT', 'DECIMAL'];
+        const stringTypes = ['VARCHAR', 'CHAR', 'TEXT'];
+
+        // Validation functions
+        function isValidName(name) {
+            return /^[a-zA-Z_][a-zA-Z0-9_]*$/.test(name);
+        }
+
+        function isValidLength(length, type) {
+            if (!length) return true; // Length is optional
+            const num = parseInt(length);
+            if (isNaN(num) || num <= 0) return false;
+            if (type === 'VARCHAR' || type === 'CHAR') return num <= 65535;
+            if (type === 'INT') return num <= 11;
+            if (type === 'FLOAT' || type === 'DECIMAL') return num <= 65;
+            return true;
+        }
+
+        function isValidDefault(value, type) {
+            if (!value) return true; // Default is optional
+            if (numericTypes.includes(type)) {
+                return !isNaN(parseFloat(value)) && isFinite(value);
+            }
+            if (stringTypes.includes(type)) {
+                return true; // Any string is valid
+            }
+            if (type === 'DATE' || type === 'DATETIME') {
+                return /^\d{4}-\d{2}-\d{2}( \d{2}:\d{2}:\d{2})?$/.test(value);
+            }
+            if (type === 'BOOLEAN') {
+                return value === '0' || value === '1' || value.toLowerCase() === 'true' || value.toLowerCase() === 'false';
+            }
+            return false;
+        }
+
+        function toggleLengthField(select, index) {
+            const lengthSection = document.getElementById(`length${index}`);
+            lengthSection.style.display = lengthApplicableTypes.includes(select.value) ? 'block' : 'none';
+        }
+
+        function toggleForeignKey(checkbox, index) {
+            const fkSection = document.getElementById(`foreignKey${index}`);
+            fkSection.style.display = checkbox.checked ? 'block' : 'none';
+        }
+
+        function addColumn() {
+            const columnsDiv = document.getElementById('columns');
+            const newColumn = document.createElement('div');
+            newColumn.className = 'column-row';
+            newColumn.setAttribute('data-column-index', columnCount);
+            newColumn.innerHTML = `
+                <div class="row align-items-end">
+                    <div class="col-md-3">
+                        <input type="text" class="form-control" name="columns[${columnCount}][name]" placeholder="Column Name" required>
+                        <div class="invalid-feedback" id="columnNameError${columnCount}"></div>
+                    </div>
+                    <div class="col-md-2">
+                        <select class="form-select" name="columns[${columnCount}][type]" onchange="toggleLengthField(this, ${columnCount})" required>
+                            <option value="">Data Type</option>
+                            <option value="INT">INT</option>
+                            <option value="VARCHAR">VARCHAR</option>
+                            <option value="CHAR">CHAR</option>
+                            <option value="TEXT">TEXT</option>
+                            <option value="DATE">DATE</option>
+                            <option value="DATETIME">DATETIME</option>
+                            <option value="FLOAT">FLOAT</option>
+                            <option value="DECIMAL">DECIMAL</option>
+                            <option value="BOOLEAN">BOOLEAN</option>
+                        </select>
+                        <div class="invalid-feedback" id="columnTypeError${columnCount}"></div>
+                    </div>
+                    <div class="col-md-2 length-section" id="length${columnCount}" style="display: none;">
+                        <input type="text" class="form-control" name="columns[${columnCount}][length]" placeholder="Length (e.g., 255)">
+                        <div class="invalid-feedback" id="columnLengthError${columnCount}"></div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" name="columns[${columnCount}][primary]" value="1"> Primary Key
+                        </div>
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" name="columns[${columnCount}][notnull]" value="1"> Not Null
+                        </div>
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" name="columns[${columnCount}][auto]" value="1"> Auto Increment
+                        </div>
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" name="columns[${columnCount}][unique]" value="1"> Unique
+                        </div>
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" name="columns[${columnCount}][foreign]" value="1" onchange="toggleForeignKey(this, ${columnCount})"> Foreign Key
+                        </div>
+                        <div class="invalid-feedback" id="columnConstraintError${columnCount}"></div>
+                    </div>
+                    <div class="col-md-2">
+                        <input type="text" class="form-control" name="columns[${columnCount}][default]" placeholder="Default Value">
+                        <div class="invalid-feedback" id="columnDefaultError${columnCount}"></div>
+                    </div>
+                    <div class="col-md-6 foreign-key-section" style="display: none;" id="foreignKey${columnCount}">
+                        <input type="text" class="form-control mb-2" name="columns[${columnCount}][fk_table]" placeholder="Reference Table (e.g., users)">
+                        <div class="invalid-feedback" id="fkTableError${columnCount}"></div>
+                        <input type="text" class="form-control" name="columns[${columnCount}][fk_column]" placeholder="Reference Column (e.g., id)">
+                        <div class="invalid-feedback" id="fkColumnError${columnCount}"></div>
+                    </div>
+                    <div class="col-md-2">
+                        <button type="button" class="btn remove-btn" onclick="removeColumn(${columnCount})">Remove</button>
+                    </div>
+                </div>`;
+            columnsDiv.appendChild(newColumn);
+            columnCount++;
+        }
+
+        function removeColumn(index) {
+            const columnRow = document.querySelector(`.column-row[data-column-index="${index}"]`);
+            if (columnRow) {
+                columnRow.remove();
+                toastr.info('Column removed!', 'Info');
+            }
+        }
+
+        function validateForm(formData, columns) {
+            let isValid = true;
+
+            // Validate table name
+            const tableName = formData.get('tableName');
+            const tableNameInput = document.getElementById('tableName');
+            if (!tableName || !isValidName(tableName)) {
+                tableNameInput.classList.add('is-invalid');
+                document.getElementById('tableNameError').textContent = 'Table name must be alphanumeric with underscores, starting with a letter or underscore.';
+                isValid = false;
+            } else {
+                tableNameInput.classList.remove('is-invalid');
+            }
+
+            // Validate columns
+            columns.forEach((col, index) => {
+                const nameInput = document.querySelector(`input[name="columns[${index}][name]"]`);
+                const typeSelect = document.querySelector(`select[name="columns[${index}][type]"]`);
+                const lengthInput = document.querySelector(`input[name="columns[${index}][length]"]`);
+                const defaultInput = document.querySelector(`input[name="columns[${index}][default]"]`);
+                const autoCheckbox = document.querySelector(`input[name="columns[${index}][auto]"]`);
+                const primaryCheckbox = document.querySelector(`input[name="columns[${index}][primary]"]`);
+                const uniqueCheckbox = document.querySelector(`input[name="columns[${index}][unique]"]`);
+                const foreignCheckbox = document.querySelector(`input[name="columns[${index}][foreign]"]`);
+                const fkTableInput = document.querySelector(`input[name="columns[${index}][fk_table]"]`);
+                const fkColumnInput = document.querySelector(`input[name="columns[${index}][fk_column]"]`);
+
+                // Reset validation states
+                nameInput.classList.remove('is-invalid');
+                typeSelect.classList.remove('is-invalid');
+                if (lengthInput) lengthInput.classList.remove('is-invalid');
+                if (defaultInput) defaultInput.classList.remove('is-invalid');
+                document.getElementById(`columnConstraintError${index}`).textContent = '';
+                if (fkTableInput) fkTableInput.classList.remove('is-invalid');
+                if (fkColumnInput) fkColumnInput.classList.remove('is-invalid');
+
+                // Validate column name
+                if (!col.name || !isValidName(col.name)) {
+                    nameInput.classList.add('is-invalid');
+                    document.getElementById(`columnNameError${index}`).textContent = 'Column name must be alphanumeric with underscores, starting with a letter or underscore.';
+                    isValid = false;
+                }
+
+                // Validate data type
+                if (!col.type) {
+                    typeSelect.classList.add('is-invalid');
+                    document.getElementById(`columnTypeError${index}`).textContent = 'Please select a data type.';
+                    isValid = false;
+                }
+
+                // Validate length
+                if (col.length && lengthApplicableTypes.includes(col.type) && !isValidLength(col.length, col.type)) {
+                    lengthInput.classList.add('is-invalid');
+                    document.getElementById(`columnLengthError${index}`).textContent = `Invalid length for ${col.type}.`;
+                    isValid = false;
+                }
+
+                // Validate default value
+                if (col.default && !isValidDefault(col.default, col.type)) {
+                    defaultInput.classList.add('is-invalid');
+                    document.getElementById(`columnDefaultError${index}`).textContent = `Invalid default value for ${col.type}.`;
+                    isValid = false;
+                }
+
+                // Validate AUTO_INCREMENT
+                if (col.auto && !integerTypes.includes(col.type)) {
+                    autoCheckbox.classList.add('is-invalid');
+                    document.getElementById(`columnConstraintError${index}`).textContent += 'AUTO_INCREMENT can only be applied to INT type. ';
+                    isValid = false;
+                }
+
+                // Validate AUTO_INCREMENT with PRIMARY KEY or UNIQUE
+                if (col.auto && !col.primary && !col.unique) {
+                    autoCheckbox.classList.add('is-invalid');
+                    document.getElementById(`columnConstraintError${index}`).textContent += 'AUTO_INCREMENT requires PRIMARY KEY or UNIQUE. ';
+                    isValid = false;
+                }
+
+                // Validate foreign key
+                if (col.foreign) {
+                    if (!col.fk_table || !isValidName(col.fk_table)) {
+                        fkTableInput.classList.add('is-invalid');
+                        document.getElementById(`fkTableError${index}`).textContent = 'Reference table name must be alphanumeric with underscores.';
+                        isValid = false;
+                    }
+                    if (!col.fk_column || !isValidName(col.fk_column)) {
+                        fkColumnInput.classList.add('is-invalid');
+                        document.getElementById(`fkColumnError${index}`).textContent = 'Reference column name must be alphanumeric with underscores.';
+                        isValid = false;
+                    }
+                }
+            });
+
+            return isValid;
+        }
+
+        function generateQuery(event) {
+            event.preventDefault();
+            const form = document.getElementById('tableForm');
+            const formData = new FormData(form);
+            const tableName = formData.get('tableName');
+            const engine = formData.get('engine');
+            const charset = formData.get('charset');
+            const collation = formData.get('collation');
+
+            let columns = [];
+            let primaryKeys = [];
+            let indexes = [];
+            let foreignKeys = [];
+
+            // Collect column data
+            for (let [key, value] of formData.entries()) {
+                const match = key.match(/columns\[(\d+)\]\[(\w+)\]/);
+                if (match) {
+                    const index = parseInt(match[1]);
+                    const field = match[2];
+                    if (!columns[index]) columns[index] = {};
+                    columns[index][field] = value;
+                }
+            }
+
+            // Validate form
+            if (!validateForm(formData, columns)) {
+                toastr.error('Please fix the validation errors before generating the query.', 'Validation Error');
+                return;
+            }
+
+            // Generate query
+            let query = `CREATE TABLE \`${tableName}\` (\n`;
+            let columnDefinitions = [];
+
+            columns.forEach(col => {
+                if (!col.name || !col.type) return;
+                let colDef = `  \`${col.name}\` ${col.type}`;
+                if (col.length && lengthApplicableTypes.includes(col.type)) {
+                    colDef += `(${col.length})`;
+                }
+                if (col.notnull) colDef += ` NOT NULL`;
+                if (col.auto) colDef += ` AUTO_INCREMENT`;
+                if (col.default) {
+                    colDef += stringTypes.includes(col.type) ? ` DEFAULT '${col.default}'` : ` DEFAULT ${col.default}`;
+                }
+                columnDefinitions.push(colDef);
+
+                if (col.primary) primaryKeys.push(`\`${col.name}\``);
+                if (col.unique && !col.primary) indexes.push(`  UNIQUE (\`${col.name}\`)`);
+                if (col.foreign && col.fk_table && col.fk_column) {
+                    foreignKeys.push(`  FOREIGN KEY (\`${col.name}\`) REFERENCES \`${col.fk_table}\` (\`${col.fk_column}\`)`);
+                }
+            });
+
+            query += columnDefinitions.join(',\n');
+            if (primaryKeys.length) {
+                query += `,\n  PRIMARY KEY (${primaryKeys.join(', ')})`;
+            }
+            if (indexes.length) {
+                query += `,\n${indexes.join(',\n')}`;
+            }
+            if (foreignKeys.length) {
+                query += `,\n${foreignKeys.join(',\n')}`;
+            }
+            query += `\n) ENGINE=${engine} DEFAULT CHARSET=${charset} COLLATE=${collation};`;
+
+            // Display query
+            const outputDiv = document.getElementById('queryOutput');
+            outputDiv.innerHTML = `
+                <h4>Generated MySQL Query</h4>
+                <pre id="query-output">${query}</pre>
+                <button class="btn copy-btn mt-2" onclick="copyQuery()">Copy Query</button>
+            `;
+        }
+
+        function copyQuery() {
+            const queryText = document.getElementById('query-output').innerText;
+            navigator.clipboard.writeText(queryText).then(() => {
+                toastr.success('Query copied to clipboard!', 'Success');
+            }).catch(() => {
+                toastr.error('Failed to copy query.', 'Error');
+            });
+        }
+    </script>
+</body>
+</html>
