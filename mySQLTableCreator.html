@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MySQL Table Creator - Mass Edition</title>
+    <title>MySQL Table Creator</title>
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Toastr CSS -->
@@ -90,6 +90,15 @@
             transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(220, 53, 69, 0.5);
         }
+        .move-btn {
+            background: linear-gradient(45deg, #6b7280, #9ca3af);
+            border: none;
+            transition: all 0.3s ease;
+        }
+        .move-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(107, 114, 128, 0.5);
+        }
         .column-row {
             background: rgba(255, 255, 255, 0.03);
             padding: 15px;
@@ -114,7 +123,7 @@
             color: #dc3545;
             font-size: 0.875em;
         }
-         .home-button {
+        .home-button {
             position: fixed;
             box-shadow: 2px 3px 20px 0px;
             top: 1rem;
@@ -131,9 +140,18 @@
             border-radius: 0.75rem;
             transition: transform 0.3s ease;
         }
-
         .home-button:hover {
             transform: scale(1.1);
+        }
+        .nav-link {
+            color: #22d3ee !important;
+        }
+        .nav-link.active {
+            background: linear-gradient(45deg, #f97316, #06b6d4) !important;
+            color: #fff !important;
+        }
+        .btn-group .btn {
+            margin-right: 5px;
         }
         @keyframes slideIn {
             from { transform: translateY(20px); opacity: 0; }
@@ -153,103 +171,206 @@
     </button>
     <div class="container">
         <h1 class="text-center my-4">MySQL Table Creator</h1>
-        <form id="tableForm" onsubmit="generateQuery(event)">
-            <div class="mb-3">
-                <label for="tableName" class="form-label">Table Name</label>
-                <input type="text" class="form-control" id="tableName" name="tableName" placeholder="e.g., users" required>
-                <div class="invalid-feedback" id="tableNameError"></div>
-            </div>
+        <div class="mb-3">
+            <label for="tableName" class="form-label">Table Name</label>
+            <input type="text" class="form-control" id="tableName" name="tableName" placeholder="e.g., users" required>
+            <div class="invalid-feedback" id="tableNameError"></div>
+        </div>
 
-            <div id="columns">
-                <h4>Columns</h4>
-                <div class="column-row" data-column-index="0">
-                    <div class="row">
-                        <div class="col-md-3">
-                            <input type="text" class="form-control" name="columns[0][name]" placeholder="Column Name" required>
-                            <div class="invalid-feedback" id="columnNameError0"></div>
-                        </div>
-                        <div class="col-md-2">
-                            <select class="form-select" name="columns[0][type]" onchange="toggleLengthField(this, 0)" required>
-                                <option value="">Data Type</option>
-                                <option value="INT">INT</option>
-                                <option value="VARCHAR">VARCHAR</option>
-                                <option value="CHAR">CHAR</option>
-                                <option value="TEXT">TEXT</option>
-                                <option value="DATE">DATE</option>
-                                <option value="DATETIME">DATETIME</option>
-                                <option value="FLOAT">FLOAT</option>
-                                <option value="DECIMAL">DECIMAL</option>
-                                <option value="BOOLEAN">BOOLEAN</option>
-                            </select>
-                            <div class="invalid-feedback" id="columnTypeError0"></div>
-                        </div>
-                        <div class="col-md-2 length-section" id="length0" style="display: none;">
-                            <input type="text" class="form-control" name="columns[0][length]" placeholder="Length (e.g., 255)">
-                            <div class="invalid-feedback" id="columnLengthError0"></div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-check">
-                                <input type="checkbox" class="form-check-input" name="columns[0][primary]" value="1"> Primary Key
+        <ul class="nav nav-tabs mb-3">
+            <li class="nav-item">
+                <a class="nav-link active" id="create-tab" data-bs-toggle="tab" href="#create">Create Table</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="alter-tab" data-bs-toggle="tab" href="#alter">Alter Table</a>
+            </li>
+        </ul>
+
+        <div class="tab-content">
+            <div class="tab-pane fade show active" id="create">
+                <form id="createForm" onsubmit="generateQuery(event, false)">
+                    <div id="columns">
+                        <h4>Columns</h4>
+                        <div class="column-row" data-column-index="0">
+                            <div class="row align-items-end">
+                                <div class="col-md-3">
+                                    <input type="text" class="form-control" name="columns[0][name]" placeholder="Column Name" required>
+                                    <div class="invalid-feedback" id="columnNameError0"></div>
+                                </div>
+                                <div class="col-md-2">
+                                    <select class="form-select" name="columns[0][type]" onchange="toggleLengthField(this, 0)" required>
+                                        <option value="">Data Type</option>
+                                        <option value="INT">INT</option>
+                                        <option value="VARCHAR">VARCHAR</option>
+                                        <option value="CHAR">CHAR</option>
+                                        <option value="TEXT">TEXT</option>
+                                        <option value="DATE">DATE</option>
+                                        <option value="DATETIME">DATETIME</option>
+                                        <option value="FLOAT">FLOAT</option>
+                                        <option value="DECIMAL">DECIMAL</option>
+                                        <option value="BOOLEAN">BOOLEAN</option>
+                                    </select>
+                                    <div class="invalid-feedback" id="columnTypeError0"></div>
+                                </div>
+                                <div class="col-md-2 length-section" id="length0" style="display: none;">
+                                    <input type="text" class="form-control" name="columns[0][length]" placeholder="Length (e.g., 255)">
+                                    <div class="invalid-feedback" id="columnLengthError0"></div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-check">
+                                        <input type="checkbox" class="form-check-input" name="columns[0][primary]" value="1"> Primary Key
+                                    </div>
+                                    <div class="form-check">
+                                        <input type="checkbox" class="form-check-input" name="columns[0][notnull]" value="1"> Not Null
+                                    </div>
+                                    <div class="form-check">
+                                        <input type="checkbox" class="form-check-input" name="columns[0][auto]" value="1"> Auto Increment
+                                    </div>
+                                    <div class="form-check">
+                                        <input type="checkbox" class="form-check-input" name="columns[0][unique]" value="1"> Unique
+                                    </div>
+                                    <div class="form-check">
+                                        <input type="checkbox" class="form-check-input" name="columns[0][foreign]" value="1" onchange="toggleForeignKey(this, 0)"> Foreign Key
+                                    </div>
+                                    <div class="invalid-feedback" id="columnConstraintError0"></div>
+                                </div>
+                                <div class="col-md-2">
+                                    <input type="text" class="form-control" name="columns[0][default]" placeholder="Default Value">
+                                    <div class="invalid-feedback" id="columnDefaultError0"></div>
+                                </div>
+                                <div class="col-md-6 foreign-key-section" style="display: none;" id="foreignKey0">
+                                    <input type="text" class="form-control mb-2" name="columns[0][fk_table]" placeholder="Reference Table (e.g., users)">
+                                    <div class="invalid-feedback" id="fkTableError0"></div>
+                                    <input type="text" class="form-control" name="columns[0][fk_column]" placeholder="Reference Column (e.g., id)">
+                                    <div class="invalid-feedback" id="fkColumnError0"></div>
+                                </div>
+                                <div class="col-md-3 mt-2">
+                                    <div class="btn-group">
+                                        <button type="button" class="btn move-btn" onclick="moveColumnUp(0)" disabled>Up</button>
+                                        <button type="button" class="btn move-btn" onclick="moveColumnDown(0)">Down</button>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="form-check">
-                                <input type="checkbox" class="form-check-input" name="columns[0][notnull]" value="1"> Not Null
-                            </div>
-                            <div class="form-check">
-                                <input type="checkbox" class="form-check-input" name="columns[0][auto]" value="1"> Auto Increment
-                            </div>
-                            <div class="form-check">
-                                <input type="checkbox" class="form-check-input" name="columns[0][unique]" value="1"> Unique
-                            </div>
-                            <div class="form-check">
-                                <input type="checkbox" class="form-check-input" name="columns[0][foreign]" value="1" onchange="toggleForeignKey(this, 0)"> Foreign Key
-                            </div>
-                            <div class="invalid-feedback" id="columnConstraintError0"></div>
-                        </div>
-                        <div class="col-md-2">
-                            <input type="text" class="form-control" name="columns[0][default]" placeholder="Default Value">
-                            <div class="invalid-feedback" id="columnDefaultError0"></div>
-                        </div>
-                        <div class="col-md-6 foreign-key-section" style="display: none;" id="foreignKey0">
-                            <input type="text" class="form-control mb-2" name="columns[0][fk_table]" placeholder="Reference Table (e.g., users)">
-                            <div class="invalid-feedback" id="fkTableError0"></div>
-                            <input type="text" class="form-control" name="columns[0][fk_column]" placeholder="Reference Column (e.g., id)">
-                            <div class="invalid-feedback" id="fkColumnError0"></div>
                         </div>
                     </div>
-                </div>
-            </div>
-            <button type="button" class="btn btn-secondary mb-3" onclick="addColumn()">Add Column</button>
+                    <button type="button" class="btn btn-secondary mb-3" onclick="addColumn()">Add Column</button>
 
-            <h4>Table Options</h4>
-            <div class="row mb-3">
-                <div class="col-md-4">
-                    <label for="engine" class="form-label">Engine</label>
-                    <select class="form-select" name="engine">
-                        <option value="InnoDB">InnoDB</option>
-                        <option value="MyISAM">MyISAM</option>
-                        <option value="MEMORY">MEMORY</option>
-                    </select>
-                </div>
-                <div class="col-md-4">
-                    <label for="charset" class="form-label">Charset</label>
-                    <select class="form-select" name="charset">
-                        <option value="utf8mb4">utf8mb4</option>
-                        <option value="utf8">utf8</option>
-                        <option value="latin1">latin1</option>
-                    </select>
-                </div>
-                <div class="col-md-4">
-                    <label for="collation" class="form-label">Collation</label>
-                    <select class="form-select" name="collation">
-                        <option value="utf8mb4_unicode_ci">utf8mb4_unicode_ci</option>
-                        <option value="utf8_general_ci">utf8_general_ci</option>
-                        <option value="latin1_swedish_ci">latin1_swedish_ci</option>
-                    </select>
-                </div>
+                    <h4>Table Options</h4>
+                    <div class="row mb-3">
+                        <div class="col-md-4">
+                            <label for="engine" class="form-label">Engine</label>
+                            <select class="form-select" name="engine">
+                                <option value="InnoDB">InnoDB</option>
+                                <option value="MyISAM">MyISAM</option>
+                                <option value="MEMORY">MEMORY</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label for="charset" class="form-label">Charset</label>
+                            <select class="form-select" name="charset">
+                                <option value="utf8mb4">utf8mb4</option>
+                                <option value="utf8">utf8</option>
+                                <option value="latin1">latin1</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label for="collation" class="form-label">Collation</label>
+                            <select class="form-select" name="collation">
+                                <option value="utf8mb4_unicode_ci">utf8mb4_unicode_ci</option>
+                                <option value="utf8_general_ci">utf8_general_ci</option>
+                                <option value="latin1_swedish_ci">latin1_swedish_ci</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary mt-3">Generate Query</button>
+                </form>
             </div>
 
-            <button type="submit" class="btn btn-primary">Generate Query</button>
-        </form>
+            <div class="tab-pane fade" id="alter">
+                <form id="alterForm" onsubmit="generateQuery(event, true)">
+                    <h4>ALTER TABLE Operations</h4>
+                    <div class="mb-3">
+                        <label for="alterAction" class="form-label">Action</label>
+                        <select class="form-select" id="alterAction" name="alterAction" onchange="toggleAlterFields(this)">
+                            <option value="">Select Action</option>
+                            <option value="ADD">Add Column</option>
+                            <option value="MODIFY">Modify Column</option>
+                            <option value="DROP">Drop Column</option>
+                            <option value="ADD_FK">Add Foreign Key</option>
+                            <option value="DROP_FK">Drop Foreign Key</option>
+                        </select>
+                    </div>
+                    <div id="alterFields" style="display: none;">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <label for="alterColumnName" class="form-label">Column Name</label>
+                                <input type="text" class="form-control" id="alterColumnName" name="alterColumnName">
+                                <div class="invalid-feedback" id="alterColumnNameError"></div>
+                            </div>
+                            <div class="col-md-2">
+                                <label for="alterColumnType" class="form-label">Data Type</label>
+                                <select class="form-select" id="alterColumnType" name="alterColumnType" onchange="toggleAlterLengthField(this)">
+                                    <option value="">Data Type</option>
+                                    <option value="INT">INT</option>
+                                    <option value="VARCHAR">VARCHAR</option>
+                                    <option value="CHAR">CHAR</option>
+                                    <option value="TEXT">TEXT</option>
+                                    <option value="DATE">DATE</option>
+                                    <option value="DATETIME">DATETIME</option>
+                                    <option value="FLOAT">FLOAT</option>
+                                    <option value="DECIMAL">DECIMAL</option>
+                                    <option value="BOOLEAN">BOOLEAN</option>
+                                </select>
+                                <div class="invalid-feedback" id="alterColumnTypeError"></div>
+                            </div>
+                            <div class="col-md-2 length-section" id="alterLengthSection" style="display: none;">
+                                <label for="alterColumnLength" class="form-label">Length</label>
+                                <input type="text" class="form-control" id="alterColumnLength" name="alterColumnLength" placeholder="Length (e.g., 255)">
+                                <div class="invalid-feedback" id="alterColumnLengthError"></div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input" id="alterNotNull" name="alterNotNull" value="1"> Not Null
+                                </div>
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input" id="alterAuto" name="alterAuto" value="1"> Auto Increment
+                                </div>
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input" id="alterPrimary" name="alterPrimary" value="1"> Primary Key
+                                </div>
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input" id="alterUnique" name="alterUnique" value="1"> Unique
+                                </div>
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input" id="alterForeign" name="alterForeign" value="1" onchange="toggleAlterForeignKey(this)"> Foreign Key
+                                </div>
+                                <div class="invalid-feedback" id="alterConstraintError"></div>
+                            </div>
+                            <div class="col-md-2">
+                                <label for="alterDefault" class="form-label">Default Value</label>
+                                <input type="text" class="form-control" id="alterDefault" name="alterDefault" placeholder="Default Value">
+                                <div class="invalid-feedback" id="alterDefaultError"></div>
+                            </div>
+                            <div class="col-md-6 foreign-key-section" style="display: none;" id="alterForeignKey">
+                                <label for="alterFkTable" class="form-label">Reference Table</label>
+                                <input type="text" class="form-control mb-2" id="alterFkTable" name="alterFkTable" placeholder="Reference Table (e.g., users)">
+                                <div class="invalid-feedback" id="alterFkTableError"></div>
+                                <label for="alterFkColumn" class="form-label">Reference Column</label>
+                                <input type="text" class="form-control" id="alterFkColumn" name="alterFkColumn" placeholder="Reference Column (e.g., id)">
+                                <div class="invalid-feedback" id="alterFkColumnError"></div>
+                            </div>
+                            <div class="col-md-3">
+                                <label for="alterFkName" class="form-label">Foreign Key Name (for ADD_FK/DROP_FK)</label>
+                                <input type="text" class="form-control" id="alterFkName" name="alterFkName" placeholder="e.g., fk_user_id">
+                                <div class="invalid-feedback" id="alterFkNameError"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary mt-3">Generate Query</button>
+                </form>
+            </div>
+        </div>
 
         <div class="mt-4" id="queryOutput"></div>
     </div>
@@ -259,318 +380,626 @@
     <!-- Toastr JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <script>
+        
         // Toastr configuration
-        toastr.options = {
-            closeButton: true,
-            progressBar: true,
-            positionClass: 'toast-top-right',
-            timeOut: 3000,
-            showMethod: 'slideDown',
-            hideMethod: 'slideUp'
-        };
+toastr.options = {
+    closeButton: true,
+    progressBar: true,
+    positionClass: 'toast-top-right',
+    timeOut: 3000,
+    showMethod: 'slideDown',
+    hideMethod: 'slideUp'
+};
 
-        let columnCount = 1;
-        const lengthApplicableTypes = ['VARCHAR', 'CHAR', 'INT', 'FLOAT', 'DECIMAL'];
-        const integerTypes = ['INT'];
-        const numericTypes = ['INT', 'FLOAT', 'DECIMAL'];
-        const stringTypes = ['VARCHAR', 'CHAR', 'TEXT'];
+let columnCount = 1;
+const lengthApplicableTypes = ['VARCHAR', 'CHAR', 'INT', 'FLOAT', 'DECIMAL'];
+const integerTypes = ['INT'];
+const numericTypes = ['INT', 'FLOAT', 'DECIMAL'];
+const stringTypes = ['VARCHAR', 'CHAR', 'TEXT'];
 
-        // Validation functions
-        function isValidName(name) {
-            return /^[a-zA-Z_][a-zA-Z0-9_]*$/.test(name);
-        }
+// Validation functions
+function isValidName(name) {
+    return name && /^[a-zA-Z_][a-zA-Z0-9_]*$/.test(name);
+}
 
-        function isValidLength(length, type) {
-            if (!length) return true; // Length is optional
-            const num = parseInt(length);
-            if (isNaN(num) || num <= 0) return false;
-            if (type === 'VARCHAR' || type === 'CHAR') return num <= 65535;
-            if (type === 'INT') return num <= 11;
-            if (type === 'FLOAT' || type === 'DECIMAL') return num <= 65;
-            return true;
-        }
+function isValidLength(length, type) {
+    if (!length) return true; // Length is optional
+    const num = parseInt(length);
+    if (isNaN(num) || num <= 0) return false;
+    if (type === 'VARCHAR' || type === 'CHAR') return num <= 65535;
+    if (type === 'INT') return num <= 11;
+    if (type === 'FLOAT' || type === 'DECIMAL') return num <= 65;
+    return true;
+}
 
-        function isValidDefault(value, type) {
-            if (!value) return true; // Default is optional
-            if (numericTypes.includes(type)) {
-                return !isNaN(parseFloat(value)) && isFinite(value);
+function isValidDefault(value, type) {
+    if (!value || value.toLowerCase() === 'null') return true; // Allow NULL or empty
+    if (numericTypes.includes(type)) {
+        return !isNaN(parseFloat(value)) && isFinite(value);
+    }
+    if (stringTypes.includes(type)) {
+        return true; // Any string is valid
+    }
+    if (type === 'DATE' || type === 'DATETIME') {
+        return /^\d{4}-\d{2}-\d{2}( \d{2}:\d{2}:\d{2})?$/.test(value);
+    }
+    if (type === 'BOOLEAN') {
+        return value === '0' || value === '1' || value.toLowerCase() === 'true' || value.toLowerCase() === 'false';
+    }
+    return false;
+}
+
+function toggleLengthField(select, index) {
+    const lengthSection = document.getElementById(`length${index}`);
+    lengthSection.style.display = lengthApplicableTypes.includes(select.value) ? 'block' : 'none';
+}
+
+function toggleForeignKey(checkbox, index) {
+    const fkSection = document.getElementById(`foreignKey${index}`);
+    fkSection.style.display = checkbox.checked ? 'block' : 'none';
+}
+
+function toggleAlterFields(select) {
+    const alterFields = document.getElementById('alterFields');
+    alterFields.style.display = select.value ? 'block' : 'none';
+    const typeField = document.getElementById('alterColumnType');
+    const lengthField = document.getElementById('alterLengthSection');
+    const constraints = document.querySelectorAll('#alterFields .form-check-input:not(#alterForeign)');
+    const fkSection = document.getElementById('alterForeignKey');
+    const fkNameField = document.getElementById('alterFkName');
+    const nameField = document.getElementById('alterColumnName');
+
+    if (select.value === 'DROP_FK') {
+        typeField.disabled = true;
+        lengthField.style.display = 'none';
+        constraints.forEach(c => c.disabled = true);
+        fkSection.style.display = 'block';
+        fkNameField.disabled = false;
+        nameField.disabled = true;
+    } else if (select.value === 'ADD_FK') {
+        typeField.disabled = true;
+        lengthField.style.display = 'none';
+        constraints.forEach(c => c.disabled = true);
+        fkSection.style.display = 'block';
+        fkNameField.disabled = false;
+        nameField.disabled = false;
+    } else if (select.value === 'DROP') {
+        typeField.disabled = true;
+        lengthField.style.display = 'none';
+        constraints.forEach(c => c.disabled = true);
+        fkSection.style.display = 'none';
+        fkNameField.disabled = true;
+        nameField.disabled = false;
+    } else {
+        typeField.disabled = false;
+        constraints.forEach(c => c.disabled = false);
+        toggleAlterLengthField(typeField);
+        fkSection.style.display = document.getElementById('alterForeign').checked ? 'block' : 'none';
+        fkNameField.disabled = true;
+        nameField.disabled = false;
+    }
+}
+
+function toggleAlterLengthField(select) {
+    const lengthSection = document.getElementById('alterLengthSection');
+    lengthSection.style.display = lengthApplicableTypes.includes(select.value) ? 'block' : 'none';
+}
+
+function toggleAlterForeignKey(checkbox) {
+    const fkSection = document.getElementById('alterForeignKey');
+    fkSection.style.display = checkbox.checked ? 'block' : 'none';
+}
+
+function addColumn() {
+    const columnsDiv = document.getElementById('columns');
+    const newColumn = document.createElement('div');
+    newColumn.className = 'column-row';
+    newColumn.setAttribute('data-column-index', columnCount);
+    newColumn.innerHTML = `
+        <div class="row align-items-end">
+            <div class="col-md-3">
+                <input type="text" class="form-control" name="columns[${columnCount}][name]" placeholder="Column Name" required>
+                <div class="invalid-feedback" id="columnNameError${columnCount}"></div>
+            </div>
+            <div class="col-md-2">
+                <select class="form-select" name="columns[${columnCount}][type]" onchange="toggleLengthField(this, ${columnCount})" required>
+                    <option value="">Data Type</option>
+                    <option value="INT">INT</option>
+                    <option value="VARCHAR">VARCHAR</option>
+                    <option value="CHAR">CHAR</option>
+                    <option value="TEXT">TEXT</option>
+                    <option value="DATE">DATE</option>
+                    <option value="DATETIME">DATETIME</option>
+                    <option value="FLOAT">FLOAT</option>
+                    <option value="DECIMAL">DECIMAL</option>
+                    <option value="BOOLEAN">BOOLEAN</option>
+                </select>
+                <div class="invalid-feedback" id="columnTypeError${columnCount}"></div>
+            </div>
+            <div class="col-md-2 length-section" id="length${columnCount}" style="display: none;">
+                <input type="text" class="form-control" name="columns[${columnCount}][length]" placeholder="Length (e.g., 255)">
+                <div class="invalid-feedback" id="columnLengthError${columnCount}"></div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-check">
+                    <input type="checkbox" class="form-check-input" name="columns[${columnCount}][primary]" value="1"> Primary Key
+                </div>
+                <div class="form-check">
+                    <input type="checkbox" class="form-check-input" name="columns[${columnCount}][notnull]" value="1"> Not Null
+                </div>
+                <div class="form-check">
+                    <input type="checkbox" class="form-check-input" name="columns[${columnCount}][auto]" value="1"> Auto Increment
+                </div>
+                <div class="form-check">
+                    <input type="checkbox" class="form-check-input" name="columns[${columnCount}][unique]" value="1"> Unique
+                </div>
+                <div class="form-check">
+                    <input type="checkbox" class="form-check-input" name="columns[${columnCount}][foreign]" value="1" onchange="toggleForeignKey(this, ${columnCount})"> Foreign Key
+                </div>
+                <div class="invalid-feedback" id="columnConstraintError${columnCount}"></div>
+            </div>
+            <div class="col-md-2">
+                <input type="text" class="form-control" name="columns[${columnCount}][default]" placeholder="Default Value">
+                <div class="invalid-feedback" id="columnDefaultError${columnCount}"></div>
+            </div>
+            <div class="col-md-6 foreign-key-section" style="display: none;" id="foreignKey${columnCount}">
+                <input type="text" class="form-control mb-2" name="columns[${columnCount}][fk_table]" placeholder="Reference Table (e.g., users)">
+                <div class="invalid-feedback" id="fkTableError${columnCount}"></div>
+                <input type="text" class="form-control" name="columns[${columnCount}][fk_column]" placeholder="Reference Column (e.g., id)">
+                <div class="invalid-feedback" id="fkColumnError${columnCount}"></div>
+            </div>
+            <div class="col-md-3 mt-2">
+                <div class="btn-group">
+                    <button type="button" class="btn move-btn" onclick="moveColumnUp(${columnCount})">Up</button>
+                    <button type="button" class="btn move-btn" onclick="moveColumnDown(${columnCount})">Down</button>
+                    <button type="button" class="btn remove-btn" onclick="removeColumn(${columnCount})">Remove</button>
+                </div>
+            </div>
+        </div>`;
+    columnsDiv.appendChild(newColumn);
+    updateMoveButtons();
+    columnCount++;
+}
+
+function removeColumn(index) {
+    const columnRow = document.querySelector(`.column-row[data-column-index="${index}"]`);
+    if (columnRow) {
+        columnRow.remove();
+        toastr.info('Column removed!', 'Info');
+        updateColumnIndices();
+        updateMoveButtons();
+    }
+}
+
+function moveColumnUp(index) {
+    const currentRow = document.querySelector(`.column-row[data-column-index="${index}"]`);
+    const prevRow = currentRow.previousElementSibling;
+    if (prevRow && prevRow.classList.contains('column-row')) {
+        currentRow.parentNode.insertBefore(currentRow, prevRow);
+        updateColumnIndices();
+        updateMoveButtons();
+    }
+}
+
+function moveColumnDown(index) {
+    const currentRow = document.querySelector(`.column-row[data-column-index="${index}"]`);
+    const nextRow = currentRow.nextElementSibling;
+    if (nextRow && nextRow.classList.contains('column-row')) {
+        currentRow.parentNode.insertBefore(nextRow, currentRow);
+        updateColumnIndices();
+        updateMoveButtons();
+    }
+}
+
+function updateColumnIndices() {
+    const columnRows = document.querySelectorAll('.column-row');
+    columnRows.forEach((row, newIndex) => {
+        const oldIndex = row.getAttribute('data-column-index');
+        row.setAttribute('data-column-index', newIndex);
+        row.querySelectorAll('[name]').forEach(input => {
+            input.name = input.name.replace(`columns[${oldIndex}]`, `columns[${newIndex}]`);
+        });
+        row.querySelectorAll('[id]').forEach(element => {
+            element.id = element.id.replace(`Error${oldIndex}`, `Error${newIndex}`);
+            if (element.id.startsWith('length')) {
+                element.id = `length${newIndex}`;
             }
-            if (stringTypes.includes(type)) {
-                return true; // Any string is valid
+            if (element.id.startsWith('foreignKey')) {
+                element.id = `foreignKey${newIndex}`;
             }
-            if (type === 'DATE' || type === 'DATETIME') {
-                return /^\d{4}-\d{2}-\d{2}( \d{2}:\d{2}:\d{2})?$/.test(value);
-            }
-            if (type === 'BOOLEAN') {
-                return value === '0' || value === '1' || value.toLowerCase() === 'true' || value.toLowerCase() === 'false';
-            }
-            return false;
+        });
+        row.querySelectorAll('[onchange]').forEach(element => {
+            element.setAttribute('onchange', element.getAttribute('onchange').replace(`, ${oldIndex})`, `, ${newIndex})`));
+        });
+        const moveUpBtn = row.querySelector('button[onclick*="moveColumnUp"]');
+        const moveDownBtn = row.querySelector('button[onclick*="moveColumnDown"]');
+        const removeBtn = row.querySelector('button[onclick*="removeColumn"]');
+        const btnGroup = row.querySelector('.btn-group');
+        if (newIndex === 0) {
+            btnGroup.innerHTML = `
+                <button type="button" class="btn move-btn" onclick="moveColumnUp(${newIndex})" disabled>Up</button>
+                <button type="button" class="btn move-btn" onclick="moveColumnDown(${newIndex})">Down</button>
+            `;
+        } else {
+            btnGroup.innerHTML = `
+                <button type="button" class="btn move-btn" onclick="moveColumnUp(${newIndex})">Up</button>
+                <button type="button" class="btn move-btn" onclick="moveColumnDown(${newIndex})">Down</button>
+                <button type="button" class="btn remove-btn" onclick="removeColumn(${newIndex})">Remove</button>
+            `;
         }
+    });
+}
 
-        function toggleLengthField(select, index) {
-            const lengthSection = document.getElementById(`length${index}`);
-            lengthSection.style.display = lengthApplicableTypes.includes(select.value) ? 'block' : 'none';
-        }
+function updateMoveButtons() {
+    const columnRows = document.querySelectorAll('.column-row');
+    columnRows.forEach((row, index) => {
+        const moveUpBtn = row.querySelector('button[onclick*="moveColumnUp"]');
+        const moveDownBtn = row.querySelector('button[onclick*="moveColumnDown"]');
+        moveUpBtn.disabled = index === 0;
+        moveDownBtn.disabled = index === columnRows.length - 1;
+    });
+}
 
-        function toggleForeignKey(checkbox, index) {
-            const fkSection = document.getElementById(`foreignKey${index}`);
-            fkSection.style.display = checkbox.checked ? 'block' : 'none';
-        }
+function validateForm(formData, columns, isAlter = false) {
+    let isValid = true;
 
-        function addColumn() {
-            const columnsDiv = document.getElementById('columns');
-            const newColumn = document.createElement('div');
-            newColumn.className = 'column-row';
-            newColumn.setAttribute('data-column-index', columnCount);
-            newColumn.innerHTML = `
-                <div class="row align-items-end">
-                    <div class="col-md-3">
-                        <input type="text" class="form-control" name="columns[${columnCount}][name]" placeholder="Column Name" required>
-                        <div class="invalid-feedback" id="columnNameError${columnCount}"></div>
-                    </div>
-                    <div class="col-md-2">
-                        <select class="form-select" name="columns[${columnCount}][type]" onchange="toggleLengthField(this, ${columnCount})" required>
-                            <option value="">Data Type</option>
-                            <option value="INT">INT</option>
-                            <option value="VARCHAR">VARCHAR</option>
-                            <option value="CHAR">CHAR</option>
-                            <option value="TEXT">TEXT</option>
-                            <option value="DATE">DATE</option>
-                            <option value="DATETIME">DATETIME</option>
-                            <option value="FLOAT">FLOAT</option>
-                            <option value="DECIMAL">DECIMAL</option>
-                            <option value="BOOLEAN">BOOLEAN</option>
-                        </select>
-                        <div class="invalid-feedback" id="columnTypeError${columnCount}"></div>
-                    </div>
-                    <div class="col-md-2 length-section" id="length${columnCount}" style="display: none;">
-                        <input type="text" class="form-control" name="columns[${columnCount}][length]" placeholder="Length (e.g., 255)">
-                        <div class="invalid-feedback" id="columnLengthError${columnCount}"></div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="form-check">
-                            <input type="checkbox" class="form-check-input" name="columns[${columnCount}][primary]" value="1"> Primary Key
-                        </div>
-                        <div class="form-check">
-                            <input type="checkbox" class="form-check-input" name="columns[${columnCount}][notnull]" value="1"> Not Null
-                        </div>
-                        <div class="form-check">
-                            <input type="checkbox" class="form-check-input" name="columns[${columnCount}][auto]" value="1"> Auto Increment
-                        </div>
-                        <div class="form-check">
-                            <input type="checkbox" class="form-check-input" name="columns[${columnCount}][unique]" value="1"> Unique
-                        </div>
-                        <div class="form-check">
-                            <input type="checkbox" class="form-check-input" name="columns[${columnCount}][foreign]" value="1" onchange="toggleForeignKey(this, ${columnCount})"> Foreign Key
-                        </div>
-                        <div class="invalid-feedback" id="columnConstraintError${columnCount}"></div>
-                    </div>
-                    <div class="col-md-2">
-                        <input type="text" class="form-control" name="columns[${columnCount}][default]" placeholder="Default Value">
-                        <div class="invalid-feedback" id="columnDefaultError${columnCount}"></div>
-                    </div>
-                    <div class="col-md-6 foreign-key-section" style="display: none;" id="foreignKey${columnCount}">
-                        <input type="text" class="form-control mb-2" name="columns[${columnCount}][fk_table]" placeholder="Reference Table (e.g., users)">
-                        <div class="invalid-feedback" id="fkTableError${columnCount}"></div>
-                        <input type="text" class="form-control" name="columns[${columnCount}][fk_column]" placeholder="Reference Column (e.g., id)">
-                        <div class="invalid-feedback" id="fkColumnError${columnCount}"></div>
-                    </div>
-                    <div class="col-md-2">
-                        <button type="button" class="btn remove-btn" onclick="removeColumn(${columnCount})">Remove</button>
-                    </div>
-                </div>`;
-            columnsDiv.appendChild(newColumn);
-            columnCount++;
-        }
+    // Validate table name
+    const tableName = document.getElementById('tableName').value;
+    const tableNameInput = document.getElementById('tableName');
+    if (!tableName || !isValidName(tableName)) {
+        tableNameInput.classList.add('is-invalid');
+        document.getElementById('tableNameError').textContent = 'Table name must be alphanumeric with underscores, starting with a letter or underscore.';
+        isValid = false;
+    } else {
+        tableNameInput.classList.remove('is-invalid');
+    }
 
-        function removeColumn(index) {
-            const columnRow = document.querySelector(`.column-row[data-column-index="${index}"]`);
-            if (columnRow) {
-                columnRow.remove();
-                toastr.info('Column removed!', 'Info');
-            }
-        }
+    if (!isAlter) {
+        // Validate columns for CREATE TABLE
+        columns.forEach((col, index) => {
+            const nameInput = document.querySelector(`input[name="columns[${index}][name]"]`);
+            const typeSelect = document.querySelector(`select[name="columns[${index}][type]"]`);
+            const lengthInput = document.querySelector(`input[name="columns[${index}][length]"]`);
+            const defaultInput = document.querySelector(`input[name="columns[${index}][default]"]`);
+            const autoCheckbox = document.querySelector(`input[name="columns[${index}][auto]"]`);
+            const primaryCheckbox = document.querySelector(`input[name="columns[${index}][primary]"]`);
+            const uniqueCheckbox = document.querySelector(`input[name="columns[${index}][unique]"]`);
+            const foreignCheckbox = document.querySelector(`input[name="columns[${index}][foreign]"]`);
+            const fkTableInput = document.querySelector(`input[name="columns[${index}][fk_table]"]`);
+            const fkColumnInput = document.querySelector(`input[name="columns[${index}][fk_column]"]`);
 
-        function validateForm(formData, columns) {
-            let isValid = true;
+            // Reset validation states
+            nameInput.classList.remove('is-invalid');
+            typeSelect.classList.remove('is-invalid');
+            if (lengthInput) lengthInput.classList.remove('is-invalid');
+            if (defaultInput) defaultInput.classList.remove('is-invalid');
+            document.getElementById(`columnConstraintError${index}`).textContent = '';
+            if (fkTableInput) fkTableInput.classList.remove('is-invalid');
+            if (fkColumnInput) fkColumnInput.classList.remove('is-invalid');
 
-            // Validate table name
-            const tableName = formData.get('tableName');
-            const tableNameInput = document.getElementById('tableName');
-            if (!tableName || !isValidName(tableName)) {
-                tableNameInput.classList.add('is-invalid');
-                document.getElementById('tableNameError').textContent = 'Table name must be alphanumeric with underscores, starting with a letter or underscore.';
+            // Validate column name
+            if (!col.name || !isValidName(col.name)) {
+                nameInput.classList.add('is-invalid');
+                document.getElementById(`columnNameError${index}`).textContent = 'Column name must be alphanumeric with underscores, starting with a letter or underscore.';
                 isValid = false;
-            } else {
-                tableNameInput.classList.remove('is-invalid');
             }
 
-            // Validate columns
-            columns.forEach((col, index) => {
-                const nameInput = document.querySelector(`input[name="columns[${index}][name]"]`);
-                const typeSelect = document.querySelector(`select[name="columns[${index}][type]"]`);
-                const lengthInput = document.querySelector(`input[name="columns[${index}][length]"]`);
-                const defaultInput = document.querySelector(`input[name="columns[${index}][default]"]`);
-                const autoCheckbox = document.querySelector(`input[name="columns[${index}][auto]"]`);
-                const primaryCheckbox = document.querySelector(`input[name="columns[${index}][primary]"]`);
-                const uniqueCheckbox = document.querySelector(`input[name="columns[${index}][unique]"]`);
-                const foreignCheckbox = document.querySelector(`input[name="columns[${index}][foreign]"]`);
-                const fkTableInput = document.querySelector(`input[name="columns[${index}][fk_table]"]`);
-                const fkColumnInput = document.querySelector(`input[name="columns[${index}][fk_column]"]`);
+            // Validate data type
+            if (!col.type) {
+                typeSelect.classList.add('is-invalid');
+                document.getElementById(`columnTypeError${index}`).textContent = 'Please select a data type.';
+                isValid = false;
+            }
 
-                // Reset validation states
-                nameInput.classList.remove('is-invalid');
-                typeSelect.classList.remove('is-invalid');
-                if (lengthInput) lengthInput.classList.remove('is-invalid');
-                if (defaultInput) defaultInput.classList.remove('is-invalid');
-                document.getElementById(`columnConstraintError${index}`).textContent = '';
-                if (fkTableInput) fkTableInput.classList.remove('is-invalid');
-                if (fkColumnInput) fkColumnInput.classList.remove('is-invalid');
+            // Validate length
+            if (col.length && lengthApplicableTypes.includes(col.type) && !isValidLength(col.length, col.type)) {
+                lengthInput.classList.add('is-invalid');
+                document.getElementById(`columnLengthError${index}`).textContent = `Invalid length for ${col.type}.`;
+                isValid = false;
+            }
 
-                // Validate column name
-                if (!col.name || !isValidName(col.name)) {
-                    nameInput.classList.add('is-invalid');
-                    document.getElementById(`columnNameError${index}`).textContent = 'Column name must be alphanumeric with underscores, starting with a letter or underscore.';
-                    isValid = false;
-                }
+            // Validate default value
+            if (col.default && !isValidDefault(col.default, col.type)) {
+                defaultInput.classList.add('is-invalid');
+                document.getElementById(`columnDefaultError${index}`).textContent = `Invalid default value for ${col.type}.`;
+                isValid = false;
+            }
 
-                // Validate data type
-                if (!col.type) {
-                    typeSelect.classList.add('is-invalid');
-                    document.getElementById(`columnTypeError${index}`).textContent = 'Please select a data type.';
-                    isValid = false;
-                }
-
-                // Validate length
-                if (col.length && lengthApplicableTypes.includes(col.type) && !isValidLength(col.length, col.type)) {
-                    lengthInput.classList.add('is-invalid');
-                    document.getElementById(`columnLengthError${index}`).textContent = `Invalid length for ${col.type}.`;
-                    isValid = false;
-                }
-
-                // Validate default value
-                if (col.default && !isValidDefault(col.default, col.type)) {
-                    defaultInput.classList.add('is-invalid');
-                    document.getElementById(`columnDefaultError${index}`).textContent = `Invalid default value for ${col.type}.`;
-                    isValid = false;
-                }
-
-                // Validate AUTO_INCREMENT
-                if (col.auto && !integerTypes.includes(col.type)) {
+            // Validate AUTO_INCREMENT
+            if (col.auto) {
+                if (!integerTypes.includes(col.type)) {
                     autoCheckbox.classList.add('is-invalid');
                     document.getElementById(`columnConstraintError${index}`).textContent += 'AUTO_INCREMENT can only be applied to INT type. ';
                     isValid = false;
                 }
-
-                // Validate AUTO_INCREMENT with PRIMARY KEY or UNIQUE
-                if (col.auto && !col.primary && !col.unique) {
+                if (!col.primary && !col.unique) {
                     autoCheckbox.classList.add('is-invalid');
                     document.getElementById(`columnConstraintError${index}`).textContent += 'AUTO_INCREMENT requires PRIMARY KEY or UNIQUE. ';
                     isValid = false;
                 }
+            }
 
-                // Validate foreign key
-                if (col.foreign) {
-                    if (!col.fk_table || !isValidName(col.fk_table)) {
-                        fkTableInput.classList.add('is-invalid');
-                        document.getElementById(`fkTableError${index}`).textContent = 'Reference table name must be alphanumeric with underscores.';
-                        isValid = false;
-                    }
-                    if (!col.fk_column || !isValidName(col.fk_column)) {
-                        fkColumnInput.classList.add('is-invalid');
-                        document.getElementById(`fkColumnError${index}`).textContent = 'Reference column name must be alphanumeric with underscores.';
-                        isValid = false;
-                    }
+            // Validate foreign key
+            if (col.foreign) {
+                if (!col.fk_table || !isValidName(col.fk_table)) {
+                    fkTableInput.classList.add('is-invalid');
+                    document.getElementById(`fkTableError${index}`).textContent = 'Reference table name must be alphanumeric with underscores.';
+                    isValid = false;
                 }
-            });
+                if (!col.fk_column || !isValidName(col.fk_column)) {
+                    fkColumnInput.classList.add('is-invalid');
+                    document.getElementById(`fkColumnError${index}`).textContent = 'Reference column name must be alphanumeric with underscores.';
+                    isValid = false;
+                }
+            }
+        });
+    } else {
+        // Validate ALTER TABLE fields
+        const action = formData.get('alterAction');
+        const colName = formData.get('alterColumnName');
+        const colType = formData.get('alterColumnType');
+        const colLength = formData.get('alterColumnLength');
+        const colDefault = formData.get('alterDefault');
+        const colAuto = formData.get('alterAuto');
+        const colPrimary = formData.get('alterPrimary');
+        const colUnique = formData.get('alterUnique');
+        const colForeign = formData.get('alterForeign');
+        const fkTable = formData.get('alterFkTable');
+        const fkColumn = formData.get('alterFkColumn');
+        const fkName = formData.get('alterFkName');
 
-            return isValid;
+        const nameInput = document.getElementById('alterColumnName');
+        const typeSelect = document.getElementById('alterColumnType');
+        const lengthInput = document.getElementById('alterColumnLength');
+        const defaultInput = document.getElementById('alterDefault');
+        const autoCheckbox = document.getElementById('alterAuto');
+        const fkTableInput = document.getElementById('alterFkTable');
+        const fkColumnInput = document.getElementById('alterFkColumn');
+        const fkNameInput = document.getElementById('alterFkName');
+
+        // Reset validation states
+        nameInput.classList.remove('is-invalid');
+        typeSelect.classList.remove('is-invalid');
+        if (lengthInput) lengthInput.classList.remove('is-invalid');
+        if (defaultInput) defaultInput.classList.remove('is-invalid');
+        document.getElementById('alterConstraintError').textContent = '';
+        if (fkTableInput) fkTableInput.classList.remove('is-invalid');
+        if (fkColumnInput) fkColumnInput.classList.remove('is-invalid');
+        if (fkNameInput) fkNameInput.classList.remove('is-invalid');
+
+        // Validate based on action
+        if (!action) {
+            typeSelect.classList.add('is-invalid');
+            document.getElementById('alterColumnTypeError').textContent = 'Please select an action.';
+            isValid = false;
         }
 
-        function generateQuery(event) {
-            event.preventDefault();
-            const form = document.getElementById('tableForm');
-            const formData = new FormData(form);
-            const tableName = formData.get('tableName');
-            const engine = formData.get('engine');
-            const charset = formData.get('charset');
-            const collation = formData.get('collation');
-
-            let columns = [];
-            let primaryKeys = [];
-            let indexes = [];
-            let foreignKeys = [];
-
-            // Collect column data
-            for (let [key, value] of formData.entries()) {
-                const match = key.match(/columns\[(\d+)\]\[(\w+)\]/);
-                if (match) {
-                    const index = parseInt(match[1]);
-                    const field = match[2];
-                    if (!columns[index]) columns[index] = {};
-                    columns[index][field] = value;
-                }
+        if (action !== 'DROP_FK') {
+            if (!colName || !isValidName(colName)) {
+                nameInput.classList.add('is-invalid');
+                document.getElementById('alterColumnNameError').textContent = 'Column name must be alphanumeric with underscores, starting with a letter or underscore.';
+                isValid = false;
             }
-
-            // Validate form
-            if (!validateForm(formData, columns)) {
-                toastr.error('Please fix the validation errors before generating the query.', 'Validation Error');
-                return;
-            }
-
-            // Generate query
-            let query = `CREATE TABLE \`${tableName}\` (\n`;
-            let columnDefinitions = [];
-
-            columns.forEach(col => {
-                if (!col.name || !col.type) return;
-                let colDef = `  \`${col.name}\` ${col.type}`;
-                if (col.length && lengthApplicableTypes.includes(col.type)) {
-                    colDef += `(${col.length})`;
-                }
-                if (col.notnull) colDef += ` NOT NULL`;
-                if (col.auto) colDef += ` AUTO_INCREMENT`;
-                if (col.default) {
-                    colDef += stringTypes.includes(col.type) ? ` DEFAULT '${col.default}'` : ` DEFAULT ${col.default}`;
-                }
-                columnDefinitions.push(colDef);
-
-                if (col.primary) primaryKeys.push(`\`${col.name}\``);
-                if (col.unique && !col.primary) indexes.push(`  UNIQUE (\`${col.name}\`)`);
-                if (col.foreign && col.fk_table && col.fk_column) {
-                    foreignKeys.push(`  FOREIGN KEY (\`${col.name}\`) REFERENCES \`${col.fk_table}\` (\`${col.fk_column}\`)`);
-                }
-            });
-
-            query += columnDefinitions.join(',\n');
-            if (primaryKeys.length) {
-                query += `,\n  PRIMARY KEY (${primaryKeys.join(', ')})`;
-            }
-            if (indexes.length) {
-                query += `,\n${indexes.join(',\n')}`;
-            }
-            if (foreignKeys.length) {
-                query += `,\n${foreignKeys.join(',\n')}`;
-            }
-            query += `\n) ENGINE=${engine} DEFAULT CHARSET=${charset} COLLATE=${collation};`;
-
-            // Display query
-            const outputDiv = document.getElementById('queryOutput');
-            outputDiv.innerHTML = `
-                <h4>Generated MySQL Query</h4>
-                <pre id="query-output">${query}</pre>
-                <button class="btn copy-btn mt-2" onclick="copyQuery()">Copy Query</button>
-            `;
         }
 
-        function copyQuery() {
-            const queryText = document.getElementById('query-output').innerText;
-            navigator.clipboard.writeText(queryText).then(() => {
-                toastr.success('Query copied to clipboard!', 'Success');
-            }).catch(() => {
-                toastr.error('Failed to copy query.', 'Error');
-            });
+        if (action === 'ADD' || action === 'MODIFY') {
+            if (!colType) {
+                typeSelect.classList.add('is-invalid');
+                document.getElementById('alterColumnTypeError').textContent = 'Please select a data type.';
+                isValid = false;
+            }
+
+            if (colLength && lengthApplicableTypes.includes(colType) && !isValidLength(colLength, colType)) {
+                lengthInput.classList.add('is-invalid');
+                document.getElementById('alterColumnLengthError').textContent = `Invalid length for ${colType}.`;
+                isValid = false;
+            }
+
+            if (colDefault && !isValidDefault(colDefault, colType)) {
+                defaultInput.classList.add('is-invalid');
+                document.getElementById('alterDefaultError').textContent = `Invalid default value for ${colType}.`;
+                isValid = false;
+            }
+
+            if (colAuto) {
+                if (!integerTypes.includes(colType)) {
+                    autoCheckbox.classList.add('is-invalid');
+                    document.getElementById('alterConstraintError').textContent += 'AUTO_INCREMENT can only be applied to INT type. ';
+                    isValid = false;
+                }
+                if (!colPrimary && !colUnique) {
+                    autoCheckbox.classList.add('is-invalid');
+                    document.getElementById('alterConstraintError').textContent += 'AUTO_INCREMENT requires PRIMARY KEY or UNIQUE. ';
+                    isValid = false;
+                }
+            }
         }
+
+        if (action === 'ADD_FK' || colForeign) {
+            if (!fkTable || !isValidName(fkTable)) {
+                fkTableInput.classList.add('is-invalid');
+                document.getElementById('alterFkTableError').textContent = 'Reference table name must be alphanumeric with underscores.';
+                isValid = false;
+            }
+            if (!fkColumn || !isValidName(fkColumn)) {
+                fkColumnInput.classList.add('is-invalid');
+                document.getElementById('alterFkColumnError').textContent = 'Reference column name must be alphanumeric with underscores.';
+                isValid = false;
+            }
+            if (!fkName || !isValidName(fkName)) {
+                fkNameInput.classList.add('is-invalid');
+                document.getElementById('alterFkNameError').textContent = 'Foreign key name must be alphanumeric with underscores.';
+                isValid = false;
+            }
+        }
+
+        if (action === 'DROP_FK') {
+            if (!fkName || !isValidName(fkName)) {
+                fkNameInput.classList.add('is-invalid');
+                document.getElementById('alterFkNameError').textContent = 'Foreign key name must be alphanumeric with underscores.';
+                isValid = false;
+            }
+        }
+    }
+
+    return isValid;
+}
+
+function generateQuery(event, isAlter) {
+    event.preventDefault();
+    const form = isAlter ? document.getElementById('alterForm') : document.getElementById('createForm');
+    const formData = new FormData(form);
+    console.log('FormData:', Object.fromEntries(formData)); // Debug form data
+    const tableName = document.getElementById('tableName').value;
+    let query = '';
+
+    if (isAlter) {
+        const action = formData.get('alterAction');
+        const colName = formData.get('alterColumnName');
+        const colType = formData.get('alterColumnType');
+        const colLength = formData.get('alterColumnLength');
+        const colNotNull = formData.get('alterNotNull') === '1';
+        const colAuto = formData.get('alterAuto') === '1';
+        const colPrimary = formData.get('alterPrimary') === '1';
+        const colUnique = formData.get('alterUnique') === '1';
+        const colForeign = formData.get('alterForeign') === '1';
+        const fkTable = formData.get('alterFkTable');
+        const fkColumn = formData.get('alterFkColumn');
+        const fkName = formData.get('alterFkName');
+        const colDefault = formData.get('alterDefault');
+
+        if (!validateForm(formData, [], true)) {
+            toastr.error('Please fix the validation errors before generating the query.', 'Validation Error');
+            return;
+        }
+
+        query = `ALTER TABLE \`${tableName}\` `;
+        if (action === 'ADD') {
+            let colDef = `\`${colName}\` ${colType}`;
+            if (colLength && lengthApplicableTypes.includes(colType)) {
+                colDef += `(${colLength})`;
+            }
+            if (colNotNull) colDef += ` NOT NULL`;
+            if (colAuto) colDef += ` AUTO_INCREMENT`;
+            if (colDefault && colDefault.toLowerCase() !== 'null') {
+                colDef += stringTypes.includes(colType) ? ` DEFAULT '${colDefault}'` : ` DEFAULT ${colDefault}`;
+            } else if (colDefault === 'NULL') {
+                colDef += ` DEFAULT NULL`;
+            }
+            query += `ADD COLUMN ${colDef}`;
+            if (colPrimary) query += `, ADD PRIMARY KEY (\`${colName}\`)`;
+            if (colUnique && !colPrimary) query += `, ADD UNIQUE (\`${colName}\`)`;
+            if (colForeign) query += `, ADD CONSTRAINT \`${fkName}\` FOREIGN KEY (\`${colName}\`) REFERENCES \`${fkTable}\` (\`${fkColumn}\`)`;
+        } else if (action === 'MODIFY') {
+            let colDef = `\`${colName}\` ${colType}`;
+            if (colLength && lengthApplicableTypes.includes(colType)) {
+                colDef += `(${colLength})`;
+            }
+            if (colNotNull) colDef += ` NOT NULL`;
+            if (colAuto) colDef += ` AUTO_INCREMENT`;
+            if (colDefault && colDefault.toLowerCase() !== 'null') {
+                colDef += stringTypes.includes(colType) ? ` DEFAULT '${colDefault}'` : ` DEFAULT ${colDefault}`;
+            } else if (colDefault === 'NULL') {
+                colDef += ` DEFAULT NULL`;
+            }
+            query += `MODIFY COLUMN ${colDef}`;
+            // Handle constraints separately
+            if (colPrimary || colUnique || colForeign) {
+                // Attempt to drop existing constraints (MySQL requires separate statements)
+                query += `;\nALTER TABLE \`${tableName}\` DROP PRIMARY KEY, DROP INDEX \`${colName}\``;
+                if (fkName) query += `, DROP FOREIGN KEY \`${fkName}\``;
+                query += `;\nALTER TABLE \`${tableName}\``;
+                if (colPrimary) query += ` ADD PRIMARY KEY (\`${colName}\`)`;
+                if (colUnique && !colPrimary) query += `${colPrimary ? ',' : ''} ADD UNIQUE (\`${colName}\`)`;
+                if (colForeign) query += `${colPrimary || colUnique ? ',' : ''} ADD CONSTRAINT \`${fkName}\` FOREIGN KEY (\`${colName}\`) REFERENCES \`${fkTable}\` (\`${fkColumn}\`)`;
+            }
+        } else if (action === 'DROP') {
+            query += `DROP COLUMN \`${colName}\``;
+        } else if (action === 'ADD_FK') {
+            query += `ADD CONSTRAINT \`${fkName}\` FOREIGN KEY (\`${colName}\`) REFERENCES \`${fkTable}\` (\`${fkColumn}\`)`;
+        } else if (action === 'DROP_FK') {
+            query += `DROP FOREIGN KEY \`${fkName}\``;
+        }
+        query += ';';
+    } else {
+        const engine = formData.get('engine');
+        const charset = formData.get('charset');
+        const collation = formData.get('collation');
+        let columns = [];
+        let primaryKeys = [];
+        let indexes = [];
+        let foreignKeys = [];
+
+        for (let [key, value] of formData.entries()) {
+            const match = key.match(/columns\[(\d+)\]\[(\w+)\]/);
+            if (match) {
+                const index = parseInt(match[1]);
+                const field = match[2];
+                if (!columns[index]) columns[index] = {};
+                columns[index][field] = value;
+            }
+        }
+
+        if (!validateForm(formData, columns)) {
+            toastr.error('Please fix the validation errors before generating the query.', 'Validation Error');
+            return;
+        }
+
+        query = `CREATE TABLE \`${tableName}\` (\n`;
+        let columnDefinitions = [];
+
+        columns.forEach(col => {
+            if (!col.name || !col.type) return;
+            let colDef = `  \`${col.name}\` ${col.type}`;
+            if (col.length && lengthApplicableTypes.includes(col.type)) {
+                colDef += `(${col.length})`;
+            }
+            if (col.notnull) colDef += ` NOT NULL`;
+            if (col.auto) colDef += ` AUTO_INCREMENT`;
+            if (col.default && col.default.toLowerCase() !== 'null') {
+                colDef += stringTypes.includes(col.type) ? ` DEFAULT '${col.default}'` : ` DEFAULT ${col.default}`;
+            } else if (col.default === 'NULL') {
+                colDef += ` DEFAULT NULL`;
+            }
+            columnDefinitions.push(colDef);
+
+            if (col.primary) primaryKeys.push(`\`${col.name}\``);
+            if (col.unique && !col.primary) indexes.push(`  UNIQUE (\`${col.name}\`)`);
+            if (col.foreign && col.fk_table && col.fk_column) {
+                foreignKeys.push(`  CONSTRAINT \`fk_${col.name}\` FOREIGN KEY (\`${col.name}\`) REFERENCES \`${col.fk_table}\` (\`${col.fk_column}\`)`);
+            }
+        });
+
+        query += columnDefinitions.join(',\n');
+        if (primaryKeys.length) {
+            query += `,\n  PRIMARY KEY (${primaryKeys.join(', ')})`;
+        }
+        if (indexes.length) {
+            query += `,\n${indexes.join(',\n')}`;
+        }
+        if (foreignKeys.length) {
+            query += `,\n${foreignKeys.join(',\n')}`;
+        }
+        query += `\n) ENGINE=${engine} DEFAULT CHARSET=${charset} COLLATE=${collation};`;
+    }
+
+    const outputDiv = document.getElementById('queryOutput');
+    outputDiv.innerHTML = `
+        <h4>Generated MySQL Query</h4>
+        <pre id="query-output">${query}</pre>
+        <button class="btn copy-btn mt-2" onclick="copyQuery()">Copy Query</button>
+    `;
+}
+
+function copyQuery() {
+    const queryText = document.getElementById('query-output').innerText;
+    navigator.clipboard.writeText(queryText).then(() => {
+        toastr.success('Query copied to clipboard!', 'Success');
+    }).catch(() => {
+        toastr.error('Failed to copy query.', 'Error');
+    });
+}
+        
     </script>
 </body>
 </html>
