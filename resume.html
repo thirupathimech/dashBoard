@@ -172,8 +172,30 @@
             margin-top: 10px;
         }
 
+        .home-button {
+            position: fixed;
+            box-shadow: 2px 3px 20px 0px;
+            top: 1rem;
+            left: 1rem;
+            z-index: 999;
+            width: 3rem;
+            height: 3rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 0.75rem;
+            transition: transform 0.3s ease;
+        }
+
+        .home-button:hover {
+            transform: scale(1.1);
+        }
+
         @media print {
-            #printButton, #passwordModal {
+            #printButton, #passwordModal, .home-button {
                 display: none;
             }
 
@@ -202,10 +224,38 @@
             .skills-grid {
                 display: block;
             }
+
+            #skills table {
+                width: 100%;
+                border-collapse: collapse;
+                font-size: 0.85rem;
+            }
+
+            #skills table td {
+                padding: 8px 12px;
+                border: 1px solid #ddd;
+                font-weight: 600;
+                color: #222;
+                text-align: left;
+            }
+
+            #skills table tr {
+                border-bottom: 1px solid #ccc;
+            }
+
+            #skills table td:empty {
+                border: none;
+            }
         }
     </style>
 </head>
 <body>
+    <button class="home-button" onclick="window.location.href='index.html'" title="Back to Home">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+        </svg>
+    </button>
+
     <!-- Password Modal -->
     <div class="modal fade" id="passwordModal" tabindex="-1" role="dialog" aria-labelledby="passwordModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -213,7 +263,7 @@
                 <div class="modal-header">
                     <h5 class="modal-title" id="passwordModalLabel">Enter Password</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
+                        <span aria-hidden="true">×</span>
                     </button>
                 </div>
                 <div class="modal-body">
@@ -455,7 +505,7 @@
             document.getElementById('submitPassword').addEventListener('click', () => {
                 const password = document.getElementById('passwordInput').value;
                 const errorDiv = document.getElementById('passwordError');
-                if (password === 'thiru_resume') {
+                if (password === 'Password') {
                     document.querySelector('.container').classList.remove('blurred');
                     $('#passwordModal').modal('hide');
                     document.getElementById('passwordInput').value = '';
@@ -476,12 +526,14 @@
             document.getElementById('printButton').addEventListener('click', () => window.print());
             window.addEventListener('beforeprint', () => {
                 document.getElementById('printButton').style.display = 'none';
+                document.querySelector('.home-button').style.display = 'none';
                 document.getElementById('personnelDetails').style.display = 'block';
                 document.querySelector('.container').classList.remove('blurred');
                 displaySkills('table');
             });
             window.addEventListener('afterprint', () => {
                 document.getElementById('printButton').style.display = 'flex';
+                document.querySelector('.home-button').style.display = 'flex';
                 document.getElementById('personnelDetails').style.display = 'none';
                 // Re-apply blur if password hasn't been entered correctly
                 if (document.getElementById('passwordModal').style.display !== 'none') {
