@@ -1,0 +1,629 @@
+<html lang="en"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JPA &amp; Hibernate Annotations Guide</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet"><link rel="icon" href="https://blogger.googleusercontent.com/img/a/AVvXsEgIFnXbCEgaASrlgiFnXz6MPaK-kyelPH7eTOt9s0-nWtY5YSMAIG5mN4k7dnxX6M-C0AmbO3U9jikPwhBdpp7G9848hK_1c7kXLbqxamlfCbhe_l-kEb8pe5V6mEH3fiIokyxkIyavBLAMlAzSApPTbcYA1r-P9YDwpu9GBIsL1SV4zGLvMwFulKOECQ4" type="image/x-icon">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #173049;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: auto;
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        h1, h2, h3 {
+            color: #343a40;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .section {
+            margin-bottom: 40px;
+        }
+        .annotation {
+            background: #e9ecef;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        pre {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+        code {
+            font-family: 'Courier New', Courier, monospace;
+        }
+        .btn-back-to-top {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            display: none;
+        }
+        .home-button {
+            position: fixed;
+            top: 1rem;
+            box-shadow: 2px 3px 20px 0px;
+            left: 1rem;
+            z-index: 999;
+            width: 3rem;
+            height: 3rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 0.75rem;
+            transition: transform 0.3s ease;
+        }
+
+        .home-button:hover {
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+<body>
+    
+     <!-- Home Button -->
+    <button class="home-button" onclick="window.location.href='index.html'" title="Back to Home">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+        </svg>
+    </button>
+    
+    <div class="container">
+        <h1>JPA &amp; Hibernate Annotations Guide</h1>
+
+        <!-- Entity & Table Related -->
+        <div class="section">
+            <h2>🗂️ Entity &amp; Table Related</h2>
+            <div class="annotation">
+                <h3>@Entity</h3>
+                <p>Marks a class as a JPA entity, representing a table in the database.</p>
+                <pre><code>@Entity
+public class User {
+    @Id
+    private Long id;
+    private String name;
+}</code></pre>
+            </div>
+            <div class="annotation">
+                <h3>@Table</h3>
+                <p>Specifies the table name and schema for the entity.</p>
+                <pre><code>@Entity
+@Table(name = "users", schema = "public")
+public class User {
+    @Id
+    private Long id;
+}</code></pre>
+            </div>
+            <div class="annotation">
+                <h3>@MappedSuperclass</h3>
+                <p>Defines a superclass whose mappings are inherited by subclasses.</p>
+                <pre><code>@MappedSuperclass
+public abstract class BaseEntity {
+    @Id
+    private Long id;
+}
+
+@Entity
+public class User extends BaseEntity {
+    private String name;
+}</code></pre>
+            </div>
+            <div class="annotation">
+                <h3>@Embeddable</h3>
+                <p>Marks a class whose instances are stored as part of an owning entity.</p>
+                <pre><code>@Embeddable
+public class Address {
+    private String street;
+    private String city;
+}</code></pre>
+            </div>
+            <div class="annotation">
+                <h3>@Embedded</h3>
+                <p>Indicates that an Embeddable object is a field in an entity.</p>
+                <pre><code>@Entity
+public class User {
+    @Id
+    private Long id;
+    @Embedded
+    private Address address;
+}</code></pre>
+            </div>
+            <div class="annotation">
+                <h3>@Inheritance</h3>
+                <p>Specifies the inheritance strategy for an entity hierarchy.</p>
+                <pre><code>@Entity
+@Inheritance(strategy = InheritanceType.JOINED)
+public abstract class Person {
+    @Id
+    private Long id;
+}
+
+@Entity
+public class Employee extends Person {
+    private String department;
+}</code></pre>
+            </div>
+            <div class="annotation">
+                <h3>@DiscriminatorColumn</h3>
+                <p>Defines the column to distinguish between entity types in inheritance.</p>
+                <pre><code>@Entity
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "type", discriminatorType = DiscriminatorType.STRING)
+public abstract class Person {
+    @Id
+    private Long id;
+}</code></pre>
+            </div>
+            <div class="annotation">
+                <h3>@DiscriminatorValue</h3>
+                <p>Specifies the value in the discriminator column for a specific entity.</p>
+                <pre><code>@Entity
+@DiscriminatorValue("EMPLOYEE")
+public class Employee extends Person {
+    private String department;
+}</code></pre>
+            </div>
+        </div>
+
+        <!-- Primary Key & ID Generation -->
+        <div class="section">
+            <h2>🔑 Primary Key &amp; ID Generation</h2>
+            <div class="annotation">
+                <h3>@Id</h3>
+                <p>Marks a field as the primary key of an entity.</p>
+                <pre><code>@Entity
+public class User {
+    @Id
+    private Long id;
+}</code></pre>
+            </div>
+            <div class="annotation">
+                <h3>@GeneratedValue</h3>
+                <p>Specifies how the primary key is generated.</p>
+                <pre><code>@Entity
+public class User {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+}</code></pre>
+            </div>
+            <div class="annotation">
+                <h3>@SequenceGenerator</h3>
+                <p>Defines a sequence generator for ID generation.</p>
+                <pre><code>@Entity
+public class User {
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_seq")
+    @SequenceGenerator(name = "user_seq", sequenceName = "user_sequence", allocationSize = 1)
+    private Long id;
+}</code></pre>
+            </div>
+            <div class="annotation">
+                <h3>@TableGenerator</h3>
+                <p>Defines a table-based ID generator.</p>
+                <pre><code>@Entity
+public class User {
+    @Id
+    @GeneratedValue(strategy = GenerationType.TABLE, generator = "user_gen")
+    @TableGenerator(name = "user_gen", table = "id_gen", pkColumnName = "gen_name", valueColumnName = "gen_val")
+    private Long id;
+}</code></pre>
+            </div>
+            <div class="annotation">
+                <h3>@GenericGenerator (Hibernate-specific)</h3>
+                <p>Custom ID generator for Hibernate.</p>
+                <pre><code>@Entity
+public class User {
+    @Id
+    @GenericGenerator(name = "uuid", strategy = "uuid2")
+    @GeneratedValue(generator = "uuid")
+    private String id;
+}</code></pre>
+            </div>
+            <div class="annotation">
+                <h3>@Version</h3>
+                <p>Enables optimistic locking by tracking entity versions.</p>
+                <pre><code>@Entity
+public class User {
+    @Id
+    private Long id;
+    @Version
+    private Integer version;
+}</code></pre>
+            </div>
+        </div>
+
+        <!-- Relationship Mapping -->
+        <div class="section">
+            <h2>🔗 Relationship Mapping</h2>
+            <div class="annotation">
+                <h3>@OneToOne</h3>
+                <p>Defines a one-to-one relationship between entities.</p>
+                <pre><code>@Entity
+public class User {
+    @Id
+    private Long id;
+    @OneToOne
+    @JoinColumn(name = "profile_id")
+    private Profile profile;
+}</code></pre>
+            </div>
+            <div class="annotation">
+                <h3>@OneToMany</h3>
+                <p>Defines a one-to-many relationship.</p>
+                <pre><code>@Entity
+public class Department {
+    @Id
+    private Long id;
+    @OneToMany(mappedBy = "department")
+    private List<employee> employees;
+}</employee></code></pre>
+            </div>
+            <div class="annotation">
+                <h3>@ManyToOne</h3>
+                <p>Defines a many-to-one relationship.</p>
+                <pre><code>@Entity
+public class Employee {
+    @Id
+    private Long id;
+    @ManyToOne
+    @JoinColumn(name = "department_id")
+    private Department department;
+}</code></pre>
+            </div>
+            <div class="annotation">
+                <h3>@ManyToMany</h3>
+                <p>Defines a many-to-many relationship using a join table.</p>
+                <pre><code>@Entity
+public class Student {
+    @Id
+    private Long id;
+    @ManyToMany
+    @JoinTable(name = "student_course",
+               joinColumns = @JoinColumn(name = "student_id"),
+               inverseJoinColumns = @JoinColumn(name = "course_id"))
+    private List<course> courses;
+}</course></code></pre>
+            </div>
+            <div class="annotation">
+                <h3>@JoinColumn</h3>
+                <p>Specifies the foreign key column for a relationship.</p>
+                <pre><code>@Entity
+public class Employee {
+    @Id
+    private Long id;
+    @ManyToOne
+    @JoinColumn(name = "department_id")
+    private Department department;
+}</code></pre>
+            </div>
+            <div class="annotation">
+                <h3>@JoinColumns</h3>
+                <p>Used for composite foreign keys.</p>
+                <pre><code>@Entity
+public class Order {
+    @Id
+    private Long id;
+    @ManyToOne
+    @JoinColumns({
+        @JoinColumn(name = "customer_id", referencedColumnName = "id"),
+        @JoinColumn(name = "customer_type", referencedColumnName = "type")
+    })
+    private Customer customer;
+}</code></pre>
+            </div>
+            <div class="annotation">
+                <h3>@JoinTable</h3>
+                <p>Defines a join table for many-to-many relationships.</p>
+                <pre><code>@Entity
+public class Student {
+    @Id
+    private Long id;
+    @ManyToMany
+    @JoinTable(name = "student_course",
+               joinColumns = @JoinColumn(name = "student_id"),
+               inverseJoinColumns = @JoinColumn(name = "course_id"))
+    private List<course> courses;
+}</course></code></pre>
+            </div>
+            <div class="annotation">
+                <h3>@MapsId</h3>
+                <p>Maps the ID of a dependent entity to the owning entity.</p>
+                <pre><code>@Entity
+public class User {
+    @Id
+    private Long id;
+    @OneToOne
+    @MapsId
+    private Profile profile;
+}</code></pre>
+            </div>
+            <div class="annotation">
+                <h3>@PrimaryKeyJoinColumn</h3>
+                <p>Specifies a primary key column that is used as a foreign key.</p>
+                <pre><code>@Entity
+public class User {
+    @Id
+    private Long id;
+    @OneToOne
+    @PrimaryKeyJoinColumn
+    private Profile profile;
+}</code></pre>
+            </div>
+            <div class="annotation">
+                <h3>@PrimaryKeyJoinColumns</h3>
+                <p>Used for composite primary key joins.</p>
+                <pre><code>@Entity
+public class Order {
+    @Id
+    private Long id;
+    @OneToOne
+    @PrimaryKeyJoinColumns({
+        @PrimaryKeyJoinColumn(name = "order_id", referencedColumnName = "id"),
+        @PrimaryKeyJoinColumn(name = "order_type", referencedColumnName = "type")
+    })
+    private Payment payment;
+}</code></pre>
+            </div>
+        </div>
+
+        <!-- Column & Field Mapping -->
+        <div class="section">
+            <h2>📦 Column &amp; Field Mapping</h2>
+            <div class="annotation">
+                <h3>@Column</h3>
+                <p>Specifies the details of a column in the database.</p>
+                <pre><code>@Entity
+public class User {
+    @Id
+    private Long id;
+    @Column(name = "full_name", length = 100, nullable = false)
+    private String name;
+}</code></pre>
+            </div>
+            <div class="annotation">
+                <h3>@Lob</h3>
+                <p>Marks a field as a large object (e.g., CLOB, BLOB).</p>
+                <pre><code>@Entity
+public class Document {
+    @Id
+    private Long id;
+    @Lob
+    private String content;
+}</code></pre>
+            </div>
+            <div class="annotation">
+                <h3>@Basic</h3>
+                <p>Specifies fetching behavior for a field (optional).</p>
+                <pre><code>@Entity
+public class User {
+    @Id
+    private Long id;
+    @Basic(fetch = FetchType.LAZY)
+    private String bio;
+}</code></pre>
+            </div>
+            <div class="annotation">
+                <h3>@Temporal</h3>
+                <p>Specifies the type of a date or time field.</p>
+                <pre><code>@Entity
+public class Event {
+    @Id
+    private Long id;
+    @Temporal(TemporalType.DATE)
+    private Date eventDate;
+}</code></pre>
+            </div>
+            <div class="annotation">
+                <h3>@Enumerated</h3>
+                <p>Maps an enum to a database column.</p>
+                <pre><code>@Entity
+public class User {
+    @Id
+    private Long id;
+    @Enumerated(EnumType.STRING)
+    private Role role;
+}
+
+public enum Role {
+    ADMIN, USER
+}</code></pre>
+            </div>
+            <div class="annotation">
+                <h3>@Transient</h3>
+                <p>Marks a field as not persistent (not stored in the database).</p>
+                <pre><code>@Entity
+public class User {
+    @Id
+    private Long id;
+    @Transient
+    private String temporaryToken;
+}</code></pre>
+            </div>
+            <div class="annotation">
+                <h3>@Access</h3>
+                <p>Specifies whether field or property access is used.</p>
+                <pre><code>@Entity
+@Access(AccessType.PROPERTY)
+public class User {
+    private Long id;
+    @Id
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+}</code></pre>
+            </div>
+        </div>
+
+        <!-- Cascading & Fetching -->
+        <div class="section">
+            <h2>🔄 Cascading &amp; Fetching</h2>
+            <div class="annotation">
+                <h3>@Cascade (Hibernate-specific)</h3>
+                <p>Specifies Hibernate-specific cascade operations.</p>
+                <pre><code>@Entity
+public class User {
+    @Id
+    private Long id;
+    @OneToOne
+    @Cascade(org.hibernate.annotations.CascadeType.ALL)
+    private Profile profile;
+}</code></pre>
+            </div>
+            <div class="annotation">
+                <h3>@Fetch (Hibernate-specific)</h3>
+                <p>Controls how relationships are fetched.</p>
+                <pre><code>@Entity
+public class Department {
+    @Id
+    private Long id;
+    @OneToMany
+    @Fetch(FetchMode.SUBSELECT)
+    private List<employee> employees;
+}</employee></code></pre>
+            </div>
+            <div class="annotation">
+                <h3>@FetchProfile</h3>
+                <p>Defines a fetch profile for custom fetching strategies.</p>
+                <pre><code>@Entity
+@FetchProfile(name = "user-with-profile", fetchOverrides = {
+    @FetchProfile.FetchOverride(entity = User.class, association = "profile", mode = FetchMode.JOIN)
+})
+public class User {
+    @Id
+    private Long id;
+    @OneToOne
+    private Profile profile;
+}</code></pre>
+            </div>
+            <div class="annotation">
+                <h3>@LazyCollection (Hibernate-specific)</h3>
+                <p>Controls lazy loading of collections.</p>
+                <pre><code>@Entity
+public class Department {
+    @Id
+    private Long id;
+    @OneToMany
+    @LazyCollection(LazyCollectionOption.EXTRA)
+    private List<employee> employees;
+}</employee></code></pre>
+            </div>
+            <div class="annotation">
+                <h3>@Proxy (Hibernate-specific)</h3>
+                <p>Enables or disables lazy loading for an entity.</p>
+                <pre><code>@Entity
+@Proxy(lazy = true)
+public class User {
+    @Id
+    private Long id;
+}</code></pre>
+            </div>
+        </div>
+
+        <!-- Validation & Other -->
+        <div class="section">
+            <h2>🧪 Validation &amp; Other</h2>
+            <div class="annotation">
+                <h3>@NotNull</h3>
+                <p>Ensures a field is not null (Bean Validation).</p>
+                <pre><code>@Entity
+public class User {
+    @Id
+    private Long id;
+    @NotNull
+    private String name;
+}</code></pre>
+            </div>
+            <div class="annotation">
+                <h3>@Size, @Min, @Max, @Pattern</h3>
+                <p>Bean Validation constraints for field validation.</p>
+                <pre><code>@Entity
+public class User {
+    @Id
+    private Long id;
+    @Size(min = 2, max = 50)
+    @Pattern(regexp = "[A-Za-z ]*")
+    private String name;
+    @Min(18) @Max(100)
+    private Integer age;
+}</code></pre>
+            </div>
+            <div class="annotation">
+                <h3>@CreationTimestamp (Hibernate-specific)</h3>
+                <p>Automatically sets the creation timestamp.</p>
+                <pre><code>@Entity
+public class User {
+    @Id
+    private Long id;
+    @CreationTimestamp
+    private LocalDateTime createdAt;
+}</code></pre>
+            </div>
+            <div class="annotation">
+                <h3>@UpdateTimestamp (Hibernate-specific)</h3>
+                <p>Automatically updates the timestamp on entity update.</p>
+                <pre><code>@Entity
+public class User {
+    @Id
+    private Long id;
+    @UpdateTimestamp
+    private LocalDateTime updatedAt;
+}</code></pre>
+            </div>
+            <div class="annotation">
+                <h3>@Where (Hibernate-specific)</h3>
+                <p>Applies a WHERE clause for soft deletes.</p>
+                <pre><code>@Entity
+@Where(clause = "deleted = false")
+public class User {
+    @Id
+    private Long id;
+    private boolean deleted = false;
+}</code></pre>
+            </div>
+            <div class="annotation">
+                <h3>@SQLDelete (Hibernate-specific)</h3>
+                <p>Customizes the SQL for soft deletes.</p>
+                <pre><code>@Entity
+@SQLDelete(sql = "UPDATE user SET deleted = true WHERE id = ?")
+public class User {
+    @Id
+    private Long id;
+    private boolean deleted = false;
+}</code></pre>
+            </div>
+        </div>
+    </div>
+
+    <!-- Back to Top Button -->
+    <a href="#" class="btn btn-primary btn-back-to-top" style="display: none;">Back to Top</a>
+
+    <!-- Bootstrap JS and Popper.js -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Show/hide back-to-top button
+        window.addEventListener('scroll', () => {
+            const btn = document.querySelector('.btn-back-to-top');
+            if (window.scrollY > 300) {
+                btn.style.display = 'block';
+            } else {
+                btn.style.display = 'none';
+            }
+        });
+    </script>
+
+<style></style></body></html>
