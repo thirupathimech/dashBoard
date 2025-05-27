@@ -5,9 +5,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Loan Calculator</title>
+    <title>Loan & Interest Calculator</title>
     <!-- Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
     <link rel="icon" href="https://blogger.googleusercontent.com/img/a/AVvXsEgIFnXbCEgaASrlgiFnXz6MPaK-kyelPH7eTOt9s0-nWtY5YSMAIG5mN4k7dnxX6M-C0AmbO3U9jikPwhBdpp7G9848hK_1c7kXLbqxamlfCbhe_l-kEb8pe5V6mEH3fiIokyxkIyavBLAMlAzSApPTbcYA1r-P9YDwpu9GBIsL1SV4zGLvMwFulKOECQ4"
         type="image/x-icon">
     <style>
@@ -47,7 +49,7 @@
         }
 
         .form-control {
-            background: rgba(203 203 203 / 20%);
+            background: rgba(203, 203, 203, 0.2);
             border: 1px solid rgba(255, 255, 255, 0.3);
             color: #fff;
             border-radius: 10px;
@@ -94,7 +96,7 @@
             box-shadow: 0 5px 15px rgba(40, 167, 69, 0.4);
         }
 
-        #result {
+        #loanResult, #interestResult {
             margin-top: 30px;
             padding: 20px;
             background: rgba(255, 255, 255, 0.15);
@@ -102,7 +104,7 @@
             animation: fadeIn 0.5s ease-in;
         }
 
-        #result h4 {
+        #loanResult h4, #interestResult h4 {
             color: #000000;
             font-weight: 500;
         }
@@ -119,8 +121,6 @@
             color: #000000;
             border: none;
         }
-        
-        
 
         .schedule-table th {
             background: rgba(255, 255, 255, 0.2);
@@ -163,6 +163,7 @@
                 padding: 10px;
             }
         }
+
         .home-button {
             position: fixed;
             box-shadow: 2px 3px 20px 0px;
@@ -184,6 +185,25 @@
         .home-button:hover {
             transform: scale(1.1);
         }
+
+        .nav-tabs .nav-link {
+            color: #fff;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 10px 10px 0 0;
+        }
+
+        .nav-tabs .nav-link.active {
+            background: rgba(255, 255, 255, 0.3);
+            color: #fff;
+            border-bottom: none;
+        }
+
+        .tab-content {
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 0 0 10px 10px;
+            padding: 20px;
+        }
     </style>
 </head>
 
@@ -194,82 +214,134 @@
         </svg>
     </button>
     <div class="container">
-        <h2>Loan Calculator</h2>
-        <form id="loan-form">
-            <div class="form-group">
-                <label for="interestRate">Interest Rate (%)</label>
-                <input type="number" class="form-control" id="interestRate" placeholder="e.g., 16.33" step="0.01" min="0" required>
+        <h2>Loan & Interest Calculator</h2>
+        <ul class="nav nav-tabs" id="calcTabs" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" id="loan-tab" data-toggle="tab" href="#loan" role="tab" aria-controls="loan" aria-selected="true">Loan Calculator</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="interest-tab" data-toggle="tab" href="#interest" role="tab" aria-controls="interest" aria-selected="false">Monthly Interest Calculator</a>
+            </li>
+        </ul>
+        <div class="tab-content" id="calcTabContent">
+            <!-- Loan Calculator Tab -->
+            <div class="tab-pane fade show active" id="loan" role="tabpanel" aria-labelledby="loan-tab">
+                <form id="loan-form">
+                    <div class="form-group">
+                        <label for="interestRate">Annual Interest Rate (%)</label>
+                        <input type="number" class="form-control" id="interestRate" placeholder="e.g., 16.33" step="0.01" min="0" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="loanAmount">Loan Amount</label>
+                        <input type="number" class="form-control" id="loanAmount" placeholder="e.g., 100000" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="tenure">Tenure (months)</label>
+                        <input type="number" class="form-control" id="tenure" placeholder="e.g., 36" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">Calculate</button>
+                </form>
+                <div id="loanResult" class="mt-4">
+                    <h4>Monthly Payment: <span id="monthlyPayment">0.00</span></h4>
+                    <h4>Total Repayable Amount: <span id="totalRepayable">0.00</span></h4>
+                    <h4>Total Interest Amount: <span id="totalInterest">0.00</span></h4>
+                    <h4>Payment Schedule:</h4>
+                    <table class="table schedule-table">
+                        <thead>
+                            <tr>
+                                <th>Month</th>
+                                <th>Principal</th>
+                                <th>Interest</th>
+                                <th>Total Payment</th>
+                                <th>Remaining Balance</th>
+                            </tr>
+                        </thead>
+                        <tbody id="scheduleBody">
+                            <!-- Schedule will be populated here -->
+                        </tbody>
+                    </table>
+                    <canvas id="loanChart" class="mt-4"></canvas>
+                    <button class="btn btn-success btn-download mt-4" onclick="downloadLoanPDF()">Download as PDF</button>
+                </div>
             </div>
-            <div class="form-group">
-                <label for="loanAmount">Loan Amount</label>
-                <input type="number" class="form-control" id="loanAmount" placeholder="e.g., 100000" required>
+            <!-- Monthly Interest Calculator Tab -->
+            <div class="tab-pane fade" id="interest" role="tabpanel" aria-labelledby="interest-tab">
+                <form id="interest-form">
+                    <div class="form-group">
+                        <label for="principal">Principal Amount (₹)</label>
+                        <input type="number" class="form-control" id="principal" placeholder="e.g., 5000" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="rate">Monthly Interest Rate (%)</label>
+                        <input type="number" class="form-control" id="rate" placeholder="e.g., 3" step="0.01" min="0" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="months">Number of Months</label>
+                        <input type="number" class="form-control" id="months" placeholder="e.g., 6" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="interestType">Interest Type</label>
+                        <select id="interestType" class="form-control">
+                            <option value="simple">Simple Interest</option>
+                            <option value="compound">Compound Interest</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">Calculate</button>
+                </form>
+                <div id="interestResult" class="mt-4">
+                    <h4>Monthly Interest: <span id="monthlyInterest">0.00</span></h4>
+                    <h4>Total Interest: <span id="totalInterestMonthly">0.00</span></h4>
+                    <canvas id="interestChart" class="mt-4"></canvas>
+                    <button class="btn btn-success btn-download mt-4" onclick="downloadInterestPDF()">Download as PDF</button>
+                </div>
             </div>
-            <div class="form-group">
-                <label for="tenure">Tenure (months)</label>
-                <input type="number" class="form-control" id="tenure" placeholder="e.g., 36" required>
-            </div>
-            <button type="submit" class="btn btn-primary btn-block">Calculate</button>
-        </form>
-        <div id="result" class="mt-4">
-            <h4>Monthly Payment: <span id="monthlyPayment">0.00</span></h4>
-            <h4>Total Repayable Amount: <span id="totalRepayable">0.00</span></h4>
-            <h4>Total Interest Amount: <span id="totalInterest">0.00</span></h4>
-            <h4>Payment Schedule:</h4>
-            <table class="table schedule-table">
-                <thead>
-                    <tr>
-                        <th>Month</th>
-                        <th>Principal</th>
-                        <th>Interest</th>
-                        <th>Total Payment</th>
-                        <th>Remaining Balance</th>
-                    </tr>
-                </thead>
-                <tbody id="scheduleBody">
-                    <!-- Schedule will be populated here -->
-                </tbody>
-            </table>
-            <button class="btn btn-success btn-download" onclick="downloadPDF()">Download as PDF</button>
         </div>
     </div>
 
     <!-- JavaScript -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.13/jspdf.plugin.autotable.min.js"></script>
     <script>
+        let loanChart = null;
+        let interestChart = null;
+
+        // Loan Calculator Logic
         document.getElementById('loan-form').addEventListener('submit', function(event) {
             event.preventDefault();
 
-            // Get user inputs
             const interestRate = parseFloat(document.getElementById('interestRate').value) / 100 / 12;
             const loanAmount = parseFloat(document.getElementById('loanAmount').value);
             const tenure = parseFloat(document.getElementById('tenure').value);
 
-            // Input validation
             if (isNaN(interestRate) || isNaN(loanAmount) || isNaN(tenure) || loanAmount <= 0 || tenure <= 0) {
                 alert('Please enter valid inputs.');
                 return;
             }
 
-            // Calculate monthly payment
             const monthlyPayment = (loanAmount * interestRate) / (1 - Math.pow(1 + interestRate, -tenure));
             const totalRepayable = monthlyPayment * tenure;
             const totalInterest = totalRepayable - loanAmount;
 
-            // Display the results
             document.getElementById('monthlyPayment').textContent = monthlyPayment.toFixed(2);
             document.getElementById('totalRepayable').textContent = totalRepayable.toFixed(2);
             document.getElementById('totalInterest').textContent = totalInterest.toFixed(2);
 
-            // Generate the payment schedule
             const scheduleBody = document.getElementById('scheduleBody');
-            scheduleBody.innerHTML = ''; // Clear previous schedule
+            scheduleBody.innerHTML = '';
             let remainingBalance = loanAmount;
+            const principalData = [];
+            const interestData = [];
 
             for (let month = 1; month <= tenure; month++) {
                 const interestPayment = remainingBalance * interestRate;
                 const principalPayment = monthlyPayment - interestPayment;
                 remainingBalance -= principalPayment;
+
+                principalData.push(principalPayment.toFixed(2));
+                interestData.push(interestPayment.toFixed(2));
 
                 const row = document.createElement('tr');
                 row.innerHTML = `
@@ -282,11 +354,54 @@
                 scheduleBody.appendChild(row);
             }
 
-            // Show result section with animation
-            document.getElementById('result').style.display = 'block';
+            updateLoanChart(principalData, interestData, tenure);
+            document.getElementById('loanResult').style.display = 'block';
         });
 
-        function downloadPDF() {
+        function updateLoanChart(principalData, interestData, months) {
+            const ctx = document.getElementById('loanChart').getContext('2d');
+            if (loanChart) loanChart.destroy();
+
+            loanChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: Array.from({ length: months }, (_, i) => `Month ${i + 1}`),
+                    datasets: [
+                        {
+                            label: 'Principal Payment (₹)',
+                            data: principalData,
+                            backgroundColor: 'rgba(255, 107, 107, 0.6)',
+                            borderColor: 'rgba(255, 107, 107, 1)',
+                            borderWidth: 1
+                        },
+                        {
+                            label: 'Interest Payment (₹)',
+                            data: interestData,
+                            backgroundColor: 'rgba(40, 167, 69, 0.6)',
+                            borderColor: 'rgba(40, 167, 69, 1)',
+                            borderWidth: 1
+                        }
+                    ]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: { display: true, text: 'Amount (₹)' }
+                        },
+                        x: {
+                            title: { display: true, text: 'Months' }
+                        }
+                    },
+                    plugins: {
+                        legend: { display: true },
+                        title: { display: true, text: 'Loan Payment Breakdown' }
+                    }
+                }
+            });
+        }
+
+        function downloadLoanPDF() {
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF();
 
@@ -313,12 +428,111 @@
 
             doc.save('loan-schedule.pdf');
         }
-    </script>
 
-    <!-- Bootstrap JS and dependencies -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+        // Monthly Interest Calculator Logic
+        document.getElementById('interest-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const principal = parseFloat(document.getElementById('principal').value);
+            const rate = parseFloat(document.getElementById('rate').value);
+            const months = parseInt(document.getElementById('months').value);
+            const interestType = document.getElementById('interestType').value;
+
+            if (isNaN(principal) || isNaN(rate) || isNaN(months) || principal <= 0 || rate < 0 || months <= 0) {
+                alert('Please enter valid positive numbers.');
+                return;
+            }
+
+            let monthlyInterest, totalInterest, chartData;
+
+            if (interestType === 'simple') {
+                monthlyInterest = (principal * (rate / 100)).toFixed(2);
+                totalInterest = (monthlyInterest * months).toFixed(2);
+                chartData = Array(months).fill(parseFloat(monthlyInterest));
+            } else {
+                totalInterest = (principal * Math.pow(1 + rate / 100, months) - principal).toFixed(2);
+                monthlyInterest = (totalInterest / months).toFixed(2);
+                chartData = Array(months).fill(parseFloat(monthlyInterest));
+            }
+
+            document.getElementById('monthlyInterest').textContent = monthlyInterest;
+            document.getElementById('totalInterestMonthly').textContent = totalInterest;
+
+            updateInterestChart(chartData, months);
+            document.getElementById('interestResult').style.display = 'block';
+        });
+
+        function updateInterestChart(data, months) {
+            const ctx = document.getElementById('interestChart').getContext('2d');
+            if (interestChart) interestChart.destroy();
+
+            interestChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: Array.from({ length: months }, (_, i) => `Month ${i + 1}`),
+                    datasets: [{
+                        label: 'Monthly Interest (₹)',
+                        data: data,
+                        backgroundColor: 'rgba(40, 167, 69, 0.6)',
+                        borderColor: 'rgba(40, 167, 69, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: { display: true, text: 'Interest (₹)' }
+                        },
+                        x: {
+                            title: { display: true, text: 'Months' }
+                        }
+                    },
+                    plugins: {
+                        legend: { display: true },
+                        title: { display: true, text: 'Monthly Interest Breakdown' }
+                    }
+                }
+            });
+        }
+
+        function downloadInterestPDF() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+
+            doc.setFontSize(16);
+            doc.text('Monthly Interest Report - Powered by Thirupathi G', 10, 10);
+
+            const principal = document.getElementById('principal').value;
+            const rate = document.getElementById('rate').value;
+            const months = document.getElementById('months').value;
+            const interestType = document.getElementById('interestType').value;
+            const monthlyInterest = document.getElementById('monthlyInterest').textContent;
+            const totalInterest = document.getElementById('totalInterestMonthly').textContent;
+
+            doc.autoTable({
+                body: [
+                    ['Principal Amount (₹)', principal],
+                    ['Monthly Interest Rate (%)', rate],
+                    ['Number of Months', months],
+                    ['Interest Type', interestType.charAt(0).toUpperCase() + interestType.slice(1)],
+                    ['Monthly Interest (₹)', monthlyInterest],
+                    ['Total Interest (₹)', totalInterest]
+                ],
+                theme: 'striped',
+                headStyles: {
+                    fillColor: [110, 142, 251],
+                    textColor: [255, 255, 255],
+                    fontStyle: 'bold'
+                },
+                bodyStyles: {
+                    textColor: [50, 50, 50]
+                }
+            });
+
+            doc.save('interest-report.pdf');
+        }
+    </script>
 </body>
 
 </html>
