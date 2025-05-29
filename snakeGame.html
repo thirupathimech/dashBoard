@@ -18,23 +18,12 @@
             background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(10px);
             border-radius: 15px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 8px 32px rgba(0, 0, 0f, 0.2);
             border: 1px solid rgba(255, 255, 255, 0.18);
         }
         canvas {
             border: 2px solid rgba(255, 255, 255, 0.2);
             background-color: rgba(224, 224, 224, 0.3);
-        }
-        .snake-segment {
-            transition: transform 0.1s ease;
-        }
-        .food {
-            animation: pulse 1.5s infinite;
-        }
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.2); }
-            100% { transform: scale(1); }
         }
         #restartBtn {
             transition: transform 0.3s ease, background-color 0.3s ease;
@@ -190,7 +179,7 @@
                 ctx.fillRect(segment.x * gridSize, segment.y * gridSize, gridSize - 2, gridSize - 2);
             });
 
-            // Draw food with pulse animation
+            // Draw food (without animation)
             ctx.fillStyle = '#dc2626';
             ctx.beginPath();
             ctx.arc((food.x + 0.5) * gridSize, (food.y + 0.5) * gridSize, gridSize / 2 - 2, 0, Math.PI * 2);
@@ -267,7 +256,7 @@
             gameOver = false;
             $('#restartBtn').addClass('d-none').removeClass('game-over');
             clearInterval(gameLoop);
-            gameLoop = setInterval(drawGame, 100);
+            gameLoop = setInterval(drawGame, 150); // Slower snake movement
         }
 
         // Keyboard controls
@@ -282,7 +271,7 @@
         // Restart button
         $('#restartBtn').on('click', function() {
             $(this).css('transform', 'scale(0.9)');
-            setTimeout(() => $(this).css('transform', 'scale(1)'), 200);
+            setTimeout(() => $(this).css('transform |', 'scale(1)'), 200);
             startGame();
         });
 
