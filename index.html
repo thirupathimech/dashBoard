@@ -61,9 +61,31 @@
             margin-top: auto;
         }
 
+        .search-bar {
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 0.5rem;
+            padding: 0.5rem 1rem;
+            color: white;
+            width: 200px;
+        }
+
+        .search-bar::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .search-bar:focus {
+            outline: none;
+            border-color: #34d399;
+            background: rgba(255, 255, 255, 0.3);
+        }
+
         @media (max-width: 640px) {
             .container {
                 padding: 1rem;
+            }
+            .search-bar {
+                width: 100%;
             }
         }
     </style>
@@ -71,9 +93,10 @@
 <body>
     <!-- Navigation Bar -->
     <nav class="navbar glass bg-opacity-10 py-4">
-        <div class="container mx-auto px-4 flex justify-between items-center">
+        <div class="container mx-auto px-4 flex justify-between items-center flex-wrap">
             <a class="text-2xl font-bold text-white" href="#">Thirupathi G</a>
-            <div class="space-x-4">
+            <div class="flex items-center space-x-4 mt-2 sm:mt-0">
+                <input type="text" id="searchInput" class="search-bar" placeholder="Search projects...">
                 <a class="text-white hover:text-emerald-200 transition" href="#">Home</a>
                 <a class="text-white hover:text-emerald-200 transition" href="#">About</a>
                 <a class="text-white hover:text-emerald-200 transition" href="#">Contact</a>
@@ -84,8 +107,7 @@
 
     <!-- Content -->
     <div class="container mx-auto px-4 py-12 animate-fade-in">
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-
+        <div id="cardContainer" class="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div class="glass p-6 flex flex-col justify-between">
                 <div>
                     <h2 class="text-xl font-semibold text-white mb-3">MySQL Topics Explorer</h2>
@@ -102,7 +124,7 @@
                 <button class="animated-button text-white font-medium py-2 px-4 rounded-lg mt-4" onclick="window.location.href='mySQLTableCreator.html'">Show</button>
             </div>
 
-             <div class="glass p-6 flex flex-col justify-between">
+            <div class="glass p-6 flex flex-col justify-between">
                 <div>
                     <h2 class="text-xl font-semibold text-white mb-3">JPA & Hibernate Annotations</h2>
                     <p class="text-gray-200 text-sm">💻 A handy web tool to explore and learn JPA & Hibernate annotations with examples 📘 — simplify your database mapping and boost development speed ⚡.</p>
@@ -116,7 +138,7 @@
                     <p class="text-gray-200 text-sm">🌐 A simple website to compare 🔄 two Excel workbooks 📊 and download ⬇️ only the rows that are different 🧾.</p>
                 </div>
                 <button class="animated-button text-white font-medium py-2 px-4 rounded-lg mt-4" onclick="window.location.href='excelComparison.html'">Show</button>
-            </div>                        
+            </div>
 
             <div class="glass p-6 flex flex-col justify-between">
                 <div>
@@ -157,7 +179,7 @@
                 </div>
                 <button class="animated-button text-white font-medium py-2 px-4 rounded-lg mt-4" onclick="window.location.href='javaFilePathScanner.html'">Show</button>
             </div>
-            
+
             <div class="glass p-6 flex flex-col justify-between">
                 <div>
                     <h2 class="text-xl font-semibold text-white mb-3">Color Picker</h2>
@@ -166,7 +188,7 @@
                 <button class="animated-button text-white font-medium py-2 px-4 rounded-lg mt-4" onclick="window.location.href='colorPicker.html'">Show</button>
             </div>
 
-             <div class="glass p-6 flex flex-col justify-between">
+            <div class="glass p-6 flex flex-col justify-between">
                 <div>
                     <h2 class="text-xl font-semibold text-white mb-3">Chat Bot</h2>
                     <p class="text-gray-200 text-sm">🤖 Talk to a smart, chatty bot that gets your vibe. Great for dev portfolios, demos, or just some fun! ⚡</p>
@@ -190,14 +212,13 @@
                 <button class="animated-button text-white font-medium py-2 px-4 rounded-lg mt-4" onclick="window.location.href='snakeGame.html'">Show</button>
             </div>
 
-             <div class="glass p-6 flex flex-col justify-between">
+            <div class="glass p-6 flex flex-col justify-between">
                 <div>
                     <h2 class="text-xl font-semibold text-white mb-3">Capture Image Or Video</h2>
                     <p class="text-gray-200 text-sm">📸 Capture and process images or videos with ease.</p>
                 </div>
                 <button class="animated-button text-white font-medium py-2 px-4 rounded-lg mt-4" onclick="window.location.href='FaceRecognization.html'">Show</button>
             </div>
-
         </div>
     </div>
 
@@ -205,5 +226,23 @@
     <footer class="glass py-4 text-center text-white">
         <p>© 2025 Thirupathi G Developments</p>
     </footer>
+
+    <script>
+        document.getElementById('searchInput').addEventListener('input', function(e) {
+            const searchTerm = e.target.value.toLowerCase();
+            const cards = document.querySelectorAll('#cardContainer .glass');
+
+            cards.forEach(card => {
+                const title = card.querySelector('h2').textContent.toLowerCase();
+                const description = card.querySelector('p').textContent.toLowerCase();
+
+                if (title.includes(searchTerm) || description.includes(searchTerm)) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        });
+    </script>
 </body>
 </html>
