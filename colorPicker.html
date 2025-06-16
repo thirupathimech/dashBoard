@@ -16,6 +16,7 @@
             flex-direction: column;
             margin: 0;
             background-color: #990000;
+            transition: background 0.5s ease;
         }
 
         .glass {
@@ -35,7 +36,6 @@
         .home-button {
             position: fixed;
             top: 1rem;
-            box-shadow: 2px 3px 20px 0px;
             left: 1rem;
             z-index: 999;
             width: 3rem;
@@ -55,8 +55,8 @@
         }
 
         .color-picker {
-            width: 100px;
-            height: 100px;
+            width: 80px;
+            height: 80px;
             border-radius: 12px;
             border: 3px dashed #10b981;
             cursor: pointer;
@@ -68,7 +68,7 @@
         }
 
         .color-display {
-            font-size: 2.5rem;
+            font-size: 2rem;
             font-weight: 600;
             text-align: center;
             padding: 1rem;
@@ -108,18 +108,67 @@
             background: #10b981;
         }
 
-        .direction-select {
+        .action-button {
             background: rgba(255, 255, 255, 0.2);
             border: 1px solid rgba(255, 255, 255, 0.3);
             border-radius: 0.5rem;
-            padding: 0.5rem;
+            padding: 0.5rem 1rem;
+            color: #fff;
             font-weight: 600;
             cursor: pointer;
-            transition: background 0.3s ease;
+            transition: background 0.3s ease, transform 0.3s ease;
         }
 
-        .direction-select:hover {
+        .action-button:hover {
             background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.05);
+        }
+
+        .preview-swatch {
+            width: 100px;
+            height: 50px;
+            border-radius: 0.5rem;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .favorite-item {
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .favorite-item:hover {
+            transform: scale(1.05);
+        }
+
+        .slider {
+            -webkit-appearance: none;
+            width: 200px;
+            height: 8px;
+            border-radius: 5px;
+            background: rgba(255, 255, 255, 0.2);
+            outline: none;
+            opacity: 0.7;
+            transition: opacity 0.2s;
+        }
+
+        .slider:hover {
+            opacity: 1;
+        }
+
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #10b981;
+            cursor: pointer;
+        }
+
+        .error-message {
+            color: #ff4500;
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
         }
 
         @keyframes fadeIn {
@@ -127,7 +176,6 @@
                 opacity: 0;
                 transform: translateY(20px);
             }
-
             to {
                 opacity: 1;
                 transform: translateY(0);
@@ -155,8 +203,8 @@
             }
 
             .color-picker {
-                width: 80px;
-                height: 80px;
+                width: 60px;
+                height: 60px;
             }
 
             .home-button {
@@ -164,14 +212,13 @@
                 height: 2.5rem;
             }
 
-            .mode-button {
+            .mode-button, .action-button {
                 padding: 0.4rem 0.8rem;
                 font-size: 0.9rem;
             }
 
-            .direction-select {
-                padding: 0.4rem;
-                font-size: 0.9rem;
+            .slider {
+                width: 150px;
             }
         }
     </style>
@@ -179,7 +226,7 @@
 
 <body id="body">
     <!-- Home Button -->
-    <button class="home-button" onclick="window.location.href='index.html'" title="Back to Home">
+    <button class="home-button" onclick="window.location.href='index.html'" title="Back to Home" aria-label="Back to Home">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
         </svg>
@@ -187,31 +234,45 @@
 
     <!-- Header -->
     <header class="glass py-4 text-center">
-        <h1 class="text-3xl md:text-4xl font-bold text-white">Color & Gradient Picker</h1>
+        <h1 class="text-3xl md:text-4xl font-bold text-white">Color & Gradient Picker 😎</h1>
     </header>
 
     <!-- Main Content -->
     <div class="container mx-auto px-4 py-12 flex flex-col items-center justify-center animate-fade-in">
         <div class="flex space-x-4 mb-6">
-            <button id="solidMode" class="mode-button active">Solid Color</button>
-            <button id="gradientMode" class="mode-button">Linear Gradient</button>
+            <button id="solidMode" class="mode-button active" aria-label="Switch to solid color mode">Solid Color</button>
+            <button id="gradientMode" class="mode-button" aria-label="Switch to gradient mode">Linear Gradient</button>
         </div>
         <div id="gradientOptions" class="hidden flex flex-col items-center space-y-4 mb-6">
-            <select id="gradientDirection" class="direction-select">
-                <option value="to right">Left to Right</option>
-                <option value="to left">Right to Left</option>
-                <option value="to bottom">Top to Bottom</option>
-                <option value="to top">Bottom to Top</option>
-                <option value="to bottom right">Top Left to Bottom Right</option>
-                <option value="to bottom left">Top Right to Bottom Left</option>
-            </select>
+            <div class="flex items-center space-x-4">
+                <label for="gradientAngle" class="text-white font-semibold">Angle: <span id="angleValue">0°</span></label>
+                <input type="range" id="gradientAngle" class="slider" min="0" max="360" value="0" aria-label="Gradient angle">
+            </div>
+            <div id="colorPickers" class="flex space-x-4 flex-wrap justify-center">
+                <input type="color" id="colorPicker1" class="color-picker" value="#990000" aria-label="First gradient color">
+                <input type="color" id="colorPicker2" class="color-picker" value="#ff4500" aria-label="Second gradient color">
+            </div>
             <div class="flex space-x-4">
-                <input type="color" id="colorPicker1" class="color-picker" value="#990000">
-                <input type="color" id="colorPicker2" class="color-picker" value="#ff4500">
+                <button id="addColor" class="action-button" aria-label="Add new color to gradient">Add Color</button>
+                <button id="removeColor" class="action-button" aria-label="Remove last color from gradient" disabled>Remove Color</button>
             </div>
         </div>
-        <input type="color" id="colorPicker" class="color-picker" value="#990000">
-        <input type="text" id="colorDisplay" class="color-display mt-8" placeholder="#990000">
+        <input type="color" id="colorPicker" class="color-picker" value="#990000" aria-label="Solid color picker">
+        <div class="flex items-center space-x-4 mt-4">
+            <select id="colorFormat" class="direction-select glass text-white p-2" aria-label="Select color format">
+                <option style="color:black" value="hex">HEX</option>
+                <option style="color:black" value="rgb">RGB</option>
+                <option style="color:black" value="hsl">HSL</option>
+            </select>
+            <input type="text" id="colorDisplay" class="color-display" placeholder="#990000" aria-label="Color or gradient value">
+        </div>
+        <div id="previewSwatch" class="preview-swatch mt-4" style="background: #990000"></div>
+        <div class="flex space-x-4 mt-6">
+            <button id="randomize" class="action-button" aria-label="Generate random color or gradient">Random 🎨</button>
+            <button id="saveFavorite" class="action-button" aria-label="Save to favorites">Save ⭐</button>
+        </div>
+        <div id="errorMessage" class="error-message hidden"></div>
+        <div id="favorites" class="mt-6 flex flex-wrap justify-center gap-4"></div>
     </div>
 
     <!-- Footer -->
@@ -219,25 +280,39 @@
 
     <script>
         const colorPicker = document.getElementById('colorPicker');
-        const colorPicker1 = document.getElementById('colorPicker1');
-        const colorPicker2 = document.getElementById('colorPicker2');
         const colorDisplay = document.getElementById('colorDisplay');
         const body = document.getElementById('body');
         const colorInfo = document.getElementById('colorInfo');
         const solidMode = document.getElementById('solidMode');
         const gradientMode = document.getElementById('gradientMode');
         const gradientOptions = document.getElementById('gradientOptions');
-        const gradientDirection = document.getElementById('gradientDirection');
+        const gradientAngle = document.getElementById('gradientAngle');
+        const angleValue = document.getElementById('angleValue');
+        const colorPickers = document.getElementById('colorPickers');
+        const addColor = document.getElementById('addColor');
+        const removeColor = document.getElementById('removeColor');
+        const colorFormat = document.getElementById('colorFormat');
+        const previewSwatch = document.getElementById('previewSwatch');
+        const randomize = document.getElementById('randomize');
+        const saveFavorite = document.getElementById('saveFavorite');
+        const favorites = document.getElementById('favorites');
+        const errorMessage = document.getElementById('errorMessage');
 
         let isGradientMode = false;
+        let colorPickerCount = 2;
+        let favoriteList = JSON.parse(localStorage.getItem('favorites')) || [];
 
-        // Toggle between solid and gradient modes
+        // Load favorites on page load
+        renderFavorites();
+
+        // Toggle modes
         solidMode.addEventListener('click', () => {
             isGradientMode = false;
             solidMode.classList.add('active');
             gradientMode.classList.remove('active');
             gradientOptions.classList.add('hidden');
             colorPicker.classList.remove('hidden');
+            colorDisplay.readOnly = false;
             updateColors(colorPicker.value);
         });
 
@@ -247,43 +322,154 @@
             solidMode.classList.remove('active');
             gradientOptions.classList.remove('hidden');
             colorPicker.classList.add('hidden');
+            colorDisplay.readOnly = true;
             updateGradient();
         });
 
-        // Event listeners for color pickers
+        // Color picker events
         colorPicker.addEventListener('input', (event) => {
             if (!isGradientMode) {
                 updateColors(event.target.value);
             }
         });
 
-        colorPicker1.addEventListener('input', updateGradient);
-        colorPicker2.addEventListener('input', updateGradient);
-        gradientDirection.addEventListener('change', updateGradient);
-
         colorDisplay.addEventListener('input', (event) => {
             if (!isGradientMode) {
-                updateColors(event.target.value);
+                const value = event.target.value;
+                if (/^#[0-9A-Fa-f]{6}$/.test(value)) {
+                    updateColors(value);
+                    errorMessage.classList.add('hidden');
+                } else {
+                    errorMessage.textContent = 'Invalid HEX color! Use format #RRGGBB';
+                    errorMessage.classList.remove('hidden');
+                }
             }
         });
 
+        // Gradient events
+        gradientAngle.addEventListener('input', () => {
+            angleValue.textContent = `${gradientAngle.value}°`;
+            updateGradient();
+        });
+
+        addColor.addEventListener('click', () => {
+            if (colorPickerCount < 5) { // Limit to 5 colors
+                colorPickerCount++;
+                const newPicker = document.createElement('input');
+                newPicker.type = 'color';
+                newPicker.id = `colorPicker${colorPickerCount}`;
+                newPicker.className = 'color-picker';
+                newPicker.value = '#ffffff';
+                newPicker.setAttribute('aria-label', `Gradient color ${colorPickerCount}`);
+                colorPickers.appendChild(newPicker);
+                newPicker.addEventListener('input', updateGradient);
+                removeColor.disabled = false;
+                updateGradient();
+            }
+            if (colorPickerCount >= 5) addColor.disabled = true;
+        });
+
+        removeColor.addEventListener('click', () => {
+            if (colorPickerCount > 2) {
+                const lastPicker = document.getElementById(`colorPicker${colorPickerCount}`);
+                lastPicker.remove();
+                colorPickerCount--;
+                addColor.disabled = false;
+                updateGradient();
+            }
+            if (colorPickerCount <= 2) removeColor.disabled = true;
+        });
+
+        // Attach event listeners to existing color pickers
+        document.querySelectorAll('#colorPickers input').forEach(picker => {
+            picker.addEventListener('input', updateGradient);
+        });
+
+        // Color format change
+        colorFormat.addEventListener('change', () => {
+            if (!isGradientMode) {
+                updateColors(colorPicker.value);
+            }
+        });
+
+        // Randomize
+        randomize.addEventListener('click', () => {
+            if (isGradientMode) {
+                document.querySelectorAll('#colorPickers input').forEach(picker => {
+                    picker.value = `#${Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0')}`;
+                });
+                gradientAngle.value = Math.floor(Math.random() * 360);
+                angleValue.textContent = `${gradientAngle.value}°`;
+                updateGradient();
+            } else {
+                const randomColor = `#${Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0')}`;
+                updateColors(randomColor);
+            }
+        });
+
+        // Save favorite
+        saveFavorite.addEventListener('click', () => {
+            const value = isGradientMode ? colorDisplay.value : colorPicker.value;
+            const type = isGradientMode ? 'gradient' : 'color';
+            if (!favoriteList.some(fav => fav.value === value)) {
+                favoriteList.push({ type, value });
+                localStorage.setItem('favorites', JSON.stringify(favoriteList));
+                renderFavorites();
+            }
+        });
+
+        // Keyboard navigation
+        document.querySelectorAll('button, input, select').forEach(el => {
+            el.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    el.click();
+                }
+            });
+        });
+
         function updateColors(selectedColor) {
-            colorDisplay.value = selectedColor;
+            colorDisplay.value = formatColor(selectedColor);
             colorPicker.value = selectedColor;
             body.style.background = selectedColor;
-            colorInfo.textContent = `Color ${selectedColor} copied to clipboard! - Powered By Thirupathi G`;
-            copyToClipboard(selectedColor);
+            previewSwatch.style.background = selectedColor;
+            colorInfo.textContent = `Color ${colorDisplay.value} copied to clipboard! - Powered By Thirupathi G 😎`;
+            copyToClipboard(colorDisplay.value);
         }
 
         function updateGradient() {
-            const color1 = colorPicker1.value;
-            const color2 = colorPicker2.value;
-            const direction = gradientDirection.value;
-            const gradient = `linear-gradient(${direction}, ${color1}, ${color2})`;
+            const colors = Array.from(document.querySelectorAll('#colorPickers input')).map(input => input.value);
+            const angle = gradientAngle.value;
+            const gradient = `linear-gradient(${angle}deg, ${colors.join(', ')})`;
             body.style.background = gradient;
+            previewSwatch.style.background = gradient;
             colorDisplay.value = gradient;
-            colorInfo.textContent = `Gradient ${gradient} copied to clipboard! - Powered By Thirupathi G`;
+            colorInfo.textContent = `Gradient ${gradient} copied to clipboard! - Powered By Thirupathi G 😎`;
             copyToClipboard(gradient);
+        }
+
+        function formatColor(hex) {
+            const format = colorFormat.value;
+            if (format === 'hex') return hex;
+            const r = parseInt(hex.slice(1, 3), 16);
+            const g = parseInt(hex.slice(3, 5), 16);
+            const b = parseInt(hex.slice(5, 7), 16);
+            if (format === 'rgb') return `rgb(${r}, ${g}, ${b})`;
+            // HSL conversion
+            const rNorm = r / 255, gNorm = g / 255, bNorm = b / 255;
+            const max = Math.max(rNorm, gNorm, bNorm), min = Math.min(rNorm, gNorm, bNorm);
+            let h = 0, s = 0, l = (max + min) / 2;
+            if (max !== min) {
+                const d = max - min;
+                s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+                switch (max) {
+                    case rNorm: h = (gNorm - bNorm) / d + (gNorm < bNorm ? 6 : 0); break;
+                    case gNorm: h = (bNorm - rNorm) / d + 2; break;
+                    case bNorm: h = (rNorm - gNorm) / d + 4; break;
+                }
+                h /= 6;
+            }
+            return `hsl(${Math.round(h * 360)}, ${Math.round(s * 100)}%, ${Math.round(l * 100)}%)`;
         }
 
         function copyToClipboard(text) {
@@ -295,7 +481,37 @@
             document.body.removeChild(dummyInput);
         }
 
-        // Initialize with solid color
+        function renderFavorites() {
+            favorites.innerHTML = '';
+            favoriteList.forEach((fav, index) => {
+                const div = document.createElement('div');
+                div.className = 'favorite-item w-12 h-12 rounded-lg glass';
+                div.style.background = fav.value;
+                div.setAttribute('aria-label', `Favorite ${fav.type}: ${fav.value}`);
+                div.addEventListener('click', () => {
+                    if (fav.type === 'color') {
+                        isGradientMode = false;
+                        solidMode.click();
+                        updateColors(fav.value);
+                    } else {
+                        isGradientMode = true;
+                        gradientMode.click();
+                        const colors = fav.value.match(/#[0-9A-Fa-f]{6}/g) || ['#990000', '#ff4500'];
+                        const angleMatch = fav.value.match(/(\d+)deg/);
+                        const angle = angleMatch ? parseInt(angleMatch[1]) : 0;
+                        gradientAngle.value = angle;
+                        angleValue.textContent = `${angle}°`;
+                        document.querySelectorAll('#colorPickers input').forEach((picker, i) => {
+                            picker.value = colors[i] || '#ffffff';
+                        });
+                        updateGradient();
+                    }
+                });
+                favorites.appendChild(div);
+            });
+        }
+
+        // Initialize
         updateColors(colorPicker.value);
     </script>
 </body>
