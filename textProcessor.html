@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text Processor</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Animate.css for animations -->
+    <link href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.6.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #6e8efb, #a777e3);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 8px 32px rgba(31, 38, 135, 0.37);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            max-width: 900px;
+        }
+        .textarea-container {
+            position: relative;
+            margin-bottom: 20px;
+        }
+        #inputText {
+            width: 100%;
+            min-height: 200px;
+            padding: 10px;
+            font-family: 'Courier New', Courier, monospace;
+            resize: vertical;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.05);
+            color: #fff;
+            transition: border-color 0.3s ease;
+            line-height: 1.5;
+        }
+        #inputText:focus {
+            border-color: #6e8efb;
+            box-shadow: 0 0 5px rgba(110, 142, 251, 0.5);
+            outline: none;
+        }
+        .btn-custom {
+            margin: 5px;
+            transition: transform 0.2s ease, background 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: #fff;
+        }
+        .btn-custom:hover {
+            transform: scale(1.05);
+        }
+        .btn-custom i {
+            margin-right: 5px;
+        }
+        .btn-whitespace { background: rgba(173, 216, 230, 0.2); }
+        .btn-whitespace:hover { background: rgba(173, 216, 230, 0.5); }
+        .btn-uppercase { background: rgba(144, 238, 144, 0.2); }
+        .btn-uppercase:hover { background: rgba(144, 238, 144, 0.5); }
+        .btn-lowercase { background: rgba(255, 182, 193, 0.2); }
+        .btn-lowercase:hover { background: rgba(255, 182, 193, 0.5); }
+        .btn-capitalize { background: rgba(255, 245, 157, 0.2); }
+        .btn-capitalize:hover { background: rgba(255, 245, 157, 0.5); }
+        .btn-special { background: rgba(221, 160, 221, 0.2); }
+        .btn-special:hover { background: rgba(221, 160, 221, 0.5); }
+        .btn-newlines { background: rgba(135, 206, 250, 0.2); }
+        .btn-newlines:hover { background: rgba(135, 206, 250, 0.5); }
+        .btn-undo { background: rgba(255, 218, 185, 0.2); }
+        .btn-undo:hover { background: rgba(255, 218, 185, 0.5); }
+        .btn-redo { background: rgba(152, 251, 152, 0.2); }
+        .btn-redo:hover { background: rgba(152, 251, 152, 0.5); }
+        .stats {
+            font-size: 0.9rem;
+            color: #ffffff;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 10px;
+            border-radius: 8px;
+        }
+        .home-icon {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            padding: 10px;
+            transition: transform 0.3s ease;
+        }
+        .home-icon:hover {
+            transform: scale(1.2);
+        }
+        .home-icon i {
+            color: #fff;
+            font-size: 1.5rem;
+        }
+        @media (max-width: 576px) {
+            .container {
+                padding: 15px;
+            }
+            .btn-custom {
+                width: 100%;
+                margin: 5px 0;
+            }
+            .home-icon {
+                top: 10px;
+                left: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <a href="index.html" class="home-icon animate__animated animate__fadeIn"><i class="fas fa-home"></i></a>
+    <div class="container animate__animated animate__fadeInUp">
+        <h2 class="text-center mb-4 text-white animate__animated animate__pulse">Text Processor</h2>
+        <div class="textarea-container">
+            <textarea id="inputText" class="form-control animate__animated animate__fadeIn" placeholder="Enter your text here..." oninput="updateStatsAndLines()"></textarea>
+        </div>
+        <div class="stats mb-3 animate__animated animate__fadeIn" id="stats">Characters: 0 | Words: 0 | New Lines: 0</div>
+        <div class="d-flex flex-wrap justify-content-center">
+            <button class="btn btn-custom btn-whitespace animate__animated animate__bounceIn" onclick="removeWhitespace()"><i class="fas fa-compress-arrows-alt"></i> Remove Whitespace</button>
+            <button class="btn btn-custom btn-uppercase animate__animated animate__bounceIn" onclick="toUpperCase()"><i class="fas fa-arrow-up"></i> Upper Case</button>
+            <button class="btn btn-custom btn-lowercase animate__animated animate__bounceIn" onclick="toLowerCase()"><i class="fas fa-arrow-down"></i> Lower Case</button>
+            <button class="btn btn-custom btn-capitalize animate__animated animate__bounceIn" onclick="capitalize()"><i class="fas fa-text-height"></i> Capitalize</button>
+            <button class="btn btn-custom btn-special animate__animated animate__bounceIn" onclick="removeSpecialChars()"><i class="fas fa-filter"></i> Remove Special Chars</button>
+            <button class="btn btn-custom btn-newlines animate__animated animate__bounceIn" onclick="removeNewLines()"><i class="fas fa-align-left"></i> Remove New Lines</button>
+            <button class="btn btn-custom btn-undo animate__animated animate__bounceIn" onclick="undo()"><i class="fas fa-undo"></i> Undo</button>
+            <button class="btn btn-custom btn-redo animate__animated animate__bounceIn" onclick="redo()"><i class="fas fa-redo"></i> Redo</button>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS and Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        let history = [''];
+        let historyIndex = 0;
+
+        function updateStatsAndLines() {
+            const textarea = document.getElementById('inputText');
+            const text = textarea.value;
+            const charCount = text.length;
+            const wordCount = text.trim() ? text.trim().split(/\s+/).length : 0;
+            const newLineCount = text ? text.split('\n').length - 1 : 0;
+            document.getElementById('stats').textContent = `Characters: ${charCount} | Words: ${wordCount} | New Lines: ${newLineCount}`;
+
+            // Save to history on manual input
+            if (history[historyIndex] !== text) {
+                history = history.slice(0, historyIndex + 1);
+                history.push(text);
+                historyIndex++;
+            }
+        }
+
+        function removeWhitespace() {
+            const text = document.getElementById('inputText').value;
+            const newText = text.replace(/\s+/g, '');
+            updateText(newText);
+        }
+
+        function toUpperCase() {
+            const text = document.getElementById('inputText').value;
+            const newText = text.toUpperCase();
+            updateText(newText);
+        }
+
+        function toLowerCase() {
+            const text = document.getElementById('inputText').value;
+            const newText = text.toLowerCase();
+            updateText(newText);
+        }
+
+        function capitalize() {
+            const text = document.getElementById('inputText').value;
+            const newText = text.toLowerCase().replace(/(^|\s)\w/g, letter => letter.toUpperCase());
+            updateText(newText);
+        }
+
+        function removeSpecialChars() {
+            const text = document.getElementById('inputText').value;
+            const newText = text.replace(/[^a-zA-Z0-9\s]/g, '');
+            updateText(newText);
+        }
+
+        function removeNewLines() {
+            const text = document.getElementById('inputText').value;
+            const newText = text.replace(/\n/g, ' ');
+            updateText(newText);
+        }
+
+        function updateText(newText) {
+            const textarea = document.getElementById('inputText');
+            textarea.value = newText;
+            history = history.slice(0, historyIndex + 1);
+            history.push(newText);
+            historyIndex++;
+            updateStatsAndLines();
+        }
+
+        function undo() {
+            if (historyIndex > 0) {
+                historyIndex--;
+                document.getElementById('inputText').value = history[historyIndex];
+                updateStatsAndLines();
+            }
+        }
+
+        function redo() {
+            if (historyIndex < history.length - 1) {
+                historyIndex++;
+                document.getElementById('inputText').value = history[historyIndex];
+                updateStatsAndLines();
+            }
+        }
+
+        // Initial stats
+        updateStatsAndLines();
+    </script>
+</body>
+</html>
