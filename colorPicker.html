@@ -6,7 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Color Code - Thirupathi G</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet"><link rel="icon" href="https://blogger.googleusercontent.com/img/a/AVvXsEgIFnXbCEgaASrlgiFnXz6MPaK-kyelPH7eTOt9s0-nWtY5YSMAIG5mN4k7dnxX6M-C0AmbO3U9jikPwhBdpp7G9848hK_1c7kXLbqxamlfCbhe_l-kEb8pe5V6mEH3fiIokyxkIyavBLAMlAzSApPTbcYA1r-P9YDwpu9GBIsL1SV4zGLvMwFulKOECQ4" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" href="https://blogger.googleusercontent.com/img/a/AVvXsEgIFnXbCEgaASrlgiFnXz6MPaK-kyelPH7eTOt9s0-nWtY5YSMAIG5mN4k7dnxX6M-C0AmbO3U9jikPwhBdpp7G9848hK_1c7kXLbqxamlfCbhe_l-kEb8pe5V6mEH3fiIokyxkIyavBLAMlAzSApPTbcYA1r-P9YDwpu9GBIsL1SV4zGLvMwFulKOECQ4" type="image/x-icon">
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -15,7 +16,6 @@
             flex-direction: column;
             margin: 0;
             background-color: #990000;
-            /* Initial background color */
         }
 
         .glass {
@@ -88,6 +88,40 @@
             transform: scale(1.02);
         }
 
+        .mode-button {
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 0.5rem;
+            padding: 0.5rem 1rem;
+            color: #fff;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.3s ease;
+        }
+
+        .mode-button:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.05);
+        }
+
+        .mode-button.active {
+            background: #10b981;
+        }
+
+        .direction-select {
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 0.5rem;
+            padding: 0.5rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .direction-select:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
         @keyframes fadeIn {
             from {
                 opacity: 0;
@@ -129,6 +163,16 @@
                 width: 2.5rem;
                 height: 2.5rem;
             }
+
+            .mode-button {
+                padding: 0.4rem 0.8rem;
+                font-size: 0.9rem;
+            }
+
+            .direction-select {
+                padding: 0.4rem;
+                font-size: 0.9rem;
+            }
         }
     </style>
 </head>
@@ -143,51 +187,116 @@
 
     <!-- Header -->
     <header class="glass py-4 text-center">
-        <h1 class="text-3xl md:text-4xl font-bold text-white">Color Picker</h1>
+        <h1 class="text-3xl md:text-4xl font-bold text-white">Color & Gradient Picker</h1>
     </header>
 
     <!-- Main Content -->
     <div class="container mx-auto px-4 py-12 flex flex-col items-center justify-center animate-fade-in">
-        <input type="text" id="colorDisplay" class="color-display mb-8" placeholder="#990000">
-        <input type="color" id="colorPicker" class="color-picker">
+        <div class="flex space-x-4 mb-6">
+            <button id="solidMode" class="mode-button active">Solid Color</button>
+            <button id="gradientMode" class="mode-button">Linear Gradient</button>
+        </div>
+        <div id="gradientOptions" class="hidden flex flex-col items-center space-y-4 mb-6">
+            <select id="gradientDirection" class="direction-select">
+                <option value="to right">Left to Right</option>
+                <option value="to left">Right to Left</option>
+                <option value="to bottom">Top to Bottom</option>
+                <option value="to top">Bottom to Top</option>
+                <option value="to bottom right">Top Left to Bottom Right</option>
+                <option value="to bottom left">Top Right to Bottom Left</option>
+            </select>
+            <div class="flex space-x-4">
+                <input type="color" id="colorPicker1" class="color-picker" value="#990000">
+                <input type="color" id="colorPicker2" class="color-picker" value="#ff4500">
+            </div>
+        </div>
+        <input type="color" id="colorPicker" class="color-picker" value="#990000">
+        <input type="text" id="colorDisplay" class="color-display mt-8" placeholder="#990000">
     </div>
 
     <!-- Footer -->
     <footer id="colorInfo" class="glass">Thirupathi G</footer>
 
     <script>
-        var colorPicker = document.getElementById('colorPicker');
-        var colorDisplay = document.getElementById('colorDisplay');
-        var body = document.getElementById('body');
-        var colorInfo = document.getElementById('colorInfo');
+        const colorPicker = document.getElementById('colorPicker');
+        const colorPicker1 = document.getElementById('colorPicker1');
+        const colorPicker2 = document.getElementById('colorPicker2');
+        const colorDisplay = document.getElementById('colorDisplay');
+        const body = document.getElementById('body');
+        const colorInfo = document.getElementById('colorInfo');
+        const solidMode = document.getElementById('solidMode');
+        const gradientMode = document.getElementById('gradientMode');
+        const gradientOptions = document.getElementById('gradientOptions');
+        const gradientDirection = document.getElementById('gradientDirection');
 
-        colorPicker.addEventListener('input', function(event) {
-            var selectedColor = event.target.value;
-            updateColors(selectedColor);
+        let isGradientMode = false;
+
+        // Toggle between solid and gradient modes
+        solidMode.addEventListener('click', () => {
+            isGradientMode = false;
+            solidMode.classList.add('active');
+            gradientMode.classList.remove('active');
+            gradientOptions.classList.add('hidden');
+            colorPicker.classList.remove('hidden');
+            updateColors(colorPicker.value);
         });
 
-        colorDisplay.addEventListener('input', function(event) {
-            var selectedColor = event.target.value;
-            updateColors(selectedColor);
+        gradientMode.addEventListener('click', () => {
+            isGradientMode = true;
+            gradientMode.classList.add('active');
+            solidMode.classList.remove('active');
+            gradientOptions.classList.remove('hidden');
+            colorPicker.classList.add('hidden');
+            updateGradient();
+        });
+
+        // Event listeners for color pickers
+        colorPicker.addEventListener('input', (event) => {
+            if (!isGradientMode) {
+                updateColors(event.target.value);
+            }
+        });
+
+        colorPicker1.addEventListener('input', updateGradient);
+        colorPicker2.addEventListener('input', updateGradient);
+        gradientDirection.addEventListener('change', updateGradient);
+
+        colorDisplay.addEventListener('input', (event) => {
+            if (!isGradientMode) {
+                updateColors(event.target.value);
+            }
         });
 
         function updateColors(selectedColor) {
             colorDisplay.value = selectedColor;
             colorPicker.value = selectedColor;
-            body.style.backgroundColor = selectedColor;
-            colorInfo.textContent = 'Color ' + selectedColor + ' copied to clipboard! - Powered By Thirupathi G';
-            copyColor();
+            body.style.background = selectedColor;
+            colorInfo.textContent = `Color ${selectedColor} copied to clipboard! - Powered By Thirupathi G`;
+            copyToClipboard(selectedColor);
         }
 
-        function copyColor() {
-            var colorText = colorDisplay.value;
-            var dummyInput = document.createElement("input");
+        function updateGradient() {
+            const color1 = colorPicker1.value;
+            const color2 = colorPicker2.value;
+            const direction = gradientDirection.value;
+            const gradient = `linear-gradient(${direction}, ${color1}, ${color2})`;
+            body.style.background = gradient;
+            colorDisplay.value = gradient;
+            colorInfo.textContent = `Gradient ${gradient} copied to clipboard! - Powered By Thirupathi G`;
+            copyToClipboard(gradient);
+        }
+
+        function copyToClipboard(text) {
+            const dummyInput = document.createElement('input');
             document.body.appendChild(dummyInput);
-            dummyInput.setAttribute("value", colorText);
+            dummyInput.value = text;
             dummyInput.select();
-            document.execCommand("copy");
+            document.execCommand('copy');
             document.body.removeChild(dummyInput);
         }
+
+        // Initialize with solid color
+        updateColors(colorPicker.value);
     </script>
 </body>
 
