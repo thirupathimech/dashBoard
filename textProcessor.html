@@ -81,6 +81,10 @@
         .btn-undo:hover { background: rgba(255, 218, 185, 0.5); }
         .btn-redo { background: rgba(152, 251, 152, 0.2); }
         .btn-redo:hover { background: rgba(152, 251, 152, 0.5); }
+        .btn-copy { background: rgba(100, 149, 237, 0.2); }
+        .btn-copy:hover { background: rgba(100, 149, 237, 0.5); }
+        .btn-trim { background: rgba(255, 228, 196, 0.2); }
+        .btn-trim:hover { background: rgba(255, 228, 196, 0.5); }
         .stats {
             font-size: 0.9rem;
             color: #ffffff;
@@ -104,6 +108,12 @@
         .home-icon i {
             color: #fff;
             font-size: 1.5rem;
+        }
+        .toast-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 2000;
         }
         @media (max-width: 576px) {
             .container {
@@ -135,8 +145,10 @@
             <button class="btn btn-custom btn-capitalize animate__animated animate__bounceIn" onclick="capitalize()"><i class="fas fa-text-height"></i> Capitalize</button>
             <button class="btn btn-custom btn-special animate__animated animate__bounceIn" onclick="removeSpecialChars()"><i class="fas fa-filter"></i> Remove Special Chars</button>
             <button class="btn btn-custom btn-newlines animate__animated animate__bounceIn" onclick="removeNewLines()"><i class="fas fa-align-left"></i> Remove New Lines</button>
-            <button class="btn btn-custom btn-undo animate__animated animate__bounceIn" onclick="undo()"><i class="fas fa-undo"></i> Undo</button>
-            <button class="btn btn-custom btn-redo animate__animated animate__bounceIn" onclick="redo()"><i class="fas fa-redo"></i> Redo</button>
+            <button class="btn btn-custom btn-trim animate__animated animate__bounceIn" onclick="trimWhitespace()"><i class="fas fa-cut"></i> Trim Whitespace</button>
+            <button class="btn btn-custom btn-copy animate__animated animate__bounceIn" onclick="copyToClipboard()"><i class="fas fa-copy"></i> Copy to Clipboard</button>
+            <button id="undoBtn" class="btn btn-custom btn-undo animate__animated animate__bounceIn" onclick="undo()" disabled><i class="fas fa-undo"></i> Undo</button>
+            <button id="redoBtn" class="btn btn-custom btn-redo animate__animated animate__bounceIn" onclick="redo()" disabled><i class="fas fa-redo"></i> Redo</button>
         </div>
     </div>
 
@@ -160,51 +172,91 @@
                 history.push(text);
                 historyIndex++;
             }
+            updateButtonStates();
         }
 
-        function removeWhitespace() {
-            const text = document.getElementById('inputText').value;
-            const newText = text.replace(/\s+/g, '');
-            updateText(newText);
+        function showToast(message) {
+            const toastContainer = document.createElement('div');
+            toastContainer.className = 'toast-container';
+            document.body.appendChild(toastContainer);
+
+            const toast = document.createElement('div');
+            toast.className = 'toast align-items-center text-white bg-dark border-0 animate__animated animate__fadeInRight';
+            toast.setAttribute('role', 'alert');
+            toast.setAttribute('aria-live', 'assertive');
+            toast.setAttribute('aria-atomic', 'true');
+            toast.innerHTML = `
+                <div class="d-flex">
+                    <div class="toast-body">${message}</div>
+                    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+            `;
+            toastContainer.appendChild(toast);
+
+            const bsToast = new bootstrap.Toast(toast);
+            bsToast.show();
+            setTimeout(() => {
+                toastContainer.remove();
+            }, 3000);
         }
 
-        function toUpperCase() {
-            const text = document.getElementById('inputText').value;
-            const newText = text.toUpperCase();
-            updateText(newText);
-        }
-
-        function toLowerCase() {
-            const text = document.getElementById('inputText').value;
-            const newText = text.toLowerCase();
-            updateText(newText);
-        }
-
-        function capitalize() {
-            const text = document.getElementById('inputText').value;
-            const newText = text.toLowerCase().replace(/(^|\s)\w/g, letter => letter.toUpperCase());
-            updateText(newText);
-        }
-
-        function removeSpecialChars() {
-            const text = document.getElementById('inputText').value;
-            const newText = text.replace(/[^a-zA-Z0-9\s]/g, '');
-            updateText(newText);
-        }
-
-        function removeNewLines() {
-            const text = document.getElementById('inputText').value;
-            const newText = text.replace(/\n/g, ' ');
-            updateText(newText);
-        }
-
-        function updateText(newText) {
+        function updateText(newText, actionName) {
             const textarea = document.getElementById('inputText');
             textarea.value = newText;
             history = history.slice(0, historyIndex + 1);
             history.push(newText);
             historyIndex++;
             updateStatsAndLines();
+            showToast(`${actionName} applied!`);
+        }
+
+        function removeWhitespace() {
+            const text = document.getElementById('inputText').value;
+            const newText = text.replace(/\s+/g, '');
+            updateText(newText, 'Whitespace removed');
+        }
+
+        function toUpperCase() {
+            const text = document.getElementById('inputText').value;
+            const newText = text.toUpperCase();
+            updateText(newText, 'Text converted to uppercase');
+        }
+
+        function toLowerCase() {
+            const text = document.getElementById('inputText').value;
+            const newText = text.toLowerCase();
+            updateText(newText, 'Text converted to lowercase');
+        }
+
+        function capitalize() {
+            const text = document.getElementById('inputText').value;
+            const newText = text.toLowerCase().replace(/(^|\s)\w/g, letter => letter.toUpperCase());
+            updateText(newText, 'Text capitalized');
+        }
+
+        function removeSpecialChars() {
+            const text = document.getElementById('inputText').value;
+            const newText = text.replace(/[^a-zA-Z0-9\s]/g, '');
+            updateText(newText, 'Special characters removed');
+        }
+
+        function removeNewLines() {
+            const text = document.getElementById('inputText').value;
+            const newText = text.replace(/\n/g, ' ');
+            updateText(newText, 'New lines removed');
+        }
+
+        function trimWhitespace() {
+            const text = document.getElementById('inputText').value;
+            const newText = text.trim();
+            updateText(newText, 'Whitespace trimmed');
+        }
+
+        function copyToClipboard() {
+            const textarea = document.getElementById('inputText');
+            textarea.select();
+            document.execCommand('copy');
+            showToast('Text copied to clipboard!');
         }
 
         function undo() {
@@ -212,6 +264,7 @@
                 historyIndex--;
                 document.getElementById('inputText').value = history[historyIndex];
                 updateStatsAndLines();
+                showToast('Undo applied');
             }
         }
 
@@ -220,11 +273,29 @@
                 historyIndex++;
                 document.getElementById('inputText').value = history[historyIndex];
                 updateStatsAndLines();
+                showToast('Redo applied');
             }
         }
 
-        // Initial stats
+        function updateButtonStates() {
+            document.getElementById('undoBtn').disabled = historyIndex <= 0;
+            document.getElementById('redoBtn').disabled = historyIndex >= history.length - 1;
+        }
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', (event) => {
+            if (event.ctrlKey && event.key === 'z') {
+                event.preventDefault();
+                undo();
+            } else if (event.ctrlKey && event.key === 'y') {
+                event.preventDefault();
+                redo();
+            }
+        });
+
+        // Initial stats and button states
         updateStatsAndLines();
+        updateButtonStates();
     </script>
 </body>
 </html>
