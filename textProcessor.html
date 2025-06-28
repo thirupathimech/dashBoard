@@ -85,6 +85,8 @@
         .btn-copy:hover { background: rgba(100, 149, 237, 0.5); }
         .btn-trim { background: rgba(255, 228, 196, 0.2); }
         .btn-trim:hover { background: rgba(255, 228, 196, 0.5); }
+        .btn-single-space { background: rgba(255, 160, 122, 0.2); }
+        .btn-single-space:hover { background: rgba(255, 160, 122, 0.5); }
         .stats {
             font-size: 0.9rem;
             color: #ffffff;
@@ -146,6 +148,7 @@
             <button class="btn btn-custom btn-special animate__animated animate__bounceIn" onclick="removeSpecialChars()"><i class="fas fa-filter"></i> Remove Special Chars</button>
             <button class="btn btn-custom btn-newlines animate__animated animate__bounceIn" onclick="removeNewLines()"><i class="fas fa-align-left"></i> Remove New Lines</button>
             <button class="btn btn-custom btn-trim animate__animated animate__bounceIn" onclick="trimWhitespace()"><i class="fas fa-cut"></i> Trim Whitespace</button>
+            <button class="btn btn-custom btn-single-space animate__animated animate__bounceIn" onclick="singleSpace()"><i class="fas fa-compress"></i> Single Space</button>
             <button class="btn btn-custom btn-copy animate__animated animate__bounceIn" onclick="copyToClipboard()"><i class="fas fa-copy"></i> Copy to Clipboard</button>
             <button id="undoBtn" class="btn btn-custom btn-undo animate__animated animate__bounceIn" onclick="undo()" disabled><i class="fas fa-undo"></i> Undo</button>
             <button id="redoBtn" class="btn btn-custom btn-redo animate__animated animate__bounceIn" onclick="redo()" disabled><i class="fas fa-redo"></i> Redo</button>
@@ -250,6 +253,12 @@
             const text = document.getElementById('inputText').value;
             const newText = text.trim();
             updateText(newText, 'Whitespace trimmed');
+        }
+
+        function singleSpace() {
+            const text = document.getElementById('inputText').value;
+            const newText = text.replace(/\s+/g, ' ');
+            updateText(newText, 'Multiple spaces converted to single space');
         }
 
         function copyToClipboard() {
