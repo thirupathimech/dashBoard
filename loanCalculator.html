@@ -13,7 +13,6 @@
     <link rel="icon" href="https://blogger.googleusercontent.com/img/a/AVvXsEgIFnXbCEgaASrlgiFnXz6MPaK-kyelPH7eTOt9s0-nWtY5YSMAIG5mN4k7dnxX6M-C0AmbO3U9jikPwhBdpp7G9848hK_1c7kXLbqxamlfCbhe_l-kEb8pe5V6mEH3fiIokyxkIyavBLAMlAzSApPTbcYA1r-P9YDwpu9GBIsL1SV4zGLvMwFulKOECQ4"
         type="image/x-icon">
     <style>
-        /* Glassmorphism and Modern Styling */
         body {
             margin: 0;
             padding: 0;
@@ -21,114 +20,121 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            background: linear-gradient(135deg, #067352, #0a4542);
-            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            font-family: 'Inter', sans-serif;
+            color: #e0e0e0;
         }
 
         .container {
-            max-width: 900px;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 30px;
-            box-shadow: 0 8px 32px rgba(31, 38, 135, 0.37);
-            border: 1px solid rgba(255, 255, 255, 0.18);
+            max-width: 1000px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(12px);
+            border-radius: 16px;
+            padding: 40px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             margin: 20px;
         }
 
         h2 {
-            color: #fff;
+            color: #ffffff;
             text-align: center;
-            margin-bottom: 30px;
-            font-weight: 600;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            margin-bottom: 40px;
+            font-weight: 700;
+            font-size: 2.5rem;
+            letter-spacing: 1px;
         }
 
         .form-group {
-            margin-bottom: 20px;
+            margin-bottom: 25px;
+            position: relative;
         }
 
         .form-control {
-            background: rgba(203, 203, 203, 0.2);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            color: #fff;
-            border-radius: 10px;
-            padding: 12px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #ffffff;
+            border-radius: 8px;
+            padding: 12px 16px;
+            font-size: 1rem;
             transition: all 0.3s ease;
         }
 
         .form-control:focus {
-            background: rgba(255, 255, 255, 0.3);
-            box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
-            border-color: #fff;
-            color: #fff;
+            background: rgba(255, 255, 255, 0.12);
+            box-shadow: 0 0 12px rgba(255, 255, 255, 0.2);
+            border-color: #4ecca3;
+            color: #ffffff;
         }
 
         .form-control::placeholder {
-            color: rgba(255, 255, 255, 0.7);
+            color: rgba(255, 255, 255, 0.5);
         }
 
         .btn-primary {
-            background: linear-gradient(45deg, #ff6b6b, #ff8e53);
+            background: linear-gradient(45deg, #4ecca3, #56e0c1);
             border: none;
-            border-radius: 10px;
+            border-radius: 8px;
             padding: 12px;
             font-weight: 600;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            font-size: 1rem;
+            transition: all 0.3s ease;
         }
 
         .btn-primary:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.4);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(78, 204, 163, 0.3);
         }
 
         .btn-success {
-            background: linear-gradient(45deg, #28a745, #34c759);
+            background: linear-gradient(45deg, #45b7d1, #5cdde5);
             border: none;
-            border-radius: 10px;
-            padding: 10px;
+            border-radius: 8px;
+            padding: 12px;
             font-weight: 600;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            transition: all 0.3s ease;
         }
 
         .btn-success:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(40, 167, 69, 0.4);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(69, 183, 209, 0.3);
         }
 
         #loanResult, #interestResult {
             margin-top: 30px;
             padding: 20px;
-            background: rgba(255, 255, 255, 0.15);
-            border-radius: 15px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
             animation: fadeIn 0.5s ease-in;
         }
 
         #loanResult h4, #interestResult h4 {
-            color: #000000;
+            color: #ffffff;
             font-weight: 500;
+            margin-bottom: 15px;
         }
 
         .schedule-table {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
             overflow: hidden;
         }
 
         .schedule-table th,
         .schedule-table td {
             text-align: center;
-            color: #000000;
+            color: #ffffff;
             border: none;
+            padding: 12px;
         }
 
         .schedule-table th {
-            background: rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.1);
             font-weight: 600;
         }
 
         .schedule-table tbody tr:hover {
-            background: rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.15);
         }
 
         @keyframes fadeIn {
@@ -142,67 +148,80 @@
             }
         }
 
-        /* Responsive Design */
         @media (max-width: 576px) {
             .container {
-                padding: 15px;
-                margin: 10px;
+                padding: 20px;
+                margin: 15px;
             }
 
             h2 {
-                font-size: 1.5rem;
+                font-size: 1.8rem;
             }
 
             .form-control {
-                font-size: 0.9rem;
+                font-size: 0.95rem;
             }
 
             .btn-primary,
             .btn-success {
-                font-size: 0.9rem;
+                font-size: 0.95rem;
                 padding: 10px;
             }
         }
 
         .home-button {
             position: fixed;
-            box-shadow: 2px 3px 20px 0px;
-            top: 1rem;
-            left: 1rem;
-            z-index: 999;
-            width: 3rem;
-            height: 3rem;
+            top: 1.5rem;
+            left: 1.5rem;
+            z-index: 1000;
+            width: 3.5rem;
+            height: 3.5rem;
             display: flex;
             align-items: center;
             justify-content: center;
-            background: rgba(255, 255, 255, 0.15);
+            background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(15px);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            border-radius: 0.75rem;
-            transition: transform 0.3s ease;
+            border: 1px solid rgba(255, 255, 255,(units are pixels, rem, or other valid CSS units) 0.2);
+            border-radius: 12px;
+            transition: all 0.3s ease;
         }
 
         .home-button:hover {
-            transform: scale(1.1);
+            transform: scale(1.05);
+            box-shadow: 0 4px 15px rgba(255, 255, 255, 0.2);
+        }
+
+        .nav-tabs {
+            border-bottom: none;
         }
 
         .nav-tabs .nav-link {
-            color: #fff;
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            border-radius: 10px 10px 0 0;
+            color: #e0e0e0;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px 8px 0 0;
+            margin-right: 8px;
+            padding: 12px 24px;
+            font-weight: 500;
+            transition: all 0.3s ease;
         }
 
         .nav-tabs .nav-link.active {
-            background: rgba(255, 255, 255, 0.3);
-            color: #fff;
+            background: #4ecca3;
+            color: #ffffff;
             border-bottom: none;
         }
 
         .tab-content {
-            background: rgba(255, 255, 255, 0.15);
-            border-radius: 0 0 10px 10px;
-            padding: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 0 0 12px 12px;
+            padding: 30px;
+        }
+
+        label {
+            color: #e0e0e0;
+            font-weight: 500;
+            margin-bottom: 8px;
         }
     </style>
 </head>
@@ -229,15 +248,15 @@
                 <form id="loan-form">
                     <div class="form-group">
                         <label for="interestRate">Annual Interest Rate (%)</label>
-                        <input type="number" class="form-control" id="interestRate" placeholder="e.g., 16.33" step="0.01" min="0" required>
+                        <input type="number" class="form-control" id="interestRate" value="5.5" step="0.01" min="0" required>
                     </div>
                     <div class="form-group">
-                        <label for="loanAmount">Loan Amount</label>
-                        <input type="number" class="form-control" id="loanAmount" placeholder="e.g., 100000" required>
+                        <label for="loanAmount">Loan Amount (₹)</label>
+                        <input type="number" class="form-control" id="loanAmount" value="100000" required>
                     </div>
                     <div class="form-group">
                         <label for="tenure">Tenure (months)</label>
-                        <input type="number" class="form-control" id="tenure" placeholder="e.g., 36" required>
+                        <input type="number" class="form-control" id="tenure" value="36" required>
                     </div>
                     <button type="submit" class="btn btn-primary btn-block">Calculate</button>
                 </form>
@@ -269,20 +288,20 @@
                 <form id="interest-form">
                     <div class="form-group">
                         <label for="principal">Principal Amount (₹)</label>
-                        <input type="number" class="form-control" id="principal" placeholder="e.g., 5000" required>
+                        <input type="number" class="form-control" id="principal" value="5000" required>
                     </div>
                     <div class="form-group">
                         <label for="rate">Monthly Interest Rate (%)</label>
-                        <input type="number" class="form-control" id="rate" placeholder="e.g., 3" step="0.01" min="0" required>
+                        <input type="number" class="form-control" id="rate" value="3" step="0.01" min="0" required>
                     </div>
                     <div class="form-group">
                         <label for="months">Number of Months</label>
-                        <input type="number" class="form-control" id="months" placeholder="e.g., 6" required>
+                        <input type="number" class="form-control" id="months" value="6" required>
                     </div>
                     <div class="form-group">
                         <label for="interestType">Interest Type</label>
                         <select id="interestType" class="form-control">
-                            <option value="simple">Simple Interest</option>
+                            <option value="simple" selected>Simple Interest</option>
                             <option value="compound">Compound Interest</option>
                         </select>
                     </div>
@@ -308,16 +327,14 @@
         let loanChart = null;
         let interestChart = null;
 
-        // Loan Calculator Logic
-        document.getElementById('loan-form').addEventListener('submit', function(event) {
-            event.preventDefault();
-
+        // Function to calculate loan details
+        function calculateLoan() {
             const interestRate = parseFloat(document.getElementById('interestRate').value) / 100 / 12;
             const loanAmount = parseFloat(document.getElementById('loanAmount').value);
             const tenure = parseFloat(document.getElementById('tenure').value);
 
             if (isNaN(interestRate) || isNaN(loanAmount) || isNaN(tenure) || loanAmount <= 0 || tenure <= 0) {
-                alert('Please enter valid inputs.');
+                document.getElementById('loanResult').style.display = 'none';
                 return;
             }
 
@@ -356,8 +373,9 @@
 
             updateLoanChart(principalData, interestData, tenure);
             document.getElementById('loanResult').style.display = 'block';
-        });
+        }
 
+        // Function to update loan chart
         function updateLoanChart(principalData, interestData, months) {
             const ctx = document.getElementById('loanChart').getContext('2d');
             if (loanChart) loanChart.destroy();
@@ -370,15 +388,15 @@
                         {
                             label: 'Principal Payment (₹)',
                             data: principalData,
-                            backgroundColor: 'rgba(255, 107, 107, 0.6)',
-                            borderColor: 'rgba(255, 107, 107, 1)',
+                            backgroundColor: 'rgba(78, 204, 163, 0.6)',
+                            borderColor: 'rgba(78, 204, 163, 1)',
                             borderWidth: 1
                         },
                         {
                             label: 'Interest Payment (₹)',
                             data: interestData,
-                            backgroundColor: 'rgba(40, 167, 69, 0.6)',
-                            borderColor: 'rgba(40, 167, 69, 1)',
+                            backgroundColor: 'rgba(69, 183, 209, 0.6)',
+                            borderColor: 'rgba(69, 183, 209, 1)',
                             borderWidth: 1
                         }
                     ]
@@ -387,20 +405,23 @@
                     scales: {
                         y: {
                             beginAtZero: true,
-                            title: { display: true, text: 'Amount (₹)' }
+                            title: { display: true, text: 'Amount (₹)', color: '#ffffff' },
+                            ticks: { color: '#e0e0e0' }
                         },
                         x: {
-                            title: { display: true, text: 'Months' }
+                            title: { display: true, text: 'Months', color: '#ffffff' },
+                            ticks: { color: '#e0e0e0' }
                         }
                     },
                     plugins: {
-                        legend: { display: true },
-                        title: { display: true, text: 'Loan Payment Breakdown' }
+                        legend: { display: true, labels: { color: '#ffffff' } },
+                        title: { display: true, text: 'Loan Payment Breakdown', color: '#ffffff' }
                     }
                 }
             });
         }
 
+        // Function to download loan PDF
         function downloadLoanPDF() {
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF();
@@ -417,7 +438,7 @@
                 ),
                 theme: 'striped',
                 headStyles: {
-                    fillColor: [110, 142, 251],
+                    fillColor: [78, 204, 163],
                     textColor: [255, 255, 255],
                     fontStyle: 'bold'
                 },
@@ -429,17 +450,15 @@
             doc.save('loan-schedule.pdf');
         }
 
-        // Monthly Interest Calculator Logic
-        document.getElementById('interest-form').addEventListener('submit', function(event) {
-            event.preventDefault();
-
+        // Function to calculate interest
+        function calculateInterest() {
             const principal = parseFloat(document.getElementById('principal').value);
             const rate = parseFloat(document.getElementById('rate').value);
             const months = parseInt(document.getElementById('months').value);
             const interestType = document.getElementById('interestType').value;
 
             if (isNaN(principal) || isNaN(rate) || isNaN(months) || principal <= 0 || rate < 0 || months <= 0) {
-                alert('Please enter valid positive numbers.');
+                document.getElementById('interestResult').style.display = 'none';
                 return;
             }
 
@@ -460,8 +479,9 @@
 
             updateInterestChart(chartData, months);
             document.getElementById('interestResult').style.display = 'block';
-        });
+        }
 
+        // Function to update interest chart
         function updateInterestChart(data, months) {
             const ctx = document.getElementById('interestChart').getContext('2d');
             if (interestChart) interestChart.destroy();
@@ -473,8 +493,8 @@
                     datasets: [{
                         label: 'Monthly Interest (₹)',
                         data: data,
-                        backgroundColor: 'rgba(40, 167, 69, 0.6)',
-                        borderColor: 'rgba(40, 167, 69, 1)',
+                        backgroundColor: 'rgba(69, 183, 209, 0.6)',
+                        borderColor: 'rgba(69, 183, 209, 1)',
                         borderWidth: 1
                     }]
                 },
@@ -482,20 +502,23 @@
                     scales: {
                         y: {
                             beginAtZero: true,
-                            title: { display: true, text: 'Interest (₹)' }
+                            title: { display: true, text: 'Interest (₹)', color: '#ffffff' },
+                            ticks: { color: '#e0e0e0' }
                         },
                         x: {
-                            title: { display: true, text: 'Months' }
+                            title: { display: true, text: 'Months', color: '#ffffff' },
+                            ticks: { color: '#e0e0e0' }
                         }
                     },
                     plugins: {
-                        legend: { display: true },
-                        title: { display: true, text: 'Monthly Interest Breakdown' }
+                        legend: { display: true, labels: { color: '#ffffff' } },
+                        title: { display: true, text: 'Monthly Interest Breakdown', color: '#ffffff' }
                     }
                 }
             });
         }
 
+        // Function to download interest PDF
         function downloadInterestPDF() {
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF();
@@ -521,7 +544,7 @@
                 ],
                 theme: 'striped',
                 headStyles: {
-                    fillColor: [110, 142, 251],
+                    fillColor: [69, 183, 209],
                     textColor: [255, 255, 255],
                     fontStyle: 'bold'
                 },
@@ -532,6 +555,32 @@
 
             doc.save('interest-report.pdf');
         }
+
+        // Add blur event listeners for real-time updates
+        document.getElementById('interestRate').addEventListener('blur', calculateLoan);
+        document.getElementById('loanAmount').addEventListener('blur', calculateLoan);
+        document.getElementById('tenure').addEventListener('blur', calculateLoan);
+        document.getElementById('principal').addEventListener('blur', calculateInterest);
+        document.getElementById('rate').addEventListener('blur', calculateInterest);
+        document.getElementById('months').addEventListener('blur', calculateInterest);
+        document.getElementById('interestType').addEventListener('change', calculateInterest);
+
+        // Form submission handlers
+        document.getElementById('loan-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            calculateLoan();
+        });
+
+        document.getElementById('interest-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            calculateInterest();
+        });
+
+        // Trigger calculations on page load
+        window.addEventListener('load', function() {
+            calculateLoan();
+            calculateInterest();
+        });
     </script>
 </body>
 
