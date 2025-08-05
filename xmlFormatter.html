@@ -163,7 +163,7 @@
                     a.download = filePath.name.replace(/\.[^/.]+$/, '') + '_formatted.xml';
                     a.click();
                     window.URL.revokeObjectURL(url);
-                    alert('XML file has been formatted and downloaded.');
+                    //alert('XML file has been formatted and downloaded.')
                 };
                 reader.readAsText(filePath);
             });
