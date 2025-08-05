@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XML Formatter</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <style>
+        .table-container { max-height: 400px; overflow-y: auto; }
+        .custom-file-input { width: 100%; }
+    </style>
+</head>
+<body>
+    <div class="container mt-4">
+        <h2 class="mb-4">XML Formatter</h2>
+        <div class="mb-3">
+            <input type="file" id="xmlFileInput" class="form-control custom-file-input" accept=".xml">
+        </div>
+        <div class="mb-3 form-check">
+            <input type="checkbox" class="form-check-input" id="includeStartingPos" checked>
+            <label class="form-check-label" for="includeStartingPos">Include startingPos</label>
+        </div>
+        <button id="displayBtn" class="btn btn-primary mb-3">Select and Display</button>
+        <button id="formatBtn" class="btn btn-success mb-3" disabled>Format XML File</button>
+        <div class="table-container">
+            <table id="resultTable" class="table table-striped table-bordered"></table>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            let filePath = null;
+
+            $('#xmlFileInput').on('change', function(e) {
+                filePath = e.target.files[0];
+                $('#formatBtn').prop('disabled', !filePath);
+            });
+
+            $('#displayBtn').on('click', function() {
+                const file = filePath;
+                if (!file) {
+                    $('#resultTable').html('<tr><td>No file selected.</td></tr>');
+                    return;
+                }
+
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const xmlString = e.target.result;
+                    const parser = new DOMParser();
+                    const xmlDoc = parser.parseFromString(xmlString, "text/xml");
+                    const importColumns = xmlDoc.getElementsByTagName("ImportColumn");
+
+                    if (!importColumns.length) {
+                        $('#resultTable').html('<tr><td>No ImportColumn elements found.</td></tr>');
+                        return;
+                    }
+
+                    // Find all attributes
+                    let allAttrs = new Set();
+                    for (let elem of importColumns) {
+                        let attrs = {};
+                        for (let attr of elem.attributes) attrs[attr.name] = true;
+                        allAttrs = new Set([...allAttrs, ...Object.keys(attrs)]);
+                    }
+
+                    // Prepare rows with original attributes
+                    let rows = [];
+                    for (let elem of importColumns) {
+                        let row = {};
+                        for (let attr of elem.attributes) row[attr.name] = attr.value;
+                        rows.push(row);
+                    }
+
+                    // Define headers with custom order (display original data)
+                    let headers = [...allAttrs].sort();
+
+                    // Generate table
+                    let tableHtml = '<thead><tr>';
+                    for (let header of headers) tableHtml += `<th>${header}</th>`;
+                    tableHtml += '</tr></thead><tbody>';
+                    for (let row of rows) {
+                        tableHtml += '<tr>';
+                        for (let header of headers) tableHtml += `<td>${row[header] || ''}</td>`;
+                        tableHtml += '</tr>';
+                    }
+                    tableHtml += '</tbody>';
+                    $('#resultTable').html(tableHtml);
+                };
+                reader.readAsText(file);
+            });
+
+            $('#formatBtn').on('click', function() {
+                if (!filePath) {
+                    alert('No file selected. Please select a file first using "Select and Display".');
+                    return;
+                }
+
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const xmlString = e.target.result;
+                    const parser = new DOMParser();
+                    const xmlDoc = parser.parseFromString(xmlString, "text/xml");
+                    const importColumns = xmlDoc.getElementsByTagName("ImportColumn");
+
+                    if (!importColumns.length) {
+                        alert('No ImportColumn elements found.');
+                        return;
+                    }
+
+                    // Assign startingPos if checked, incrementing from 1
+                    let pos = 1;
+                    if ($('#includeStartingPos').is(':checked')) {
+                        for (let elem of importColumns) {
+                            elem.setAttribute('startingPos', pos.toString());
+                            pos++;
+                        }
+                    }
+
+                    // Reorder and set columnSeq to increment by 10
+                    let seq = 10;
+                    for (let elem of importColumns) {
+                        let attrs = {};
+                        for (let attr of elem.attributes) attrs[attr.name] = attr.value;
+                        let orderedAttrs = {};
+                        if ($('#includeStartingPos').is(':checked')) orderedAttrs['startingPos'] = attrs['startingPos'] || pos.toString();
+                        orderedAttrs['columnSeq'] = seq.toString();
+                        seq += 10;
+                        for (let attr of Object.keys(attrs).sort().filter(a => !['startingPos', 'columnSeq'].includes(a))) {
+                            orderedAttrs[attr] = attrs[attr];
+                        }
+                        while (elem.attributes.length > 0) elem.removeAttribute(elem.attributes[0].name);
+                        for (let [key, value] of Object.entries(orderedAttrs)) {
+                            elem.setAttribute(key, value);
+                        }
+                    }
+
+                    // Pretty-print and download
+                    let serializer = new XMLSerializer();
+                    let xmlStr = serializer.serializeToString(xmlDoc);
+                    let parser2 = new DOMParser();
+                    let doc = parser2.parseFromString(xmlStr, 'application/xml');
+                    let indent = (node, level = 0) => {
+                        let i = '\n' + '  '.repeat(level);
+                        if (node.nodeType === Node.ELEMENT_NODE) {
+                            if (node.childNodes.length > 0) {
+                                if (!node.firstChild || !node.firstChild.nodeValue.trim()) node.firstChild.nodeValue = i + '  ';
+                                for (let child of node.childNodes) indent(child, level + 1);
+                                if (!node.lastChild.tail || !node.lastChild.nodeValue.trim()) node.lastChild.nodeValue = i;
+                            } else {
+                                if (level > 0 && (!node.nextSibling || !node.nextSibling.nodeValue.trim())) node.nodeValue = i;
+                            }
+                        }
+                    };
+                    indent(doc.documentElement);
+                    xmlStr = '<?xml version="1.0" encoding="utf-8"?>' + serializer.serializeToString(doc.documentElement);
+
+                    let blob = new Blob([xmlStr], { type: 'application/xml' });
+                    let url = window.URL.createObjectURL(blob);
+                    let a = document.createElement('a');
+                    a.href = url;
+                    a.download = filePath.name.replace(/\.[^/.]+$/, '') + '_formatted.xml';
+                    a.click();
+                    window.URL.revokeObjectURL(url);
+                    alert('XML file has been formatted and downloaded.');
+                };
+                reader.readAsText(filePath);
+            });
+        });
+    </script>
+</body>
+</html>
