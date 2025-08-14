@@ -94,7 +94,6 @@
             border-radius: 0.75rem;
             transition: transform 0.3s ease;
         }
-
         .home-button:hover {
             transform: scale(1.1);
         }
@@ -129,6 +128,10 @@
                 <option value="endsWith">Ends With</option>
             </select>
         </div>
+        <div class="mb-3 form-check">
+            <input type="checkbox" class="form-check-input" id="fileNameOnly">
+            <label class="form-check-label" for="fileNameOnly">Include only file names (no paths)</label>
+        </div>
         <button class="btn btn-primary w-100" id="scanButton" onclick="scanFolder()">Scan & Generate TXT</button>
         <div id="result" class="alert alert-success text-center">
             <p id="message"></p>
@@ -159,6 +162,7 @@
             const folderInput = $('#folderInput')[0];
             const files = folderInput.files;
             const filterType = $('#filterType').val();
+            const fileNameOnly = $('#fileNameOnly').is(':checked');
             const filterStrings = $('.chip').map(function() {
                 return $(this).contents().filter(function() {
                     return this.nodeType === 3; // Get text nodes only
@@ -188,7 +192,7 @@
                 ));
 
                 if (matchesFilter) {
-                    filteredFiles.push(file.webkitRelativePath);
+                    filteredFiles.push(fileNameOnly ? fileName : file.webkitRelativePath);
                 }
             }
 
