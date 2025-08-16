@@ -244,61 +244,63 @@
                     <p class="text-gray-200 text-sm">📄 Analyze your resume instantly: view ATS score, keyword highlights, and actionable insights to boost your job search.</p>
                 </div>
                 <button class="animated-button text-white font-medium py-2 px-4 rounded-lg mt-4" onclick="window.location.href='resume_analyzer.html'">Show</button>
-            </div> 
-
-            <div class="glass p-6 flex flex-col justify-between">
-    <div>
-        <h2 class="text-xl font-semibold text-white mb-3">Daily Expense Tracker</h2>
-        <p class="text-gray-200 text-sm">💰 Effortlessly record your daily expenses, view spending trends and get budget-friendly tips to stay on top of your finances.</p>
-    </div>
-    <button class="animated-button text-white font-medium py-2 px-4 rounded-lg mt-4" onclick="window.location.href='expense_tracker.html'">Show</button>
-</div>
-            <div class="glass p-6 flex flex-col justify-between">
-    <div>
-        <h2 class="text-xl font-semibold text-white mb-3">Image Base64 Converter</h2>
-        <p class="text-gray-200 text-sm">🖼️ Instantly convert your images to Base64 strings: upload, encode, and copy ready-to-use code for embedding images directly within HTML, CSS, or JSON.</p>
-    </div>
-    <button class="animated-button text-white font-medium py-2 px-4 rounded-lg mt-4" onclick="window.location.href='image_base64_converter.html'">Show</button>
-</div>
-
-
+            </div>
 
             <div class="glass p-6 flex flex-col justify-between">
                 <div>
-                    <h2 class="text-xl font-semibold text-white mb-3">Capture Image Or Video</h2>
-                    <p class="text-gray-200 text-sm">📸 Capture and process images or videos with ease.</p>
+                    <h2 class="text-xl font-semibold text-white mb-3">Daily Expense Tracker</h2>
+                    <p class="text-gray-200 text-sm">💰 Effortlessly record your daily expenses, view spending trends and get budget-friendly tips to stay on top of your finances.</p>
                 </div>
-                <button class="animated-button text-white font-medium py-2 px-4 rounded-lg mt-4" onclick="window.location.href='FaceRecognization.html'">Show</button>
+                <button class="animated-button text-white font-medium py-2 px-4 rounded-lg mt-4" onclick="window.location.href='expense_tracker.html'">Show</button>
+            </div>
+            <div class="glass p-6 flex flex-col justify-between">
+                <div>
+                    <h2 class="text-xl font-semibold text-white mb-3">Image Base64 Converter</h2>
+                    <p class="text-gray-200 text-sm">🖼️ Instantly convert your images to Base64 strings: upload, encode, and copy ready-to-use code for embedding images directly within HTML, CSS, or JSON.</p>
+                </div>
+                <button class="animated-button text-white font-medium py-2 px-4 rounded-lg mt-4" onclick="window.location.href='image_base64_converter.html'">Show</button>
+            </div>
+
+            <div class="glass-container p-6 flex flex-col justify-between">
+                <div>
+                    <h2 class="text-xl font-semibold text-gray-800 mb-3">Postman Lite</h2>
+                    <p class="text-gray-600 text-sm">🚀 Test APIs effortlessly with Postman Lite: input your endpoint, select HTTP methods, add headers and payloads, and view responses in a sleek, user-friendly interface.</p>
+                </div>
+
+
+
+                <div class="glass p-6 flex flex-col justify-between">
+                    <div>
+                        <h2 class="text-xl font-semibold text-white mb-3">Capture Image Or Video</h2>
+                        <p class="text-gray-200 text-sm">📸 Capture and process images or videos with ease.</p>
+                    </div>
+                    <button class="animated-button text-white font-medium py-2 px-4 rounded-lg mt-4" onclick="window.location.href='FaceRecognization.html'">Show</button>
+                </div>
             </div>
         </div>
-    </div>
 
-    <!-- Footer -->
-    <footer class="glass py-4 text-center text-white">
-        <p>© 2025 Thirupathi G Developments</p>
-    </footer>
+        <!-- Footer -->
+        <footer class="glass py-4 text-center text-white">
+            <p>© 2025 Thirupathi G Developments</p>
+        </footer>
 
-    <script>
-        document.getElementById('searchInput').addEventListener('input', function(e) {
-            const searchTerm = e.target.value.toLowerCase();
-            const cards = document.querySelectorAll('#cardContainer .glass');
+        <script>
+            document.getElementById('searchInput').addEventListener('input', function(e) {
+                const searchTerm = e.target.value.toLowerCase();
+                const cards = document.querySelectorAll('#cardContainer .glass');
 
-            cards.forEach(card => {
-                const title = card.querySelector('h2').textContent.toLowerCase();
-                const description = card.querySelector('p').textContent.toLowerCase();
+                cards.forEach(card => {
+                    const title = card.querySelector('h2').textContent.toLowerCase();
+                    const description = card.querySelector('p').textContent.toLowerCase();
 
-                if (title.includes(searchTerm) || description.includes(searchTerm)) {
-                    card.style.display = 'flex';
-                } else {
-                    card.style.display = 'none';
-                }
+                    if (title.includes(searchTerm) || description.includes(searchTerm)) {
+                        card.style.display = 'flex';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
             });
-        });
-    </script>
+        </script>
 </body>
 
 </html>
-
-
-
-
