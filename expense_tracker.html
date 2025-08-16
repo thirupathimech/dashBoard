@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Expense Tracker</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+	 <link rel="icon" href="https://blogger.googleusercontent.com/img/a/AVvXsEgIFnXbCEgaASrlgiFnXz6MPaK-kyelPH7eTOt9s0-nWtY5YSMAIG5mN4k7dnxX6M-C0AmbO3U9jikPwhBdpp7G9848hK_1c7kXLbqxamlfCbhe_l-kEb8pe5V6mEH3fiIokyxkIyavBLAMlAzSApPTbcYA1r-P9YDwpu9GBIsL1SV4zGLvMwFulKOECQ4" type="image/x-icon">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .main-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            margin: 20px auto;
+            max-width: 900px;
+        }
+        
+        .header-section {
+            background: linear-gradient(45deg, #ff6b6b, #ee5a52);
+            border-radius: 20px 20px 0 0;
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .stats-card {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .stats-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+        
+        .expense-form {
+            background: #f8f9ff;
+            border-radius: 15px;
+            border: 2px solid #e3e8ff;
+            transition: all 0.3s ease;
+        }
+        
+        .expense-form:focus-within {
+            border-color: #667eea;
+            box-shadow: 0 0 20px rgba(102, 126, 234, 0.2);
+        }
+        
+        .btn-add {
+            background: linear-gradient(45deg, #4ecdc4, #44a08d);
+            border: none;
+            border-radius: 25px;
+            padding: 12px 30px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-add:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(68, 160, 141, 0.3);
+        }
+        
+        .expense-item {
+            background: white;
+            border-radius: 12px;
+            border: 1px solid #e0e6ed;
+            transition: all 0.3s ease;
+            margin-bottom: 10px;
+        }
+        
+        .expense-item:hover {
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            transform: translateX(5px);
+        }
+        
+        .delete-btn {
+            background: linear-gradient(45deg, #ff4757, #ff3838);
+            border: none;
+            border-radius: 20px;
+            width: 35px;
+            height: 35px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+        
+        .delete-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 5px 15px rgba(255, 71, 87, 0.4);
+        }
+        
+        .category-badge {
+            border-radius: 20px;
+            padding: 5px 15px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        
+        .category-food { background-color: #ff6b6b; color: white; }
+        .category-transport { background-color: #4ecdc4; color: white; }
+        .category-entertainment { background-color: #45b7d1; color: white; }
+        .category-shopping { background-color: #96ceb4; color: white; }
+        .category-bills { background-color: #feca57; color: white; }
+        .category-other { background-color: #6c5ce7; color: white; }
+        
+        .filter-tabs {
+            border-radius: 25px;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 5px;
+            margin-bottom: 20px;
+        }
+        
+        .filter-tab {
+            border-radius: 20px;
+            border: none;
+            padding: 8px 20px;
+            margin: 2px;
+            transition: all 0.3s ease;
+        }
+        
+        .filter-tab.active {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+        
+        @media (max-width: 768px) {
+            .main-container {
+                margin: 10px;
+                border-radius: 15px;
+            }
+            
+            .header-section {
+                padding: 20px;
+                border-radius: 15px 15px 0 0;
+            }
+            
+            .stats-row {
+                text-align: center;
+            }
+            
+            .expense-item {
+                padding: 15px !important;
+            }
+        }
+		.home-button {
+            position: fixed;
+            box-shadow: 2px 3px 20px 0px;
+            top: 1rem;
+            left: 1rem;
+            z-index: 999;
+            width: 3rem;
+            height: 3rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 0.75rem;
+            transition: transform 0.3s ease;
+        }
+
+        .home-button:hover {
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+<body>
+<button class="home-button" onclick="window.location.href='index.html'" title="Back to Home">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+        </svg>
+    </button>
+    <div class="container-fluid">
+        <div class="main-container">
+            <!-- Header -->
+            <div class="header-section">
+                <h1 class="mb-3">
+                    <i class="fas fa-wallet me-3"></i>
+                    Daily Expense Tracker
+                </h1>
+                <p class="mb-0">Track your daily expenses with style!</p>
+            </div>
+            
+            <!-- Stats Section -->
+            <div class="p-4">
+                <div class="row stats-row mb-4">
+                    <div class="col-md-4 mb-3">
+                        <div class="stats-card p-3 text-center">
+                            <i class="fas fa-calendar-day fa-2x text-primary mb-2"></i>
+                            <h5 class="text-primary">Today's Expenses</h5>
+                            <h3 id="todayTotal" class="text-dark">₹0</h3>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <div class="stats-card p-3 text-center">
+                            <i class="fas fa-chart-line fa-2x text-success mb-2"></i>
+                            <h5 class="text-success">Total Expenses</h5>
+                            <h3 id="totalExpenses" class="text-dark">₹0</h3>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <div class="stats-card p-3 text-center">
+                            <i class="fas fa-list fa-2x text-info mb-2"></i>
+                            <h5 class="text-info">Total Entries</h5>
+                            <h3 id="totalEntries" class="text-dark">0</h3>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Add Expense Form -->
+                <div class="expense-form p-4 mb-4">
+                    <h4 class="mb-3 text-center">
+                        <i class="fas fa-plus-circle me-2"></i>Add New Expense
+                    </h4>
+                    <form id="expenseForm">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="description" class="form-label">
+                                    <i class="fas fa-tag me-1"></i>Description
+                                </label>
+                                <input type="text" class="form-control" id="description" required 
+                                       placeholder="Enter expense description">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="amount" class="form-label">
+                                    <i class="fas fa-rupee-sign me-1"></i>Amount
+                                </label>
+                                <input type="number" class="form-control" id="amount" required min="0" step="0.01"
+                                       placeholder="Enter amount">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="category" class="form-label">
+                                    <i class="fas fa-th-large me-1"></i>Category
+                                </label>
+                                <select class="form-control" id="category" required>
+                                    <option value="">Select Category</option>
+                                    <option value="food">🍕 Food & Dining</option>
+                                    <option value="transport">🚗 Transport</option>
+                                    <option value="entertainment">🎬 Entertainment</option>
+                                    <option value="shopping">🛍️ Shopping</option>
+                                    <option value="bills">💡 Bills & Utilities</option>
+                                    <option value="other">📝 Other</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="date" class="form-label">
+                                    <i class="fas fa-calendar me-1"></i>Date
+                                </label>
+                                <input type="date" class="form-control" id="date" required>
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-add text-white">
+                                <i class="fas fa-plus me-2"></i>Add Expense
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                
+                <!-- Filter Tabs -->
+                <div class="row mb-4">
+                    <div class="col-md-8">
+                        <div class="filter-tabs text-center">
+                            <button class="filter-tab active" data-filter="all">
+                                <i class="fas fa-list me-1"></i>All
+                            </button>
+                            <button class="filter-tab" data-filter="today">
+                                <i class="fas fa-calendar-day me-1"></i>Today
+                            </button>
+                            <button class="filter-tab" data-filter="week">
+                                <i class="fas fa-calendar-week me-1"></i>This Week
+                            </button>
+                            <button class="filter-tab" data-filter="month">
+                                <i class="fas fa-calendar-alt me-1"></i>This Month
+                            </button>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="d-flex gap-2">
+                            <button class="btn btn-outline-success btn-sm" id="exportExcel">
+                                <i class="fas fa-file-excel me-2"></i>Export Excel
+                            </button>
+                            <button class="btn btn-outline-info btn-sm" data-bs-toggle="modal" data-bs-target="#dateRangeModal">
+                                <i class="fas fa-filter me-2"></i>Date Range
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Expenses List -->
+                <div id="expensesList">
+                    <div class="text-center text-muted p-5">
+                        <i class="fas fa-receipt fa-3x mb-3"></i>
+                        <h5>No expenses added yet</h5>
+                        <p>Start tracking your expenses by adding your first entry above!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Date Range Modal -->
+    <div class="modal fade" id="dateRangeModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <i class="fas fa-calendar-alt me-2"></i>Select Date Range
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="startDate" class="form-label">From Date</label>
+                            <input type="date" class="form-control" id="startDate">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="endDate" class="form-label">To Date</label>
+                            <input type="date" class="form-control" id="endDate">
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-12">
+                            <label class="form-label">Quick Select</label>
+                            <div class="d-flex gap-2 flex-wrap">
+                                <button type="button" class="btn btn-outline-primary btn-sm quick-select" data-range="thisWeek">This Week</button>
+                                <button type="button" class="btn btn-outline-primary btn-sm quick-select" data-range="lastWeek">Last Week</button>
+                                <button type="button" class="btn btn-outline-primary btn-sm quick-select" data-range="thisMonth">This Month</button>
+                                <button type="button" class="btn btn-outline-primary btn-sm quick-select" data-range="lastMonth">Last Month</button>
+                                <button type="button" class="btn btn-outline-primary btn-sm quick-select" data-range="last30Days">Last 30 Days</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" id="applyDateRange">Apply Filter</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Clear All Modal -->
+    <div class="modal fade" id="clearModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Clear All Expenses</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to clear all expenses? This action cannot be undone.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-danger" id="confirmClear">Clear All</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    
+    <script>
+        class ExpenseTracker {
+            constructor() {
+                this.expenses = [];
+                this.currentFilter = 'all';
+                this.customDateRange = null;
+                this.init();
+            }
+            
+            init() {
+                this.setTodayDate();
+                this.bindEvents();
+                this.loadExpenses();
+                this.updateStats();
+                this.renderExpenses();
+                this.loadSampleData(); // Add some sample data for demo
+            }
+            
+            loadSampleData() {
+                // Add some sample expenses for demonstration
+                const sampleExpenses = [
+                    {
+                        id: 1,
+                        description: 'Breakfast at cafe',
+                        amount: 150,
+                        category: 'food',
+                        date: new Date().toISOString().split('T')[0],
+                        timestamp: new Date().toISOString()
+                    },
+                    {
+                        id: 2,
+                        description: 'Bus ticket',
+                        amount: 25,
+                        category: 'transport',
+                        date: new Date(Date.now() - 86400000).toISOString().split('T')[0], // yesterday
+                        timestamp: new Date(Date.now() - 86400000).toISOString()
+                    },
+                    {
+                        id: 3,
+                        description: 'Movie tickets',
+                        amount: 400,
+                        category: 'entertainment',
+                        date: new Date(Date.now() - 2 * 86400000).toISOString().split('T')[0], // 2 days ago
+                        timestamp: new Date(Date.now() - 2 * 86400000).toISOString()
+                    }
+                ];
+                
+                if (this.expenses.length === 0) {
+                    this.expenses = sampleExpenses;
+                }
+            }
+            
+            setTodayDate() {
+                $('#date').val(new Date().toISOString().split('T')[0]);
+            }
+            
+            bindEvents() {
+                $('#expenseForm').on('submit', (e) => this.addExpense(e));
+                $(document).on('click', '.delete-btn', (e) => this.deleteExpense(e));
+                $('.filter-tab').on('click', (e) => this.setFilter(e));
+                $('#confirmClear').on('click', () => this.clearAllExpenses());
+                $('#exportExcel').on('click', () => this.exportToExcel());
+                $('#applyDateRange').on('click', () => this.applyCustomDateRange());
+                $('.quick-select').on('click', (e) => this.quickSelectDateRange(e));
+            }
+            
+            addExpense(e) {
+                e.preventDefault();
+                
+                const expense = {
+                    id: Date.now(),
+                    description: $('#description').val().trim(),
+                    amount: parseFloat($('#amount').val()),
+                    category: $('#category').val(),
+                    date: $('#date').val(),
+                    timestamp: new Date().toISOString()
+                };
+                
+                this.expenses.unshift(expense);
+                this.saveExpenses();
+                this.updateStats();
+                this.renderExpenses();
+                this.resetForm();
+                
+                // Success animation
+                this.showSuccess('Expense added successfully!');
+            }
+            
+            deleteExpense(e) {
+                const expenseId = parseInt($(e.target).closest('.delete-btn').data('id'));
+                this.expenses = this.expenses.filter(expense => expense.id !== expenseId);
+                this.saveExpenses();
+                this.updateStats();
+                this.renderExpenses();
+                this.showSuccess('Expense deleted successfully!');
+            }
+            
+            setFilter(e) {
+                $('.filter-tab').removeClass('active');
+                $(e.target).addClass('active');
+                this.currentFilter = $(e.target).data('filter');
+                this.customDateRange = null; // Reset custom date range
+                this.renderExpenses();
+            }
+            
+            quickSelectDateRange(e) {
+                const range = $(e.target).data('range');
+                const now = new Date();
+                let startDate, endDate;
+                
+                switch(range) {
+                    case 'thisWeek':
+                        const startOfWeek = new Date(now.setDate(now.getDate() - now.getDay()));
+                        startDate = startOfWeek.toISOString().split('T')[0];
+                        endDate = new Date().toISOString().split('T')[0];
+                        break;
+                    case 'lastWeek':
+                        const lastWeekEnd = new Date(now.setDate(now.getDate() - now.getDay() - 1));
+                        const lastWeekStart = new Date(lastWeekEnd.setDate(lastWeekEnd.getDate() - 6));
+                        startDate = lastWeekStart.toISOString().split('T')[0];
+                        endDate = lastWeekEnd.toISOString().split('T')[0];
+                        break;
+                    case 'thisMonth':
+                        startDate = new Date(now.getFullYear(), now.getMonth(), 1).toISOString().split('T')[0];
+                        endDate = new Date().toISOString().split('T')[0];
+                        break;
+                    case 'lastMonth':
+                        const lastMonth = new Date(now.getFullYear(), now.getMonth() - 1, 1);
+                        startDate = lastMonth.toISOString().split('T')[0];
+                        endDate = new Date(now.getFullYear(), now.getMonth(), 0).toISOString().split('T')[0];
+                        break;
+                    case 'last30Days':
+                        startDate = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
+                        endDate = new Date().toISOString().split('T')[0];
+                        break;
+                }
+                
+                $('#startDate').val(startDate);
+                $('#endDate').val(endDate);
+            }
+            
+            applyCustomDateRange() {
+                const startDate = $('#startDate').val();
+                const endDate = $('#endDate').val();
+                
+                if (!startDate || !endDate) {
+                    alert('Please select both start and end dates');
+                    return;
+                }
+                
+                if (startDate > endDate) {
+                    alert('Start date cannot be after end date');
+                    return;
+                }
+                
+                this.customDateRange = { startDate, endDate };
+                this.currentFilter = 'custom';
+                
+                // Update filter tabs to show custom is active
+                $('.filter-tab').removeClass('active');
+                
+                $('#dateRangeModal').modal('hide');
+                this.renderExpenses();
+            }
+            
+            getFilteredExpenses() {
+                const now = new Date();
+                const today = now.toISOString().split('T')[0];
+                const weekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
+                const monthAgo = new Date(now.getFullYear(), now.getMonth(), 1).toISOString().split('T')[0];
+                
+                switch(this.currentFilter) {
+                    case 'today':
+                        return this.expenses.filter(expense => expense.date === today);
+                    case 'week':
+                        return this.expenses.filter(expense => expense.date >= weekAgo);
+                    case 'month':
+                        return this.expenses.filter(expense => expense.date >= monthAgo);
+                    case 'custom':
+                        if (this.customDateRange) {
+                            return this.expenses.filter(expense => 
+                                expense.date >= this.customDateRange.startDate && 
+                                expense.date <= this.customDateRange.endDate
+                            );
+                        }
+                        return this.expenses;
+                    default:
+                        return this.expenses;
+                }
+            }
+            
+            renderExpenses() {
+                const filteredExpenses = this.getFilteredExpenses();
+                const container = $('#expensesList');
+                
+                if (filteredExpenses.length === 0) {
+                    container.html(`
+                        <div class="text-center text-muted p-5">
+                            <i class="fas fa-search fa-3x mb-3"></i>
+                            <h5>No expenses found</h5>
+                            <p>Try adjusting your filter or add some expenses!</p>
+                        </div>
+                    `);
+                    return;
+                }
+                
+                const expensesHtml = filteredExpenses.map(expense => `
+                    <div class="expense-item p-3 animate__animated animate__fadeIn">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="flex-grow-1">
+                                <div class="d-flex align-items-center mb-2">
+                                    <span class="category-badge category-${expense.category} me-2">
+                                        ${this.getCategoryIcon(expense.category)} ${this.getCategoryName(expense.category)}
+                                    </span>
+                                    <small class="text-muted">${this.formatDate(expense.date)}</small>
+                                </div>
+                                <h6 class="mb-1">${expense.description}</h6>
+                                <div class="text-success fw-bold">₹${expense.amount.toFixed(2)}</div>
+                            </div>
+                            <button class="delete-btn text-white ms-3" data-id="${expense.id}" title="Delete expense">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                `).join('');
+                
+                container.html(expensesHtml);
+                
+                // Add summary for filtered results
+                if (this.currentFilter !== 'all' || this.customDateRange) {
+                    const total = filteredExpenses.reduce((sum, expense) => sum + expense.amount, 0);
+                    const summaryHtml = `
+                        <div class="alert alert-info mt-3">
+                            <i class="fas fa-info-circle me-2"></i>
+                            <strong>Filter Summary:</strong> ${filteredExpenses.length} expenses totaling ₹${total.toFixed(2)}
+                            ${this.customDateRange ? `(${this.customDateRange.startDate} to ${this.customDateRange.endDate})` : ''}
+                        </div>
+                    `;
+                    container.append(summaryHtml);
+                }
+            }
+            
+            exportToExcel() {
+                const filteredExpenses = this.getFilteredExpenses();
+                
+                if (filteredExpenses.length === 0) {
+                    alert('No expenses to export!');
+                    return;
+                }
+                
+                // Prepare data for Excel
+                const excelData = filteredExpenses.map(expense => ({
+                    'Date': this.formatDateForExcel(expense.date),
+                    'Description': expense.description,
+                    'Category': this.getCategoryName(expense.category),
+                    'Amount (₹)': expense.amount.toFixed(2),
+                    'Added On': new Date(expense.timestamp).toLocaleString('en-IN')
+                }));
+                
+                // Add summary row
+                const totalAmount = filteredExpenses.reduce((sum, expense) => sum + expense.amount, 0);
+                excelData.push({
+                    'Date': '',
+                    'Description': 'TOTAL',
+                    'Category': '',
+                    'Amount (₹)': totalAmount.toFixed(2),
+                    'Added On': ''
+                });
+                
+                // Create workbook
+                const wb = XLSX.utils.book_new();
+                const ws = XLSX.utils.json_to_sheet(excelData);
+                
+                // Auto-fit columns
+                const columnWidths = [
+                    { wch: 12 }, // Date
+                    { wch: 30 }, // Description
+                    { wch: 15 }, // Category
+                    { wch: 12 }, // Amount
+                    { wch: 20 }  // Added On
+                ];
+                ws['!cols'] = columnWidths;
+                
+                // Add worksheet to workbook
+                const sheetName = this.getExportSheetName();
+                XLSX.utils.book_append_sheet(wb, ws, sheetName);
+                
+                // Generate filename
+                const filename = `expenses_${sheetName.toLowerCase().replace(/\s+/g, '_')}_${new Date().toISOString().split('T')[0]}.xlsx`;
+                
+                // Download file
+                XLSX.writeFile(wb, filename);
+                
+                // Show success message
+                this.showSuccess(`Exported ${filteredExpenses.length} expenses to Excel!`);
+            }
+            
+            getExportSheetName() {
+                if (this.customDateRange) {
+                    return `${this.customDateRange.startDate}_to_${this.customDateRange.endDate}`;
+                }
+                
+                switch(this.currentFilter) {
+                    case 'today': return 'Today';
+                    case 'week': return 'This Week';
+                    case 'month': return 'This Month';
+                    default: return 'All Expenses';
+                }
+            }
+            
+            formatDateForExcel(dateString) {
+                const date = new Date(dateString);
+                return date.toLocaleDateString('en-IN');
+            }
+            
+            updateStats() {
+                const today = new Date().toISOString().split('T')[0];
+                const todayExpenses = this.expenses.filter(expense => expense.date === today);
+                const todayTotal = todayExpenses.reduce((sum, expense) => sum + expense.amount, 0);
+                const totalAmount = this.expenses.reduce((sum, expense) => sum + expense.amount, 0);
+                
+                $('#todayTotal').text(`₹${todayTotal.toFixed(2)}`);
+                $('#totalExpenses').text(`₹${totalAmount.toFixed(2)}`);
+                $('#totalEntries').text(this.expenses.length);
+            }
+            
+            getCategoryIcon(category) {
+                const icons = {
+                    food: '🍕',
+                    transport: '🚗',
+                    entertainment: '🎬',
+                    shopping: '🛍️',
+                    bills: '💡',
+                    other: '📝'
+                };
+                return icons[category] || '📝';
+            }
+            
+            getCategoryName(category) {
+                const names = {
+                    food: 'Food',
+                    transport: 'Transport',
+                    entertainment: 'Entertainment',
+                    shopping: 'Shopping',
+                    bills: 'Bills',
+                    other: 'Other'
+                };
+                return names[category] || 'Other';
+            }
+            
+            formatDate(dateString) {
+                const date = new Date(dateString);
+                return date.toLocaleDateString('en-IN', { 
+                    weekday: 'short', 
+                    year: 'numeric', 
+                    month: 'short', 
+                    day: 'numeric' 
+                });
+            }
+            
+            resetForm() {
+                $('#expenseForm')[0].reset();
+                this.setTodayDate();
+            }
+            
+            showSuccess(message) {
+                // Simple success feedback
+                const button = $('.btn-add');
+                const originalText = button.html();
+                button.html('<i class="fas fa-check me-2"></i>Success!').addClass('bg-success');
+                setTimeout(() => {
+                    button.html(originalText).removeClass('bg-success');
+                }, 1500);
+            }
+            
+            saveExpenses() {
+                // In a real app, this would use localStorage
+                // For this demo, data persists only during the session
+            }
+            
+            loadExpenses() {
+                // In a real app, this would load from localStorage
+                // For this demo, we start with empty expenses
+            }
+            
+            clearAllExpenses() {
+                this.expenses = [];
+                this.saveExpenses();
+                this.updateStats();
+                this.renderExpenses();
+                $('#clearModal').modal('hide');
+                this.showSuccess('All expenses cleared!');
+            }
+        }
+        
+        // Initialize the app when document is ready
+        $(document).ready(() => {
+            new ExpenseTracker();
+        });
+    </script>
+</body>
+</html>
