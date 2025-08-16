@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Postman Lite - API Testing Tool</title>
+  <link rel="icon" href="https://blogger.googleusercontent.com/img/a/AVvXsEgIFnXbCEgaASrlgiFnXz6MPaK-kyelPH7eTOt9s0-nWtY5YSMAIG5mN4k7dnxX6M-C0AmbO3U9jikPwhBdpp7G9848hK_1c7kXLbqxamlfCbhe_l-kEb8pe5V6mEH3fiIokyxkIyavBLAMlAzSApPTbcYA1r-P9YDwpu9GBIsL1SV4zGLvMwFulKOECQ4" type="image/x-icon">
+  <!-- Bootstrap CSS -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Font Awesome -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    
+    body {
+      background: linear-gradient(135deg, #f0f4f8 0%, #d9e2ec 100%); /* Softer light blue-gray gradient for better readability */
+      min-height: 100vh;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      padding: 0;
+      margin: 0;
+      color: #333; /* Darker text for higher contrast */
+    }
+    
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: 
+        radial-gradient(circle at 20% 20%, rgba(100, 181, 246, 0.2) 0%, transparent 50%), /* Softer blue accents */
+        radial-gradient(circle at 80% 80%, rgba(100, 181, 246, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 40% 70%, rgba(100, 181, 246, 0.1) 0%, transparent 50%);
+      z-index: -1;
+    }
+    
+    .glass-container {
+      background: rgba(255, 255, 255, 0.8); /* Higher opacity for better readability */
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      border-radius: 16px; /* Slightly softer corners */
+      box-shadow: 
+        0 4px 20px rgba(0, 0, 0, 0.05),
+        inset 0 1px 0 rgba(255, 255, 255, 0.8);
+      padding: 2rem;
+      margin: 1rem;
+    }
+    
+    .header-glass {
+      background: rgba(255, 255, 255, 0.9); /* More solid for header */
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.6);
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+    
+    .home-btn {
+      background: linear-gradient(135deg, #2196f3, #1976d2); /* Blue theme for consistency */
+      border: none;
+      border-radius: 50px;
+      padding: 12px 24px;
+      color: white;
+      font-weight: 600;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 4px 15px rgba(33, 150, 243, 0.3);
+      transition: all 0.3s ease;
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      z-index: 1000;
+    }
+    
+    .home-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(33, 150, 243, 0.4);
+      color: white;
+    }
+    
+    h1 {
+      color: #333; /* Darker for contrast */
+      font-weight: 700;
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+      margin: 0;
+      font-size: clamp(1.8rem, 4vw, 2.5rem);
+    }
+    
+    .subtitle {
+      color: #666; /* Softer gray */
+      margin-top: 0.5rem;
+      font-size: 1.1rem;
+    }
+    
+    .form-section {
+      background: rgba(255, 255, 255, 0.95); /* More opaque for forms */
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border: 1px solid rgba(0, 0, 0, 0.1);
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-bottom: 1rem;
+    }
+    
+    .response-section {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border: 1px solid rgba(0, 0, 0, 0.1);
+      border-radius: 12px;
+      padding: 1.5rem;
+      min-height: 400px;
+    }
+    
+    .form-label {
+      color: #444; /* Darker labels */
+      font-weight: 600;
+      margin-bottom: 0.75rem;
+      font-size: 0.95rem;
+    }
+    
+    .form-control, .form-select {
+      background: white; /* Solid white for inputs */
+      border: 1px solid #ddd;
+      border-radius: 8px; /* Softer input corners */
+      color: #333;
+      padding: 12px 16px;
+      font-size: 0.95rem;
+      transition: all 0.3s ease;
+    }
+    
+    .form-control::placeholder {
+      color: #aaa;
+    }
+    
+    .form-control:focus, .form-select:focus {
+      background: white;
+      border-color: #2196f3; /* Blue focus */
+      box-shadow: 0 0 0 0.2rem rgba(33, 150, 243, 0.25);
+      color: #333;
+    }
+    
+    .form-select option {
+      background: white;
+      color: #333;
+    }
+    
+    .btn-send {
+      background: linear-gradient(135deg, #2196f3, #1976d2); /* Blue theme */
+      border: none;
+      border-radius: 50px;
+      padding: 14px 0;
+      color: white;
+      font-weight: 600;
+      font-size: 1.1rem;
+      box-shadow: 0 6px 20px rgba(33, 150, 243, 0.3);
+      transition: all 0.3s ease;
+      width: 100%;
+    }
+    
+    .btn-send:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(33, 150, 243, 0.4);
+      background: linear-gradient(135deg, #1976d2, #2196f3);
+    }
+    
+    .btn-send:disabled {
+      opacity: 0.7;
+      transform: none;
+      cursor: not-allowed;
+    }
+    
+    pre {
+      background: #f8f9fa; /* Light gray for code */
+      color: #333;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 1.5rem;
+      font-size: 0.85rem;
+      line-height: 1.5;
+      max-height: 300px;
+      overflow-y: auto;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      font-family: 'Courier New', Courier, monospace;
+    }
+    
+    .status-badge {
+      margin-bottom: 1rem;
+    }
+    
+    .badge {
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+    
+    .bg-success {
+      background: linear-gradient(135deg, #4caf50, #45a049) !important;
+      box-shadow: 0 2px 8px rgba(76, 175, 80, 0.3);
+    }
+    
+    .bg-danger {
+      background: linear-gradient(135deg, #f44336, #d32f2f) !important;
+      box-shadow: 0 2px 8px rgba(244, 67, 54, 0.3);
+    }
+    
+    .response-time {
+      color: #666;
+      font-size: 0.85rem;
+      margin-bottom: 1rem;
+    }
+    
+    .response-header h4 {
+      color: #333;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+    
+    .loading {
+      display: none;
+    }
+    
+    .method-badge {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 15px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      margin-left: 8px;
+    }
+    
+    .method-get { background: linear-gradient(135deg, #4caf50, #45a049); }
+    .method-post { background: linear-gradient(135deg, #2196f3, #1976d2); }
+    .method-put { background: linear-gradient(135deg, #ff9800, #f57c00); }
+    .method-delete { background: linear-gradient(135deg, #f44336, #d32f2f); }
+    .method-patch { background: linear-gradient(135deg, #9c27b0, #7b1fa2); }
+    
+    /* Mobile Responsive */
+    @media (max-width: 768px) {
+      .home-btn {
+        position: relative;
+        top: 0;
+        left: 0;
+        margin-bottom: 1rem;
+        width: fit-content;
+      }
+      
+      .glass-container {
+        margin: 0.5rem;
+        padding: 1rem;
+      }
+      
+      .header-glass {
+        padding: 1rem;
+        margin-bottom: 1rem;
+      }
+      
+      .form-section, .response-section {
+        padding: 1rem;
+      }
+      
+      h1 {
+        font-size: 1.8rem;
+      }
+      
+      .subtitle {
+        font-size: 1rem;
+      }
+      
+      pre {
+        font-size: 0.8rem;
+        max-height: 250px;
+        padding: 1rem;
+      }
+      
+      .btn-send {
+        padding: 12px 0;
+        font-size: 1rem;
+      }
+      
+      .row {
+        margin: 0;
+      }
+      
+      .col-md-6 {
+        padding: 0.25rem;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .glass-container {
+        margin: 0.25rem;
+        padding: 0.75rem;
+      }
+      
+      .form-control, .form-select {
+        padding: 10px 12px;
+        font-size: 0.9rem;
+      }
+      
+      pre {
+        font-size: 0.75rem;
+        padding: 0.75rem;
+      }
+    }
+    
+    /* Scrollbar Styling */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    
+    ::-webkit-scrollbar-track {
+      background: #f0f0f0;
+      border-radius: 4px;
+    }
+    
+    ::-webkit-scrollbar-thumb {
+      background: #aaa;
+      border-radius: 4px;
+    }
+    
+    ::-webkit-scrollbar-thumb:hover {
+      background: #888;
+    }
+  </style>
+</head>
+<body>
+  <a href="index.html" class="home-btn">
+    <i class="fas fa-home"></i>
+    Home
+  </a>
+  
+  <div class="container-fluid">
+    <div class="glass-container">
+      <div class="header-glass">
+        <h1><i class="fas fa-rocket me-3"></i>Postman Lite</h1>
+        <p class="subtitle">Professional API Testing Tool with Glass Morphism Design</p>
+      </div>
+      
+      <div class="row">
+        <div class="col-md-6 mb-4">
+          <div class="form-section">
+            <div class="mb-3">
+              <label for="url" class="form-label">
+                <i class="fas fa-link me-2"></i>API Endpoint URL
+              </label>
+              <input type="text" class="form-control" id="url" placeholder="https://jsonplaceholder.typicode.com/posts/1">
+            </div>
+            
+            <div class="mb-3">
+              <label for="method" class="form-label">
+                <i class="fas fa-cog me-2"></i>HTTP Method
+              </label>
+              <select class="form-select" id="method">
+                <option value="GET">GET - Retrieve Data</option>
+                <option value="POST">POST - Create Data</option>
+                <option value="PUT">PUT - Update Data</option>
+                <option value="PATCH">PATCH - Partial Update</option>
+                <option value="DELETE">DELETE - Remove Data</option>
+              </select>
+            </div>
+            
+            <div class="mb-3">
+              <label for="headers" class="form-label">
+                <i class="fas fa-file-code me-2"></i>Request Headers (JSON)
+              </label>
+              <textarea class="form-control" id="headers" rows="3" placeholder='{"Content-Type": "application/json", "Authorization": "Bearer your-token-here"}'></textarea>
+            </div>
+            
+            <div class="mb-3">
+              <label for="body" class="form-label">
+                <i class="fas fa-edit me-2"></i>Request Body (JSON)
+              </label>
+              <textarea class="form-control" id="body" rows="5" placeholder='{"title": "Sample Post", "body": "This is a sample request body", "userId": 1}'></textarea>
+            </div>
+            
+            <div class="d-grid">
+              <button id="sendRequest" class="btn-send">
+                <span class="loading spinner-border spinner-border-sm me-2" role="status"></span>
+                <i class="fas fa-paper-plane me-2"></i>
+                Send Request
+              </button>
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-md-6">
+          <div class="response-section">
+            <div class="response-header">
+              <h4><i class="fas fa-chart-line me-2"></i>API Response</h4>
+            </div>
+            <div id="statusBadge" class="status-badge"></div>
+            <div id="responseTime" class="response-time"></div>
+            <pre id="response">🚀 Ready to test your APIs!
+
+Click "Send Request" to see the response here...
+
+💡 Tips:
+- Use GET to fetch data
+- Use POST to create new resources  
+- Use PUT/PATCH to update existing data
+- Use DELETE to remove resources
+
+Try the sample URL above for a quick test!</pre>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const sendBtn = document.getElementById('sendRequest');
+      const loading = document.querySelector('.loading');
+      const methodSelect = document.getElementById('method');
+      
+      // Update method badge color based on selection
+      methodSelect.addEventListener('change', function() {
+        updateMethodDisplay();
+      });
+      
+      function updateMethodDisplay() {
+        const method = methodSelect.value;
+        const badge = document.querySelector('.method-badge');
+        if (badge) badge.remove();
+        
+        const newBadge = document.createElement('span');
+        newBadge.className = `method-badge method-${method.toLowerCase()}`;
+        newBadge.textContent = method;
+        methodSelect.parentElement.querySelector('.form-label').appendChild(newBadge);
+      }
+      
+      sendBtn.addEventListener('click', async function() {
+        const url = document.getElementById('url').value.trim();
+        const method = document.getElementById('method').value;
+        const headersText = document.getElementById('headers').value.trim();
+        const bodyText = document.getElementById('body').value.trim();
+        
+        // Validation
+        if (!url) {
+          showError('Please enter a valid API URL');
+          return;
+        }
+        
+        if (!url.startsWith('http://') && !url.startsWith('https://')) {
+          showError('URL must start with http:// or https://');
+          return;
+        }
+        
+        // Show loading state
+        loading.style.display = 'inline-block';
+        sendBtn.disabled = true;
+        document.getElementById('response').textContent = '⏳ Sending request...\n\nPlease wait while we process your API call.';
+        document.getElementById('statusBadge').innerHTML = '';
+        document.getElementById('responseTime').textContent = '';
+        
+        let parsedHeaders = {};
+        let parsedBody = null;
+        
+        // Parse headers
+        if (headersText) {
+          try {
+            parsedHeaders = JSON.parse(headersText);
+          } catch (e) {
+            showError('Invalid JSON format in headers. Please check your syntax.');
+            return;
+          }
+        }
+        
+        // Parse body for non-GET requests
+        if (bodyText && method !== 'GET') {
+          try {
+            parsedBody = JSON.parse(bodyText);
+          } catch (e) {
+            showError('Invalid JSON format in request body. Please check your syntax.');
+            return;
+          }
+        }
+        
+        const startTime = Date.now();
+        
+        try {
+          const fetchOptions = {
+            method: method,
+            headers: parsedHeaders
+          };
+          
+          // Add body for non-GET requests
+          if (parsedBody && method !== 'GET') {
+            fetchOptions.body = JSON.stringify(parsedBody);
+            if (!parsedHeaders['Content-Type']) {
+              fetchOptions.headers['Content-Type'] = 'application/json';
+            }
+          }
+          
+          const response = await fetch(url, fetchOptions);
+          const responseTime = Date.now() - startTime;
+          
+          // Show status
+          const statusClass = response.ok ? 'success' : 'danger';
+          const statusIcon = response.ok ? 'fas fa-check-circle' : 'fas fa-exclamation-triangle';
+          document.getElementById('statusBadge').innerHTML = 
+            `<span class="badge bg-${statusClass}"><i class="${statusIcon} me-1"></i>${response.status} ${response.statusText}</span>`;
+          
+          document.getElementById('responseTime').innerHTML = 
+            `<i class="fas fa-clock me-1"></i>Response time: ${responseTime}ms`;
+          
+          // Handle response
+          const contentType = response.headers.get('content-type');
+          let responseData;
+          
+          if (contentType && contentType.includes('application/json')) {
+            responseData = await response.json();
+            document.getElementById('response').textContent = JSON.stringify(responseData, null, 2);
+          } else {
+            responseData = await response.text();
+            document.getElementById('response').textContent = responseData;
+          }
+          
+        } catch (error) {
+          const responseTime = Date.now() - startTime;
+          document.getElementById('statusBadge').innerHTML = 
+            '<span class="badge bg-danger"><i class="fas fa-times-circle me-1"></i>Network Error</span>';
+          document.getElementById('responseTime').innerHTML = 
+            `<i class="fas fa-clock me-1"></i>Time: ${responseTime}ms`;
+          
+          let errorMessage = `❌ Request Failed\n\nError: ${error.message}\n\n`;
+          
+          if (error.message.includes('CORS')) {
+            errorMessage += `💡 CORS Issue Detected:\nThis error occurs when the API doesn't allow requests from web browsers.\n\nSolutions:\n- Use a CORS proxy service\n- Test with a backend application\n- Contact the API provider`;
+          } else if (error.message.includes('Failed to fetch')) {
+            errorMessage += `🔗 Connection Issue:\n- Check your internet connection\n- Verify the URL is correct\n- Ensure the API server is running`;
+          }
+          
+          document.getElementById('response').textContent = errorMessage;
+        } finally {
+          // Hide loading state
+          loading.style.display = 'none';
+          sendBtn.disabled = false;
+        }
+      });
+      
+      function showError(message) {
+        loading.style.display = 'none';
+        sendBtn.disabled = false;
+        document.getElementById('statusBadge').innerHTML = 
+          '<span class="badge bg-danger"><i class="fas fa-exclamation-circle me-1"></i>Input Error</span>';
+        document.getElementById('response').textContent = `❌ ${message}\n\nPlease fix the issue and try again.`;
+      }
+      
+      // Initialize method display
+      updateMethodDisplay();
+    });
+  </script>
+</body>
+</html>
