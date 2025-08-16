@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -306,7 +305,6 @@
             font-weight: 600;
         }
 
-        /* Floating particles effect */
         .particles {
             position: fixed;
             top: 0;
@@ -337,7 +335,6 @@
             }
         }
 
-        /* Scrollbar styling */
         ::-webkit-scrollbar {
             width: 8px;
         }
@@ -354,6 +351,17 @@
 
         ::-webkit-scrollbar-thumb:hover {
             background: linear-gradient(135deg, #059669, #2563eb);
+        }
+
+        .highlight {
+            background: rgba(16, 185, 129, 0.3);
+            padding: 2px 4px;
+            border-radius: 3px;
+        }
+
+        #noResults {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.7);
         }
 
         @media (max-width: 768px) {
@@ -383,7 +391,6 @@
         }
     </style>
 </head>
-
 <body>
     <!-- Floating Particles -->
     <div class="particles" id="particles"></div>
@@ -393,8 +400,9 @@
         <div class="container mx-auto px-4 flex justify-between items-center flex-wrap">
             <a class="navbar-brand" href="#">Thirupathi G</a>
             <div class="flex items-center space-x-4 mt-2 sm:mt-0 flex-wrap">
-                <div class="search-container">
-                    <input type="text" id="searchInput" class="search-bar" placeholder="🔍 Search projects...">
+                <div class="search-container relative">
+                    <input type="text" id="searchInput" class="search-bar" placeholder="🔍 Search projects..." aria-label="Search projects">
+                    <button class="absolute right-3 top-1/2 transform -translate-y-1/2 text-white opacity-60 hover:opacity-100 transition" aria-label="Clear search">✖</button>
                 </div>
                 <a class="nav-link text-white transition" href="index.html">Home</a>
                 <a class="nav-link text-white transition" href="aboutMe.html">About</a>
@@ -414,7 +422,6 @@
                 </div>
                 <button class="animated-button text-white font-medium py-3 px-6 rounded-xl mt-6" onclick="window.location.href='mySqlExplorer.html'">Explore Now</button>
             </div>
-
             <div class="glass project-card animate-float-in p-8 flex flex-col justify-between h-full">
                 <div>
                     <h2 class="project-title text-xl">MySQL Table Creator</h2>
@@ -422,7 +429,6 @@
                 </div>
                 <button class="animated-button text-white font-medium py-3 px-6 rounded-xl mt-6" onclick="window.location.href='mySQLTableCreator.html'">Create Tables</button>
             </div>
-
             <div class="glass project-card animate-float-in p-8 flex flex-col justify-between h-full">
                 <div>
                     <h2 class="project-title text-xl">JPA & Hibernate Annotations</h2>
@@ -430,7 +436,6 @@
                 </div>
                 <button class="animated-button text-white font-medium py-3 px-6 rounded-xl mt-6" onclick="window.location.href='hibernateAnnotations.html'">Learn Annotations</button>
             </div>
-
             <div class="glass project-card animate-float-in p-8 flex flex-col justify-between h-full">
                 <div>
                     <h2 class="project-title text-xl">Excel Comparison</h2>
@@ -438,7 +443,6 @@
                 </div>
                 <button class="animated-button text-white font-medium py-3 px-6 rounded-xl mt-6" onclick="window.location.href='excelComparison.html'">Compare Files</button>
             </div>
-
             <div class="glass project-card animate-float-in p-8 flex flex-col justify-between h-full">
                 <div>
                     <h2 class="project-title text-xl">XML Formatter</h2>
@@ -446,7 +450,6 @@
                 </div>
                 <button class="animated-button text-white font-medium py-3 px-6 rounded-xl mt-6" onclick="window.location.href='xmlFormatter.html'">Format XML</button>
             </div>
-
             <div class="glass project-card animate-float-in p-8 flex flex-col justify-between h-full">
                 <div>
                     <h2 class="project-title text-xl">File Manager</h2>
@@ -454,7 +457,6 @@
                 </div>
                 <button class="animated-button text-white font-medium py-3 px-6 rounded-xl mt-6" onclick="window.location.href='fileStorage'">Manage Files</button>
             </div>
-
             <div class="glass project-card animate-float-in p-8 flex flex-col justify-between h-full">
                 <div>
                     <h2 class="project-title text-xl">HTML Online Editor</h2>
@@ -462,7 +464,6 @@
                 </div>
                 <button class="animated-button text-white font-medium py-3 px-6 rounded-xl mt-6" onclick="window.location.href='htmlEditor.html'">Edit HTML</button>
             </div>
-
             <div class="glass project-card animate-float-in p-8 flex flex-col justify-between h-full">
                 <div>
                     <h2 class="project-title text-xl">Loan Calculator</h2>
@@ -470,7 +471,6 @@
                 </div>
                 <button class="animated-button text-white font-medium py-3 px-6 rounded-xl mt-6" onclick="window.location.href='https://thirupathimech.github.io/dashBoard/loanCalculator'">Calculate Loans</button>
             </div>
-
             <div class="glass project-card animate-float-in p-8 flex flex-col justify-between h-full">
                 <div>
                     <h2 class="project-title text-xl">Find And Replace</h2>
@@ -478,7 +478,6 @@
                 </div>
                 <button class="animated-button text-white font-medium py-3 px-6 rounded-xl mt-6" onclick="window.location.href='https://thirupathimech.github.io/dashBoard/FindAndReplace'">Find & Replace</button>
             </div>
-
             <div class="glass project-card animate-float-in p-8 flex flex-col justify-between h-full">
                 <div>
                     <h2 class="project-title text-xl">Java File Scanner</h2>
@@ -486,7 +485,6 @@
                 </div>
                 <button class="animated-button text-white font-medium py-3 px-6 rounded-xl mt-6" onclick="window.location.href='javaFilePathScanner.html'">Scan Files</button>
             </div>
-
             <div class="glass project-card animate-float-in p-8 flex flex-col justify-between h-full">
                 <div>
                     <h2 class="project-title text-xl">Text Processor</h2>
@@ -494,7 +492,6 @@
                 </div>
                 <button class="animated-button text-white font-medium py-3 px-6 rounded-xl mt-6" onclick="window.location.href='textProcessor.html'">Process Text</button>
             </div>
-
             <div class="glass project-card animate-float-in p-8 flex flex-col justify-between h-full">
                 <div>
                     <h2 class="project-title text-xl">Color Picker</h2>
@@ -502,7 +499,6 @@
                 </div>
                 <button class="animated-button text-white font-medium py-3 px-6 rounded-xl mt-6" onclick="window.location.href='colorPicker.html'">Pick Colors</button>
             </div>
-
             <div class="glass project-card animate-float-in p-8 flex flex-col justify-between h-full">
                 <div>
                     <h2 class="project-title text-xl">Chat Bot</h2>
@@ -510,7 +506,6 @@
                 </div>
                 <button class="animated-button text-white font-medium py-3 px-6 rounded-xl mt-6" onclick="window.location.href='chatbot.html'">Start Chatting</button>
             </div>
-
             <div class="glass project-card animate-float-in p-8 flex flex-col justify-between h-full">
                 <div>
                     <h2 class="project-title text-xl">Employee Form</h2>
@@ -518,7 +513,6 @@
                 </div>
                 <button class="animated-button text-white font-medium py-3 px-6 rounded-xl mt-6" onclick="window.location.href='https://thirupathimech.github.io/dashBoard/employeeForm'">Manage Employees</button>
             </div>
-
             <div class="glass project-card animate-float-in p-8 flex flex-col justify-between h-full">
                 <div>
                     <h2 class="project-title text-xl">Snake Game</h2>
@@ -526,7 +520,6 @@
                 </div>
                 <button class="animated-button text-white font-medium py-3 px-6 rounded-xl mt-6" onclick="window.location.href='snakeGame.html'">Play Game</button>
             </div>
-
             <div class="glass project-card animate-float-in p-8 flex flex-col justify-between h-full">
                 <div>
                     <h2 class="project-title text-xl">Resume Analyzer</h2>
@@ -534,7 +527,6 @@
                 </div>
                 <button class="animated-button text-white font-medium py-3 px-6 rounded-xl mt-6" onclick="window.location.href='resume_analyzer.html'">Analyze Resume</button>
             </div>
-
             <div class="glass project-card animate-float-in p-8 flex flex-col justify-between h-full">
                 <div>
                     <h2 class="project-title text-xl">Daily Expense Tracker</h2>
@@ -542,7 +534,6 @@
                 </div>
                 <button class="animated-button text-white font-medium py-3 px-6 rounded-xl mt-6" onclick="window.location.href='expense_tracker.html'">Track Expenses</button>
             </div>
-
             <div class="glass project-card animate-float-in p-8 flex flex-col justify-between h-full">
                 <div>
                     <h2 class="project-title text-xl">Image Base64 Converter</h2>
@@ -550,7 +541,6 @@
                 </div>
                 <button class="animated-button text-white font-medium py-3 px-6 rounded-xl mt-6" onclick="window.location.href='image_base64_converter.html'">Convert Images</button>
             </div>
-
             <div class="glass project-card animate-float-in p-8 flex flex-col justify-between h-full">
                 <div>
                     <h2 class="project-title text-xl">Postman Lite</h2>
@@ -558,7 +548,6 @@
                 </div>
                 <button class="animated-button text-white font-medium py-3 px-6 rounded-xl mt-6" onclick="window.location.href='postman_lite.html'">Test APIs</button>
             </div>
-
             <div class="glass project-card animate-float-in p-8 flex flex-col justify-between h-full">
                 <div>
                     <h2 class="project-title text-xl">Capture Image Or Video</h2>
@@ -575,23 +564,77 @@
     </footer>
 
     <script>
-        // Search functionality
-        document.getElementById('searchInput').addEventListener('input', function(e) {
-            const searchTerm = e.target.value.toLowerCase();
+        // Search functionality with debounce and enhancements
+        const searchInput = document.getElementById('searchInput');
+        let debounceTimeout;
+
+        // Debounce function to limit how often the search runs
+        function debounce(func, delay) {
+            return function (...args) {
+                clearTimeout(debounceTimeout);
+                debounceTimeout = setTimeout(() => func.apply(this, args), delay);
+            };
+        }
+
+        // Highlight matched text
+        function highlightText(text, searchTerm) {
+            if (!searchTerm) return text;
+            const regex = new RegExp(`(${searchTerm})`, 'gi');
+            return text.replace(regex, '<span class="highlight">$1</span>');
+        }
+
+        // Search handler
+        function handleSearch(e) {
+            const searchTerm = e.target.value.toLowerCase().trim();
             const cards = document.querySelectorAll('#cardContainer .project-card');
+            const noResults = document.getElementById('noResults') || createNoResultsMessage();
+
+            let hasResults = false;
 
             cards.forEach(card => {
-                const title = card.querySelector('h2').textContent.toLowerCase();
-                const description = card.querySelector('p').textContent.toLowerCase();
+                const titleElement = card.querySelector('h2');
+                const descriptionElement = card.querySelector('p');
+                const title = titleElement.textContent.toLowerCase();
+                const description = descriptionElement.textContent.toLowerCase();
 
                 if (title.includes(searchTerm) || description.includes(searchTerm)) {
                     card.style.display = 'flex';
                     card.style.opacity = '1';
+                    hasResults = true;
+
+                    // Highlight matched text
+                    titleElement.innerHTML = highlightText(titleElement.textContent, searchTerm);
+                    descriptionElement.innerHTML = highlightText(descriptionElement.textContent, searchTerm);
                 } else {
                     card.style.display = 'none';
+                    titleElement.innerHTML = titleElement.textContent; // Reset highlight
+                    descriptionElement.innerHTML = descriptionElement.textContent; // Reset highlight
                 }
             });
-        });
+
+            // Show/hide no results message
+            noResults.style.display = hasResults ? 'none' : 'block';
+        }
+
+        // Create "No Results" message element
+        function createNoResultsMessage() {
+            const noResults = document.createElement('div');
+            noResults.id = 'noResults';
+            noResults.className = 'text-white text-center py-8';
+            noResults.textContent = 'No projects found. Try a different search term!';
+            document.getElementById('cardContainer').after(noResults);
+            return noResults;
+        }
+
+        // Add clear button functionality
+        function addClearButton() {
+            const clearButton = document.querySelector('.search-container button');
+            clearButton.addEventListener('click', () => {
+                searchInput.value = '';
+                handleSearch({ target: { value: '' } });
+                searchInput.focus();
+            });
+        }
 
         // Create floating particles
         function createParticles() {
@@ -608,11 +651,16 @@
             }
         }
 
-        // Initialize particles on page load
+        // Initialize
+        searchInput.addEventListener('input', debounce(handleSearch, 300));
         window.addEventListener('load', () => {
             createParticles();
-            
-            // Trigger card animations
+            addClearButton();
             const cards = document.querySelectorAll('.project-card');
             cards.forEach(card => {
-                card.classList.add('animate
+                card.classList.add('animate-float-in');
+            });
+        });
+    </script>
+</body>
+</html>
