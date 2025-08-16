@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume Analyzer - ATS Score & Keywords</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            background: linear-gradient(135deg, #00b894 0%, #00a085 100%);
+            /* Green gradient for body */
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .main-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            margin-top: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .upload-zone {
+            border: 3px dashed #00b894;
+            /* Green dashed border */
+            border-radius: 15px;
+            padding: 3rem 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            background: linear-gradient(45deg, rgba(0, 184, 148, 0.05), rgba(0, 160, 133, 0.05));
+            /* Light green gradient */
+        }
+
+        .upload-zone:hover {
+            border-color: #009688;
+            /* Darker green on hover */
+            background: linear-gradient(45deg, rgba(0, 184, 148, 0.1), rgba(0, 160, 133, 0.1));
+            transform: translateY(-2px);
+        }
+
+        .upload-zone.dragover {
+            border-color: #2ecc71;
+            /* Bright green for dragover */
+            background: rgba(46, 204, 113, 0.1);
+        }
+
+        .upload-icon {
+            font-size: 4rem;
+            color: #00b894;
+            /* Green icon */
+            margin-bottom: 1rem;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+
+            0%,
+            20%,
+            50%,
+            80%,
+            100% {
+                transform: translateY(0);
+            }
+
+            40% {
+                transform: translateY(-10px);
+            }
+
+            60% {
+                transform: translateY(-5px);
+            }
+        }
+
+        .analysis-card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+
+        .analysis-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card-header {
+            background: linear-gradient(135deg, #00b894, #009688);
+            /* Green gradient for headers */
+            color: white;
+            padding: 1.5rem;
+            border: none;
+        }
+
+        .score-circle {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            font-weight: bold;
+            color: white;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .score-excellent {
+            background: linear-gradient(135deg, #00b894, #009688);
+        }
+
+        /* Green for excellent */
+        .score-good {
+            background: linear-gradient(135deg, #55efc4, #00b894);
+        }
+
+        /* Lighter green for good */
+        .score-average {
+            background: linear-gradient(135deg, #a8e063, #56ab2f);
+        }
+
+        /* Medium green for average */
+        .score-poor {
+            background: linear-gradient(135deg, #e17055, #d63031);
+        }
+
+        /* Keep red for poor */
+
+        .keyword-tag {
+            display: inline-block;
+            background: linear-gradient(45deg, #00b894, #009688);
+            /* Green for found keywords */
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            margin: 0.25rem;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: transform 0.2s ease;
+        }
+
+        .keyword-tag:hover {
+            transform: scale(1.05);
+        }
+
+        .missing-keyword {
+            background: linear-gradient(45deg, #e17055, #d63031);
+            /* Keep red for missing keywords */
+        }
+
+        .progress-bar {
+            background: linear-gradient(90deg, #00b894, #009688);
+            /* Green progress bar */
+            transition: width 0.8s ease;
+        }
+
+        .suggestions-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .suggestions-list li {
+            background: rgba(0, 184, 148, 0.1);
+            /* Light green for suggestions */
+            margin: 0.5rem 0;
+            padding: 1rem;
+            border-radius: 10px;
+            border-left: 4px solid #00b894;
+            /* Green border */
+        }
+
+        .loading-spinner {
+            display: none;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #00b894, #009688);
+            /* Green button */
+            border: none;
+            border-radius: 25px;
+            padding: 0.75rem 2rem;
+            font-weight: 600;
+            transition: transform 0.2s ease;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 184, 148, 0.4);
+            /* Green shadow */
+        }
+
+        .text-primary {
+            --bs-text-opacity: 1;
+            color: rgb(0 165 136) !important;
+        }
+
+        .home-button {
+            position: fixed;
+            top: 1.5rem;
+            left: 1.5rem;
+            z-index: 1000;
+            width: 3.5rem;
+            height: 3.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(15px);
+            border: aliceblue;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .home-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 15px rgba(255, 255, 255, 0.2);
+        }
+    </style>
+</head>
+
+<body>
+    <button class="home-button" onclick="window.location.href='index.html'" title="Back to Home">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+        </svg>
+    </button>
+    <div class="container">
+        <div class="main-container">
+            <div class="text-center py-5">
+                <h1 class="display-4 fw-bold text-primary mb-3">
+                    <i class="fas fa-file-alt me-3"></i>Resume Analyzer
+                </h1>
+                <p class="lead text-muted">Upload your resume for ATS optimization and keyword analysis</p>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="upload-zone" id="uploadZone">
+                        <div class="upload-icon">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                        </div>
+                        <h4 class="mb-3">Drop your resume here or click to browse</h4>
+                        <p class="text-muted mb-3">Supports PDF and DOC files up to 10MB</p>
+                        <input type="file" id="fileInput" accept=".pdf,.doc,.docx" style="display: none;">
+                        <button class="btn btn-primary btn-lg" onclick="document.getElementById('fileInput').click()">
+                            <i class="fas fa-file-upload me-2"></i>Choose File
+                        </button>
+                    </div>
+
+                    <div class="loading-spinner text-center mt-4" id="loadingSpinner">
+                        <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;"></div>
+                        <p class="mt-3 text-primary fw-bold">Analyzing your resume...</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="analysisResults" style="display: none;">
+                <div class="row mt-5">
+                    <!-- ATS Score Card -->
+                    <div class="col-lg-4 col-md-6 mb-4">
+                        <div class="analysis-card">
+                            <div class="card-header text-center">
+                                <h5 class="mb-0"><i class="fas fa-tachometer-alt me-2"></i>ATS Score</h5>
+                            </div>
+                            <div class="card-body text-center">
+                                <div class="score-circle mb-3" id="scoreCircle">
+                                    <span id="atsScore">0</span>%
+                                </div>
+                                <h6 id="scoreLabel" class="text-muted">Calculating...</h6>
+                                <div class="progress mt-3">
+                                    <div class="progress-bar" id="scoreProgress" style="width: 0%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Keywords Found -->
+                    <div class="col-lg-4 col-md-6 mb-4">
+                        <div class="analysis-card">
+                            <div class="card-header">
+                                <h5 class="mb-0"><i class="fas fa-tags me-2"></i>Keywords Found</h5>
+                            </div>
+                            <div class="card-body">
+                                <div id="foundKeywords"></div>
+                                <div class="mt-3">
+                                    <small class="text-success"><i class="fas fa-check-circle me-1"></i>Found: <span id="foundCount">0</span></small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Missing Keywords -->
+                    <div class="col-lg-4 col-md-6 mb-4">
+                        <div class="analysis-card">
+                            <div class="card-header">
+                                <h5 class="mb-0"><i class="fas fa-exclamation-triangle me-2"></i>Missing Keywords</h5>
+                            </div>
+                            <div class="card-body">
+                                <div id="missingKeywords"></div>
+                                <div class="mt-3">
+                                    <small class="text-danger"><i class="fas fa-times-circle me-1"></i>Missing: <span id="missingCount">0</span></small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <!-- Detailed Analysis -->
+                    <div class="col-lg-6 mb-4">
+                        <div class="analysis-card">
+                            <div class="card-header">
+                                <h5 class="mb-0"><i class="fas fa-chart-bar me-2"></i>Detailed Analysis</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="mb-3">
+                                    <div class="d-flex justify-content-between">
+                                        <span>Technical Skills</span>
+                                        <span class="fw-bold" id="techScore">0%</span>
+                                    </div>
+                                    <div class="progress">
+                                        <div class="progress-bar" id="techProgress" style="width: 0%"></div>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <div class="d-flex justify-content-between">
+                                        <span>Experience Keywords</span>
+                                        <span class="fw-bold" id="expScore">0%</span>
+                                    </div>
+                                    <div class="progress">
+                                        <div class="progress-bar" id="expProgress" style="width: 0%"></div>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <div class="d-flex justify-content-between">
+                                        <span>Education Keywords</span>
+                                        <span class="fw-bold" id="eduScore">0%</span>
+                                    </div>
+                                    <div class="progress">
+                                        <div class="progress-bar" id="eduProgress" style="width: 0%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Improvement Suggestions -->
+                    <div class="col-lg-6 mb-4">
+                        <div class="analysis-card">
+                            <div class="card-header">
+                                <h5 class="mb-0"><i class="fas fa-lightbulb me-2"></i>Improvement Suggestions</h5>
+                            </div>
+                            <div class="card-body">
+                                <ul class="suggestions-list" id="suggestionsList"></ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- jQuery -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <!-- PDF.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.8.162/pdf.min.js"></script>
+    <!-- mammoth for docx -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.4.2/mammoth.browser.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            // Sample keywords for different categories
+            const keywordCategories = {
+                technical: [
+                    'JavaScript', 'Python', 'Java', 'C++', 'HTML', 'CSS', 'React', 'Angular', 'Vue',
+                    'Node.js', 'Express', 'MongoDB', 'MySQL', 'PostgreSQL', 'AWS', 'Docker', 'Git',
+                    'Machine Learning', 'AI', 'Data Science', 'SQL', 'NoSQL', 'REST API', 'GraphQL',
+                    'Microservices', 'DevOps', 'CI/CD', 'Kubernetes', 'Linux', 'Agile', 'Scrum'
+                ],
+                experience: [
+                    'Project Management', 'Team Lead', 'Software Development', 'Full Stack',
+                    'Frontend', 'Backend', 'Database Design', 'System Architecture', 'Code Review',
+                    'Troubleshooting', 'Testing', 'QA', 'Performance Optimization', 'Security',
+                    'Collaboration', 'Communication', 'Problem Solving', 'Leadership', 'Mentoring'
+                ],
+                education: [
+                    'Computer Science', 'Software Engineering', 'Information Technology',
+                    'Bachelor', 'Master', 'PhD', 'Certification', 'Training', 'Coursework',
+                    'Academic', 'Research', 'Thesis', 'GPA', 'Honors', 'Dean\'s List'
+                ]
+            };
+
+            let extractedText = '';
+            let analysisData = {};
+
+            // File upload handling
+            const uploadZone = $('#uploadZone');
+            const fileInput = $('#fileInput');
+
+            uploadZone.on('click', function() {
+                fileInput.click();
+            });
+
+            uploadZone.on('dragover', function(e) {
+                e.preventDefault();
+                $(this).addClass('dragover');
+            });
+
+            uploadZone.on('dragleave', function(e) {
+                e.preventDefault();
+                $(this).removeClass('dragover');
+            });
+
+            uploadZone.on('drop', function(e) {
+                e.preventDefault();
+                $(this).removeClass('dragover');
+                const files = e.originalEvent.dataTransfer.files;
+                if (files.length > 0) {
+                    handleFileUpload(files[0]);
+                }
+            });
+
+            fileInput.on('change', function() {
+                if (this.files.length > 0) {
+                    handleFileUpload(this.files[0]);
+                }
+            });
+
+            function handleFileUpload(file) {
+                if (!file) return;
+
+                // Validate file type
+                const validTypes = ['application/pdf', 'application/msword',
+                    'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+                ];
+                if (!validTypes.includes(file.type)) {
+                    alert('Please upload a PDF or DOC/DOCX file');
+                    return;
+                }
+
+                // Validate file size (10MB)
+                if (file.size > 10 * 1024 * 1024) {
+                    alert('File size should be less than 10MB');
+                    return;
+                }
+
+                $('#loadingSpinner').show();
+                $('#analysisResults').hide();
+
+                // Extract text based on file type
+                if (file.type === 'application/pdf') {
+                    extractTextFromPDF(file);
+                } else {
+                    extractTextFromDoc(file);
+                }
+            }
+
+            function extractTextFromPDF(file) {
+                const fileReader = new FileReader();
+                fileReader.onload = function() {
+                    const typedarray = new Uint8Array(this.result);
+
+                    pdfjsLib.getDocument(typedarray).promise.then(function(pdf) {
+                        let textPromises = [];
+
+                        for (let i = 1; i <= pdf.numPages; i++) {
+                            textPromises.push(
+                                pdf.getPage(i).then(function(page) {
+                                    return page.getTextContent().then(function(textContent) {
+                                        return textContent.items.map(item => item.str).join(' ');
+                                    });
+                                })
+                            );
+                        }
+
+                        Promise.all(textPromises).then(function(texts) {
+                            extractedText = texts.join(' ');
+                            analyzeResume(extractedText);
+                        });
+                    }).catch(function(error) {
+                        console.error('Error extracting PDF:', error);
+                        alert('Error reading PDF file');
+                        $('#loadingSpinner').hide();
+                    });
+                };
+                fileReader.readAsArrayBuffer(file);
+            }
+
+            function extractTextFromDoc(file) {
+                const fileReader = new FileReader();
+                fileReader.onload = function() {
+                    if (file.name.endsWith('.docx')) {
+                        mammoth.extractRawText({
+                                arrayBuffer: this.result
+                            })
+                            .then(function(result) {
+                                extractedText = result.value;
+                                analyzeResume(extractedText);
+                            })
+                            .catch(function(error) {
+                                console.error('Error extracting DOCX:', error);
+                                alert('Error reading DOCX file');
+                                $('#loadingSpinner').hide();
+                            });
+                    } else {
+                        // Simple text extraction for .doc files (limited support)
+                        const text = new TextDecoder().decode(this.result);
+                        extractedText = text.replace(/[^\x20-\x7E]/g, ' '); // Remove non-printable chars
+                        analyzeResume(extractedText);
+                    }
+                };
+                fileReader.readAsArrayBuffer(file);
+            }
+
+            function analyzeResume(text) {
+                // Simulate analysis delay
+                setTimeout(function() {
+                    const analysis = performKeywordAnalysis(text);
+                    displayResults(analysis);
+                    $('#loadingSpinner').hide();
+                    $('#analysisResults').show();
+                }, 2000);
+            }
+
+            function performKeywordAnalysis(text) {
+                const textLower = text.toLowerCase();
+                const foundKeywords = {
+                    technical: [],
+                    experience: [],
+                    education: []
+                };
+                const missingKeywords = {
+                    technical: [],
+                    experience: [],
+                    education: []
+                };
+
+                // Analyze each category
+                Object.keys(keywordCategories).forEach(category => {
+                    keywordCategories[category].forEach(keyword => {
+                        if (textLower.includes(keyword.toLowerCase())) {
+                            foundKeywords[category].push(keyword);
+                        } else {
+                            missingKeywords[category].push(keyword);
+                        }
+                    });
+                });
+
+                // Calculate scores
+                const totalKeywords = Object.values(keywordCategories).flat().length;
+                const totalFound = Object.values(foundKeywords).flat().length;
+                const overallScore = Math.round((totalFound / totalKeywords) * 100);
+
+                const techScore = Math.round((foundKeywords.technical.length / keywordCategories.technical.length) * 100);
+                const expScore = Math.round((foundKeywords.experience.length / keywordCategories.experience.length) * 100);
+                const eduScore = Math.round((foundKeywords.education.length / keywordCategories.education.length) * 100);
+
+                return {
+                    overallScore,
+                    scores: {
+                        technical: techScore,
+                        experience: expScore,
+                        education: eduScore
+                    },
+                    foundKeywords,
+                    missingKeywords,
+                    totalFound,
+                    totalMissing: totalKeywords - totalFound
+                };
+            }
+
+            function displayResults(analysis) {
+                analysisData = analysis;
+
+                // Update ATS Score
+                updateATSScore(analysis.overallScore);
+
+                // Update detailed scores with animation
+                setTimeout(() => updateDetailedScores(analysis.scores), 500);
+
+                // Display keywords
+                setTimeout(() => displayKeywords(analysis), 1000);
+
+                // Show suggestions
+                setTimeout(() => showSuggestions(analysis), 1500);
+            }
+
+            function updateATSScore(score) {
+                const scoreCircle = $('#scoreCircle');
+                const scoreLabel = $('#scoreLabel');
+                const scoreProgress = $('#scoreProgress');
+
+                // Animate score
+                $({
+                    score: 0
+                }).animate({
+                    score: score
+                }, {
+                    duration: 1500,
+                    step: function() {
+                        $('#atsScore').text(Math.round(this.score));
+                        scoreProgress.css('width', this.score + '%');
+                    }
+                });
+
+                // Set color and label based on score
+                scoreCircle.removeClass('score-excellent score-good score-average score-poor');
+                if (score >= 80) {
+                    scoreCircle.addClass('score-excellent');
+                    scoreLabel.text('Excellent! ATS Optimized');
+                } else if (score >= 65) {
+                    scoreCircle.addClass('score-good');
+                    scoreLabel.text('Good ATS Compatibility');
+                } else if (score >= 45) {
+                    scoreCircle.addClass('score-average');
+                    scoreLabel.text('Average - Needs Improvement');
+                } else {
+                    scoreCircle.addClass('score-poor');
+                    scoreLabel.text('Poor ATS Compatibility');
+                }
+            }
+
+            function updateDetailedScores(scores) {
+                // Technical Skills
+                $('#techScore').text(scores.technical + '%');
+                $('#techProgress').animate({
+                    width: scores.technical + '%'
+                }, 800);
+
+                // Experience
+                $('#expScore').text(scores.experience + '%');
+                $('#expProgress').animate({
+                    width: scores.experience + '%'
+                }, 800);
+
+                // Education
+                $('#eduScore').text(scores.education + '%');
+                $('#eduProgress').animate({
+                    width: scores.education + '%'
+                }, 800);
+            }
+
+            function displayKeywords(analysis) {
+                const foundContainer = $('#foundKeywords');
+                const missingContainer = $('#missingKeywords');
+
+                foundContainer.empty();
+                missingContainer.empty();
+
+                // Display found keywords (limit to top 20 for better UX)
+                const allFound = Object.values(analysis.foundKeywords).flat().slice(0, 20);
+                allFound.forEach(keyword => {
+                    foundContainer.append(`<span class="keyword-tag">${keyword}</span>`);
+                });
+
+                // Display missing keywords (limit to top 15)
+                const allMissing = Object.values(analysis.missingKeywords).flat().slice(0, 15);
+                allMissing.forEach(keyword => {
+                    missingContainer.append(`<span class="keyword-tag missing-keyword">${keyword}</span>`);
+                });
+
+                $('#foundCount').text(analysis.totalFound);
+                $('#missingCount').text(analysis.totalMissing);
+            }
+
+            function showSuggestions(analysis) {
+                const suggestions = generateSuggestions(analysis);
+                const suggestionsList = $('#suggestionsList');
+
+                suggestionsList.empty();
+                suggestions.forEach(suggestion => {
+                    suggestionsList.append(`<li><i class="fas fa-arrow-right me-2 text-primary"></i>${suggestion}</li>`);
+                });
+            }
+
+            function generateSuggestions(analysis) {
+                const suggestions = [];
+                const {
+                    overallScore,
+                    scores,
+                    missingKeywords
+                } = analysis;
+
+                if (overallScore < 60) {
+                    suggestions.push('Your resume needs significant keyword optimization for better ATS compatibility.');
+                }
+
+                if (scores.technical < 50) {
+                    suggestions.push('Add more technical skills relevant to your field. Include programming languages, frameworks, and tools.');
+                }
+
+                if (scores.experience < 60) {
+                    suggestions.push('Use more action-oriented keywords in your experience section. Include terms like "developed", "managed", "implemented".');
+                }
+
+                if (scores.education < 40) {
+                    suggestions.push('Enhance your education section with relevant coursework, certifications, or training programs.');
+                }
+
+                // Add specific keyword suggestions
+                if (missingKeywords.technical.length > 0) {
+                    const topMissing = missingKeywords.technical.slice(0, 3).join(', ');
+                    suggestions.push(`Consider adding these technical skills if relevant: ${topMissing}`);
+                }
+
+                if (overallScore >= 80) {
+                    suggestions.push('Great job! Your resume is well-optimized for ATS systems.');
+                } else if (overallScore >= 65) {
+                    suggestions.push('Good work! Consider adding a few more industry-specific keywords to boost your score.');
+                }
+
+                suggestions.push('Ensure your contact information is clearly visible at the top of your resume.');
+                suggestions.push('Use standard section headings like "Experience", "Education", "Skills" for better ATS parsing.');
+
+                return suggestions.slice(0, 6); // Limit to 6 suggestions
+            }
+        });
+    </script>
+</body>
+
+</html>
