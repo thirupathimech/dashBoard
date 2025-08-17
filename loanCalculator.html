@@ -1,23 +1,12 @@
-// Update interest chart
-        function updateInterestChart(monthlyInterest, months, type) {
-            const ctx = document.getElementById('interestChart').getContext('2d');
-            
-            if (interestChart) {
-                interestChart.destroy();
-            }
-
-            const labels = [];
-            const data = [];
-            
-            for (let i = 1; i <= months; i++) {
-                labels.push(`Month ${i}`);
-                data.push(monthlyI<!DOCTYPE html>
+<!DOCTYPE html>
 <!-- Redesigned by Claude - Professional UI -->
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Professional Loan & Interest Calculator</title>
+    
+    <link rel="icon" href="https://blogger.googleusercontent.com/img/a/AVvXsEgIFnXbCEgaASrlgiFnXz6MPaK-kyelPH7eTOt9s0-nWtY5YSMAIG5mN4k7dnxX6M-C0AmbO3U9jikPwhBdpp7G9848hK_1c7kXLbqxamlfCbhe_l-kEb8pe5V6mEH3fiIokyxkIyavBLAMlAzSApPTbcYA1r-P9YDwpu9GBIsL1SV4zGLvMwFulKOECQ4" type="image/x-icon">
     
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -634,9 +623,34 @@
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
+         .home-button {
+            position: fixed;
+            box-shadow: 2px 3px 20px 0px;
+            top: 1rem;
+            left: 1rem;
+            z-index: 9999;
+            width: 3rem;
+            height: 3rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 0.75rem;
+            transition: transform 0.3s ease;
+        }
+        .home-button:hover {
+            transform: scale(1.1);
+        }
     </style>
 </head>
 <body>
+     <button class="home-button" onclick="window.location.href='index.html'" title="Back to Home">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+        </svg>
+    </button>
     <!-- Floating Particles -->
     <div class="floating-particles" id="particles"></div>
 
