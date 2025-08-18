@@ -16,13 +16,16 @@
             box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
         }
         /* Custom scrollbar */
-        .table-container::-webkit-scrollbar {
+        .table-container::-webkit-scrollbar,
+        .output-container::-webkit-scrollbar {
             width: 8px;
         }
-        .table-container::-webkit-scrollbar-track {
+        .table-container::-webkit-scrollbar-track,
+        .output-container::-webkit-scrollbar-track {
             background: rgba(255, 255, 255, 0.1);
         }
-        .table-container::-webkit-scrollbar-thumb {
+        .table-container::-webkit-scrollbar-thumb,
+        .output-container::-webkit-scrollbar-thumb {
             background: #00d4ff;
             border-radius: 4px;
         }
@@ -33,28 +36,72 @@
         .hover-scale:hover {
             transform: scale(1.05);
         }
+        /* Tab styles */
+        .tab-active {
+            background: #06b6d4;
+            color: white;
+        }
+        .tab-inactive {
+            background: rgba(255, 255, 255, 0.1);
+            color: #e5e7eb;
+        }
+        /* Copy button animation */
+        .copy-success {
+            background: #10b981 !important;
+        }
     </style>
 </head>
 <body class="min-h-screen bg-gradient-to-br from-purple-900 via-blue-800 to-cyan-600 flex items-center justify-center p-4">
-    <div class="container max-w-4xl glass-effect rounded-2xl p-6 relative">
+    <div class="container max-w-6xl glass-effect rounded-2xl p-6 relative">
         <!-- Home Icon -->
         <button onclick="window.location.href='index.html'" class="absolute top-4 left-4 text-white hover:text-cyan-300 transition-colors" title="Home">
             <i class="fas fa-home text-2xl"></i>
         </button>
 
         <h2 class="text-3xl font-bold text-white text-center mb-6">XML Formatter</h2>
-        <div class="mb-4">
-            <input type="file" id="xmlFileInput" class="form-control block w-full text-sm text-white bg-gray-800/50 border border-gray-600 rounded-lg p-2.5 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-cyan-500 file:text-white hover:file:bg-cyan-600 transition-colors" accept=".xml">
+        
+        <!-- Tab Navigation -->
+        <div class="flex mb-6 bg-gray-800/30 rounded-lg p-1">
+            <button id="fileTab" class="flex-1 py-2 px-4 rounded-lg tab-active font-semibold transition-all">
+                <i class="fas fa-file-upload mr-2"></i>File Upload
+            </button>
+            <button id="pasteTab" class="flex-1 py-2 px-4 rounded-lg tab-inactive font-semibold transition-all">
+                <i class="fas fa-paste mr-2"></i>Paste XML
+            </button>
         </div>
-        <div class="mb-4 flex items-center">
-            <input type="checkbox" class="form-check-input h-5 w-5 text-cyan-500 rounded focus:ring-cyan-500 bg-gray-800/50 border-gray-600" id="includeStartingPos" checked>
-            <label class="ml-2 text-sm text-white" for="includeStartingPos">Include startingPos</label>
+
+        <!-- File Upload Tab -->
+        <div id="fileUploadSection">
+            <div class="mb-4">
+                <input type="file" id="xmlFileInput" class="form-control block w-full text-sm text-white bg-gray-800/50 border border-gray-600 rounded-lg p-2.5 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-cyan-500 file:text-white hover:file:bg-cyan-600 transition-colors" accept=".xml">
+            </div>
+            <div class="mb-4 flex items-center">
+                <input type="checkbox" class="form-check-input h-5 w-5 text-cyan-500 rounded focus:ring-cyan-500 bg-gray-800/50 border-gray-600" id="includeStartingPos" checked>
+                <label class="ml-2 text-sm text-white" for="includeStartingPos">Include startingPos</label>
+            </div>
+            <div class="flex space-x-4 mb-4">
+                <button id="displayBtn" class="flex-1 bg-cyan-500 hover:bg-cyan-600 text-white font-semibold py-2 px-4 rounded-lg hover-scale transition-colors">Select and Display</button>
+                <button id="formatBtn" class="flex-1 bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded-lg hover-scale transition-colors" disabled>Format XML File</button>
+            </div>
         </div>
-        <div class="flex space-x-4 mb-4">
-            <button id="displayBtn" class="flex-1 bg-cyan-500 hover:bg-cyan-600 text-white font-semibold py-2 px-4 rounded-lg hover-scale transition-colors">Select and Display</button>
-            <button id="formatBtn" class="flex-1 bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded-lg hover-scale transition-colors" disabled>Format XML File</button>
+
+        <!-- Paste XML Tab -->
+        <div id="pasteXmlSection" class="hidden">
+            <div class="mb-4">
+                <textarea id="xmlTextInput" class="w-full h-48 bg-gray-800/50 border border-gray-600 rounded-lg p-3 text-white placeholder-gray-400 focus:ring-2 focus:ring-cyan-500 focus:border-transparent resize-none" placeholder="Paste your XML content here..."></textarea>
+            </div>
+            <div class="mb-4 flex items-center">
+                <input type="checkbox" class="form-check-input h-5 w-5 text-cyan-500 rounded focus:ring-cyan-500 bg-gray-800/50 border-gray-600" id="includeStartingPosPaste" checked>
+                <label class="ml-2 text-sm text-white" for="includeStartingPosPaste">Include startingPos</label>
+            </div>
+            <div class="flex space-x-4 mb-4">
+                <button id="displayPasteBtn" class="flex-1 bg-cyan-500 hover:bg-cyan-600 text-white font-semibold py-2 px-4 rounded-lg hover-scale transition-colors">Parse and Display</button>
+                <button id="formatPasteBtn" class="flex-1 bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded-lg hover-scale transition-colors">Format XML</button>
+            </div>
         </div>
-        <div class="table-container max-h-96 overflow-y-auto rounded-lg">
+
+        <!-- Results Table -->
+        <div class="table-container max-h-96 overflow-y-auto rounded-lg mb-4">
             <table id="resultTable" class="w-full text-white border-collapse">
                 <thead class="bg-gray-800/50 sticky top-0">
                     <tr></tr>
@@ -62,17 +109,153 @@
                 <tbody class="bg-gray-900/30"></tbody>
             </table>
         </div>
+
+        <!-- Formatted XML Output -->
+        <div id="xmlOutputSection" class="hidden">
+            <div class="flex justify-between items-center mb-3">
+                <h3 class="text-xl font-semibold text-white">Formatted XML Output</h3>
+                <button id="copyXmlBtn" class="bg-purple-500 hover:bg-purple-600 text-white font-semibold py-2 px-4 rounded-lg hover-scale transition-colors">
+                    <i class="fas fa-copy mr-2"></i>Copy XML
+                </button>
+            </div>
+            <div class="output-container bg-gray-900/50 border border-gray-600 rounded-lg p-4 max-h-96 overflow-y-auto">
+                <pre id="xmlOutput" class="text-green-300 text-sm whitespace-pre-wrap font-mono"></pre>
+            </div>
+        </div>
     </div>
 
     <script>
         $(document).ready(function() {
             let filePath = null;
 
+            // Tab switching
+            $('#fileTab').on('click', function() {
+                $(this).removeClass('tab-inactive').addClass('tab-active');
+                $('#pasteTab').removeClass('tab-active').addClass('tab-inactive');
+                $('#fileUploadSection').removeClass('hidden');
+                $('#pasteXmlSection').addClass('hidden');
+                $('#xmlOutputSection').addClass('hidden');
+            });
+
+            $('#pasteTab').on('click', function() {
+                $(this).removeClass('tab-inactive').addClass('tab-active');
+                $('#fileTab').removeClass('tab-active').addClass('tab-inactive');
+                $('#pasteXmlSection').removeClass('hidden');
+                $('#fileUploadSection').addClass('hidden');
+                $('#xmlOutputSection').addClass('hidden');
+            });
+
+            // File input handling
             $('#xmlFileInput').on('change', function(e) {
                 filePath = e.target.files[0];
                 $('#formatBtn').prop('disabled', !filePath);
             });
 
+            // Common function to parse and display XML
+            function parseAndDisplayXml(xmlString) {
+                const parser = new DOMParser();
+                const xmlDoc = parser.parseFromString(xmlString, "text/xml");
+                const importColumns = xmlDoc.getElementsByTagName("ImportColumn");
+
+                if (!importColumns.length) {
+                    $('#resultTable').html('<tr><td class="p-4 text-center">No ImportColumn elements found.</td></tr>');
+                    return null;
+                }
+
+                // Find all attributes
+                let allAttrs = new Set();
+                for (let elem of importColumns) {
+                    let attrs = {};
+                    for (let attr of elem.attributes) attrs[attr.name] = true;
+                    allAttrs = new Set([...allAttrs, ...Object.keys(attrs)]);
+                }
+
+                // Prepare rows with original attributes
+                let rows = [];
+                for (let elem of importColumns) {
+                    let row = {};
+                    for (let attr of elem.attributes) row[attr.name] = attr.value;
+                    rows.push(row);
+                }
+
+                // Define headers with custom order
+                let headers = [...allAttrs].sort();
+
+                // Generate table
+                let tableHtml = '<thead><tr>';
+                for (let header of headers) tableHtml += `<th class="p-3 border-b border-gray-600">${header}</th>`;
+                tableHtml += '</tr></thead><tbody>';
+                for (let row of rows) {
+                    tableHtml += '<tr>';
+                    for (let header of headers) tableHtml += `<td class="p-3 border-b border-gray-600">${row[header] || ''}</td>`;
+                    tableHtml += '</tr>';
+                }
+                tableHtml += '</tbody>';
+                $('#resultTable').html(tableHtml);
+
+                return { xmlDoc, importColumns };
+            }
+
+            // Common function to format XML
+            function formatXml(xmlDoc, importColumns, includeStartingPos) {
+                // Assign startingPos if checked, incrementing from 1
+                let pos = 1;
+                if (includeStartingPos) {
+                    for (let elem of importColumns) {
+                        elem.setAttribute('startingPos', pos.toString());
+                        pos++;
+                    }
+                }
+
+                // Reorder and set columnSeq to increment by 10
+                let seq = 10;
+                for (let elem of importColumns) {
+                    let attrs = {};
+                    for (let attr of elem.attributes) attrs[attr.name] = attr.value;
+                    let orderedAttrs = {};
+                    if (includeStartingPos) orderedAttrs['startingPos'] = attrs['startingPos'] || pos.toString();
+                    orderedAttrs['columnSeq'] = seq.toString();
+                    seq += 10;
+                    for (let attr of Object.keys(attrs).sort().filter(a => !['startingPos', 'columnSeq'].includes(a))) {
+                        orderedAttrs[attr] = attrs[attr];
+                    }
+                    while (elem.attributes.length > 0) elem.removeAttribute(elem.attributes[0].name);
+                    for (let [key, value] of Object.entries(orderedAttrs)) {
+                        elem.setAttribute(key, value);
+                    }
+                }
+
+                // Pretty-print XML
+                let serializer = new XMLSerializer();
+                let xmlStr = serializer.serializeToString(xmlDoc);
+                let parser2 = new DOMParser();
+                let doc = parser2.parseFromString(xmlStr, 'application/xml');
+                
+                // Simple indentation
+                xmlStr = serializer.serializeToString(doc);
+                xmlStr = '<?xml version="1.0" encoding="utf-8"?>\n' + xmlStr;
+                
+                // Basic formatting
+                xmlStr = xmlStr.replace(/></g, '>\n<');
+                let lines = xmlStr.split('\n');
+                let formatted = [];
+                let indent = 0;
+                
+                for (let line of lines) {
+                    line = line.trim();
+                    if (line.startsWith('</')) {
+                        indent--;
+                    }
+                    formatted.push('  '.repeat(Math.max(0, indent)) + line);
+                    if (line.startsWith('<') && !line.startsWith('</') && !line.endsWith('/>') && !line.includes('<?xml')) {
+                        indent++;
+                    }
+                }
+                
+                return formatted.join('\n');
+            }
+
+            // File upload - Display button
             $('#displayBtn').on('click', function() {
                 const file = filePath;
                 if (!file) {
@@ -82,50 +265,12 @@
 
                 const reader = new FileReader();
                 reader.onload = function(e) {
-                    const xmlString = e.target.result;
-                    const parser = new DOMParser();
-                    const xmlDoc = parser.parseFromString(xmlString, "text/xml");
-                    const importColumns = xmlDoc.getElementsByTagName("ImportColumn");
-
-                    if (!importColumns.length) {
-                        $('#resultTable').html('<tr><td class="p-4 text-center">No ImportColumn elements found.</td></tr>');
-                        return;
-                    }
-
-                    // Find all attributes
-                    let allAttrs = new Set();
-                    for (let elem of importColumns) {
-                        let attrs = {};
-                        for (let attr of elem.attributes) attrs[attr.name] = true;
-                        allAttrs = new Set([...allAttrs, ...Object.keys(attrs)]);
-                    }
-
-                    // Prepare rows with original attributes
-                    let rows = [];
-                    for (let elem of importColumns) {
-                        let row = {};
-                        for (let attr of elem.attributes) row[attr.name] = attr.value;
-                        rows.push(row);
-                    }
-
-                    // Define headers with custom order
-                    let headers = [...allAttrs].sort();
-
-                    //networks Generate table
-                    let tableHtml = '<thead><tr>';
-                    for (let header of headers) tableHtml += `<th class="p-3 border-b border-gray-600">${header}</th>`;
-                    tableHtml += '</tr></thead><tbody>';
-                    for (let row of rows) {
-                        tableHtml += '<tr>';
-                        for (let header of headers) tableHtml += `<td class="p-3 border-b border-gray-600">${row[header] || ''}</td>`;
-                        tableHtml += '</tr>';
-                    }
-                    tableHtml += '</tbody>';
-                    $('#resultTable').html(tableHtml);
+                    parseAndDisplayXml(e.target.result);
                 };
                 reader.readAsText(file);
             });
 
+            // File upload - Format button
             $('#formatBtn').on('click', function() {
                 if (!filePath) {
                     alert('No file selected. Please select a file first using "Select and Display".');
@@ -134,64 +279,13 @@
 
                 const reader = new FileReader();
                 reader.onload = function(e) {
-                    const xmlString = e.target.result;
-                    const parser = new DOMParser();
-                    const xmlDoc = parser.parseFromString(xmlString, "text/xml");
-                    const importColumns = xmlDoc.getElementsByTagName("ImportColumn");
+                    const result = parseAndDisplayXml(e.target.result);
+                    if (!result) return;
 
-                    if (!importColumns.length) {
-                        alert('No ImportColumn elements found.');
-                        return;
-                    }
-
-                    // Assign startingPos if checked, incrementing from 1
-                    let pos = 1;
-                    if ($('#includeStartingPos').is(':checked')) {
-                        for (let elem of importColumns) {
-                            elem.setAttribute('startingPos', pos.toString());
-                            pos++;
-                        }
-                    }
-
-                    // Reorder and set columnSeq to increment by 10
-                    let seq = 10;
-                    for (let elem of importColumns) {
-                        let attrs = {};
-                        for (let attr of elem.attributes) attrs[attr.name] = attr.value;
-                        let orderedAttrs = {};
-                        if ($('#includeStartingPos').is(':checked')) orderedAttrs['startingPos'] = attrs['startingPos'] || pos.toString();
-                        orderedAttrs['columnSeq'] = seq.toString();
-                        seq += 10;
-                        for (let attr of Object.keys(attrs).sort().filter(a => !['startingPos', 'columnSeq'].includes(a))) {
-                            orderedAttrs[attr] = attrs[attr];
-                        }
-                        while (elem.attributes.length > 0) elem.removeAttribute(elem.attributes[0].name);
-                        for (let [key, value] of Object.entries(orderedAttrs)) {
-                            elem.setAttribute(key, value);
-                        }
-                    }
-
-                    // Pretty-print and download
-                    let serializer = new XMLSerializer();
-                    let xmlStr = serializer.serializeToString(xmlDoc);
-                    let parser2 = new DOMParser();
-                    let doc = parser2.parseFromString(xmlStr, 'application/xml');
-                    let indent = (node, level = 0) => {
-                        let i = '\n' + '  '.repeat(level);
-                        if (node.nodeType === Node.ELEMENT_NODE) {
-                            if (node.childNodes.length > 0) {
-                                if (!node.firstChild || !node.firstChild.nodeValue.trim()) node.firstChild.nodeValue = i + '  ';
-                                for (let child of node.childNodes) indent(child, level + 1);
-                                if (!node.lastChild.tail || !node.lastChild.nodeValue.trim()) node.lastChild.nodeValue = i;
-                            } else {
-                                if (level > 0 && (!node.nextSibling || !node.nextSibling.nodeValue.trim())) node.nodeValue = i;
-                            }
-                        }
-                    };
-                    indent(doc.documentElement);
-                    xmlStr = '<?xml version="1.0" encoding="utf-8"?>' + serializer.serializeToString(doc.documentElement);
-
-                    let blob = new Blob([xmlStr], { type: 'application/xml' });
+                    const formattedXml = formatXml(result.xmlDoc, result.importColumns, $('#includeStartingPos').is(':checked'));
+                    
+                    // Download file
+                    let blob = new Blob([formattedXml], { type: 'application/xml' });
                     let url = window.URL.createObjectURL(blob);
                     let a = document.createElement('a');
                     a.href = url;
@@ -200,6 +294,92 @@
                     window.URL.revokeObjectURL(url);
                 };
                 reader.readAsText(filePath);
+            });
+
+            // Paste XML - Display button
+            $('#displayPasteBtn').on('click', function() {
+                const xmlString = $('#xmlTextInput').val().trim();
+                if (!xmlString) {
+                    $('#resultTable').html('<tr><td class="p-4 text-center">No XML content provided.</td></tr>');
+                    $('#xmlOutputSection').addClass('hidden');
+                    return;
+                }
+
+                try {
+                    parseAndDisplayXml(xmlString);
+                    $('#xmlOutputSection').addClass('hidden');
+                } catch (error) {
+                    $('#resultTable').html('<tr><td class="p-4 text-center text-red-400">Error parsing XML: ' + error.message + '</td></tr>');
+                    $('#xmlOutputSection').addClass('hidden');
+                }
+            });
+
+            // Paste XML - Format button
+            $('#formatPasteBtn').on('click', function() {
+                const xmlString = $('#xmlTextInput').val().trim();
+                if (!xmlString) {
+                    alert('No XML content provided. Please paste your XML content first.');
+                    return;
+                }
+
+                try {
+                    const result = parseAndDisplayXml(xmlString);
+                    if (!result) return;
+
+                    const formattedXml = formatXml(result.xmlDoc, result.importColumns, $('#includeStartingPosPaste').is(':checked'));
+                    
+                    // Display formatted XML
+                    $('#xmlOutput').text(formattedXml);
+                    $('#xmlOutputSection').removeClass('hidden');
+                    
+                    // Scroll to output
+                    $('#xmlOutputSection')[0].scrollIntoView({ behavior: 'smooth' });
+                } catch (error) {
+                    alert('Error formatting XML: ' + error.message);
+                }
+            });
+
+            // Copy XML button
+            $('#copyXmlBtn').on('click', function() {
+                const xmlContent = $('#xmlOutput').text();
+                if (!xmlContent) {
+                    alert('No formatted XML to copy.');
+                    return;
+                }
+
+                navigator.clipboard.writeText(xmlContent).then(function() {
+                    // Visual feedback
+                    const btn = $('#copyXmlBtn');
+                    const originalHtml = btn.html();
+                    btn.addClass('copy-success').html('<i class="fas fa-check mr-2"></i>Copied!');
+                    setTimeout(function() {
+                        btn.removeClass('copy-success').html(originalHtml);
+                    }, 2000);
+                }).catch(function(err) {
+                    // Fallback for older browsers
+                    const textArea = document.createElement('textarea');
+                    textArea.value = xmlContent;
+                    document.body.appendChild(textArea);
+                    textArea.select();
+                    document.execCommand('copy');
+                    document.body.removeChild(textArea);
+                    
+                    const btn = $('#copyXmlBtn');
+                    const originalHtml = btn.html();
+                    btn.addClass('copy-success').html('<i class="fas fa-check mr-2"></i>Copied!');
+                    setTimeout(function() {
+                        btn.removeClass('copy-success').html(originalHtml);
+                    }, 2000);
+                });
+            });
+
+            // Clear paste area when switching tabs
+            $('#fileTab').on('click', function() {
+                $('#xmlOutputSection').addClass('hidden');
+            });
+
+            $('#pasteTab').on('click', function() {
+                $('#xmlOutputSection').addClass('hidden');
             });
         });
     </script>
