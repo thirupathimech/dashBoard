@@ -134,6 +134,22 @@
             box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
         }
         
+        .clear-all-btn {
+            background: linear-gradient(45deg, #ff4757, #ff3838);
+            border: none;
+            border-radius: 20px;
+            color: white;
+            padding: 8px 16px;
+            font-size: 0.85rem;
+            transition: all 0.3s ease;
+        }
+        
+        .clear-all-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 71, 87, 0.4);
+            color: white;
+        }
+        
         @media (max-width: 768px) {
             .main-container {
                 margin: 10px;
@@ -295,6 +311,9 @@
                             <button class="btn btn-outline-info btn-sm" data-bs-toggle="modal" data-bs-target="#dateRangeModal">
                                 <i class="fas fa-filter me-2"></i>Date Range
                             </button>
+                            <button class="clear-all-btn btn-sm" data-bs-toggle="modal" data-bs-target="#clearModal">
+                                <i class="fas fa-trash me-1"></i>Clear All
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -382,15 +401,16 @@
                 this.expenses = [];
                 this.currentFilter = 'all';
                 this.customDateRange = null;
+                this.storageKey = 'expenseTrackerData';
                 this.init();
             }
             
             init() {
+                this.loadExpenses(); // Load first, then update UI
                 this.setTodayDate();
                 this.bindEvents();
-                this.loadExpenses();
                 this.updateStats();
-                this.renderExpenses();                
+                this.renderExpenses();
             }
 			
             setTodayDate() {
@@ -639,107 +659,4 @@
             }
             
             getExportSheetName() {
-                if (this.customDateRange) {
-                    return `${this.customDateRange.startDate}_to_${this.customDateRange.endDate}`;
-                }
-                
-                switch(this.currentFilter) {
-                    case 'today': return 'Today';
-                    case 'week': return 'This Week';
-                    case 'month': return 'This Month';
-                    default: return 'All Expenses';
-                }
-            }
-            
-            formatDateForExcel(dateString) {
-                const date = new Date(dateString);
-                return date.toLocaleDateString('en-IN');
-            }
-            
-            updateStats() {
-                const today = new Date().toISOString().split('T')[0];
-                const todayExpenses = this.expenses.filter(expense => expense.date === today);
-                const todayTotal = todayExpenses.reduce((sum, expense) => sum + expense.amount, 0);
-                const totalAmount = this.expenses.reduce((sum, expense) => sum + expense.amount, 0);
-                
-                $('#todayTotal').text(`₹${todayTotal.toFixed(2)}`);
-                $('#totalExpenses').text(`₹${totalAmount.toFixed(2)}`);
-                $('#totalEntries').text(this.expenses.length);
-            }
-            
-            getCategoryIcon(category) {
-                const icons = {
-                    food: '🍕',
-                    transport: '🚗',
-                    entertainment: '🎬',
-                    shopping: '🛍️',
-                    bills: '💡',
-                    other: '📝'
-                };
-                return icons[category] || '📝';
-            }
-            
-            getCategoryName(category) {
-                const names = {
-                    food: 'Food',
-                    transport: 'Transport',
-                    entertainment: 'Entertainment',
-                    shopping: 'Shopping',
-                    bills: 'Bills',
-                    other: 'Other'
-                };
-                return names[category] || 'Other';
-            }
-            
-            formatDate(dateString) {
-                const date = new Date(dateString);
-                return date.toLocaleDateString('en-IN', { 
-                    weekday: 'short', 
-                    year: 'numeric', 
-                    month: 'short', 
-                    day: 'numeric' 
-                });
-            }
-            
-            resetForm() {
-                $('#expenseForm')[0].reset();
-                this.setTodayDate();
-            }
-            
-            showSuccess(message) {
-                // Simple success feedback
-                const button = $('.btn-add');
-                const originalText = button.html();
-                button.html('<i class="fas fa-check me-2"></i>Success!').addClass('bg-success');
-                setTimeout(() => {
-                    button.html(originalText).removeClass('bg-success');
-                }, 1500);
-            }
-            
-            saveExpenses() {
-                // In a real app, this would use localStorage
-                // For this demo, data persists only during the session
-            }
-            
-            loadExpenses() {
-                // In a real app, this would load from localStorage
-                // For this demo, we start with empty expenses
-            }
-            
-            clearAllExpenses() {
-                this.expenses = [];
-                this.saveExpenses();
-                this.updateStats();
-                this.renderExpenses();
-                $('#clearModal').modal('hide');
-                this.showSuccess('All expenses cleared!');
-            }
-        }
-        
-        // Initialize the app when document is ready
-        $(document).ready(() => {
-            new ExpenseTracker();
-        });
-    </script>
-</body>
-</html>
+                if
