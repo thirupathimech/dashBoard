@@ -390,44 +390,9 @@
                 this.bindEvents();
                 this.loadExpenses();
                 this.updateStats();
-                this.renderExpenses();
-                this.loadSampleData(); // Add some sample data for demo
+                this.renderExpenses();                
             }
-            
-            loadSampleData() {
-                // Add some sample expenses for demonstration
-                const sampleExpenses = [
-                    {
-                        id: 1,
-                        description: 'Breakfast at cafe',
-                        amount: 150,
-                        category: 'food',
-                        date: new Date().toISOString().split('T')[0],
-                        timestamp: new Date().toISOString()
-                    },
-                    {
-                        id: 2,
-                        description: 'Bus ticket',
-                        amount: 25,
-                        category: 'transport',
-                        date: new Date(Date.now() - 86400000).toISOString().split('T')[0], // yesterday
-                        timestamp: new Date(Date.now() - 86400000).toISOString()
-                    },
-                    {
-                        id: 3,
-                        description: 'Movie tickets',
-                        amount: 400,
-                        category: 'entertainment',
-                        date: new Date(Date.now() - 2 * 86400000).toISOString().split('T')[0], // 2 days ago
-                        timestamp: new Date(Date.now() - 2 * 86400000).toISOString()
-                    }
-                ];
-                
-                if (this.expenses.length === 0) {
-                    this.expenses = sampleExpenses;
-                }
-            }
-            
+			
             setTodayDate() {
                 $('#date').val(new Date().toISOString().split('T')[0]);
             }
