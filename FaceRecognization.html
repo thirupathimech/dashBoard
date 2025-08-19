@@ -8,57 +8,164 @@
     <link rel="icon" href="https://blogger.googleusercontent.com/img/a/AVvXsEgIFnXbCEgaASrlgiFnXz6MPaK-kyelPH7eTOt9s0-nWtY5YSMAIG5mN4k7dnxX6M-C0AmbO3U9jikPwhBdpp7G9848hK_1c7kXLbqxamlfCbhe_l-kEb8pe5V6mEH3fiIokyxkIyavBLAMlAzSApPTbcYA1r-P9YDwpu9GBIsL1SV4zGLvMwFulKOECQ4" type="image/x-icon">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+        :root {
+            --primary-color: #6a0572;
+            --secondary-color: #9c27b0;
+            --dark-bg: #121212;
+            --light-text: #f0f0f0;
+            --card-bg: rgba(255, 255, 255, 0.1);
+            --border-color: rgba(255, 255, 255, 0.2);
+        }
+
         body {
-            background: linear-gradient(45deg, #ff9a9e, #fad0c4, #fad0c4, #ffdde1);
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--dark-bg);
+            color: var(--light-text);
             height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
             flex-direction: column;
             text-align: center;
+            padding: 20px;
         }
+        
+        .container-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(15px);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h1 {
+            color: var(--light-text);
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
         #video {
-            border: 5px solid #fff;
-            border-radius: 10px;
-            box-shadow: 0px 0px 20px rgba(0,0,0,0.2);
+            border: 4px solid var(--border-color);
+            border-radius: 15px;
+            box-shadow: 0px 0px 20px rgba(0,0,0,0.5);
+            width: 100%;
+            max-width: 500px;
+            background-color: #000;
         }
+        
+        .controls {
+            margin-top: 25px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .modern-btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            font-size: 1rem;
+        }
+
+        .btn-success {
+            background-image: linear-gradient(135deg, #a8ff78, #78ffc7);
+            color: #121212;
+        }
+        
+        .btn-primary {
+            background-image: linear-gradient(135deg, #6a11cb, #2575fc);
+            color: var(--light-text);
+        }
+        
+        .btn-danger {
+            background-image: linear-gradient(135deg, #ff416c, #ff4b2b);
+            color: var(--light-text);
+        }
+
+        .modern-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .modern-btn:active {
+            transform: translateY(1px);
+        }
+
+        .pulse-animation {
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
         .hidden { display: none; }
+        
+        #error {
+            margin-top: 15px;
+            font-weight: 600;
+            color: #ff6b6b;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+        }
+
         .home-button {
             position: fixed;
-            box-shadow: 2px 3px 20px 0px;
-            top: 1rem;
-            left: 1rem;
-            z-index: 999;
-            width: 3rem;
-            height: 3rem;
+            top: 20px;
+            left: 20px;
+            width: 50px;
+            height: 50px;
             display: flex;
             align-items: center;
             justify-content: center;
             background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(15px);
+            backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.3);
-            border-radius: 0.75rem;
+            border-radius: 12px;
             transition: transform 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
         }
 
         .home-button:hover {
             transform: scale(1.1);
         }
+
+        .home-button svg {
+            width: 28px;
+            height: 28px;
+            color: var(--light-text);
+        }
     </style>
 </head>
 <body>
     <button class="home-button" onclick="window.location.href='index.html'" title="Back to Home">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
         </svg>
     </button>
-    <h1 class="text-white">Face Detection & Image/Video Capture</h1>
-    <video id="video" width="400" height="300" autoplay></video>
-    <button id="capture" class="btn btn-success mt-3">Capture Image</button>
-    <button id="startRecord" class="btn btn-primary mt-3">Start Recording</button>
-    <button id="stopRecord" class="btn btn-danger mt-3 hidden">Stop Recording</button>
-    <canvas id="canvas" class="hidden"></canvas>
-    <p id="error" class="text-danger hidden">Face Not Detected! Please try again.</p>
+    <div class="container-card">
+        <h1>Face Detection & Image/Video Capture</h1>
+        <video id="video" width="400" height="300" autoplay></video>
+        <div class="controls">
+            <button id="capture" class="modern-btn btn-success">Capture Image 📸</button>
+            <button id="startRecord" class="modern-btn btn-primary">Start Recording 🔴</button>
+            <button id="stopRecord" class="modern-btn btn-danger hidden">Stop Recording ⏹️</button>
+        </div>
+        <canvas id="canvas" class="hidden"></canvas>
+        <p id="error" class="hidden">Face Not Detected! Please try again.</p>
+    </div>
     
     <script>
         $(document).ready(function(){
@@ -66,13 +173,11 @@
             let canvas = document.getElementById("canvas");
             let context = canvas.getContext("2d");
             let mediaRecorder;
-            let stream;
             let recordedChunks = [];
             
             navigator.mediaDevices.getUserMedia({ video: true })
                 .then(stream => { 
                     video.srcObject = stream;
-                    mediaRecorder = new MediaRecorder(stream);
                     mediaRecorder = new MediaRecorder(stream);
                     
                     mediaRecorder.ondataavailable = event => recordedChunks.push(event.data);
@@ -87,13 +192,28 @@
                 .catch(err => { alert("Camera access denied!"); });
             
             $("#capture").click(function(){
+                $(this).addClass("pulse-animation");
+                setTimeout(() => {
+                    $(this).removeClass("pulse-animation");
+                }, 1000);
+                
                 context.drawImage(video, 0, 0, canvas.width, canvas.height);
                 let imageData = context.getImageData(0, 0, canvas.width, canvas.height);
                 let pixels = imageData.data;
                 let detected = false;
                 
+                // Simple face detection logic based on skin tone-like colors
                 for (let i = 0; i < pixels.length; i += 4 * 10) {
-                    if (pixels[i] > 100 && pixels[i + 1] > 100 && pixels[i + 2] > 100) {
+                    let r = pixels[i];
+                    let g = pixels[i + 1];
+                    let b = pixels[i + 2];
+                    
+                    // A very basic check for "flesh" tones:
+                    // R is slightly greater than G, and G is slightly greater than B.
+                    // The colors are generally bright (not dark)
+                    if (r > 95 && g > 40 && b > 20 &&
+                        Math.max(r, g, b) - Math.min(r, g, b) > 15 &&
+                        Math.abs(r - g) > 15 && r > g && r > b) {
                         detected = true;
                         break;
                     }
@@ -102,7 +222,7 @@
                 if (detected) {
                     $("#error").addClass("hidden");
                     let link = document.createElement('a');
-                    link.href = canvas.toDataURL();
+                    link.href = canvas.toDataURL('image/png');
                     link.download = 'captured_face.png';
                     link.click();
                 } else {
