@@ -8,169 +8,403 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="icon" href="https://blogger.googleusercontent.com/img/a/AVvXsEgIFnXbCEgaASrlgiFnXz6MPaK-kyelPH7eTOt9s0-nWtY5YSMAIG5mN4k7dnxX6M-C0AmbO3U9jikPwhBdpp7G9848hK_1c7kXLbqxamlfCbhe_l-kEb8pe5V6mEH3fiIokyxkIyavBLAMlAzSApPTbcYA1r-P9YDwpu9GBIsL1SV4zGLvMwFulKOECQ4" type="image/x-icon">
     <style>
+        * {
+            box-sizing: border-box;
+        }
+
         body {
-            background: linear-gradient(135deg, #06b97c, #21a844, #59fb24);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
-            padding-top: 20px;
-            margin-bottom: 80px;
-            font-family: 'Arial', sans-serif;
+            font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px 0 100px;
         }
-        .container {
-            max-width: 600px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 15px;
-            padding: 30px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.18);
+
+        .main-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 20px;
         }
-        .nav-tabs .nav-link {
-            color: #FBBF24;
-            border-color: rgba(255, 255, 255, 0.3);
-        }
-        .nav-tabs .nav-link.active {
-            background: rgba(255, 255, 255, 0.2);
-            color: #fff;
-            border-color: #FBBF24;
-        }
-        .btn-primary {
-            background-color: #FBBF24;
-            border: none;
-            transition: background-color 0.3s;
-        }
-        .btn-primary:hover {
-            background-color: #D97706;
-        }
-        .btn-secondary {
-            background-color: #6B21A8;
-            border: none;
-        }
-        .btn-secondary:hover {
-            background-color: #5B1B8A;
-        }
-        .form-control {
-            border: 2px dashed rgba(255, 255, 255, 0.3);
-            background: rgba(255, 255, 255, 0.05);
-            color: #fff;
-        }
-        .form-label {
-            color: #FBBF24;
-            font-weight: bold;
-        }
-        .output {
-            max-height: 300px;
-            overflow-y: auto;
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
             border: 1px solid rgba(255, 255, 255, 0.2);
-            padding: 10px;
-            border-radius: 5px;
+            border-radius: 24px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .header h1 {
             color: #fff;
-            background: rgba(255, 255, 255, 0.05);
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
-        .file-item {
-            padding: 10px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+
+        .header p {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 1.1rem;
+            margin: 0;
         }
-        h2, h3 {
-            color: #FBBF24;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-        }
-        footer {
-            position: fixed;
-            right: 10px;
-            bottom: 10px;
+
+        .nav-pills {
             background: rgba(255, 255, 255, 0.1);
-            padding: 5px 10px;
-            border: 1px solid rgba(255, 255, 255, 0.18);
-            border-radius: 5px;
-            z-index: 1000;
-            color: black;
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 8px;
+            margin-bottom: 32px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
-        footer b {
-            color: #000000;
-        }
-        .alert {
-            background: rgba(255, 255, 255, 0.2);
-            color: white;
+
+        .nav-pills .nav-link {
+            color: rgba(255, 255, 255, 0.7);
+            background: transparent;
+            border-radius: 12px;
+            padding: 12px 24px;
+            font-weight: 500;
+            transition: all 0.3s ease;
             border: none;
         }
+
+        .nav-pills .nav-link:hover {
+            color: #fff;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-pills .nav-link.active {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            color: #fff;
+            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+        }
+
+        .form-section {
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .form-label {
+            color: #fff;
+            font-weight: 600;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .form-control {
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.15);
+            border-radius: 12px;
+            color: #fff;
+            padding: 12px 16px;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: #6366f1;
+            box-shadow: 0 0 0 0.2rem rgba(99, 102, 241, 0.25);
+            color: #fff;
+        }
+
+        .form-control::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            color: #fff;
+            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #5856eb, #7c3aed);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(99, 102, 241, 0.4);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.15);
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.25);
+            color: #fff;
+            transform: translateY(-1px);
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: #fff;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+        }
+
+        .btn-success:hover {
+            background: linear-gradient(135deg, #059669, #047857);
+            transform: translateY(-2px);
+        }
+
+        .output-section {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 20px;
+            max-height: 400px;
+            overflow-y: auto;
+            margin-top: 20px;
+        }
+
+        .output-section::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .output-section::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+        }
+
+        .output-section::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 4px;
+        }
+
+        .file-item {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            padding: 12px 16px;
+            margin-bottom: 8px;
+            color: #fff;
+            border-left: 4px solid #6366f1;
+        }
+
+        .file-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .alert {
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #fff;
+            border-radius: 12px;
+            backdrop-filter: blur(10px);
+        }
+
+        .alert-success {
+            background: rgba(16, 185, 129, 0.2);
+            border-color: rgba(16, 185, 129, 0.3);
+        }
+
+        .alert-danger {
+            background: rgba(239, 68, 68, 0.2);
+            border-color: rgba(239, 68, 68, 0.3);
+        }
+
         .home-button {
             position: fixed;
-            box-shadow: 2px 3px 20px 0px;
-            top: 1rem;
-            left: 1rem;
-            z-index: 999;
-            width: 3rem;
-            height: 3rem;
+            top: 20px;
+            left: 20px;
+            width: 56px;
+            height: 56px;
             display: flex;
             align-items: center;
             justify-content: center;
             background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(15px);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            border-radius: 0.75rem;
-            transition: transform 0.3s ease;
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 16px;
+            color: #fff;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
         }
 
         .home-button:hover {
-            transform: scale(1.1);
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-2px);
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.2);
+            color: #fff;
+        }
+
+        .footer {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(20px);
+            padding: 12px 20px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            color: #fff;
+            font-weight: 600;
+            z-index: 1000;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .icon {
+            width: 18px;
+            height: 18px;
+        }
+
+        .loading {
+            opacity: 0.7;
+            pointer-events: none;
+        }
+
+        @media (max-width: 768px) {
+            .main-container {
+                padding: 0 15px;
+            }
+            
+            .glass-card {
+                padding: 24px;
+                border-radius: 16px;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .button-group {
+                flex-direction: column;
+            }
+            
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
         }
     </style>
 </head>
 <body>
-    <button class="home-button" onclick="window.location.href='index.html'" title="Back to Home">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <a href="index.html" class="home-button" title="Back to Home">
+        <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
         </svg>
-    </button>
-    <div class="container">
-        <h2 class="text-center mb-4">File Operations</h2>
-        <ul class="nav nav-tabs" id="fileOperationsTab" role="tablist">
-            <li class="nav-item">
-                <a class="nav-link active" id="java-tab" data-bs-toggle="tab" href="#java" role="tab" aria-controls="java" aria-selected="true">Java File Renamer</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" id="replace-tab" data-bs-toggle="tab" href="#replace" role="tab" aria-controls="replace" aria-selected="false">File Content Replacer</a>
-            </li>
-        </ul>
-        <div class="tab-content mt-3" id="fileOperationsTabContent">
-            <div class="tab-pane fade show active" id="java" role="tabpanel" aria-labelledby="java-tab">
-                <h3 class="text-center">Upload Java Files and Rename</h3>
-                <div class="mb-3">
-                    <label for="javaFileInput" class="form-label">Select Java files:</label>
-                    <input type="file" class="form-control" id="javaFileInput" multiple accept=".java">
-                </div>
-                <div class="d-flex gap-2">
-                    <button id="javaUploadBtn" class="btn btn-primary">Process & Download</button>
-                    <button id="javaClearBtn" class="btn btn-secondary">Clear</button>
-                </div>
-                <div id="javaOutput" class="output mt-3"></div>
+    </a>
+
+    <div class="main-container">
+        <div class="glass-card">
+            <div class="header">
+                <h1>File Operations</h1>
+                <p>Professional file processing tools</p>
             </div>
-            <div class="tab-pane fade" id="replace" role="tabpanel" aria-labelledby="replace-tab">
-                <h3 class="text-center">Upload Files and Replace Text</h3>
-                <div class="mb-3">
-                    <label for="replaceFileInput" class="form-label">Select multiple files:</label>
-                    <input type="file" class="form-control" id="replaceFileInput" multiple>
+
+            <ul class="nav nav-pills justify-content-center" id="fileOperationsTab" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active" id="java-tab" data-bs-toggle="pill" href="#java" role="tab" aria-controls="java" aria-selected="true">
+                        <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                        </svg>
+                        Java File Renamer
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="replace-tab" data-bs-toggle="pill" href="#replace" role="tab" aria-controls="replace" aria-selected="false">
+                        <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+                        </svg>
+                        Content Replacer
+                    </a>
+                </li>
+            </ul>
+
+            <div class="tab-content" id="fileOperationsTabContent">
+                <div class="tab-pane fade show active" id="java" role="tabpanel" aria-labelledby="java-tab">
+                    <div class="form-section">
+                        <label for="javaFileInput" class="form-label">Select Java Files</label>
+                        <input type="file" class="form-control" id="javaFileInput" multiple accept=".java" placeholder="Choose Java files...">
+                        <small class="text-white-50 mt-2 d-block">Upload multiple .java files to rename them based on class names</small>
+                    </div>
+
+                    <div class="button-group">
+                        <button id="javaUploadBtn" class="btn btn-primary">
+                            <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M9 19l3 3m0 0l3-3m-3 3V10"/>
+                            </svg>
+                            Process & Download
+                        </button>
+                        <button id="javaClearBtn" class="btn btn-secondary">
+                            <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                            </svg>
+                            Clear
+                        </button>
+                    </div>
+
+                    <div id="javaOutput" class="output-section"></div>
                 </div>
-                <div class="mb-3">
-                    <label for="excelFileInput" class="form-label">Select Excel file:</label>
-                    <input type="file" class="form-control" id="excelFileInput" accept=".xlsx, .xls">
+
+                <div class="tab-pane fade" id="replace" role="tabpanel" aria-labelledby="replace-tab">
+                    <div class="form-section">
+                        <label for="replaceFileInput" class="form-label">Select Files to Process</label>
+                        <input type="file" class="form-control mb-3" id="replaceFileInput" multiple>
+                        
+                        <label for="excelFileInput" class="form-label">Select Excel File (Replacement Rules)</label>
+                        <input type="file" class="form-control" id="excelFileInput" accept=".xlsx,.xls">
+                        <small class="text-white-50 mt-2 d-block">Excel should have 'Find' in column A and 'Replace' in column B</small>
+                    </div>
+
+                    <div class="button-group">
+                        <button id="replaceUploadBtn" class="btn btn-primary">
+                            <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+                            </svg>
+                            Process Files
+                        </button>
+                        <button id="replaceClearBtn" class="btn btn-secondary">
+                            <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                            </svg>
+                            Clear
+                        </button>
+                        <button id="replaceCompleteBtn" class="btn btn-success hidden">
+                            <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M9 19l3 3m0 0l3-3m-3 3V10"/>
+                            </svg>
+                            Download All
+                        </button>
+                    </div>
+
+                    <div id="replaceOutput" class="output-section"></div>
                 </div>
-                <div class="d-flex gap-2">
-                    <button id="replaceUploadBtn" class="btn btn-primary">Upload and Replace</button>
-                    <button id="replaceClearBtn" class="btn btn-secondary">Clear</button>
-                </div>
-                <div id="replaceOutput" class="output mt-3"></div>
-                <button id="replaceCompleteBtn" class="btn btn-success hidden mt-2">Complete</button>
             </div>
         </div>
     </div>
 
-    <footer>
-        <b>Thirupathi G</b>
-    </footer>
+    <div class="footer">
+        <strong>Thirupathi G</strong>
+    </div>
 
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
@@ -184,39 +418,65 @@
             $('#javaUploadBtn').click(function() {
                 const files = $('#javaFileInput')[0].files;
                 if (!files.length) {
-                    showAlert('Please select Java files.', 'danger');
+                    showAlert('Please select Java files to process.', 'danger');
                     return;
                 }
 
-                $('#javaOutput').empty();
+                $(this).addClass('loading');
+                $('#javaOutput').empty().append('<div class="file-item">Processing files...</div>');
                 javaFilesProcessed = [];
 
-                Array.from(files).forEach(file => {
+                let processedCount = 0;
+                const totalFiles = files.length;
+
+                Array.from(files).forEach((file, index) => {
                     if (!file.name.endsWith('.java')) {
-                        showAlert('Please select only Java files.', 'danger');
+                        showAlert('Please select only Java files (.java extension).', 'danger');
+                        $(this).removeClass('loading');
                         return;
                     }
 
                     const reader = new FileReader();
                     reader.onload = function(e) {
                         const content = e.target.result;
-                        const match = content.match(/(?:public\s+)?(?:class|interface)\s+([A-Za-z0-9_]+)/);
+                        const match = content.match(/(?:public\s+)?(?:class|interface|enum)\s+([A-Za-z0-9_]+)/);
                         const className = match ? match[1] : file.name.replace('.java', '');
                         const newFileName = `${className}.java`;
 
                         javaFilesProcessed.push({ name: newFileName, content });
-                        $('#javaOutput').append(`<p class="file-item">File: ${file.name} renamed to ${newFileName}</p>`);
+                        
+                        processedCount++;
+                        
+                        if (processedCount === 1) {
+                            $('#javaOutput').empty();
+                        }
+                        
+                        $('#javaOutput').append(`
+                            <div class="file-item">
+                                <strong>✓ ${file.name}</strong> → <em>${newFileName}</em>
+                                <small class="d-block text-white-50">Class: ${className}</small>
+                            </div>
+                        `);
 
-                        // Download immediately
-                        const blob = new Blob([content], { type: 'text/plain' });
-                        const url = window.URL.createObjectURL(blob);
-                        const a = document.createElement('a');
-                        a.href = url;
-                        a.download = newFileName;
-                        document.body.appendChild(a);
-                        a.click();
-                        window.URL.revokeObjectURL(url);
-                        document.body.removeChild(a);
+                        // Download immediately with delay
+                        setTimeout(() => {
+                            const blob = new Blob([content], { type: 'text/plain' });
+                            const url = window.URL.createObjectURL(blob);
+                            const a = document.createElement('a');
+                            a.href = url;
+                            a.download = newFileName;
+                            document.body.appendChild(a);
+                            a.click();
+                            window.URL.revokeObjectURL(url);
+                            document.body.removeChild(a);
+                        }, index * 200);
+
+                        if (processedCount === totalFiles) {
+                            setTimeout(() => {
+                                $('#javaUploadBtn').removeClass('loading');
+                                showAlert(`Successfully processed ${totalFiles} Java files!`, 'success');
+                            }, totalFiles * 200 + 500);
+                        }
                     };
                     reader.readAsText(file);
                 });
@@ -226,19 +486,21 @@
                 $('#javaFileInput').val('');
                 $('#javaOutput').empty();
                 javaFilesProcessed = [];
+                showAlert('Cleared all Java files.', 'success');
             });
 
-            // File Content Replacer (Unchanged)
+            // File Content Replacer
             $('#replaceUploadBtn').click(function() {
                 const files = $('#replaceFileInput')[0].files;
                 const excelFile = $('#excelFileInput')[0].files[0];
 
                 if (!files.length || !excelFile) {
-                    showAlert('Please select files and an Excel file.', 'danger');
+                    showAlert('Please select both files to process and an Excel file with replacement rules.', 'danger');
                     return;
                 }
 
-                $('#replaceOutput').empty();
+                $(this).addClass('loading');
+                $('#replaceOutput').empty().append('<div class="file-item">Reading Excel file and processing...</div>');
                 replaceFilesProcessed = [];
 
                 const reader = new FileReader();
@@ -248,32 +510,59 @@
                     const firstSheet = workbook.Sheets[workbook.SheetNames[0]];
                     const excelData = XLSX.utils.sheet_to_json(firstSheet, { header: 1 });
 
-                    const replacePairs = excelData.slice(1).map(row => ({ find: row[0], replace: row[1] }));
+                    const replacePairs = excelData.slice(1)
+                        .filter(row => row[0] && row[1])
+                        .map(row => ({ find: row[0], replace: row[1] }));
+
+                    if (replacePairs.length === 0) {
+                        showAlert('No valid replacement pairs found in Excel file.', 'danger');
+                        $('#replaceUploadBtn').removeClass('loading');
+                        return;
+                    }
+
+                    $('#replaceOutput').empty();
+                    let processedFiles = 0;
 
                     Array.from(files).forEach(file => {
                         const reader = new FileReader();
                         reader.onload = function(e) {
                             let content = e.target.result;
                             let totalReplacedCount = 0;
+                            let fileReplacements = [];
 
                             replacePairs.forEach(pair => {
-                                if (!pair.find || !pair.replace) return;
-                                const findPattern = new RegExp(`\\b${pair.find}\\b`, 'g');
+                                const findPattern = new RegExp(`\\b${escapeRegExp(pair.find)}\\b`, 'g');
                                 let replacedCount = 0;
                                 content = content.replace(findPattern, () => {
                                     replacedCount++;
                                     totalReplacedCount++;
                                     return pair.replace;
                                 });
-                                $('#replaceOutput').append(
-                                    `<p>File: ${file.name} - Replacements for "${pair.find}" with "${pair.replace}": ${replacedCount}</p>`
-                                );
+                                
+                                if (replacedCount > 0) {
+                                    fileReplacements.push({ find: pair.find, replace: pair.replace, count: replacedCount });
+                                }
                             });
 
                             replaceFilesProcessed.push({ name: file.name, content, original: file });
+                            
+                            const replacementText = fileReplacements.length > 0 
+                                ? fileReplacements.map(r => `"${r.find}" → "${r.replace}" (${r.count}x)`).join(', ')
+                                : 'No replacements made';
 
-                            if (replaceFilesProcessed.length === files.length) {
+                            $('#replaceOutput').append(`
+                                <div class="file-item">
+                                    <strong>📁 ${file.name}</strong>
+                                    <small class="d-block text-white-50">Total replacements: ${totalReplacedCount}</small>
+                                    <small class="d-block text-white-50">${replacementText}</small>
+                                </div>
+                            `);
+
+                            processedFiles++;
+                            if (processedFiles === files.length) {
+                                $('#replaceUploadBtn').removeClass('loading');
                                 $('#replaceCompleteBtn').removeClass('hidden');
+                                showAlert(`Processed ${files.length} files. Click "Download All" to save.`, 'success');
                             }
                         };
                         reader.readAsText(file);
@@ -283,8 +572,12 @@
             });
 
             $('#replaceCompleteBtn').click(function() {
+                $(this).addClass('loading');
                 downloadFilesInBatches(replaceFilesProcessed);
-                showAlert('Files processed and ready for download.', 'success');
+                setTimeout(() => {
+                    $(this).removeClass('loading');
+                    showAlert('All processed files have been downloaded!', 'success');
+                }, replaceFilesProcessed.length * 500 + 1000);
             });
 
             $('#replaceClearBtn').click(function() {
@@ -292,11 +585,17 @@
                 $('#excelFileInput').val('');
                 $('#replaceOutput').empty();
                 $('#replaceCompleteBtn').addClass('hidden');
+                replaceFilesProcessed = [];
+                showAlert('Cleared all replacement files.', 'success');
             });
 
             // Utility Functions
+            function escapeRegExp(string) {
+                return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+            }
+
             function downloadFilesInBatches(files) {
-                const delay = 500;
+                const delay = 400;
                 let index = 0;
 
                 function downloadNext() {
@@ -318,12 +617,15 @@
             }
 
             function showAlert(message, type) {
-                const alert = `<div class="alert alert-${type} alert-dismissible fade show" role="alert">
-                    ${message}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>`;
-                $('.container').prepend(alert);
-                setTimeout(() => $('.alert').alert('close'), 3000);
+                $('.alert').remove();
+                const alert = `
+                    <div class="alert alert-${type} alert-dismissible fade show" role="alert">
+                        ${message}
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                `;
+                $('.main-container').prepend(alert);
+                setTimeout(() => $('.alert').alert('close'), 5000);
             }
         });
     </script>
