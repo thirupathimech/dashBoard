@@ -8,6 +8,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="icon" href="https://blogger.googleusercontent.com/img/a/AVvXsEgIFnXbCEgaASrlgiFnXz6MPaK-kyelPH7eTOt9s0-nWtY5YSMAIG5mN4k7dnxX6M-C0AmbO3U9jikPwhBdpp7G9848hK_1c7kXLbqxamlfCbhe_l-kEb8pe5V6mEH3fiIokyxkIyavBLAMlAzSApPTbcYA1r-P9YDwpu9GBIsL1SV4zGLvMwFulKOECQ4" type="image/x-icon">
     <style>
+        /* Existing styles remain unchanged */
         * {
             box-sizing: border-box;
         }
@@ -343,8 +344,10 @@
                 <div class="tab-pane fade show active" id="java" role="tabpanel" aria-labelledby="java-tab">
                     <div class="form-section">
                         <label for="javaFileInput" class="form-label">Select Java Files</label>
-                        <input type="file" class="form-control" id="javaFileInput" multiple accept=".java" placeholder="Choose Java files...">
-                        <small class="text-white-50 mt-2 d-block">Upload multiple .java files to rename them based on class names</small>
+                        <input type="file" class="form-control mb-3" id="javaFileInput" multiple accept=".java" placeholder="Choose Java files...">
+                        <label for="javaExcelFileInput" class="form-label">Select Excel File (File Name Mappings)</label>
+                        <input type="file" class="form-control" id="javaExcelFileInput" accept=".xlsx,.xls">
+                        <small class="text-white-50 mt-2 d-block">Excel should have 'FileName' in column A and 'ReplaceName' in column B (with or without .java extension)</small> <!-- Modified: Updated description -->
                     </div>
 
                     <div class="button-group">
@@ -417,79 +420,108 @@
             // Java File Renamer
             $('#javaUploadBtn').click(function() {
                 const files = $('#javaFileInput')[0].files;
-                if (!files.length) {
-                    showAlert('Please select Java files to process.', 'danger');
+                const excelFile = $('#javaExcelFileInput')[0].files[0];
+
+                if (!files.length || !excelFile) {
+                    showAlert('Please select both Java files and an Excel file with file name mappings.', 'danger');
                     return;
                 }
 
                 $(this).addClass('loading');
-                $('#javaOutput').empty().append('<div class="file-item">Processing files...</div>');
+                $('#javaOutput').empty().append('<div class="file-item">Reading Excel file and processing...</div>');
                 javaFilesProcessed = [];
 
-                let processedCount = 0;
-                const totalFiles = files.length;
+                // Read Excel file
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const data = new Uint8Array(e.target.result);
+                    const workbook = XLSX.read(data, { type: 'array' });
+                    const firstSheet = workbook.Sheets[workbook.SheetNames[0]];
+                    const excelData = XLSX.utils.sheet_to_json(firstSheet, { header: 1 });
 
-                Array.from(files).forEach((file, index) => {
-                    if (!file.name.endsWith('.java')) {
-                        showAlert('Please select only Java files (.java extension).', 'danger');
-                        $(this).removeClass('loading');
+                    // Extract file name mappings (FileName → ReplaceName)
+                    const renamePairs = excelData.slice(1)
+                        .filter(row => row[0] && row[1])
+                        .map(row => ({
+                            // Normalize FileName by removing .java if present
+                            original: String(row[0]).replace(/\.java$/i, ''),
+                            // Ensure ReplaceName ends with .java
+                            newName: String(row[1]).endsWith('.java') ? String(row[1]) : `${String(row[1])}.java`
+                        }));
+
+                    if (renamePairs.length === 0) {
+                        showAlert('No valid file name mappings found in Excel file.', 'danger');
+                        $('#javaUploadBtn').removeClass('loading');
                         return;
                     }
 
-                    const reader = new FileReader();
-                    reader.onload = function(e) {
-                        const content = e.target.result;
-                        const match = content.match(/(?:public\s+)?(?:class|interface|enum)\s+([A-Za-z0-9_]+)/);
-                        const className = match ? match[1] : file.name.replace('.java', '');
-                        const newFileName = `${className}.java`;
+                    $('#javaOutput').empty();
+                    let processedCount = 0;
+                    const totalFiles = files.length;
 
-                        javaFilesProcessed.push({ name: newFileName, content });
-                        
-                        processedCount++;
-                        
-                        if (processedCount === 1) {
-                            $('#javaOutput').empty();
+                    Array.from(files).forEach((file, index) => {
+                        if (!file.name.endsWith('.java')) {
+                            showAlert('Please select only Java files (.java extension).', 'danger');
+                            $('#javaUploadBtn').removeClass('loading');
+                            return;
                         }
-                        
-                        $('#javaOutput').append(`
-                            <div class="file-item">
-                                <strong>✓ ${file.name}</strong> → <em>${newFileName}</em>
-                                <small class="d-block text-white-50">Class: ${className}</small>
-                            </div>
-                        `);
 
-                        // Download immediately with delay
-                        setTimeout(() => {
-                            const blob = new Blob([content], { type: 'text/plain' });
-                            const url = window.URL.createObjectURL(blob);
-                            const a = document.createElement('a');
-                            a.href = url;
-                            a.download = newFileName;
-                            document.body.appendChild(a);
-                            a.click();
-                            window.URL.revokeObjectURL(url);
-                            document.body.removeChild(a);
-                        }, index * 200);
+                        // Normalize uploaded file name by removing .java for matching
+                        const fileNameWithoutExt = file.name.replace(/\.java$/i, '');
+                        // Find matching rename pair (case-insensitive)
+                        const renamePair = renamePairs.find(pair => 
+                            pair.original.toLowerCase() === fileNameWithoutExt.toLowerCase()
+                        );
+                        const newFileName = renamePair ? renamePair.newName : file.name;
 
-                        if (processedCount === totalFiles) {
+                        const reader = new FileReader();
+                        reader.onload = function(e) {
+                            const content = e.target.result;
+                            javaFilesProcessed.push({ name: newFileName, content });
+
+                            $('#javaOutput').append(`
+                                <div class="file-item">
+                                    <strong>✓ ${file.name}</strong> → <em>${newFileName}</em>
+                                    <small class="d-block text-white-50">${renamePair ? 'Renamed based on Excel mapping' : 'No rename mapping found, keeping original name'}</small>
+                                </div>
+                            `);
+
+                            // Download immediately with delay
                             setTimeout(() => {
-                                $('#javaUploadBtn').removeClass('loading');
-                                showAlert(`Successfully processed ${totalFiles} Java files!`, 'success');
-                            }, totalFiles * 200 + 500);
-                        }
-                    };
-                    reader.readAsText(file);
-                });
+                                const blob = new Blob([content], { type: 'text/plain' });
+                                const url = window.URL.createObjectURL(blob);
+                                const a = document.createElement('a');
+                                a.href = url;
+                                a.download = newFileName;
+                                document.body.appendChild(a);
+                                a.click();
+                                window.URL.revokeObjectURL(url);
+                                document.body.removeChild(a);
+                            }, index * 200);
+
+                            processedCount++;
+                            if (processedCount === totalFiles) {
+                                setTimeout(() => {
+                                    $('#javaUploadBtn').removeClass('loading');
+                                    showAlert(`Successfully processed ${totalFiles} Java files!`, 'success');
+                                }, totalFiles * 200 + 500);
+                            }
+                        };
+                        reader.readAsText(file);
+                    });
+                };
+                reader.readAsArrayBuffer(excelFile);
             });
 
             $('#javaClearBtn').click(function() {
                 $('#javaFileInput').val('');
+                $('#javaExcelFileInput').val('');
                 $('#javaOutput').empty();
                 javaFilesProcessed = [];
-                showAlert('Cleared all Java files.', 'success');
+                showAlert('Cleared all Java files and Excel input.', 'success');
             });
 
-            // File Content Replacer
+            // File Content Replacer (Unchanged)
             $('#replaceUploadBtn').click(function() {
                 const files = $('#replaceFileInput')[0].files;
                 const excelFile = $('#excelFileInput')[0].files[0];
