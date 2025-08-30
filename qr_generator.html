@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern QR Generator</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <!-- Animate.css -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #0a0a0a;
+            color: #ffffff;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Home Button */
+        .home-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            background: linear-gradient(135deg, #ffffff, #cccccc);
+            border: none;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            color: #000000;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 255, 255, 0.3);
+        }
+
+        .home-btn:hover {
+            transform: scale(1.1) rotate(360deg);
+            box-shadow: 0 6px 20px rgba(255, 255, 255, 0.5);
+            color: #000000;
+        }
+
+        /* Animated Background - Same as original */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.1;
+        }
+
+        .bg-animation::before {
+            content: '';
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            background: linear-gradient(45deg, #ffffff, transparent);
+            border-radius: 50%;
+            animation: float1 8s ease-in-out infinite;
+            top: 20%;
+            left: 10%;
+        }
+
+        .bg-animation::after {
+            content: '';
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            background: linear-gradient(135deg, #ffffff, transparent);
+            border-radius: 50%;
+            animation: float2 10s ease-in-out infinite;
+            bottom: 20%;
+            right: 10%;
+        }
+
+        @keyframes float1 {
+            0%, 100% { transform: translateY(0px) translateX(0px) scale(1); }
+            25% { transform: translateY(-20px) translateX(10px) scale(1.1); }
+            50% { transform: translateY(-40px) translateX(-10px) scale(0.9); }
+            75% { transform: translateY(-20px) translateX(5px) scale(1.05); }
+        }
+
+        @keyframes float2 {
+            0%, 100% { transform: translateY(0px) translateX(0px) scale(1); }
+            33% { transform: translateY(30px) translateX(-15px) scale(1.2); }
+            66% { transform: translateY(-10px) translateX(20px) scale(0.8); }
+        }
+
+        /* Geometric patterns - Same as original */
+        .geometric {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.05;
+        }
+
+        .geometric-line {
+            position: absolute;
+            background: #ffffff;
+            animation: lineMove 15s linear infinite;
+        }
+
+        .line1 { width: 2px; height: 100%; left: 20%; animation-delay: 0s; }
+        .line2 { width: 100%; height: 2px; top: 30%; animation-delay: -5s; }
+        .line3 { width: 2px; height: 100%; right: 25%; animation-delay: -10s; }
+        .line4 { width: 100%; height: 2px; bottom: 40%; animation-delay: -7s; }
+
+        @keyframes lineMove {
+            0% { opacity: 0; transform: scale(0.5); }
+            50% { opacity: 1; transform: scale(1); }
+            100% { opacity: 0; transform: scale(0.5); }
+        }
+
+        /* Header - Enhanced with Bootstrap but keeping original style */
+        .header {
+            text-align: center;
+            padding: 4rem 0 3rem;
+        }
+
+        .title {
+            font-size: clamp(2.5rem, 8vw, 5rem);
+            font-weight: 900;
+            background: linear-gradient(135deg, #ffffff, #888);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            margin-bottom: 1rem;
+            position: relative;
+        }
+
+        .title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(90deg, transparent, #ffffff, transparent);
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        .subtitle {
+            font-size: clamp(1rem, 4vw, 1.5rem);
+            color: #888;
+            font-weight: 300;
+        }
+
+        @keyframes glow {
+            from { box-shadow: 0 0 5px #ffffff; }
+            to { box-shadow: 0 0 20px #ffffff, 0 0 30px #ffffff; }
+        }
+
+        /* Glass Cards - Same style but Bootstrap responsive */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 2.5rem;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            margin-bottom: 2rem;
+        }
+
+        .glass-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #ffffff, transparent);
+            animation: borderSlide 3s ease-in-out infinite;
+        }
+
+        @keyframes borderSlide {
+            0% { left: -100%; }
+            50% { left: 100%; }
+            100% { left: -100%; }
+        }
+
+        .glass-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(255, 255, 255, 0.1);
+        }
+
+        /* Form Elements - Bootstrap enhanced */
+        .form-label {
+            display: block;
+            margin-bottom: 0.8rem;
+            font-weight: 600;
+            color: #ffffff;
+            font-size: 1.1rem;
+        }
+
+        .form-control, .form-select {
+            background: rgba(0, 0, 0, 0.3) !important;
+            border: 2px solid rgba(255, 255, 255, 0.2) !important;
+            border-radius: 12px !important;
+            color: #ffffff !important;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            padding: 1rem 1.5rem !important;
+        }
+
+        .form-control:focus, .form-select:focus {
+            border-color: #ffffff !important;
+            box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.1) !important;
+            transform: scale(1.02);
+            background: rgba(0, 0, 0, 0.4) !important;
+            color: #ffffff !important;
+        }
+
+        .form-control::placeholder {
+            color: #666 !important;
+        }
+
+        .form-select option {
+            background: #000000;
+            color: #ffffff;
+        }
+
+        /* Buttons - Same original style */
+        .generate-btn {
+            background: linear-gradient(135deg, #ffffff, #cccccc);
+            color: #000000;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+            overflow: hidden;
+            padding: 1.2rem;
+        }
+
+        .generate-btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: all 0.5s ease;
+        }
+
+        .generate-btn:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .generate-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(255, 255, 255, 0.3);
+            color: #000000;
+        }
+
+        .generate-btn:active {
+            transform: translateY(0);
+        }
+
+        .download-btn {
+            padding: 0.8rem 2rem;
+            background: transparent;
+            color: #ffffff;
+            border: 2px solid #ffffff;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .download-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: #ffffff;
+            transition: left 0.5s ease;
+            z-index: -1;
+        }
+
+        .download-btn:hover::before {
+            left: 0;
+        }
+
+        .download-btn:hover {
+            color: #000000;
+            transform: translateY(-2px);
+            text-decoration: none;
+        }
+
+        /* QR Display - Same as original */
+        .qr-display {
+            text-align: center;
+            position: relative;
+            min-height: 400px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .qr-code {
+            max-width: 100%;
+            border-radius: 15px;
+            animation: qrAppear 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 15px 35px rgba(255, 255, 255, 0.1);
+            margin-bottom: 2rem;
+        }
+
+        @keyframes qrAppear {
+            0% { 
+                opacity: 0; 
+                transform: scale(0.3) rotate(180deg); 
+            }
+            100% { 
+                opacity: 1; 
+                transform: scale(1) rotate(0deg); 
+            }
+        }
+
+        .placeholder {
+            color: #666;
+            font-size: 1.2rem;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+
+        /* Loading animation - Same as original */
+        .loading {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top: 3px solid #ffffff;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Floating particles - Same as original */
+        .particle {
+            position: absolute;
+            background: #ffffff;
+            border-radius: 50%;
+            pointer-events: none;
+            animation: particleFloat 6s ease-in-out infinite;
+            opacity: 0.6;
+        }
+
+        .particle:nth-child(1) { width: 4px; height: 4px; top: 20%; left: 20%; animation-delay: 0s; }
+        .particle:nth-child(2) { width: 6px; height: 6px; top: 60%; left: 80%; animation-delay: 2s; }
+        .particle:nth-child(3) { width: 3px; height: 3px; top: 80%; left: 30%; animation-delay: 4s; }
+
+        @keyframes particleFloat {
+            0%, 100% { transform: translateY(0px) rotate(0deg); opacity: 0.6; }
+            50% { transform: translateY(-20px) rotate(180deg); opacity: 1; }
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .glass-card {
+                padding: 1.5rem;
+            }
+            
+            .header {
+                padding: 2rem 0;
+            }
+            
+            .home-btn {
+                width: 50px;
+                height: 50px;
+                font-size: 1.2rem;
+                top: 15px;
+                right: 15px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .glass-card {
+                padding: 1rem;
+            }
+            
+            .header {
+                padding: 1.5rem 0;
+            }
+        }
+
+        /* Toast Notifications */
+        .toast-container {
+            position: fixed;
+            top: 100px;
+            right: 20px;
+            z-index: 1050;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.5);
+        }
+    </style>
+</head>
+<body>
+    <!-- Background animations - Same as original -->
+    <div class="bg-animation"></div>
+    <div class="geometric">
+        <div class="geometric-line line1"></div>
+        <div class="geometric-line line2"></div>
+        <div class="geometric-line line3"></div>
+        <div class="geometric-line line4"></div>
+    </div>
+
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+
+    <!-- Home Button -->
+    <button class="home-btn animate__animated animate__bounceIn" onclick="navigateHome()" title="Go to Home">
+        <i class="fas fa-home"></i>
+    </button>
+
+    <!-- Toast Container -->
+    <div class="toast-container"></div>
+
+    <div class="container-fluid px-3 px-md-4">
+        <!-- Header -->
+        <header class="header">
+            <h1 class="title animate__animated animate__fadeInDown">QR GENERATOR</h1>
+            <p class="subtitle animate__animated animate__fadeInUp animate__delay-1s">Create stunning QR codes instantly</p>
+        </header>
+
+        <!-- Main Content -->
+        <main class="row g-4 justify-content-center">
+            <!-- Input Section -->
+            <div class="col-12 col-lg-6 col-xl-5">
+                <div class="glass-card animate__animated animate__fadeInLeft">
+                    <div class="mb-4">
+                        <label for="textInput" class="form-label">
+                            <i class="fas fa-keyboard me-2"></i>Enter Text or URL
+                        </label>
+                        <input 
+                            type="text" 
+                            id="textInput" 
+                            class="form-control" 
+                            placeholder="Enter your text, URL, or data here..."
+                            maxlength="2000"
+                        >
+                        <div class="form-text text-muted mt-2">
+                            <small><i class="fas fa-info-circle me-1"></i>Maximum 2000 characters</small>
+                        </div>
+                    </div>
+
+                    <div class="row g-3 mb-4">
+                        <div class="col-sm-6">
+                            <label for="sizeSelect" class="form-label">
+                                <i class="fas fa-expand-arrows-alt me-2"></i>QR Code Size
+                            </label>
+                            <select id="sizeSelect" class="form-select">
+                                <option value="200">200x200 (Small)</option>
+                                <option value="300" selected>300x300 (Medium)</option>
+                                <option value="400">400x400 (Large)</option>
+                                <option value="500">500x500 (Extra Large)</option>
+                                <option value="600">600x600 (Ultra)</option>
+                            </select>
+                        </div>
+                        <div class="col-sm-6">
+                            <label for="errorLevel" class="form-label">
+                                <i class="fas fa-shield-alt me-2"></i>Error Correction
+                            </label>
+                            <select id="errorLevel" class="form-select">
+                                <option value="L">Low (7%)</option>
+                                <option value="M" selected>Medium (15%)</option>
+                                <option value="Q">Quartile (25%)</option>
+                                <option value="H">High (30%)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="row g-3 mb-4">
+                        <div class="col-6">
+                            <label for="foregroundColor" class="form-label">
+                                <i class="fas fa-palette me-2"></i>Foreground Color
+                            </label>
+                            <input type="color" id="foregroundColor" class="form-control form-control-color" value="#000000" title="Choose foreground color">
+                        </div>
+                        <div class="col-6">
+                            <label for="backgroundColor" class="form-label">
+                                <i class="fas fa-fill me-2"></i>Background Color
+                            </label>
+                            <input type="color" id="backgroundColor" class="form-control form-control-color" value="#ffffff" title="Choose background color">
+                        </div>
+                    </div>
+
+                    <div class="d-grid gap-2">
+                        <button id="generateBtn" class="btn generate-btn">
+                            <i class="fas fa-magic me-2"></i>Generate QR Code
+                        </button>
+                        <button id="clearBtn" class="btn download-btn" style="margin-top: 10px;">
+                            <i class="fas fa-eraser me-2"></i>Clear All
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Output Section -->
+            <div class="col-12 col-lg-6 col-xl-5">
+                <div class="glass-card animate__animated animate__fadeInRight">
+                    <h3 class="mb-4 text-center">
+                        <i class="fas fa-qrcode me-2"></i>Your QR Code
+                    </h3>
+                    
+                    <div id="qrOutput" class="qr-display">
+                        <div class="placeholder">
+                            <i class="fas fa-qrcode fa-4x mb-3"></i>
+                            <p>Your QR code will appear here</p>
+                            <small class="text-muted">Enter text above and click generate</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <!-- jQuery -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+    <!-- QRious Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            let currentQR = null;
+
+            // Home button navigation
+            window.navigateHome = function() {
+                // Add animation before navigation
+                $('.home-btn').addClass('animate__animated animate__rotateOut');
+                setTimeout(() => {
+                    window.location.href = 'index.html';
+                }, 500);
+            };
+
+            // Show toast notification
+            function showToast(message, type = 'info') {
+                const toastId = 'toast-' + Date.now();
+                const bgClass = type === 'success' ? 'bg-success' : 
+                              type === 'warning' ? 'bg-warning text-dark' : 
+                              type === 'error' ? 'bg-danger' : 'bg-info';
+                
+                const toastHtml = `
+                    <div id="${toastId}" class="toast align-items-center text-white ${bgClass} border-0" role="alert">
+                        <div class="d-flex">
+                            <div class="toast-body">
+                                <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'warning' ? 'exclamation-triangle' : type === 'error' ? 'times-circle' : 'info-circle'} me-2"></i>
+                                ${message}
+                            </div>
+                            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+                        </div>
+                    </div>
+                `;
+                
+                $('.toast-container').append(toastHtml);
+                const toast = new bootstrap.Toast(document.getElementById(toastId));
+                toast.show();
+                
+                // Remove toast element after it's hidden
+                $(`#${toastId}`).on('hidden.bs.toast', function() {
+                    $(this).remove();
+                });
+            }
+
+            // Show loading state
+            function showLoading() {
+                $('#qrOutput').html(`
+                    <div class="loading animate__animated animate__fadeIn"></div>
+                    <p class="mt-3 text-muted">Generating your QR code...</p>
+                `);
+            }
+
+            // Generate QR Code function with jQuery
+            function generateQR() {
+                const text = $('#textInput').val().trim();
+                
+                if (!text) {
+                    $('#textInput').addClass('is-invalid');
+                    showToast('Please enter some text or URL to generate QR code!', 'warning');
+                    
+                    // Remove invalid class after 3 seconds
+                    setTimeout(() => {
+                        $('#textInput').removeClass('is-invalid');
+                    }, 3000);
+                    return;
+                }
+
+                const size = parseInt($('#sizeSelect').val());
+                const errorLevel = $('#errorLevel').val();
+                const foregroundColor = $('#foregroundColor').val();
+                const backgroundColor = $('#backgroundColor').val();
+
+                showLoading();
+
+                // Simulate loading delay with jQuery animation
+                setTimeout(() => {
+                    try {
+                        const qr = new QRious({
+                            size: size,
+                            value: text,
+                            level: errorLevel,
+                            background: backgroundColor,
+                            foreground: foregroundColor
+                        });
+
+                        currentQR = qr;
+
+                        // Create filename from text
+                        const filename = text.substring(0, 20).replace(/[^a-z0-9]/gi, '_').toLowerCase() + '_qr.png';
+
+                        $('#qrOutput').html(`
+                            <img src="${qr.toDataURL()}" alt="QR Code" class="qr-code img-fluid">
+                            <div class="mt-3">
+                                <a href="${qr.toDataURL()}" download="${filename}" class="download-btn">
+                                    <i class="fas fa-download me-2"></i>Download QR Code
+                                </a>
+                            </div>
+                            <div class="mt-2">
+                                <small class="text-muted">Size: ${size}x${size} | Level: ${errorLevel}</small>
+                            </div>
+                        `);
+
+                        showToast('QR code generated successfully!', 'success');
+
+                    } catch (error) {
+                        $('#qrOutput').html(`
+                            <div class="placeholder text-danger">
+                                <i class="fas fa-exclamation-triangle fa-3x mb-3"></i>
+                                <p>Error generating QR code</p>
+                                <small>Please try again with different settings</small>
+                            </div>
+                        `);
+                        showToast('Error generating QR code. Please try again.', 'error');
+                        console.error('QR generation error:', error);
+                    }
+                }, 1000);
+            }
+
+            // Clear all function
+            function clearAll() {
+                $('#textInput').val('');
+                $('#sizeSelect').val('300');
+                $('#errorLevel').val('M');
+                $('#foregroundColor').val('#000000');
+                $('#backgroundColor').val('#ffffff');
+                $('#qrOutput').html(`
+                    <div class="placeholder animate__animated animate__fadeIn">
+                        <i class="fas fa-qrcode fa-4x mb-3"></i>
+                        <p>Your QR code will appear here</p>
+                        <small class="text-muted">Enter text above and click generate</small>
+                    </div>
+                `);
+                showToast('All fields cleared!', 'info');
+            }
+
+            // Event listeners with jQuery
+            $('#generateBtn').on('click', generateQR);
+            $('#clearBtn').on('click', clearAll);
+
+            // Enter key support
+            $('#textInput').on('keypress', function(e) {
+                if (e.which === 13) { // Enter key
+                    generateQR();
+                }
+            });
+
+            // Input validation
+            $('#textInput').on('input', function() {
+                $(this).removeClass('is-invalid');
+            });
+
+            // Generate sample QR on page load
+            setTimeout(() => {
+                $('#textInput').val('https://thirupathimech.github.io/dashBoard/i');
+                generateQR();
+            }, 1500);
+
+            // Add floating elements dynamically with jQuery
+            function createFloatingElement() {
+                const size = Math.random() * 6 + 2;
+                const $element = $('<div>')
+                    .css({
+                        position: 'fixed',
+                        width: size + 'px',
+                        height: size + 'px',
+                        background: '#ffffff',
+                        borderRadius: '50%',
+                        opacity: '0.1',
+                        left: Math.random() * $(window).width() + 'px',
+                        top: $(window).height() + 'px',
+                        pointerEvents: 'none',
+                        zIndex: '-1'
+                    });
+
+                $('body').append($element);
+
+                // Animate with jQuery
+                $element.animate({
+                    top: -100,
+                    opacity: 0
+                }, {
+                    duration: Math.random() * 8000 + 4000,
+                    easing: 'linear',
+                    complete: function() {
+                        $element.remove();
+                    }
+                });
+            }
+
+            // Create floating elements periodically
+            setInterval(createFloatingElement, 3000);
+
+            // Add home button hover effects with jQuery
+            $('.home-btn').hover(
+                function() {
+                    $(this).addClass('animate__animated animate__pulse');
+                },
+                function() {
+                    $(this).removeClass('animate__animated animate__pulse');
+                }
+            );
+        });
+    </script>
+</body>
+</html>
