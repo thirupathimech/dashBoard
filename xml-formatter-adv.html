@@ -1,0 +1,431 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Advanced XML Formatter — Bootstrap + jQuery</title>
+  <!-- Bootstrap 5 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+  <!-- Prism for syntax highlighting -->
+  <link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-okaidia.css" rel="stylesheet" />
+  <style>
+    body {
+      background: linear-gradient(135deg, #e9ecef 0%, #f8f9fa 100%);
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      padding: 2rem;
+      min-height: 100vh;
+    }
+    .container {
+      max-width: 1400px;
+    }
+    .card {
+      border: none;
+      border-radius: 12px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+    }
+    .editor {
+      min-height: 300px;
+      font-family: 'JetBrains Mono', 'Roboto Mono', monospace;
+      font-size: 0.95rem;
+      border-radius: 8px;
+      border: 1px solid #dee2e6;
+      transition: border-color 0.3s ease;
+    }
+    .editor:focus {
+      border-color: #0d6efd;
+      box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.1);
+    }
+    pre.code-box {
+      max-height: 520px;
+      overflow: auto;
+      background: #1e1e1e;
+      padding: 1.5rem;
+      border-radius: 8px;
+      box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.2);
+    }
+    .small-muted {
+      font-size: 0.85rem;
+      color: #6c757d;
+    }
+    .btn-custom {
+      transition: all 0.3s ease;
+      border-radius: 6px;
+    }
+    .btn-custom:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+    .btn-primary {
+      background: linear-gradient(45deg, #0d6efd, #6610f2);
+    }
+    .btn-outline-secondary, .btn-outline-dark, .btn-outline-danger, .btn-outline-info {
+      border-width: 2px;
+    }
+    .error {
+      color: #dc3545;
+      font-weight: 500;
+    }
+    h3 {
+      font-weight: 700;
+      color: #212529;
+      letter-spacing: -0.5px;
+    }
+    .form-label {
+      font-weight: 600;
+      color: #343a40;
+    }
+    .form-select-sm, .form-control-sm {
+      border-radius: 6px;
+    }
+    details {
+      background: #fff;
+      padding: 0.75rem;
+      border-radius: 6px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    }
+    details summary {
+      cursor: pointer;
+      font-weight: 600;
+      color: #495057;
+    }
+    footer {
+      text-align: center;
+      margin-top: 2rem;
+      color: #6c757d;
+      font-size: 0.9rem;
+    }
+    .status-box {
+      background: #fff;
+      border-radius: 6px;
+      padding: 0.5rem 1rem;
+      font-size: 0.9rem;
+      color: #495057;
+    }
+    @media (max-width: 768px) {
+      body {
+        padding: 1rem;
+      }
+      .editor {
+        min-height: 200px;
+      }
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <div class="d-flex align-items-center mb-4">
+    <h3 class="me-3">XML Formatter — Advanced</h3>
+    <span class="small-muted">Bootstrap + jQuery single-file tool — orders attributes alphabetically and more.</span>
+  </div>
+
+  <div class="row g-4">
+    <div class="col-lg-6">
+      <div class="card">
+        <div class="card-body">
+          <label class="form-label">Input XML</label>
+          <textarea id="xmlInput" class="form-control editor" placeholder="Paste XML here or open a file..." spellcheck="false"></textarea>
+          <div class="mt-3 d-flex gap-2 flex-wrap">
+            <input id="fileOpen" type="file" accept=".xml,application/xml" class="form-control form-control-sm w-auto" />
+            <button id="btnFormat" class="btn btn-primary btn-sm btn-custom">Format & Sort Attributes</button>
+            <button id="btnMinify" class="btn btn-outline-secondary btn-sm btn-custom">Minify</button>
+            <button id="btnValidate" class="btn btn-outline-info btn-sm btn-custom">Validate</button>
+            <button id="btnClear" class="btn btn-outline-danger btn-sm btn-custom">Clear</button>
+          </div>
+
+          <hr class="my-3">
+          <div class="row gx-2 gy-3 align-items-center">
+            <div class="col-auto">
+              <label class="form-label mb-1">Sort</label>
+              <select id="sortOrder" class="form-select form-select-sm">
+                <option value="asc" selected>Ascending (A → Z)</option>
+                <option value="desc">Descending (Z → A)</option>
+              </select>
+            </div>
+            <div class="col-auto">
+              <label class="form-label mb-1">Case</label>
+              <select id="caseMode" class="form-select form-select-sm">
+                <option value="insensitive" selected>Case-insensitive</option>
+                <option value="sensitive">Case-sensitive</option>
+              </select>
+            </div>
+            <div class="col-auto">
+              <label class="form-label mb-1">Ignore Attrs (regex)</label>
+              <input id="ignoreRegex" class="form-control form-control-sm" placeholder="e.g. ^xmlns|^xsi:" />
+            </div>
+            <div class="col-auto">
+              <label class="form-label mb-1">Preserve Namespaces</label>
+              <div><input id="preserveNS" type="checkbox" checked /> Keep prefix order</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-3 d-flex gap-2">
+        <button id="btnCopyInput" class="btn btn-outline-dark btn-sm btn-custom">Copy Input</button>
+        <button id="btnDownloadInput" class="btn btn-outline-secondary btn-sm btn-custom">Download Input</button>
+      </div>
+    </div>
+
+    <div class="col-lg-6">
+      <div class="card">
+        <div class="card-body">
+          <label class="form-label">Output / Result</label>
+          <div class="mb-3 d-flex gap-2 align-items-center">
+            <button id="btnCopy" class="btn btn-success btn-sm btn-custom">Copy Output</button>
+            <button id="btnDownload" class="btn btn-primary btn-sm btn-custom">Download .xml</button>
+            <button id="btnToggleView" class="btn btn-outline-secondary btn-sm btn-custom">Toggle Tree / Code</button>
+            <div class="ms-auto status-box">Status: <span id="status" class="fw-semibold">Idle</span></div>
+          </div>
+
+          <div id="outputArea">
+            <pre id="outPre" class="code-box"><code id="outCode" class="language-markup">&lt;!-- Output will appear here --&gt;</code></pre>
+          </div>
+
+          <div class="mt-3">
+            <details>
+              <summary class="small-muted">Advanced Options & Notes</summary>
+              <ul class="small">
+                <li>Attribute sorting respects chosen case mode and ignores attributes that match the regex.</li>
+                <li>When <code>Preserve Namespaces</code> is checked, the tool keeps common namespace attributes at the start.</li>
+                <li>This tool uses a conservative XML parser — errors are shown with details.</li>
+              </ul>
+            </details>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-3">
+        <div class="card">
+          <div class="card-body">
+            <label class="form-label">Validation / Errors</label>
+            <div id="errorBox" class="small p-2" style="min-height:40px">No errors</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer>Tip: Save this file locally and open with your browser. Works offline except for CDN assets.</footer>
+</div>
+
+<!-- Libraries -->
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-markup.min.js"></script>
+
+<script>
+// Utility: basic pretty-print for XML string (indentation)
+function prettyPrintXml(xml) {
+  var reg = /(>)(<)(\/?)/g;
+  var xmlString = xml.replace(reg, '$1\n$2$3');
+  var pad = 0;
+  var formatted = '';
+  var lines = xmlString.split('\n');
+  var indent = '  ';
+  lines.forEach(function(line) {
+    var trimmed = line.trim();
+    if (trimmed.match(/^<\/?[\w:\-]+[^>]*>$/) && trimmed.match(/^<[^!?].*\/?>$/) && !trimmed.match(/^<\//)) {
+      // start tag or self-closing
+    }
+    if (trimmed.match(/^<\//)) pad -= 1;
+    formatted += indent.repeat(pad) + trimmed + '\n';
+    if (trimmed.match(/^<[^!?].*[^\/]>/) && !trimmed.match(/^<\//) && !trimmed.includes('</')) pad += 1;
+  });
+  return formatted.trim();
+}
+
+function serializeAndBeautify(xmlDoc) {
+  var serializer = new XMLSerializer();
+  var raw = serializer.serializeToString(xmlDoc);
+  return prettyPrintXml(raw);
+}
+
+function sortAttributesOnElement(el, options) {
+  if (!el || !el.attributes) return;
+  var attrs = Array.from(el.attributes);
+  var reignore = null;
+  try { reignore = options.ignoreRegex ? new RegExp(options.ignoreRegex) : null; } catch(e){ reignore = null; }
+
+  // Optionally separate namespace attrs to preserve at top
+  var nsAttrs = [], normalAttrs = [];
+  attrs.forEach(function(a){
+    if (reignore && reignore.test(a.name)) return; // we'll drop from sorting (still kept)
+    if (options.preserveNS && /^xmlns(:|$)/.test(a.name)) nsAttrs.push(a);
+    else normalAttrs.push(a);
+  });
+
+  var compare = function(a,b){
+    var an = options.caseSensitive ? a.name : a.name.toLowerCase();
+    var bn = options.caseSensitive ? b.name : b.name.toLowerCase();
+    if (an < bn) return options.order === 'asc' ? -1 : 1;
+    if (an > bn) return options.order === 'asc' ? 1 : -1;
+    return 0;
+  };
+  normalAttrs.sort(compare);
+  // Build final attr list: namespaces first (if preserveNS) then the sorted normal attrs
+  var finalAttrs = (options.preserveNS ? nsAttrs.sort(compare).concat(normalAttrs) : normalAttrs);
+
+  // Remove all attributes then add back in desired order. We also keep ignored attributes but append them after.
+  var allOriginal = Array.from(el.attributes);
+  allOriginal.forEach(function(a){ try{ el.removeAttribute(a.name); } catch(e){} });
+  finalAttrs.forEach(function(a){ el.setAttribute(a.name, a.value); });
+
+  // Append ignored attributes that were present but not included in finalAttrs
+  allOriginal.forEach(function(a){
+    var keep = true;
+    finalAttrs.forEach(function(f){ if(f.name === a.name) keep = false; });
+    if (keep) el.setAttribute(a.name, a.value);
+  });
+}
+
+function walkAndSort(node, options) {
+  if (!node) return;
+  if (node.nodeType === 1) { // element
+    sortAttributesOnElement(node, options);
+    // process children
+    var children = node.childNodes;
+    for (var i=0;i<children.length;i++) walkAndSort(children[i], options);
+  }
+}
+
+function parseXmlString(xmlString) {
+  var parser = new DOMParser();
+  var doc = parser.parseFromString(xmlString, 'application/xml');
+  var err = doc.getElementsByTagName('parsererror');
+  return {doc: doc, error: err.length ? err[0].textContent : null};
+}
+
+$(function(){
+  var $in = $('#xmlInput');
+  var $outCode = $('#outCode');
+  var $status = $('#status');
+  var $err = $('#errorBox');
+  var treeMode = false;
+
+  function setStatus(s,cls){ $status.text(s); if(cls) { $status.removeClass().addClass(cls); } }
+
+  function showError(msg){ $err.html('<div class="error">'+$('<div>').text(msg).html()+'</div>'); }
+  function clearError(){ $err.text('No errors'); }
+
+  $('#fileOpen').on('change', function(e){
+    var f = this.files && this.files[0];
+    if(!f) return;
+    var reader = new FileReader();
+    reader.onload = function(ev){ $in.val(ev.target.result); setStatus('Loaded file'); };
+    reader.readAsText(f);
+  });
+
+  $('#btnFormat').on('click', function(){
+    clearError(); setStatus('Formatting...');
+    try {
+      var xml = $in.val();
+      if(!xml.trim()) { showError('Input empty'); setStatus('Error'); return; }
+      var parsed = parseXmlString(xml);
+      if(parsed.error) { showError('Parse error: '+parsed.error); setStatus('Parse error'); return; }
+      var options = {
+        order: $('#sortOrder').val(),
+        caseSensitive: $('#caseMode').val() === 'sensitive',
+        ignoreRegex: $('#ignoreRegex').val() || null,
+        preserveNS: $('#preserveNS').is(':checked')
+      };
+      walkAndSort(parsed.doc.documentElement, options);
+      var out = serializeAndBeautify(parsed.doc);
+      $outCode.text(out);
+      Prism.highlightElement($outCode[0]);
+      setStatus('Formatted');
+    } catch(e){ showError(e.message || e); setStatus('Error'); }
+  });
+
+  $('#btnMinify').on('click', function(){
+    clearError(); setStatus('Minifying...');
+    try {
+      var xml = $in.val(); if(!xml.trim()){ showError('Input empty'); setStatus('Error'); return; }
+      var parsed = parseXmlString(xml);
+      if(parsed.error){ showError('Parse error: '+parsed.error); setStatus('Parse error'); return; }
+      // remove whitespace text nodes
+      function removeWS(node){
+        var toRemove = [];
+        for(var i=0;i<node.childNodes.length;i++){
+          var c = node.childNodes[i];
+          if(c.nodeType === 3 && !/\S/.test(c.nodeValue)) toRemove.push(c);
+          else if(c.nodeType===1) removeWS(c);
+        }
+        toRemove.forEach(function(n){ node.removeChild(n); });
+      }
+      removeWS(parsed.doc);
+      var serializer = new XMLSerializer();
+      var raw = serializer.serializeToString(parsed.doc);
+      $outCode.text(raw);
+      Prism.highlightElement($outCode[0]);
+      setStatus('Minified');
+    } catch(e){ showError(e.message||e); setStatus('Error'); }
+  });
+
+  $('#btnValidate').on('click', function(){
+    clearError(); setStatus('Validating...');
+    var xml = $in.val(); if(!xml.trim()){ showError('Input empty'); setStatus('Error'); return; }
+    var parsed = parseXmlString(xml);
+    if(parsed.error){ showError('Parse error: '+parsed.error); setStatus('Invalid'); }
+    else { setStatus('Valid'); $err.text('No errors'); }
+  });
+
+  $('#btnCopy').on('click', function(){
+    var text = $outCode.text(); navigator.clipboard.writeText(text).then(function(){ setStatus('Copied'); }, function(){ setStatus('Copy failed'); });
+  });
+  $('#btnCopyInput').on('click', function(){ var t=$in.val(); navigator.clipboard.writeText(t).then(function(){ setStatus('Copied Input'); },function(){ setStatus('Copy failed'); }); });
+
+  $('#btnDownload').on('click', function(){ var text = $outCode.text(); if(!text) return; var blob = new Blob([text],{type:'application/xml'}); var url=URL.createObjectURL(blob); var a=document.createElement('a'); a.href=url; a.download='formatted.xml'; document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url); setStatus('Downloaded'); });
+  $('#btnDownloadInput').on('click', function(){ var text=$in.val(); if(!text) return; var blob=new Blob([text],{type:'application/xml'}); var url=URL.createObjectURL(blob); var a=document.createElement('a'); a.href=url; a.download='input.xml'; document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url); setStatus('Downloaded'); });
+
+  $('#btnClear').on('click', function(){ $in.val(''); $outCode.text('<!-- Output will appear here -->'); Prism.highlightElement($outCode[0]); clearError(); setStatus('Cleared'); });
+
+  $('#btnToggleView').on('click', function(){
+    treeMode = !treeMode;
+    if(treeMode){ // try a simple tree using <details>
+      var xml = $outCode.text();
+      try{
+        var parsed = parseXmlString(xml);
+        if(parsed.error) { alert('Cannot build tree: invalid XML'); treeMode=false; return; }
+        var treeHtml = buildTree(parsed.doc.documentElement);
+        $('#outputArea').html('<div class="p-2 bg-white rounded">'+treeHtml+'</div>');
+        setStatus('Tree view');
+      } catch(e){ alert('Tree build failed: '+e); }
+    } else {
+      $('#outputArea').html('<pre id="outPre" class="code-box"><code id="outCode" class="language-markup">'+$('<div>').text($outCode.text()).html()+'</code></pre>');
+      Prism.highlightElement($('#outCode')[0]);
+      setStatus('Code view');
+    }
+  });
+
+  function buildTree(node){
+    if(!node) return '';
+    var html = '<details open><summary>&lt;'+node.nodeName+'&gt;';
+    // attrs
+    if(node.attributes && node.attributes.length){
+      html += '<span class="ms-2 small-muted">';
+      for(var i=0;i<node.attributes.length;i++){
+        var a = node.attributes[i]; html += ' '+a.name+'="'+a.value+'"';
+      }
+      html += '</span>';
+    }
+    html += '</summary>';
+    for(var i=0;i<node.childNodes.length;i++){
+      var c = node.childNodes[i];
+      if(c.nodeType===1) html += buildTree(c);
+      else if(c.nodeType===3 && /\S/.test(c.nodeValue)) html += '<div style="padding-left:1rem;">'+$('<div>').text(c.nodeValue.trim()).html()+'</div>';
+    }
+    html += '</details>';
+    return html;
+  }
+});
+</script>
+</body>
+</html>
