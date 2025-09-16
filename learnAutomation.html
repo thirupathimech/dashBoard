@@ -1,0 +1,1919 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TestNG & XPath Learning Hub</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --success-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            --dark-bg: #1a1a2e;
+            --card-bg: rgba(255, 255, 255, 0.95);
+        }
+
+        body {
+            background: var(--dark-bg);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        .hero-section {
+            background: var(--primary-gradient);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="50" cy="50" r="1" fill="rgba(255,255,255,0.1)"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-title {
+            font-size: 4rem;
+            font-weight: 800;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            animation: slideInDown 1s ease-out;
+        }
+
+        @keyframes slideInDown {
+            from { transform: translateY(-100px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .hero-subtitle {
+            font-size: 1.5rem;
+            color: rgba(255,255,255,0.9);
+            animation: slideInUp 1s ease-out 0.5s both;
+        }
+
+        @keyframes slideInUp {
+            from { transform: translateY(100px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .floating-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 20px;
+            padding: 2rem;
+            margin: 1rem 0;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .floating-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.2);
+        }
+
+        @keyframes fadeInUp {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .section-title {
+            background: var(--secondary-gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 700;
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .nav-pills .nav-link {
+            background: transparent;
+            border: 2px solid transparent;
+            border-radius: 25px;
+            color: #667eea;
+            font-weight: 600;
+            margin: 0 5px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-pills .nav-link:hover {
+            background: var(--primary-gradient);
+            color: white;
+            transform: scale(1.05);
+        }
+
+        .nav-pills .nav-link.active {
+            background: var(--primary-gradient);
+            color: white;
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .code-container {
+            background: #2d3748;
+            border-radius: 15px;
+            overflow: hidden;
+            margin: 1rem 0;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .code-header {
+            background: var(--primary-gradient);
+            color: white;
+            padding: 1rem;
+            font-weight: 600;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .copy-btn {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .copy-btn:hover {
+            background: rgba(255,255,255,0.3);
+            transform: scale(1.05);
+        }
+
+        .accordion-button {
+            background: var(--success-gradient);
+            color: white;
+            border: none;
+            font-weight: 600;
+        }
+
+        .accordion-button:not(.collapsed) {
+            background: var(--secondary-gradient);
+            color: white;
+        }
+
+        .accordion-button:focus {
+            box-shadow: none;
+        }
+
+        .interactive-demo {
+            background: linear-gradient(45deg, #f0f2ff, #e6f3ff);
+            border-radius: 15px;
+            padding: 2rem;
+            margin: 2rem 0;
+            border: 2px solid rgba(102, 126, 234, 0.2);
+        }
+
+        .xpath-input {
+            background: rgba(255,255,255,0.9);
+            border: 2px solid #667eea;
+            border-radius: 10px;
+            padding: 1rem;
+            font-family: 'Courier New', monospace;
+        }
+
+        .result-box {
+            background: #1a1a2e;
+            color: #00ff88;
+            border-radius: 10px;
+            padding: 1rem;
+            font-family: 'Courier New', monospace;
+            min-height: 100px;
+        }
+
+        .feature-card {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            height: 100%;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-15px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+        }
+
+        .feature-icon {
+            background: var(--primary-gradient);
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            color: white;
+            font-size: 2rem;
+        }
+
+        .progress-indicator {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: rgba(102, 126, 234, 0.2);
+            z-index: 9999;
+        }
+
+        .progress-bar-custom {
+            height: 100%;
+            background: var(--primary-gradient);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .floating-nav {
+            position: fixed;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 1000;
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 1rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .quiz-option {
+            background: rgba(102, 126, 234, 0.1);
+            border: 2px solid transparent;
+            border-radius: 10px;
+            padding: 1rem;
+            margin: 0.5rem 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .quiz-option:hover {
+            background: rgba(102, 126, 234, 0.2);
+            border-color: #667eea;
+        }
+
+        .quiz-option.correct {
+            background: rgba(40, 167, 69, 0.2);
+            border-color: #28a745;
+        }
+
+        .quiz-option.incorrect {
+            background: rgba(220, 53, 69, 0.2);
+            border-color: #dc3545;
+        }
+
+        @media (max-width: 768px) {
+            .hero-title { font-size: 2.5rem; }
+            .floating-nav { display: none; }
+            .section-title { font-size: 2rem; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Progress Indicator -->
+    <div class="progress-indicator">
+        <div class="progress-bar-custom" id="progressBar"></div>
+    </div>
+
+    <!-- Floating Navigation -->
+    <div class="floating-nav d-none d-lg-block">
+        <div class="d-flex flex-column">
+            <a href="#hero" class="btn btn-sm btn-outline-primary mb-2" title="Home"><i class="fas fa-home"></i></a>
+            <a href="#xpath-section" class="btn btn-sm btn-outline-primary mb-2" title="XPath"><i class="fas fa-code"></i></a>
+            <a href="#testng-section" class="btn btn-sm btn-outline-primary mb-2" title="TestNG"><i class="fas fa-cogs"></i></a>
+            <a href="#quiz-section" class="btn btn-sm btn-outline-primary mb-2" title="Quiz"><i class="fas fa-question"></i></a>
+            <button class="btn btn-sm btn-outline-dark" onclick="toggleTheme()" title="Toggle Theme"><i class="fas fa-moon" id="themeIcon"></i></button>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section id="hero" class="hero-section">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-8 hero-content">
+                    <h1 class="hero-title">TestNG & XPath <span class="text-warning">Mastery</span></h1>
+                    <p class="hero-subtitle">Master Selenium automation with comprehensive TestNG annotations and advanced XPath techniques</p>
+                    <div class="mt-4">
+                        <button class="btn btn-light btn-lg me-3" onclick="scrollToSection('xpath-section')">
+                            <i class="fas fa-code me-2"></i>Learn XPath
+                        </button>
+                        <button class="btn btn-outline-light btn-lg" onclick="scrollToSection('testng-section')">
+                            <i class="fas fa-cogs me-2"></i>Explore TestNG
+                        </button>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="text-center">
+                        <div class="feature-icon mx-auto mb-3" style="width: 120px; height: 120px; font-size: 3rem;">
+                            <i class="fas fa-robot"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- XPath Section -->
+    <section id="xpath-section" class="py-5" style="background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);">
+        <div class="container">
+            <h2 class="section-title">XPath Techniques & Strategies</h2>
+            
+            <!-- XPath Navigation -->
+            <ul class="nav nav-pills justify-content-center mb-4" id="xpathTabs">
+                <li class="nav-item">
+                    <a class="nav-link active" data-bs-toggle="pill" href="#xpath-basics">Basics</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-bs-toggle="pill" href="#xpath-advanced">Advanced</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-bs-toggle="pill" href="#xpath-functions">Functions</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-bs-toggle="pill" href="#xpath-demo">Interactive Demo</a>
+                </li>
+            </ul>
+
+            <div class="tab-content">
+                <!-- XPath Basics -->
+                <div class="tab-pane fade show active" id="xpath-basics">
+                    <div class="row">
+                        <div class="col-lg-6 mb-4">
+                            <div class="floating-card">
+                                <h4><i class="fas fa-play text-success me-2"></i>Basic XPath Syntax</h4>
+                                <div class="code-container">
+                                    <div class="code-header">
+                                        <span>Absolute vs Relative XPath</span>
+                                        <button class="copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i></button>
+                                    </div>
+                                    <pre><code class="language-xml"><!-- Absolute XPath (Not Recommended) -->
+/html/body/div[1]/form/input[1]
+
+<!-- Relative XPath (Recommended) -->
+//input[@id='username']
+//div[@class='login-form']//input
+//*[@name='email']
+
+<!-- Using Index -->
+//div[1]          // First div
+//div[last()]     // Last div
+//div[position()&lt;3] // First two divs</code></pre>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 mb-4">
+                            <div class="floating-card">
+                                <h4><i class="fas fa-search text-primary me-2"></i>Attribute-based XPath</h4>
+                                <div class="code-container">
+                                    <div class="code-header">
+                                        <span>Common Attribute Selectors</span>
+                                        <button class="copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i></button>
+                                    </div>
+                                    <pre><code class="language-xml"><!-- Single Attribute -->
+//input[@id='email']
+//button[@type='submit']
+//div[@class='container']
+
+<!-- Multiple Attributes -->
+//input[@type='text' and @name='username']
+//button[@class='btn' and @id='submit-btn']
+
+<!-- Partial Attribute Match -->
+//div[contains(@class,'form')]
+//input[starts-with(@id,'user')]
+//span[ends-with(@class,'error')]</code></pre>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-12 mb-4">
+                            <div class="floating-card">
+                                <h4><i class="fas fa-sitemap text-warning me-2"></i>XPath Axes</h4>
+                                <div class="code-container">
+                                    <div class="code-header">
+                                        <span>Navigating DOM Tree</span>
+                                        <button class="copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i></button>
+                                    </div>
+                                    <pre><code class="language-xml"><!-- Parent/Child Navigation -->
+//div[@id='parent']//child::input
+//input[@id='username']/parent::div
+//div[@class='form-group']/child::label
+
+<!-- Sibling Navigation -->
+//label[@for='email']/following-sibling::input
+//input[@id='password']/preceding-sibling::label
+
+<!-- Ancestor/Descendant -->
+//input[@id='email']/ancestor::form
+//form[@id='loginForm']/descendant::input</code></pre>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- XPath Advanced -->
+                <div class="tab-pane fade" id="xpath-advanced">
+                    <div class="row">
+                        <div class="col-lg-6 mb-4">
+                            <div class="floating-card">
+                                <h4><i class="fas fa-magic text-purple me-2"></i>Dynamic XPath</h4>
+                                <div class="code-container">
+                                    <div class="code-header">
+                                        <span>Handling Dynamic Elements</span>
+                                        <button class="copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i></button>
+                                    </div>
+                                    <pre><code class="language-java">// Dynamic ID handling
+driver.findElement(By.xpath("//div[contains(@id,'dynamic_')]"));
+
+// Dynamic class handling
+driver.findElement(By.xpath("//span[contains(@class,'status-')]"));
+
+// Using multiple conditions
+driver.findElement(By.xpath("//input[@type='text' and contains(@name,'user')]"));
+
+// Position-based for dynamic lists
+driver.findElement(By.xpath("//ul[@class='menu']/li[2]"));
+
+// Using text content
+driver.findElement(By.xpath("//button[text()='Submit']"));
+driver.findElement(By.xpath("//a[contains(text(),'Click here')]"));</code></pre>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 mb-4">
+                            <div class="floating-card">
+                                <h4><i class="fas fa-filter text-info me-2"></i>Advanced Predicates</h4>
+                                <div class="code-container">
+                                    <div class="code-header">
+                                        <span>Complex Filtering</span>
+                                        <button class="copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i></button>
+                                    </div>
+                                    <pre><code class="language-xml"><!-- Position-based -->
+//tr[position()>1]           // Skip header row
+//div[position() mod 2 = 0]  // Even positioned divs
+
+<!-- Text-based filtering -->
+//td[text()='Active']
+//span[normalize-space(text())='Success']
+
+<!-- Attribute value comparison -->
+//input[@tabindex > 0]
+//div[@data-priority >= 5]
+
+<!-- Complex conditions -->
+//div[@class='item' and position()>1 and @data-status='active']
+
+<!-- Not operator -->
+//input[not(@disabled)]
+//div[not(contains(@class,'hidden'))]</code></pre>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion mt-4" id="advancedXPathAccordion">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#xpathPerformance">
+                                    <i class="fas fa-tachometer-alt me-2"></i>XPath Performance Tips
+                                </button>
+                            </h2>
+                            <div id="xpathPerformance" class="accordion-collapse collapse show" data-bs-parent="#advancedXPathAccordion">
+                                <div class="accordion-body">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <h6 class="text-success"><i class="fas fa-check-circle me-1"></i>Good Practices</h6>
+                                            <ul class="list-group">
+                                                <li class="list-group-item">Use relative XPath (//) instead of absolute</li>
+                                                <li class="list-group-item">Prefer ID and Name attributes</li>
+                                                <li class="list-group-item">Use specific tag names when possible</li>
+                                                <li class="list-group-item">Minimize the use of complex predicates</li>
+                                            </ul>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <h6 class="text-danger"><i class="fas fa-times-circle me-1"></i>Avoid These</h6>
+                                            <ul class="list-group">
+                                                <li class="list-group-item">Long absolute paths</li>
+                                                <li class="list-group-item">Multiple contains() in one XPath</li>
+                                                <li class="list-group-item">Complex text() matching</li>
+                                                <li class="list-group-item">Deep descendant searches</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- XPath Functions -->
+                <div class="tab-pane fade" id="xpath-functions">
+                    <div class="row">
+                        <div class="col-lg-4 mb-4">
+                            <div class="floating-card">
+                                <h5><i class="fas fa-text-height text-primary me-2"></i>Text Functions</h5>
+                                <div class="code-container">
+                                    <div class="code-header">
+                                        <span>String Operations</span>
+                                        <button class="copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i></button>
+                                    </div>
+                                    <pre><code class="language-xml">text()
+normalize-space()
+contains(text(),'value')
+starts-with(text(),'prefix')
+string-length(text())
+substring(text(),1,5)
+translate(text(),'ABC','abc')</code></pre>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 mb-4">
+                            <div class="floating-card">
+                                <h5><i class="fas fa-sort-numeric-up text-success me-2"></i>Position Functions</h5>
+                                <div class="code-container">
+                                    <div class="code-header">
+                                        <span>Element Positioning</span>
+                                        <button class="copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i></button>
+                                    </div>
+                                    <pre><code class="language-xml">position()
+last()
+first()
+count(//div)
+//div[position()=1]
+//div[position()=last()]
+//div[position()>5]</code></pre>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 mb-4">
+                            <div class="floating-card">
+                                <h5><i class="fas fa-check-circle text-warning me-2"></i>Boolean Functions</h5>
+                                <div class="code-container">
+                                    <div class="code-header">
+                                        <span>Conditional Logic</span>
+                                        <button class="copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i></button>
+                                    </div>
+                                    <pre><code class="language-xml">not()
+boolean()
+and
+or
+//div[not(@class)]
+//input[@type='text' and @required]
+//span[@visible='true' or @active='true']</code></pre>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Interactive Demo -->
+                <div class="tab-pane fade" id="xpath-demo">
+                    <div class="floating-card">
+                        <h4><i class="fas fa-play-circle text-success me-2"></i>Interactive XPath Tester</h4>
+                        <div class="interactive-demo">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <h6>Sample HTML:</h6>
+                                    <div class="code-container">
+                                        <pre><code class="language-html" id="sampleHTML">&lt;div id="container"&gt;
+  &lt;form class="login-form"&gt;
+    &lt;input type="text" id="username" name="user" placeholder="Username"&gt;
+    &lt;input type="password" id="password" name="pass" placeholder="Password"&gt;
+    &lt;button type="submit" class="btn primary"&gt;Login&lt;/button&gt;
+  &lt;/form&gt;
+  &lt;ul class="menu"&gt;
+    &lt;li&gt;&lt;a href="/home"&gt;Home&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href="/about"&gt;About&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href="/contact"&gt;Contact&lt;/a&gt;&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/div&gt;</code></pre>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <h6>Try XPath Expression:</h6>
+                                    <input type="text" class="form-control xpath-input mb-3" id="xpathInput" placeholder="Enter XPath expression (e.g., //input[@type='text'])">
+                                    <button class="btn btn-primary mb-3" onclick="testXPath()">
+                                        <i class="fas fa-search me-2"></i>Test XPath
+                                    </button>
+                                    <div class="result-box" id="xpathResult">
+                                        Results will appear here...
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-12">
+                                    <h6>Common Examples to Try:</h6>
+                                    <div class="d-flex flex-wrap gap-2">
+                                        <button class="btn btn-sm btn-outline-primary" onclick="setXPath('//input[@id=\\'username\\']')">Get Username Input</button>
+                                        <button class="btn btn-sm btn-outline-primary" onclick="setXPath('//button[contains(@class,\\'btn\\')]')">Get Submit Button</button>
+                                        <button class="btn btn-sm btn-outline-primary" onclick="setXPath('//ul[@class=\\'menu\\']//a')">Get All Menu Links</button>
+                                        <button class="btn btn-sm btn-outline-primary" onclick="setXPath('//li[2]/a')">Get Second Menu Item</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TestNG Section -->
+    <section id="testng-section" class="py-5" style="background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%);">
+        <div class="container">
+            <h2 class="section-title">TestNG Annotations & Configuration</h2>
+            
+            <ul class="nav nav-pills justify-content-center mb-4" id="testngTabs">
+                <li class="nav-item">
+                    <a class="nav-link active" data-bs-toggle="pill" href="#testng-annotations">Annotations</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-bs-toggle="pill" href="#testng-attributes">Attributes</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-bs-toggle="pill" href="#testng-examples">Examples</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-bs-toggle="pill" href="#testng-xml">XML Config</a>
+                </li>
+            </ul>
+
+            <div class="tab-content">
+                <!-- TestNG Annotations -->
+                <div class="tab-pane fade show active" id="testng-annotations">
+                    <div class="row">
+                        <div class="col-lg-6 mb-4">
+                            <div class="floating-card">
+                                <h4><i class="fas fa-cog text-primary me-2"></i>Core Annotations</h4>
+                                <div class="code-container">
+                                    <div class="code-header">
+                                        <span>Essential TestNG Annotations</span>
+                                        <button class="copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i></button>
+                                    </div>
+                                    <pre><code class="language-java">@Test
+// Marks a method as a test method
+
+@BeforeMethod
+// Runs before each test method
+
+@AfterMethod
+// Runs after each test method
+
+@BeforeClass
+// Runs once before the first test method in the class
+
+@AfterClass
+// Runs once after all test methods in the class
+
+@BeforeSuite
+// Runs once before all tests in the suite
+
+@AfterSuite
+// Runs once after all tests in the suite
+
+@BeforeTest
+// Runs before any test method in a test tag
+
+@AfterTest
+// Runs after all test methods in a test tag
+
+@BeforeGroups
+// Runs before the first test method in specified groups
+
+@AfterGroups
+// Runs after the last test method in specified groups</code></pre>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 mb-4">
+                            <div class="floating-card">
+                                <h4><i class="fas fa-tools text-success me-2"></i>Configuration Annotations</h4>
+                                <div class="code-container">
+                                    <div class="code-header">
+                                        <span>Advanced Annotations</span>
+                                        <button class="copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i></button>
+                                    </div>
+                                    <pre><code class="language-java">@DataProvider
+// Provides data to test methods
+@DataProvider(name = "testData")
+public Object[][] getData() {
+    return new Object[][]{
+        {"user1", "pass1"},
+        {"user2", "pass2"}
+    };
+}
+
+@Parameters
+// Injects parameters from testng.xml
+@Parameters({"browser", "url"})
+public void setup(String browser, String url) {
+    // Setup code
+}
+
+@Factory
+// Creates test instances dynamically
+@Factory
+public Object[] createInstances() {
+    return new Object[] {
+        new TestClass("data1"),
+        new TestClass("data2")
+    };
+}
+
+@Listeners
+// Defines test listeners
+@Listeners({CustomListener.class})
+public class TestClass {
+    // Test methods
+}</code></pre>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-12 mb-4">
+                            <div class="floating-card">
+                                <h4><i class="fas fa-exclamation-triangle text-warning me-2"></i>Exception & Dependency Annotations</h4>
+                                <div class="code-container">
+                                    <div class="code-header">
+                                        <span>Error Handling & Dependencies</span>
+                                        <button class="copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i></button>
+                                    </div>
+                                    <pre><code class="language-java">@Test(expectedExceptions = {Exception.class})
+// Expects specific exception
+
+@Test(expectedExceptionsMessageRegExp = ".*error.*")
+// Expects exception with specific message pattern
+
+@Test(dependsOnMethods = {"testLogin"})
+// Depends on other test methods
+
+@Test(dependsOnGroups = {"smoke"})
+// Depends on test groups
+
+@Test(ignoredExceptions = {SQLException.class})
+// Ignores specific exceptions
+
+@Test(successPercentage = 75)
+// Test passes if 75% of invocations succeed</code></pre>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TestNG Attributes -->
+                <div class="tab-pane fade" id="testng-attributes">
+                    <div class="row">
+                        <div class="col-lg-4 mb-4">
+                            <div class="floating-card">
+                                <h5><i class="fas fa-tags text-primary me-2"></i>Basic Attributes</h5>
+                                <div class="code-container">
+                                    <div class="code-header">
+                                        <span>Essential Attributes</span>
+                                        <button class="copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i></button>
+                                    </div>
+                                    <pre><code class="language-java">// Priority
+@Test(priority = 1)
+
+// Description
+@Test(description = "Login test")
+
+// Groups
+@Test(groups = {"smoke", "regression"})
+
+// Enabled/Disabled
+@Test(enabled = false)
+
+// Always Run
+@BeforeMethod(alwaysRun = true)</code></pre>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 mb-4">
+                            <div class="floating-card">
+                                <h5><i class="fas fa-clock text-success me-2"></i>Timing Attributes</h5>
+                                <div class="code-container">
+                                    <div class="code-header">
+                                        <span>Time-based Configuration</span>
+                                        <button class="copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i></button>
+                                    </div>
+                                    <pre><code class="language-java">// Timeout in milliseconds
+@Test(timeOut = 5000)
+
+// Invocation Count
+@Test(invocationCount = 3)
+
+// Invocation Time Out
+@Test(invocationTimeOut = 10000)
+
+// Thread Pool Size
+@Test(threadPoolSize = 3, 
+      invocationCount = 10)</code></pre>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 mb-4">
+                            <div class="floating-card">
+                                <h5><i class="fas fa-share-alt text-warning me-2"></i>Parallel Attributes</h5>
+                                <div class="code-container">
+                                    <div class="code-header">
+                                        <span>Parallel Execution</span>
+                                        <button class="copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i></button>
+                                    </div>
+                                    <pre><code class="language-java">// Thread Pool Size
+@Test(threadPoolSize = 5)
+
+// Single Threaded
+@Test(singleThreaded = true)
+
+// Data Provider Thread Count
+@DataProvider(parallel = true)
+
+// In testng.xml:
+// parallel="methods"
+// parallel="classes" 
+// parallel="tests"
+// thread-count="5"</code></pre>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="floating-card">
+                        <h4><i class="fas fa-list text-info me-2"></i>Complete Attributes Reference</h4>
+                        <div class="table-responsive">
+                            <table class="table table-striped table-hover">
+                                <thead class="table-dark">
+                                    <tr>
+                                        <th>Attribute</th>
+                                        <th>Type</th>
+                                        <th>Default</th>
+                                        <th>Description</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr><td>alwaysRun</td><td>boolean</td><td>false</td><td>Run even if dependencies fail</td></tr>
+                                    <tr><td>dataProvider</td><td>String</td><td>""</td><td>Name of data provider method</td></tr>
+                                    <tr><td>dependsOnGroups</td><td>String[]</td><td>{}</td><td>Groups this method depends on</td></tr>
+                                    <tr><td>dependsOnMethods</td><td>String[]</td><td>{}</td><td>Methods this method depends on</td></tr>
+                                    <tr><td>description</td><td>String</td><td>""</td><td>Description of the test</td></tr>
+                                    <tr><td>enabled</td><td>boolean</td><td>true</td><td>Whether this method is enabled</td></tr>
+                                    <tr><td>expectedExceptions</td><td>Class[]</td><td>{}</td><td>Expected exception types</td></tr>
+                                    <tr><td>groups</td><td>String[]</td><td>{}</td><td>Groups this method belongs to</td></tr>
+                                    <tr><td>invocationCount</td><td>int</td><td>1</td><td>Number of times to invoke</td></tr>
+                                    <tr><td>priority</td><td>int</td><td>0</td><td>Priority of this test method</td></tr>
+                                    <tr><td>successPercentage</td><td>int</td><td>100</td><td>Success percentage required</td></tr>
+                                    <tr><td>timeOut</td><td>long</td><td>0</td><td>Maximum time for method execution</td></tr>
+                                    <tr><td>threadPoolSize</td><td>int</td><td>0</td><td>Thread pool size for parallel execution</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TestNG Examples -->
+                <div class="tab-pane fade" id="testng-examples">
+                    <div class="row">
+                        <div class="col-12 mb-4">
+                            <div class="floating-card">
+                                <h4><i class="fas fa-code text-primary me-2"></i>Complete Test Class Example</h4>
+                                <div class="code-container">
+                                    <div class="code-header">
+                                        <span>SeleniumTestExample.java</span>
+                                        <button class="copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i></button>
+                                    </div>
+                                    <pre><code class="language-java">package com.example.tests;
+
+import org.testng.annotations.*;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.By;
+import org.testng.Assert;
+
+@Listeners({TestListener.class})
+public class LoginTest {
+    
+    private WebDriver driver;
+    
+    @BeforeSuite
+    public void setupSuite() {
+        System.out.println("Setting up test suite");
+        // Global setup
+    }
+    
+    @BeforeClass
+    public void setupClass() {
+        System.out.println("Setting up test class");
+        // Class-level setup
+    }
+    
+    @BeforeMethod
+    public void setUp() {
+        System.setProperty("webdriver.chrome.driver", "path/to/chromedriver");
+        driver = new ChromeDriver();
+        driver.manage().window().maximize();
+    }
+    
+    @Test(priority = 1, groups = {"smoke"}, 
+          description = "Verify valid login functionality")
+    public void testValidLogin() {
+        driver.get("https://example.com/login");
+        driver.findElement(By.xpath("//input[@id='username']")).sendKeys("validuser");
+        driver.findElement(By.xpath("//input[@id='password']")).sendKeys("validpass");
+        driver.findElement(By.xpath("//button[@type='submit']")).click();
+        
+        String welcomeMsg = driver.findElement(By.xpath("//div[@class='welcome']")).getText();
+        Assert.assertEquals(welcomeMsg, "Welcome, validuser!");
+    }
+    
+    @Test(priority = 2, groups = {"regression"}, 
+          dependsOnMethods = {"testValidLogin"},
+          description = "Verify invalid login shows error")
+    public void testInvalidLogin() {
+        driver.get("https://example.com/login");
+        driver.findElement(By.xpath("//input[@id='username']")).sendKeys("invaliduser");
+        driver.findElement(By.xpath("//input[@id='password']")).sendKeys("wrongpass");
+        driver.findElement(By.xpath("//button[@type='submit']")).click();
+        
+        String errorMsg = driver.findElement(By.xpath("//div[@class='error']")).getText();
+        Assert.assertTrue(errorMsg.contains("Invalid credentials"));
+    }
+    
+    @Test(dataProvider = "loginData", groups = {"data-driven"})
+    public void testMultipleLogins(String username, String password, boolean shouldSucceed) {
+        driver.get("https://example.com/login");
+        driver.findElement(By.xpath("//input[@id='username']")).sendKeys(username);
+        driver.findElement(By.xpath("//input[@id='password']")).sendKeys(password);
+        driver.findElement(By.xpath("//button[@type='submit']")).click();
+        
+        if (shouldSucceed) {
+            Assert.assertTrue(driver.getCurrentUrl().contains("dashboard"));
+        } else {
+            Assert.assertTrue(driver.findElement(By.xpath("//div[@class='error']")).isDisplayed());
+        }
+    }
+    
+    @DataProvider(name = "loginData")
+    public Object[][] getLoginData() {
+        return new Object[][] {
+            {"user1", "pass1", true},
+            {"user2", "pass2", true},
+            {"invalid", "wrong", false},
+            {"", "", false}
+        };
+    }
+    
+    @Test(timeOut = 5000, invocationCount = 3,
+          description = "Performance test for login")
+    public void testLoginPerformance() {
+        long startTime = System.currentTimeMillis();
+        
+        driver.get("https://example.com/login");
+        driver.findElement(By.xpath("//input[@id='username']")).sendKeys("perfuser");
+        driver.findElement(By.xpath("//input[@id='password']")).sendKeys("perfpass");
+        driver.findElement(By.xpath("//button[@type='submit']")).click();
+        
+        long endTime = System.currentTimeMillis();
+        Assert.assertTrue((endTime - startTime) < 3000, "Login took too long");
+    }
+    
+    @Test(expectedExceptions = {org.openqa.selenium.NoSuchElementException.class},
+          description = "Test that missing element throws exception")
+    public void testMissingElement() {
+        driver.get("https://example.com/login");
+        driver.findElement(By.xpath("//input[@id='nonexistent']")); // Should throw exception
+    }
+    
+    @AfterMethod
+    public void tearDown() {
+        if (driver != null) {
+            driver.quit();
+        }
+    }
+    
+    @AfterClass
+    public void tearDownClass() {
+        System.out.println("Cleaning up test class");
+    }
+    
+    @AfterSuite
+    public void tearDownSuite() {
+        System.out.println("Cleaning up test suite");
+    }
+}</code></pre>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-6 mb-4">
+                            <div class="floating-card">
+                                <h4><i class="fas fa-plug text-success me-2"></i>Custom Test Listener</h4>
+                                <div class="code-container">
+                                    <div class="code-header">
+                                        <span>TestListener.java</span>
+                                        <button class="copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i></button>
+                                    </div>
+                                    <pre><code class="language-java">import org.testng.ITestListener;
+import org.testng.ITestResult;
+
+public class TestListener implements ITestListener {
+    
+    @Override
+    public void onTestStart(ITestResult result) {
+        System.out.println("Test Started: " + result.getName());
+    }
+    
+    @Override
+    public void onTestSuccess(ITestResult result) {
+        System.out.println("Test Passed: " + result.getName());
+    }
+    
+    @Override
+    public void onTestFailure(ITestResult result) {
+        System.out.println("Test Failed: " + result.getName());
+        System.out.println("Failure Reason: " + result.getThrowable());
+    }
+    
+    @Override
+    public void onTestSkipped(ITestResult result) {
+        System.out.println("Test Skipped: " + result.getName());
+    }
+}</code></pre>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 mb-4">
+                            <div class="floating-card">
+                                <h4><i class="fas fa-industry text-warning me-2"></i>Page Object Model Example</h4>
+                                <div class="code-container">
+                                    <div class="code-header">
+                                        <span>LoginPage.java</span>
+                                        <button class="copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i></button>
+                                    </div>
+                                    <pre><code class="language-java">import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
+
+public class LoginPage {
+    private WebDriver driver;
+    
+    @FindBy(xpath = "//input[@id='username']")
+    private WebElement usernameField;
+    
+    @FindBy(xpath = "//input[@id='password']")
+    private WebElement passwordField;
+    
+    @FindBy(xpath = "//button[@type='submit']")
+    private WebElement submitButton;
+    
+    @FindBy(xpath = "//div[@class='error']")
+    private WebElement errorMessage;
+    
+    public LoginPage(WebDriver driver) {
+        this.driver = driver;
+        PageFactory.initElements(driver, this);
+    }
+    
+    public void enterUsername(String username) {
+        usernameField.clear();
+        usernameField.sendKeys(username);
+    }
+    
+    public void enterPassword(String password) {
+        passwordField.clear();
+        passwordField.sendKeys(password);
+    }
+    
+    public void clickSubmit() {
+        submitButton.click();
+    }
+    
+    public String getErrorMessage() {
+        return errorMessage.getText();
+    }
+    
+    public boolean isErrorDisplayed() {
+        return errorMessage.isDisplayed();
+    }
+}</code></pre>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TestNG XML -->
+                <div class="tab-pane fade" id="testng-xml">
+                    <div class="row">
+                        <div class="col-12 mb-4">
+                            <div class="floating-card">
+                                <h4><i class="fas fa-file-code text-primary me-2"></i>testng.xml Configuration</h4>
+                                <div class="code-container">
+                                    <div class="code-header">
+                                        <span>Complete testng.xml Example</span>
+                                        <button class="copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i></button>
+                                    </div>
+                                    <pre><code class="language-xml">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd"&gt;
+
+&lt;suite name="SeleniumTestSuite" parallel="methods" thread-count="3" verbose="2"&gt;
+    
+    &lt;!-- Suite-level parameters --&gt;
+    &lt;parameter name="baseUrl" value="https://example.com"/&gt;
+    &lt;parameter name="browser" value="chrome"/&gt;
+    
+    &lt;!-- Listeners --&gt;
+    &lt;listeners&gt;
+        &lt;listener class-name="com.example.listeners.TestListener"/&gt;
+        &lt;listener class-name="com.example.listeners.ReportListener"/&gt;
+    &lt;/listeners&gt;
+    
+    &lt;!-- Test groups --&gt;
+    &lt;groups&gt;
+        &lt;run&gt;
+            &lt;include name="smoke"/&gt;
+            &lt;include name="regression"/&gt;
+            &lt;exclude name="slow"/&gt;
+        &lt;/run&gt;
+    &lt;/groups&gt;
+    
+    &lt;!-- Smoke Test Suite --&gt;
+    &lt;test name="SmokeTests" preserve-order="true"&gt;
+        &lt;parameter name="timeout" value="30"/&gt;
+        
+        &lt;groups&gt;
+            &lt;run&gt;
+                &lt;include name="smoke"/&gt;
+            &lt;/run&gt;
+        &lt;/groups&gt;
+        
+        &lt;classes&gt;
+            &lt;class name="com.example.tests.LoginTest"/&gt;
+            &lt;class name="com.example.tests.HomePageTest"/&gt;
+        &lt;/classes&gt;
+    &lt;/test&gt;
+    
+    &lt;!-- Regression Test Suite --&gt;
+    &lt;test name="RegressionTests" parallel="classes" thread-count="2"&gt;
+        
+        &lt;groups&gt;
+            &lt;run&gt;
+                &lt;include name="regression"/&gt;
+            &lt;/run&gt;
+        &lt;/groups&gt;
+        
+        &lt;packages&gt;
+            &lt;package name="com.example.tests.*"/&gt;
+        &lt;/packages&gt;
+    &lt;/test&gt;
+    
+    &lt;!-- Method-specific test --&gt;
+    &lt;test name="SpecificMethodTest"&gt;
+        &lt;classes&gt;
+            &lt;class name="com.example.tests.LoginTest"&gt;
+                &lt;methods&gt;
+                    &lt;include name="testValidLogin"/&gt;
+                    &lt;include name="testInvalidLogin"/&gt;
+                    &lt;exclude name="testLoginPerformance"/&gt;
+                &lt;/methods&gt;
+            &lt;/class&gt;
+        &lt;/classes&gt;
+    &lt;/test&gt;
+    
+    &lt;!-- Data Provider Test --&gt;
+    &lt;test name="DataDrivenTests"&gt;
+        &lt;parameter name="dataFile" value="testdata.xlsx"/&gt;
+        
+        &lt;classes&gt;
+            &lt;class name="com.example.tests.DataDrivenTest"/&gt;
+        &lt;/classes&gt;
+    &lt;/test&gt;
+    
+&lt;/suite&gt;</code></pre>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-6 mb-4">
+                            <div class="floating-card">
+                                <h4><i class="fas fa-play text-success me-2"></i>Maven Integration</h4>
+                                <div class="code-container">
+                                    <div class="code-header">
+                                        <span>pom.xml Configuration</span>
+                                        <button class="copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i></button>
+                                    </div>
+                                    <pre><code class="language-xml">&lt;plugin&gt;
+    &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;
+    &lt;artifactId&gt;maven-surefire-plugin&lt;/artifactId&gt;
+    &lt;version&gt;3.0.0-M7&lt;/version&gt;
+    &lt;configuration&gt;
+        &lt;suiteXmlFiles&gt;
+            &lt;suiteXmlFile&gt;src/test/resources/testng.xml&lt;/suiteXmlFile&gt;
+        &lt;/suiteXmlFiles&gt;
+        &lt;systemPropertyVariables&gt;
+            &lt;browser&gt;${browser}&lt;/browser&gt;
+            &lt;environment&gt;${env}&lt;/environment&gt;
+        &lt;/systemPropertyVariables&gt;
+    &lt;/configuration&gt;
+&lt;/plugin&gt;
+
+&lt;!-- Run with: --&gt;
+&lt;!-- mvn test -Dbrowser=chrome -Denv=staging --&gt;</code></pre>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 mb-4">
+                            <div class="floating-card">
+                                <h4><i class="fas fa-terminal text-warning me-2"></i>Command Line Execution</h4>
+                                <div class="code-container">
+                                    <div class="code-header">
+                                        <span>Various Execution Options</span>
+                                        <button class="copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i></button>
+                                    </div>
+                                    <pre><code class="language-bash"># Run entire suite
+java -cp "classes:lib/*" org.testng.TestNG testng.xml
+
+# Run specific groups
+java -cp "classes:lib/*" org.testng.TestNG -groups smoke testng.xml
+
+# Run with parameters
+java -cp "classes:lib/*" org.testng.TestNG -Dbrowser=firefox testng.xml
+
+# Generate reports
+java -cp "classes:lib/*" org.testng.TestNG -d results testng.xml
+
+# Parallel execution
+java -cp "classes:lib/*" org.testng.TestNG -parallel methods -threadcount 5 testng.xml
+
+# With Maven
+mvn test -DsuiteXmlFile=smoke-tests.xml
+mvn test -Dgroups=regression
+mvn test -Dtest=LoginTest#testValidLogin</code></pre>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quiz Section -->
+    <section id="quiz-section" class="py-5" style="background: linear-gradient(135deg, #f3e5f5 0%, #e1bee7 100%);">
+        <div class="container">
+            <h2 class="section-title">Test Your Knowledge</h2>
+            
+            <div class="floating-card">
+                <div id="quiz-container">
+                    <div class="quiz-question" id="question-1" style="display: block;">
+                        <h4><i class="fas fa-question-circle text-primary me-2"></i>Question 1: XPath Basics</h4>
+                        <p>Which XPath expression correctly selects all input elements with type "text"?</p>
+                        
+                        <div class="quiz-option" onclick="selectOption(this, true)">
+                            <i class="fas fa-circle me-2"></i>
+                            //div[2]
+                        </div>
+                        <div class="quiz-option" onclick="selectOption(this, false)">
+                            <i class="fas fa-circle me-2"></i>
+                            //div[position()=2]
+                        </div>
+                        <div class="quiz-option" onclick="selectOption(this, false)">
+                            <i class="fas fa-circle me-2"></i>
+                            //div[index=2]
+                        </div>
+                    </div>
+
+                    <div id="quiz-result" style="display: none;">
+                        <div class="text-center">
+                            <h3><i class="fas fa-trophy text-warning me-2"></i>Quiz Complete!</h3>
+                            <div class="mt-4">
+                                <div class="display-4 text-primary" id="quiz-score">0/5</div>
+                                <p class="lead" id="quiz-feedback">Great job!</p>
+                                <button class="btn btn-primary btn-lg" onclick="resetQuiz()">
+                                    <i class="fas fa-redo me-2"></i>Take Quiz Again
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="d-flex justify-content-between mt-4">
+                    <button class="btn btn-outline-secondary" id="prevBtn" onclick="previousQuestion()" disabled>
+                        <i class="fas fa-chevron-left me-2"></i>Previous
+                    </button>
+                    <div class="quiz-progress">
+                        <span id="question-counter">1 / 5</span>
+                    </div>
+                    <button class="btn btn-primary" id="nextBtn" onclick="nextQuestion()" disabled>
+                        Next<i class="fas fa-chevron-right ms-2"></i>
+                    </button>
+                </div>
+
+                <div class="progress mt-3">
+                    <div class="progress-bar" id="quiz-progress" style="width: 20%"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="py-5" style="background: linear-gradient(135deg, #e8f5e8 0%, #c8e6c9 100%);">
+        <div class="container">
+            <h2 class="section-title">Key Features</h2>
+            
+            <div class="row">
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-code"></i>
+                        </div>
+                        <h5>Interactive XPath Testing</h5>
+                        <p>Test XPath expressions in real-time with our interactive demo and see immediate results.</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-cogs"></i>
+                        </div>
+                        <h5>Complete TestNG Guide</h5>
+                        <p>Comprehensive coverage of all TestNG annotations, attributes, and configuration options.</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-copy"></i>
+                        </div>
+                        <h5>Copy-Paste Ready</h5>
+                        <p>All code examples are ready to copy and paste directly into your Selenium projects.</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-question-circle"></i>
+                        </div>
+                        <h5>Knowledge Quiz</h5>
+                        <p>Test your understanding with our interactive quiz covering XPath and TestNG concepts.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-4" style="background: var(--dark-bg); color: white;">
+        <div class="container text-center">
+            <p>&copy; 2024 TestNG & XPath Learning Hub. Built with ❤️ for Selenium automation enthusiasts.</p>
+            <div class="mt-3">
+                <a href="#hero" class="btn btn-outline-light btn-sm me-2">Back to Top</a>
+                <button class="btn btn-outline-light btn-sm" onclick="downloadCheatSheet()">
+                    <i class="fas fa-download me-1"></i>Download Cheat Sheet
+                </button>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+
+    <script>
+        // Quiz functionality
+        let currentQuestion = 1;
+        let totalQuestions = 5;
+        let score = 0;
+        let answers = {};
+
+        function selectOption(element, isCorrect) {
+            // Remove previous selections
+            $(element).parent().find('.quiz-option').removeClass('correct incorrect');
+            
+            // Mark current selection
+            if (isCorrect) {
+                $(element).addClass('correct');
+                answers[currentQuestion] = true;
+            } else {
+                $(element).addClass('incorrect');
+                answers[currentQuestion] = false;
+            }
+            
+            // Enable next button
+            $('#nextBtn').prop('disabled', false);
+        }
+
+        function nextQuestion() {
+            if (currentQuestion < totalQuestions) {
+                $(`#question-${currentQuestion}`).hide();
+                currentQuestion++;
+                $(`#question-${currentQuestion}`).show();
+                updateQuizProgress();
+                $('#nextBtn').prop('disabled', true);
+                $('#prevBtn').prop('disabled', false);
+                
+                if (currentQuestion === totalQuestions) {
+                    $('#nextBtn').text('Finish Quiz').off('click').on('click', finishQuiz);
+                }
+            }
+        }
+
+        function previousQuestion() {
+            if (currentQuestion > 1) {
+                $(`#question-${currentQuestion}`).hide();
+                currentQuestion--;
+                $(`#question-${currentQuestion}`).show();
+                updateQuizProgress();
+                
+                if (currentQuestion === 1) {
+                    $('#prevBtn').prop('disabled', true);
+                }
+                
+                $('#nextBtn').text('Next').off('click').on('click', nextQuestion);
+                
+                // Enable next button if question was answered
+                if (answers[currentQuestion] !== undefined) {
+                    $('#nextBtn').prop('disabled', false);
+                }
+            }
+        }
+
+        function updateQuizProgress() {
+            $('#question-counter').text(`${currentQuestion} / ${totalQuestions}`);
+            const progress = (currentQuestion / totalQuestions) * 100;
+            $('#quiz-progress').css('width', progress + '%');
+        }
+
+        function finishQuiz() {
+            // Calculate score
+            score = Object.values(answers).filter(answer => answer === true).length;
+            
+            // Hide current question
+            $(`#question-${currentQuestion}`).hide();
+            
+            // Show results
+            $('#quiz-result').show();
+            $('#quiz-score').text(`${score}/${totalQuestions}`);
+            
+            let feedback = '';
+            if (score === totalQuestions) {
+                feedback = '🎉 Perfect! You\'re a TestNG & XPath expert!';
+            } else if (score >= totalQuestions * 0.8) {
+                feedback = '👏 Excellent! You have a strong understanding!';
+            } else if (score >= totalQuestions * 0.6) {
+                feedback = '👍 Good job! Keep practicing to improve!';
+            } else {
+                feedback = '📚 Keep learning! Review the materials and try again!';
+            }
+            
+            $('#quiz-feedback').text(feedback);
+            
+            // Hide navigation buttons
+            $('#prevBtn, #nextBtn').hide();
+            $('#quiz-progress').css('width', '100%');
+        }
+
+        function resetQuiz() {
+            currentQuestion = 1;
+            score = 0;
+            answers = {};
+            
+            // Reset all questions
+            $('.quiz-question').hide();
+            $('#question-1').show();
+            $('.quiz-option').removeClass('correct incorrect');
+            
+            // Reset UI
+            $('#quiz-result').hide();
+            $('#prevBtn, #nextBtn').show();
+            $('#prevBtn').prop('disabled', true);
+            $('#nextBtn').prop('disabled', true).text('Next').off('click').on('click', nextQuestion);
+            updateQuizProgress();
+        }
+
+        // XPath Demo functionality
+        function testXPath() {
+            const xpath = $('#xpathInput').val();
+            const resultDiv = $('#xpathResult');
+            
+            if (!xpath.trim()) {
+                resultDiv.html('<span class="text-warning">Please enter an XPath expression</span>');
+                return;
+            }
+            
+            // Simple XPath validation and simulation
+            const sampleResults = {
+                "//input[@type='text']": "Found 1 element: <input type='text' id='username'>",
+                "//input[@id='username']": "Found 1 element: <input type='text' id='username' name='user'>",
+                "//button[contains(@class,'btn')]": "Found 1 element: <button type='submit' class='btn primary'>",
+                "//ul[@class='menu']//a": "Found 3 elements: <a href='/home'>, <a href='/about'>, <a href='/contact'>",
+                "//li[2]/a": "Found 1 element: <a href='/about'>About</a>",
+                "//input[@name='user']": "Found 1 element: <input type='text' id='username' name='user'>",
+                "//form[@class='login-form']": "Found 1 element: <form class='login-form'>",
+                "//div[@id='container']": "Found 1 element: <div id='container'>",
+                "//li[position()>1]": "Found 2 elements: <li><a href='/about'>, <li><a href='/contact'>",
+                "//a[text()='Home']": "Found 1 element: <a href='/home'>Home</a>"
+            };
+            
+            const result = sampleResults[xpath] || "No matching elements found or invalid XPath syntax";
+            resultDiv.html(`<span class="text-success">Result:</span><br>${result}`);
+        }
+
+        function setXPath(xpath) {
+            $('#xpathInput').val(xpath);
+            testXPath();
+        }
+
+        // Copy code functionality
+        function copyCode(button) {
+            const codeBlock = $(button).closest('.code-container').find('code')[0];
+            const text = codeBlock.textContent;
+            
+            navigator.clipboard.writeText(text).then(() => {
+                $(button).html('<i class="fas fa-check"></i> Copied!');
+                setTimeout(() => {
+                    $(button).html('<i class="fas fa-copy"></i>');
+                }, 2000);
+            });
+        }
+
+        // Smooth scrolling
+        function scrollToSection(sectionId) {
+            document.getElementById(sectionId).scrollIntoView({
+                behavior: 'smooth'
+            });
+        }
+
+        // Progress bar
+        function updateProgressBar() {
+            const scrollTop = $(window).scrollTop();
+            const docHeight = $(document).height() - $(window).height();
+            const progress = (scrollTop / docHeight) * 100;
+            $('#progressBar').css('width', progress + '%');
+        }
+
+        // Theme toggle
+        function toggleTheme() {
+            $('body').toggleClass('dark-theme');
+            const icon = $('#themeIcon');
+            if ($('body').hasClass('dark-theme')) {
+                icon.removeClass('fa-moon').addClass('fa-sun');
+            } else {
+                icon.removeClass('fa-sun').addClass('fa-moon');
+            }
+        }
+
+        // Download cheat sheet
+        function downloadCheatSheet() {
+            const cheatSheetContent = `
+TestNG & XPath Quick Reference
+=============================
+
+XPATH BASICS:
+- Absolute: /html/body/div/input
+- Relative: //input[@id='username']
+- Contains: //div[contains(@class,'form')]
+- Text: //button[text()='Submit']
+- Position: //div[2] or //div[position()=2]
+
+XPATH FUNCTIONS:
+- contains(text(),'value')
+- starts-with(@attr,'prefix')
+- normalize-space(text())
+- position(), last(), count()
+
+TESTNG ANNOTATIONS:
+- @Test - Test method
+- @BeforeMethod/@AfterMethod - Before/after each test
+- @BeforeClass/@AfterClass - Before/after all tests in class
+- @BeforeSuite/@AfterSuite - Before/after entire suite
+- @DataProvider - Provides test data
+- @Parameters - Injects parameters
+
+TESTNG ATTRIBUTES:
+- priority = 1 (execution order)
+- groups = {"smoke", "regression"}
+- dependsOnMethods = {"testLogin"}
+- timeOut = 5000 (milliseconds)
+- enabled = false (disable test)
+- expectedExceptions = {Exception.class}
+
+TESTNG XML:
+<suite name="TestSuite" parallel="methods">
+  <test name="SmokeTest">
+    <classes>
+      <class name="com.example.TestClass"/>
+    </classes>
+  </test>
+</suite>
+            `;
+            
+            const blob = new Blob([cheatSheetContent], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'testng-xpath-cheatsheet.txt';
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        // Event listeners
+        $(document).ready(function() {
+            // Update progress bar on scroll
+            $(window).scroll(updateProgressBar);
+            
+            // Animate cards on scroll
+            $(window).scroll(function() {
+                $('.floating-card').each(function() {
+                    const elementTop = $(this).offset().top;
+                    const elementBottom = elementTop + $(this).outerHeight();
+                    const viewportTop = $(window).scrollTop();
+                    const viewportBottom = viewportTop + $(window).height();
+                    
+                    if (elementBottom > viewportTop && elementTop < viewportBottom) {
+                        $(this).addClass('animate-in');
+                    }
+                });
+            });
+            
+            // Initialize syntax highlighting
+            Prism.highlightAll();
+            
+            // Add smooth scrolling to all anchor links
+            $('a[href^="#"]').on('click', function(e) {
+                e.preventDefault();
+                const target = $(this.getAttribute('href'));
+                if (target.length) {
+                    $('html, body').animate({
+                        scrollTop: target.offset().top - 70
+                    }, 1000);
+                }
+            });
+            
+            // Initialize tooltips
+            $('[data-bs-toggle="tooltip"]').tooltip();
+            
+            // Add keyboard navigation for quiz
+            $(document).keydown(function(e) {
+                if ($('#quiz-section').is(':visible')) {
+                    if (e.key === 'ArrowLeft' && !$('#prevBtn').prop('disabled')) {
+                        previousQuestion();
+                    } else if (e.key === 'ArrowRight' && !$('#nextBtn').prop('disabled')) {
+                        if ($('#nextBtn').text().includes('Finish')) {
+                            finishQuiz();
+                        } else {
+                            nextQuestion();
+                        }
+                    }
+                }
+            });
+        });
+
+        // Add some interactive animations
+        $('.feature-card').hover(
+            function() {
+                $(this).find('.feature-icon').addClass('animate__animated animate__pulse');
+            },
+            function() {
+                $(this).find('.feature-icon').removeClass('animate__animated animate__pulse');
+            }
+        );
+
+        // Add floating animation to hero elements
+        setInterval(function() {
+            $('.hero-content .btn').addClass('animate__animated animate__pulse');
+            setTimeout(function() {
+                $('.hero-content .btn').removeClass('animate__animated animate__pulse');
+            }, 1000);
+        }, 5000);
+    </script>
+
+    <style>
+        /* Additional animations and effects */
+        .animate-in {
+            animation: slideInUp 0.6s ease-out forwards;
+        }
+
+        .dark-theme {
+            background: #1a1a2e !important;
+            color: #ffffff !important;
+        }
+
+        .dark-theme .floating-card {
+            background: rgba(45, 55, 72, 0.95) !important;
+            color: #ffffff !important;
+        }
+
+        .dark-theme .feature-card {
+            background: rgba(45, 55, 72, 0.9) !important;
+            color: #ffffff !important;
+        }
+
+        /* Pulse animation for interactive elements */
+        @keyframes pulse-glow {
+            0% { box-shadow: 0 0 5px rgba(102, 126, 234, 0.4); }
+            50% { box-shadow: 0 0 20px rgba(102, 126, 234, 0.8), 0 0 30px rgba(102, 126, 234, 0.4); }
+            100% { box-shadow: 0 0 5px rgba(102, 126, 234, 0.4); }
+        }
+
+        .interactive-demo:hover {
+            animation: pulse-glow 2s infinite;
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary-gradient);
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--secondary-gradient);
+        }
+
+        /* Loading animation for code blocks */
+        .code-container:hover {
+            transform: scale(1.02);
+            transition: transform 0.3s ease;
+        }
+
+        /* Quiz option hover effects */
+        .quiz-option:hover {
+            transform: translateX(10px);
+        }
+
+        /* Responsive improvements */
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .feature-card {
+                margin-bottom: 2rem;
+            }
+            
+            .code-container {
+                font-size: 0.875rem;
+            }
+        }
+
+        /* Print styles */
+        @media print {
+            .floating-nav,
+            .progress-indicator,
+            footer {
+                display: none !important;
+            }
+            
+            .floating-card {
+                page-break-inside: avoid;
+                box-shadow: none;
+                border: 1px solid #ccc;
+            }
+        }
+    </style>
+</body>
+</html>(this, false)">
+                            <i class="fas fa-circle me-2"></i>
+                            /html/body/input[@type="text"]
+                        </div>
+                        <div class="quiz-option" onclick="selectOption(this, true)">
+                            <i class="fas fa-circle me-2"></i>
+                            //input[@type='text']
+                        </div>
+                        <div class="quiz-option" onclick="selectOption(this, false)">
+                            <i class="fas fa-circle me-2"></i>
+                            //input[type='text']
+                        </div>
+                        <div class="quiz-option" onclick="selectOption(this, false)">
+                            <i class="fas fa-circle me-2"></i>
+                            input[@type='text']
+                        </div>
+                    </div>
+
+                    <div class="quiz-question" id="question-2" style="display: none;">
+                        <h4><i class="fas fa-question-circle text-primary me-2"></i>Question 2: TestNG Annotations</h4>
+                        <p>Which annotation runs before each test method?</p>
+                        
+                        <div class="quiz-option" onclick="selectOption(this, false)">
+                            <i class="fas fa-circle me-2"></i>
+                            @BeforeClass
+                        </div>
+                        <div class="quiz-option" onclick="selectOption(this, true)">
+                            <i class="fas fa-circle me-2"></i>
+                            @BeforeMethod
+                        </div>
+                        <div class="quiz-option" onclick="selectOption(this, false)">
+                            <i class="fas fa-circle me-2"></i>
+                            @BeforeTest
+                        </div>
+                        <div class="quiz-option" onclick="selectOption(this, false)">
+                            <i class="fas fa-circle me-2"></i>
+                            @BeforeSuite
+                        </div>
+                    </div>
+
+                    <div class="quiz-question" id="question-3" style="display: none;">
+                        <h4><i class="fas fa-question-circle text-primary me-2"></i>Question 3: XPath Functions</h4>
+                        <p>Which XPath function is used to get elements containing specific text?</p>
+                        
+                        <div class="quiz-option" onclick="selectOption(this, false)">
+                            <i class="fas fa-circle me-2"></i>
+                            text()
+                        </div>
+                        <div class="quiz-option" onclick="selectOption(this, true)">
+                            <i class="fas fa-circle me-2"></i>
+                            contains()
+                        </div>
+                        <div class="quiz-option" onclick="selectOption(this, false)">
+                            <i class="fas fa-circle me-2"></i>
+                            starts-with()
+                        </div>
+                        <div class="quiz-option" onclick="selectOption(this, false)">
+                            <i class="fas fa-circle me-2"></i>
+                            normalize-space()
+                        </div>
+                    </div>
+
+                    <div class="quiz-question" id="question-4" style="display: none;">
+                        <h4><i class="fas fa-question-circle text-primary me-2"></i>Question 4: TestNG Attributes</h4>
+                        <p>Which attribute sets the execution priority of test methods?</p>
+                        
+                        <div class="quiz-option" onclick="selectOption(this, false)">
+                            <i class="fas fa-circle me-2"></i>
+                            order
+                        </div>
+                        <div class="quiz-option" onclick="selectOption(this, true)">
+                            <i class="fas fa-circle me-2"></i>
+                            priority
+                        </div>
+                        <div class="quiz-option" onclick="selectOption(this, false)">
+                            <i class="fas fa-circle me-2"></i>
+                            sequence
+                        </div>
+                        <div class="quiz-option" onclick="selectOption(this, false)">
+                            <i class="fas fa-circle me-2"></i>
+                            index
+                        </div>
+                    </div>
+
+                    <div class="quiz-question" id="question-5" style="display: none;">
+                        <h4><i class="fas fa-question-circle text-primary me-2"></i>Question 5: Advanced XPath</h4>
+                        <p>How do you select the second div element using XPath?</p>
+                        
+                        <div class="quiz-option" onclick="selectOption(this, false)">
+                            <i class="fas fa-circle me-2"></i>
+                            //div[@position=2]
+                        </div>
+                        <div class="quiz-option" onclick="selectOption
