@@ -7,7 +7,6 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
-    <link rel="icon" href="https://blogger.googleusercontent.com/img/a/AVvXsEgIFnXbCEgaASrlgiFnXz6MPaK-kyelPH7eTOt9s0-nWtY5YSMAIG5mN4k7dnxX6M-C0AmbO3U9jikPwhBdpp7G9848hK_1c7kXLbqxamlfCbhe_l-kEb8pe5V6mEH3fiIokyxkIyavBLAMlAzSApPTbcYA1r-P9YDwpu9GBIsL1SV4zGLvMwFulKOECQ4" type="image/x-icon">
     <style>
         :root {
             --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -298,12 +297,10 @@
     </style>
 </head>
 <body>
-    <!-- Progress Indicator -->
     <div class="progress-indicator">
         <div class="progress-bar-custom" id="progressBar"></div>
     </div>
 
-    <!-- Floating Navigation -->
     <div class="floating-nav d-none d-lg-block">
         <div class="d-flex flex-column">
             <a href="#hero" class="btn btn-sm btn-outline-primary mb-2" title="Home"><i class="fas fa-home"></i></a>
@@ -314,7 +311,6 @@
         </div>
     </div>
 
-    <!-- Hero Section -->
     <section id="hero" class="hero-section">
         <div class="container">
             <div class="row align-items-center">
@@ -341,12 +337,10 @@
         </div>
     </section>
 
-    <!-- XPath Section -->
     <section id="xpath-section" class="py-5" style="background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);">
         <div class="container">
             <h2 class="section-title">XPath Techniques & Strategies</h2>
             
-            <!-- XPath Navigation -->
             <ul class="nav nav-pills justify-content-center mb-4" id="xpathTabs">
                 <li class="nav-item">
                     <a class="nav-link active" data-bs-toggle="pill" href="#xpath-basics">Basics</a>
@@ -363,7 +357,6 @@
             </ul>
 
             <div class="tab-content">
-                <!-- XPath Basics -->
                 <div class="tab-pane fade show active" id="xpath-basics">
                     <div class="row">
                         <div class="col-lg-6 mb-4">
@@ -374,15 +367,12 @@
                                         <span>Absolute vs Relative XPath</span>
                                         <button class="copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i></button>
                                     </div>
-                                    <pre><code class="language-xml"><!-- Absolute XPath (Not Recommended) -->
-/html/body/div[1]/form/input[1]
+                                    <pre><code class="language-xml">/html/body/div[1]/form/input[1]
 
-<!-- Relative XPath (Recommended) -->
 //input[@id='username']
 //div[@class='login-form']//input
 //*[@name='email']
 
-<!-- Using Index -->
 //div[1]          // First div
 //div[last()]     // Last div
 //div[position()&lt;3] // First two divs</code></pre>
@@ -397,16 +387,13 @@
                                         <span>Common Attribute Selectors</span>
                                         <button class="copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i></button>
                                     </div>
-                                    <pre><code class="language-xml"><!-- Single Attribute -->
-//input[@id='email']
+                                    <pre><code class="language-xml">//input[@id='email']
 //button[@type='submit']
 //div[@class='container']
 
-<!-- Multiple Attributes -->
 //input[@type='text' and @name='username']
 //button[@class='btn' and @id='submit-btn']
 
-<!-- Partial Attribute Match -->
 //div[contains(@class,'form')]
 //input[starts-with(@id,'user')]
 //span[ends-with(@class,'error')]</code></pre>
@@ -424,16 +411,13 @@
                                         <span>Navigating DOM Tree</span>
                                         <button class="copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i></button>
                                     </div>
-                                    <pre><code class="language-xml"><!-- Parent/Child Navigation -->
-//div[@id='parent']//child::input
+                                    <pre><code class="language-xml">//div[@id='parent']//child::input
 //input[@id='username']/parent::div
 //div[@class='form-group']/child::label
 
-<!-- Sibling Navigation -->
 //label[@for='email']/following-sibling::input
 //input[@id='password']/preceding-sibling::label
 
-<!-- Ancestor/Descendant -->
 //input[@id='email']/ancestor::form
 //form[@id='loginForm']/descendant::input</code></pre>
                                 </div>
@@ -442,7 +426,6 @@
                     </div>
                 </div>
 
-                <!-- XPath Advanced -->
                 <div class="tab-pane fade" id="xpath-advanced">
                     <div class="row">
                         <div class="col-lg-6 mb-4">
@@ -479,22 +462,17 @@ driver.findElement(By.xpath("//a[contains(text(),'Click here')]"));</code></pre>
                                         <span>Complex Filtering</span>
                                         <button class="copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i></button>
                                     </div>
-                                    <pre><code class="language-xml"><!-- Position-based -->
-//tr[position()>1]           // Skip header row
+                                    <pre><code class="language-xml">//tr[position()>1]           // Skip header row
 //div[position() mod 2 = 0]  // Even positioned divs
 
-<!-- Text-based filtering -->
 //td[text()='Active']
 //span[normalize-space(text())='Success']
 
-<!-- Attribute value comparison -->
 //input[@tabindex > 0]
 //div[@data-priority >= 5]
 
-<!-- Complex conditions -->
 //div[@class='item' and position()>1 and @data-status='active']
 
-<!-- Not operator -->
 //input[not(@disabled)]
 //div[not(contains(@class,'hidden'))]</code></pre>
                                 </div>
@@ -537,7 +515,6 @@ driver.findElement(By.xpath("//a[contains(text(),'Click here')]"));</code></pre>
                     </div>
                 </div>
 
-                <!-- XPath Functions -->
                 <div class="tab-pane fade" id="xpath-functions">
                     <div class="row">
                         <div class="col-lg-4 mb-4">
@@ -597,7 +574,6 @@ or
                     </div>
                 </div>
 
-                <!-- Interactive Demo -->
                 <div class="tab-pane fade" id="xpath-demo">
                     <div class="floating-card">
                         <h4><i class="fas fa-play-circle text-success me-2"></i>Interactive XPath Tester</h4>
@@ -649,7 +625,6 @@ or
         </div>
     </section>
 
-    <!-- TestNG Section -->
     <section id="testng-section" class="py-5" style="background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%);">
         <div class="container">
             <h2 class="section-title">TestNG Annotations & Configuration</h2>
@@ -670,7 +645,6 @@ or
             </ul>
 
             <div class="tab-content">
-                <!-- TestNG Annotations -->
                 <div class="tab-pane fade show active" id="testng-annotations">
                     <div class="row">
                         <div class="col-lg-6 mb-4">
@@ -794,7 +768,6 @@ public class TestClass {
                     </div>
                 </div>
 
-                <!-- TestNG Attributes -->
                 <div class="tab-pane fade" id="testng-attributes">
                     <div class="row">
                         <div class="col-lg-4 mb-4">
@@ -904,7 +877,6 @@ public class TestClass {
                     </div>
                 </div>
 
-                <!-- TestNG Examples -->
                 <div class="tab-pane fade" id="testng-examples">
                     <div class="row">
                         <div class="col-12 mb-4">
@@ -1138,7 +1110,6 @@ public class LoginPage {
                     </div>
                 </div>
 
-                <!-- TestNG XML -->
                 <div class="tab-pane fade" id="testng-xml">
                     <div class="row">
                         <div class="col-12 mb-4">
@@ -1296,7 +1267,6 @@ mvn test -Dtest=LoginTest#testValidLogin</code></pre>
         </div>
     </section>
 
-    <!-- Quiz Section -->
     <section id="quiz-section" class="py-5" style="background: linear-gradient(135deg, #f3e5f5 0%, #e1bee7 100%);">
         <div class="container">
             <h2 class="section-title">Test Your Knowledge</h2>
@@ -1307,6 +1277,98 @@ mvn test -Dtest=LoginTest#testValidLogin</code></pre>
                         <h4><i class="fas fa-question-circle text-primary me-2"></i>Question 1: XPath Basics</h4>
                         <p>Which XPath expression correctly selects all input elements with type "text"?</p>
                         
+                        <div class="quiz-option" onclick="selectOption(this, false)">
+                            <i class="fas fa-circle me-2"></i>
+                            /html/body/input[@type="text"]
+                        </div>
+                        <div class="quiz-option" onclick="selectOption(this, true)">
+                            <i class="fas fa-circle me-2"></i>
+                            //input[@type='text']
+                        </div>
+                        <div class="quiz-option" onclick="selectOption(this, false)">
+                            <i class="fas fa-circle me-2"></i>
+                            //input[type='text']
+                        </div>
+                        <div class="quiz-option" onclick="selectOption(this, false)">
+                            <i class="fas fa-circle me-2"></i>
+                            input[@type='text']
+                        </div>
+                    </div>
+
+                    <div class="quiz-question" id="question-2" style="display: none;">
+                        <h4><i class="fas fa-question-circle text-primary me-2"></i>Question 2: TestNG Annotations</h4>
+                        <p>Which annotation runs before each test method?</p>
+                        
+                        <div class="quiz-option" onclick="selectOption(this, false)">
+                            <i class="fas fa-circle me-2"></i>
+                            @BeforeClass
+                        </div>
+                        <div class="quiz-option" onclick="selectOption(this, true)">
+                            <i class="fas fa-circle me-2"></i>
+                            @BeforeMethod
+                        </div>
+                        <div class="quiz-option" onclick="selectOption(this, false)">
+                            <i class="fas fa-circle me-2"></i>
+                            @BeforeTest
+                        </div>
+                        <div class="quiz-option" onclick="selectOption(this, false)">
+                            <i class="fas fa-circle me-2"></i>
+                            @BeforeSuite
+                        </div>
+                    </div>
+
+                    <div class="quiz-question" id="question-3" style="display: none;">
+                        <h4><i class="fas fa-question-circle text-primary me-2"></i>Question 3: XPath Functions</h4>
+                        <p>Which XPath function is used to get elements containing specific text?</p>
+                        
+                        <div class="quiz-option" onclick="selectOption(this, false)">
+                            <i class="fas fa-circle me-2"></i>
+                            text()
+                        </div>
+                        <div class="quiz-option" onclick="selectOption(this, true)">
+                            <i class="fas fa-circle me-2"></i>
+                            contains()
+                        </div>
+                        <div class="quiz-option" onclick="selectOption(this, false)">
+                            <i class="fas fa-circle me-2"></i>
+                            starts-with()
+                        </div>
+                        <div class="quiz-option" onclick="selectOption(this, false)">
+                            <i class="fas fa-circle me-2"></i>
+                            normalize-space()
+                        </div>
+                    </div>
+
+                    <div class="quiz-question" id="question-4" style="display: none;">
+                        <h4><i class="fas fa-question-circle text-primary me-2"></i>Question 4: TestNG Attributes</h4>
+                        <p>Which attribute sets the execution priority of test methods?</p>
+                        
+                        <div class="quiz-option" onclick="selectOption(this, false)">
+                            <i class="fas fa-circle me-2"></i>
+                            order
+                        </div>
+                        <div class="quiz-option" onclick="selectOption(this, true)">
+                            <i class="fas fa-circle me-2"></i>
+                            priority
+                        </div>
+                        <div class="quiz-option" onclick="selectOption(this, false)">
+                            <i class="fas fa-circle me-2"></i>
+                            sequence
+                        </div>
+                        <div class="quiz-option" onclick="selectOption(this, false)">
+                            <i class="fas fa-circle me-2"></i>
+                            index
+                        </div>
+                    </div>
+
+                    <div class="quiz-question" id="question-5" style="display: none;">
+                        <h4><i class="fas fa-question-circle text-primary me-2"></i>Question 5: Advanced XPath</h4>
+                        <p>How do you select the second div element using XPath?</p>
+                        
+                        <div class="quiz-option" onclick="selectOption(this, false)">
+                            <i class="fas fa-circle me-2"></i>
+                            //div[@position=2]
+                        </div>
                         <div class="quiz-option" onclick="selectOption(this, true)">
                             <i class="fas fa-circle me-2"></i>
                             //div[2]
@@ -1354,7 +1416,6 @@ mvn test -Dtest=LoginTest#testValidLogin</code></pre>
         </div>
     </section>
 
-    <!-- Features Section -->
     <section class="py-5" style="background: linear-gradient(135deg, #e8f5e8 0%, #c8e6c9 100%);">
         <div class="container">
             <h2 class="section-title">Key Features</h2>
@@ -1400,7 +1461,6 @@ mvn test -Dtest=LoginTest#testValidLogin</code></pre>
         </div>
     </section>
 
-    <!-- Footer -->
     <footer class="py-4" style="background: var(--dark-bg); color: white;">
         <div class="container text-center">
             <p>&copy; 2024 TestNG & XPath Learning Hub. Built with ❤️ for Selenium automation enthusiasts.</p>
@@ -1413,7 +1473,6 @@ mvn test -Dtest=LoginTest#testValidLogin</code></pre>
         </div>
     </footer>
 
-    <!-- Scripts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
@@ -1825,96 +1884,4 @@ TESTNG XML:
         }
     </style>
 </body>
-</html>(this, false)">
-                            <i class="fas fa-circle me-2"></i>
-                            /html/body/input[@type="text"]
-                        </div>
-                        <div class="quiz-option" onclick="selectOption(this, true)">
-                            <i class="fas fa-circle me-2"></i>
-                            //input[@type='text']
-                        </div>
-                        <div class="quiz-option" onclick="selectOption(this, false)">
-                            <i class="fas fa-circle me-2"></i>
-                            //input[type='text']
-                        </div>
-                        <div class="quiz-option" onclick="selectOption(this, false)">
-                            <i class="fas fa-circle me-2"></i>
-                            input[@type='text']
-                        </div>
-                    </div>
-
-                    <div class="quiz-question" id="question-2" style="display: none;">
-                        <h4><i class="fas fa-question-circle text-primary me-2"></i>Question 2: TestNG Annotations</h4>
-                        <p>Which annotation runs before each test method?</p>
-                        
-                        <div class="quiz-option" onclick="selectOption(this, false)">
-                            <i class="fas fa-circle me-2"></i>
-                            @BeforeClass
-                        </div>
-                        <div class="quiz-option" onclick="selectOption(this, true)">
-                            <i class="fas fa-circle me-2"></i>
-                            @BeforeMethod
-                        </div>
-                        <div class="quiz-option" onclick="selectOption(this, false)">
-                            <i class="fas fa-circle me-2"></i>
-                            @BeforeTest
-                        </div>
-                        <div class="quiz-option" onclick="selectOption(this, false)">
-                            <i class="fas fa-circle me-2"></i>
-                            @BeforeSuite
-                        </div>
-                    </div>
-
-                    <div class="quiz-question" id="question-3" style="display: none;">
-                        <h4><i class="fas fa-question-circle text-primary me-2"></i>Question 3: XPath Functions</h4>
-                        <p>Which XPath function is used to get elements containing specific text?</p>
-                        
-                        <div class="quiz-option" onclick="selectOption(this, false)">
-                            <i class="fas fa-circle me-2"></i>
-                            text()
-                        </div>
-                        <div class="quiz-option" onclick="selectOption(this, true)">
-                            <i class="fas fa-circle me-2"></i>
-                            contains()
-                        </div>
-                        <div class="quiz-option" onclick="selectOption(this, false)">
-                            <i class="fas fa-circle me-2"></i>
-                            starts-with()
-                        </div>
-                        <div class="quiz-option" onclick="selectOption(this, false)">
-                            <i class="fas fa-circle me-2"></i>
-                            normalize-space()
-                        </div>
-                    </div>
-
-                    <div class="quiz-question" id="question-4" style="display: none;">
-                        <h4><i class="fas fa-question-circle text-primary me-2"></i>Question 4: TestNG Attributes</h4>
-                        <p>Which attribute sets the execution priority of test methods?</p>
-                        
-                        <div class="quiz-option" onclick="selectOption(this, false)">
-                            <i class="fas fa-circle me-2"></i>
-                            order
-                        </div>
-                        <div class="quiz-option" onclick="selectOption(this, true)">
-                            <i class="fas fa-circle me-2"></i>
-                            priority
-                        </div>
-                        <div class="quiz-option" onclick="selectOption(this, false)">
-                            <i class="fas fa-circle me-2"></i>
-                            sequence
-                        </div>
-                        <div class="quiz-option" onclick="selectOption(this, false)">
-                            <i class="fas fa-circle me-2"></i>
-                            index
-                        </div>
-                    </div>
-
-                    <div class="quiz-question" id="question-5" style="display: none;">
-                        <h4><i class="fas fa-question-circle text-primary me-2"></i>Question 5: Advanced XPath</h4>
-                        <p>How do you select the second div element using XPath?</p>
-                        
-                        <div class="quiz-option" onclick="selectOption(this, false)">
-                            <i class="fas fa-circle me-2"></i>
-                            //div[@position=2]
-                        </div>
-                        <div class="quiz-option" onclick="selectOption
+</html>
