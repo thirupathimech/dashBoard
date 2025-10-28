@@ -10,11 +10,22 @@
     <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <!-- AOS Animation -->
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- GSAP -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/TextPlugin.min.js"></script>
+    <!-- Typed.js -->
+    <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
+    <!-- Lottie -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.12.2/lottie.min.js"></script>
+    <!-- Canvas Confetti -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     
     <link rel="icon" href="https://blogger.googleusercontent.com/img/a/AVvXsEgIFnXbCEgaASrlgiFnXz6MPaK-kyelPH7eTOt9s0-nWtY5YSMAIG5mN4k7dnxX6M-C0AmbO3U9jikPwhBdpp7G9848hK_1c7kXLbqxamlfCbhe_l-kEb8pe5V6mEH3fiIokyxkIyavBLAMlAzSApPTbcYA1r-P9YDwpu9GBIsL1SV4zGLvMwFulKOECQ4" type="image/x-icon">
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="data:application/json;base64,eyJuYW1lIjoiVGhpcnVwYXRoaSBHIFBvcnRmb2xpbyIsInNob3J0X25hbWUiOiJUaGlydXBhdGhpIiwiZGlzcGxheSI6InN0YW5kYWxvbmUiLCJiYWNrZ3JvdW5kX2NvbG9yIjoiIzBmMTcyYSIsInRoZW1lX2NvbG9yIjoiIzI1NjNiZSIsIm9yaWVudGF0aW9uIjoicG9ydHJhaXQiLCJpY29ucyI6W3sic3JjIjoiaHR0cHM6Ly9ibG9nZ2VyLmdvb2dsZXVzZXJjb250ZW50LmNvbS9pbWcvYS9BVnZYc0VnSWZuWGJDRWdhQVNybGdpRm5YejZNYXBLLWt5ZWxQSDdlVE9sOXNzMC1uV3RZNVlTTUFJRzVtTjRrN2RueFg2TS1DMCBBbWJPM1U5amlrUHdoQmRwcDdHOTg0OGhLXzFjN2tYTGJxeGFtbGZDYmhlX2wta2ViOHBlNVY2bUVIM2ZpSW9reXhLaXlhdkJMQU1sQXpTQXBQVGJjWUFxci1QOVlEd3B1OUdCSXNMMVNWNHpHTHZNd0Z1bEtPRUNRNCIsInNpemVzIjoiMTkyeDE5MiIsInR5cGUiOiJpbWFnZS9wbmcifV19">
     
     <style>
         :root {
@@ -29,35 +40,35 @@
         }
 
         [data-theme="dark"] {
-            --bg-primary: #0f172a;
-            --bg-secondary: #1e293b;
-            --bg-card: rgba(30, 41, 59, 0.8);
-            --text-primary: #f1f5f9;
-            --text-secondary: #cbd5e1;
-            --text-muted: #94a3b8;
-            --border-color: rgba(148, 163, 184, 0.2);
-            --shadow-color: rgba(0, 0, 0, 0.4);
-            --glass-bg: rgba(30, 41, 59, 0.6);
-            --nav-bg: rgba(15, 23, 42, 0.9);
+            --bg-primary: #000000;
+            --bg-secondary: #0a0a0a;
+            --bg-card: rgba(20, 20, 20, 0.8);
+            --text-primary: #ffffff;
+            --text-secondary: #e0e0e0;
+            --text-muted: #a0a0a0;
+            --border-color: rgba(255, 255, 255, 0.1);
+            --shadow-color: rgba(0, 0, 0, 0.6);
+            --glass-bg: rgba(20, 20, 20, 0.6);
+            --nav-bg: rgba(0, 0, 0, 0.9);
             --gradient-1: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%);
             --gradient-2: linear-gradient(135deg, #7c3aed 0%, #06b6d4 100%);
             --gradient-3: linear-gradient(135deg, #06b6d4 0%, #10b981 100%);
         }
 
         [data-theme="light"] {
-            --bg-primary: #ffffff;
-            --bg-secondary: #f8fafc;
+            --bg-primary: #f0fff4;
+            --bg-secondary: #e6ffed;
             --bg-card: rgba(255, 255, 255, 0.9);
-            --text-primary: #1e293b;
-            --text-secondary: #475569;
-            --text-muted: #64748b;
-            --border-color: rgba(100, 116, 139, 0.2);
-            --shadow-color: rgba(0, 0, 0, 0.1);
-            --glass-bg: rgba(255, 255, 255, 0.7);
-            --nav-bg: rgba(255, 255, 255, 0.95);
-            --gradient-1: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%);
-            --gradient-2: linear-gradient(135deg, #7c3aed 0%, #06b6d4 100%);
-            --gradient-3: linear-gradient(135deg, #06b6d4 0%, #10b981 100%);
+            --text-primary: #1a1a1a;
+            --text-secondary: #2d2d2d;
+            --text-muted: #5a5a5a;
+            --border-color: rgba(0, 100, 0, 0.2);
+            --shadow-color: rgba(0, 100, 0, 0.1);
+            --glass-bg: rgba(240, 255, 240, 0.7);
+            --nav-bg: rgba(240, 255, 240, 0.95);
+            --gradient-1: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+            --gradient-2: linear-gradient(135deg, #16a34a 0%, #15803d 100%);
+            --gradient-3: linear-gradient(135deg, #15803d 0%, #166534 100%);
         }
 
         * {
@@ -158,6 +169,7 @@
             z-index: 9999;
             transition: all 0.1s ease;
             transform: translate(-50%, -50%);
+            mix-blend-mode: difference;
         }
 
         .cursor-follower {
@@ -331,7 +343,7 @@
 
         /* Projects Section */
         .projects-section {
-            padding: 6rem 0 4rem;
+            padding: 8rem 0 4rem;
         }
 
         .section-title {
@@ -563,6 +575,160 @@
             color: white;
         }
 
+        /* Music Toggle */
+        .music-toggle {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-primary);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .music-toggle:hover {
+            background: var(--gradient-1);
+            color: white;
+            transform: scale(1.1);
+        }
+
+        .music-toggle i {
+            font-size: 1.5rem;
+        }
+
+        .music-toggle.playing i {
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+
+        /* Clock Widget */
+        .clock-widget {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 1rem 1.5rem;
+            color: var(--text-primary);
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 600;
+            z-index: 1000;
+        }
+
+        .clock-time {
+            font-size: 1.5rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .clock-date {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        /* Easter Egg */
+        .easter-egg {
+            position: fixed;
+            bottom: 100px;
+            right: 30px;
+            width: 40px;
+            height: 40px;
+            opacity: 0.3;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 999;
+        }
+
+        .easter-egg:hover {
+            opacity: 1;
+            transform: scale(1.2);
+        }
+
+        .easter-egg-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .easter-egg-modal.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .easter-egg-content {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 2rem;
+            max-width: 500px;
+            text-align: center;
+            transform: scale(0.8);
+            transition: transform 0.3s ease;
+        }
+
+        .easter-egg-modal.active .easter-egg-content {
+            transform: scale(1);
+        }
+
+        .easter-egg-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .easter-egg-message {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            line-height: 1.7;
+        }
+
+        .easter-egg-close {
+            background: var(--gradient-1);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 0.8rem 2rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .easter-egg-close:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(37, 99, 235, 0.4);
+        }
+
         /* Loading Animation */
         .loader {
             position: fixed;
@@ -583,18 +749,128 @@
             pointer-events: none;
         }
 
+        .loader-container {
+            position: relative;
+            width: 150px;
+            height: 150px;
+        }
+
+        .loader-logo {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 60px;
+            height: 60px;
+            background: var(--gradient-1);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 1.5rem;
+            z-index: 2;
+        }
+
         .loader-circle {
-            width: 50px;
-            height: 50px;
-            border: 3px solid var(--border-color);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 3px solid transparent;
             border-top: 3px solid var(--primary-color);
             border-radius: 50%;
-            animation: spin 1s linear infinite;
+            animation: spin 1.5s linear infinite;
+        }
+
+        .loader-circle:nth-child(2) {
+            width: 80%;
+            height: 80%;
+            top: 10%;
+            left: 10%;
+            border-top: 3px solid var(--secondary-color);
+            animation-duration: 1.2s;
+            animation-direction: reverse;
+        }
+
+        .loader-circle:nth-child(3) {
+            width: 60%;
+            height: 60%;
+            top: 20%;
+            left: 20%;
+            border-top: 3px solid var(--accent-color);
+            animation-duration: 0.9s;
         }
 
         @keyframes spin {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
+        }
+
+        /* Offline Page */
+        .offline-page {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--bg-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10001;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .offline-page.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .offline-content {
+            text-align: center;
+            max-width: 500px;
+            padding: 2rem;
+        }
+
+        .offline-icon {
+            font-size: 5rem;
+            margin-bottom: 1.5rem;
+            color: var(--warning-color);
+        }
+
+        .offline-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        .offline-message {
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            line-height: 1.7;
+        }
+
+        .offline-btn {
+            background: var(--gradient-1);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 0.8rem 2rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .offline-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(37, 99, 235, 0.4);
         }
 
         /* Responsive Design */
@@ -610,7 +886,7 @@
 
         @media (max-width: 768px) {
             .projects-section {
-                padding: 4rem 0 2rem;
+                padding: 6rem 0 2rem;
             }
             
             .navbar-brand {
@@ -628,6 +904,16 @@
             
             .project-card {
                 margin-bottom: 2rem;
+            }
+
+            .clock-widget {
+                bottom: 100px;
+                left: 20px;
+            }
+
+            .music-toggle {
+                bottom: 100px;
+                right: 20px;
             }
         }
 
@@ -679,7 +965,22 @@
 <body data-theme="dark">
     <!-- Loading Screen -->
     <div class="loader" id="loader">
-        <div class="loader-circle"></div>
+        <div class="loader-container">
+            <div class="loader-logo">TG</div>
+            <div class="loader-circle"></div>
+            <div class="loader-circle"></div>
+            <div class="loader-circle"></div>
+        </div>
+    </div>
+
+    <!-- Offline Page -->
+    <div class="offline-page" id="offlinePage">
+        <div class="offline-content">
+            <i class="bi bi-wifi-off offline-icon"></i>
+            <h2 class="offline-title">You're Offline</h2>
+            <p class="offline-message">It looks like you've lost your internet connection. Please check your connection and try again.</p>
+            <button class="offline-btn" id="retryBtn">Try Again</button>
+        </div>
     </div>
 
     <!-- Custom Cursor -->
@@ -733,9 +1034,9 @@
     </nav>
 
     <!-- Projects Section -->
-    <section class="projects-section">
+    <section class="projects-section" id="projects">
         <div class="container">
-            <h2 class="section-title" data-aos="fade-up">My Projects</h2>
+            <h2 class="section-title">My Projects</h2>
             <div class="row g-4" id="projectsContainer">
                 <!-- Project Cards will be dynamically inserted here -->
             </div>
@@ -764,10 +1065,44 @@
         </div>
     </footer>
 
+    <!-- Music Toggle -->
+    <div class="music-toggle" id="musicToggle">
+        <i class="bi bi-music-note-beamed"></i>
+    </div>
+
+    <!-- Clock Widget -->
+    <div class="clock-widget">
+        <div class="clock-time" id="clockTime">00:00:00</div>
+        <div class="clock-date" id="clockDate">Loading...</div>
+    </div>
+
+    <!-- Easter Egg -->
+    <div class="easter-egg" id="easterEgg">
+        <i class="bi bi-emoji-smile" style="font-size: 2rem; color: var(--text-muted);"></i>
+    </div>
+
+    <!-- Easter Egg Modal -->
+    <div class="easter-egg-modal" id="easterEggModal">
+        <div class="easter-egg-content">
+            <h2 class="easter-egg-title">You Found Me! 🎉</h2>
+            <p class="easter-egg-message">
+                Congratulations on discovering this hidden gem! As a reward, here's a secret: 
+                I love building creative web experiences that push the boundaries of what's possible.
+                Keep exploring and who knows what other surprises you might find!
+            </p>
+            <button class="easter-egg-close" id="easterEggClose">Close</button>
+        </div>
+    </div>
+
+    <!-- Background Music -->
+    <audio id="backgroundMusic" loop>
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
     <!-- Scripts -->
     <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     
     <script>
         // Projects Data
@@ -919,17 +1254,13 @@
         ];
 
         $(document).ready(function() {
-            // Initialize AOS
-            AOS.init({
-                duration: 1000,
-                once: true,
-                offset: 100
-            });
-
+            // Register GSAP plugins
+            gsap.registerPlugin(ScrollTrigger, TextPlugin);
+            
             // Hide loader after page loads
             setTimeout(() => {
                 $('#loader').addClass('hidden');
-            }, 1000);
+            }, 1500);
 
             // Render projects
             function renderProjects(projectsToRender = projects) {
@@ -938,7 +1269,7 @@
                 
                 projectsToRender.forEach((project, index) => {
                     const card = `
-                        <div class="col-md-6 col-lg-4 project-item" data-aos="fade-up" data-aos-delay="${index * 50}">
+                        <div class="col-md-6 col-lg-4 project-item">
                             <div class="project-card">
                                 <div class="project-icon-wrapper">
                                     <i class="bi ${project.icon} project-icon"></i>
@@ -952,6 +1283,22 @@
                         </div>
                     `;
                     container.append(card);
+                });
+                
+                // Reinitialize GSAP animations for new cards
+                gsap.utils.toArray('.project-card').forEach((card, index) => {
+                    gsap.from(card, {
+                        scrollTrigger: {
+                            trigger: card,
+                            start: 'top 80%',
+                            toggleActions: 'play none none reverse'
+                        },
+                        y: 50,
+                        opacity: 0,
+                        duration: 0.8,
+                        delay: index * 0.1,
+                        ease: 'power2.out'
+                    });
                 });
             }
 
@@ -991,7 +1338,7 @@
             });
 
             // Cursor hover effect
-            $('a, button, .project-card, .theme-toggle').on('mouseenter', () => {
+            $('a, button, .project-card, .theme-toggle, .music-toggle, .easter-egg').on('mouseenter', () => {
                 cursor.addClass('hover');
             }).on('mouseleave', () => {
                 cursor.removeClass('hover');
@@ -1082,6 +1429,122 @@
                 }
                 
                 lastScroll = currentScroll;
+            });
+
+            // Music toggle
+            const musicToggle = $('#musicToggle');
+            const backgroundMusic = $('#backgroundMusic');
+            let musicPlaying = false;
+
+            musicToggle.on('click', () => {
+                musicPlaying = !musicPlaying;
+                if (musicPlaying) {
+                    backgroundMusic[0].play();
+                    musicToggle.addClass('playing');
+                } else {
+                    backgroundMusic[0].pause();
+                    musicToggle.removeClass('playing');
+                }
+            });
+
+            // Clock widget
+            function updateClock() {
+                const now = new Date();
+                const hours = now.getHours().toString().padStart(2, '0');
+                const minutes = now.getMinutes().toString().padStart(2, '0');
+                const seconds = now.getSeconds().toString().padStart(2, '0');
+                
+                $('#clockTime').text(`${hours}:${minutes}:${seconds}`);
+                
+                const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+                $('#clockDate').text(now.toLocaleDateString('en-US', options));
+            }
+
+            updateClock();
+            setInterval(updateClock, 1000);
+
+            // Easter egg
+            const easterEgg = $('#easterEgg');
+            const easterEggModal = $('#easterEggModal');
+            const easterEggClose = $('#easterEggClose');
+
+            easterEgg.on('click', () => {
+                easterEggModal.addClass('active');
+                confetti({
+                    particleCount: 100,
+                    spread: 70,
+                    origin: { y: 0.6 }
+                });
+            });
+
+            easterEggClose.on('click', () => {
+                easterEggModal.removeClass('active');
+            });
+
+            easterEggModal.on('click', (e) => {
+                if (e.target === easterEggModal[0]) {
+                    easterEggModal.removeClass('active');
+                }
+            });
+
+            // Offline detection
+            const offlinePage = $('#offlinePage');
+            const retryBtn = $('#retryBtn');
+
+            function updateOnlineStatus() {
+                if (navigator.onLine) {
+                    offlinePage.removeClass('active');
+                } else {
+                    offlinePage.addClass('active');
+                }
+            }
+
+            window.addEventListener('online', updateOnlineStatus);
+            window.addEventListener('offline', updateOnlineStatus);
+            updateOnlineStatus();
+
+            retryBtn.on('click', () => {
+                window.location.reload();
+            });
+
+            // Register Service Worker for PWA
+            if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.register('data:text/javascript,self.addEventListener("install",e=>{self.skipWaiting()});self.addEventListener("activate",e=>{self.clients.claim()});self.addEventListener("fetch",e=>{e.respondWith(fetch(e.request).catch(()=>caches.match(e.request)))})')
+                    .then(() => console.log('Service Worker registered'))
+                    .catch(err => console.error('Service Worker registration failed:', err));
+            }
+
+            // Add to Home Screen prompt
+            let deferredPrompt;
+            window.addEventListener('beforeinstallprompt', (e) => {
+                e.preventDefault();
+                deferredPrompt = e;
+                
+                // Show install button after a delay
+                setTimeout(() => {
+                    const installBtn = document.createElement('button');
+                    installBtn.innerHTML = '<i class="bi bi-download"></i> Install App';
+                    installBtn.className = 'btn-primary-custom';
+                    installBtn.style.position = 'fixed';
+                    installBtn.style.bottom = '170px';
+                    installBtn.style.right = '30px';
+                    installBtn.style.zIndex = '1000';
+                    
+                    installBtn.addEventListener('click', () => {
+                        deferredPrompt.prompt();
+                        deferredPrompt.userChoice.then((choiceResult) => {
+                            if (choiceResult.outcome === 'accepted') {
+                                console.log('User accepted the A2HS prompt');
+                            } else {
+                                console.log('User dismissed the A2HS prompt');
+                            }
+                            deferredPrompt = null;
+                            document.body.removeChild(installBtn);
+                        });
+                    });
+                    
+                    document.body.appendChild(installBtn);
+                }, 3000);
             });
         });
     </script>
