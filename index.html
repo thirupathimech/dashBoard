@@ -1,14 +1,65 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Thirupathi G | Portfolio</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <title>Thirupathi G | Professional Portfolio</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- AOS Animation -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
     <link rel="icon" href="https://blogger.googleusercontent.com/img/a/AVvXsEgIFnXbCEgaASrlgiFnXz6MPaK-kyelPH7eTOt9s0-nWtY5YSMAIG5mN4k7dnxX6M-C0AmbO3U9jikPwhBdpp7G9848hK_1c7kXLbqxamlfCbhe_l-kEb8pe5V6mEH3fiIokyxkIyavBLAMlAzSApPTbcYA1r-P9YDwpu9GBIsL1SV4zGLvMwFulKOECQ4" type="image/x-icon">
+    
     <style>
+        :root {
+            --primary-color: #2563eb;
+            --secondary-color: #7c3aed;
+            --accent-color: #06b6d4;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --danger-color: #ef4444;
+            --dark-color: #1e293b;
+            --light-color: #f8fafc;
+        }
+
+        [data-theme="dark"] {
+            --bg-primary: #0f172a;
+            --bg-secondary: #1e293b;
+            --bg-card: rgba(30, 41, 59, 0.8);
+            --text-primary: #f1f5f9;
+            --text-secondary: #cbd5e1;
+            --text-muted: #94a3b8;
+            --border-color: rgba(148, 163, 184, 0.2);
+            --shadow-color: rgba(0, 0, 0, 0.4);
+            --glass-bg: rgba(30, 41, 59, 0.6);
+            --nav-bg: rgba(15, 23, 42, 0.9);
+            --gradient-1: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%);
+            --gradient-2: linear-gradient(135deg, #7c3aed 0%, #06b6d4 100%);
+            --gradient-3: linear-gradient(135deg, #06b6d4 0%, #10b981 100%);
+        }
+
+        [data-theme="light"] {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8fafc;
+            --bg-card: rgba(255, 255, 255, 0.9);
+            --text-primary: #1e293b;
+            --text-secondary: #475569;
+            --text-muted: #64748b;
+            --border-color: rgba(100, 116, 139, 0.2);
+            --shadow-color: rgba(0, 0, 0, 0.1);
+            --glass-bg: rgba(255, 255, 255, 0.7);
+            --nav-bg: rgba(255, 255, 255, 0.95);
+            --gradient-1: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%);
+            --gradient-2: linear-gradient(135deg, #7c3aed 0%, #06b6d4 100%);
+            --gradient-3: linear-gradient(135deg, #06b6d4 0%, #10b981 100%);
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -16,360 +67,49 @@
         }
 
         body {
-            background:
-                radial-gradient(circle at 20% 80%, rgba(16, 185, 129, 0.3) 0%, transparent 50%),
-                radial-gradient(circle at 80% 20%, rgba(59, 130, 246, 0.3) 0%, transparent 50%),
-                radial-gradient(circle at 40% 40%, rgba(168, 85, 247, 0.2) 0%, transparent 50%),
-                linear-gradient(135deg, #0f0f0f 0%, #1a1a2e 50%, #16213e 100%);
             font-family: 'Inter', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
             min-height: 100vh;
-            display: flex;
-            flex-direction: column;
             overflow-x: hidden;
-        }
-
-        .glass {
-            background: rgba(255, 255, 255, 0.08);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            box-shadow:
-                0 8px 32px rgba(0, 0, 0, 0.3),
-                inset 0 1px 0 rgba(255, 255, 255, 0.1);
-            border-radius: 1.5rem;
-            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            transition: all 0.3s ease;
             position: relative;
-            overflow: hidden;
         }
 
-        .glass::before {
-            content: '';
-            position: absolute;
+        /* Animated Background */
+        .animated-bg {
+            position: fixed;
             top: 0;
-            left: -100%;
+            left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg,
-                    transparent,
-                    rgba(255, 255, 255, 0.1),
-                    transparent);
-            transition: left 0.6s;
+            z-index: -2;
+            background: var(--bg-primary);
+            transition: all 0.5s ease;
         }
 
-        .glass:hover::before {
-            left: 100%;
-        }
-
-        .glass:hover {
-            transform: translateY(-10px) rotateX(5deg);
-            box-shadow:
-                0 20px 60px rgba(0, 0, 0, 0.4),
-                0 0 30px rgba(16, 185, 129, 0.3),
-                inset 0 1px 0 rgba(255, 255, 255, 0.2);
-            border-color: rgba(16, 185, 129, 0.4);
-        }
-
-        .navbar {
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            backdrop-filter: blur(25px);
-            background: rgba(0, 0, 0, 0.3);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .navbar-brand {
-            background: linear-gradient(135deg, #10b981, #3b82f6, #a855f7);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            font-weight: 800;
-            font-size: 1.8rem;
-            text-shadow: 0 0 20px rgba(16, 185, 129, 0.5);
-            position: relative;
-        }
-
-        .navbar-brand::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: linear-gradient(90deg, #10b981, #3b82f6);
-            transition: width 0.3s;
-        }
-
-        .navbar-brand:hover::after {
-            width: 100%;
-        }
-
-        .nav-link {
-            position: relative;
-            padding: 0.5rem 1rem;
-            border-radius: 0.5rem;
-            transition: all 0.3s;
-        }
-
-        .nav-link::before {
+        .animated-bg::before {
             content: '';
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(59, 130, 246, 0.1));
-            border-radius: 0.5rem;
-            opacity: 0;
-            transition: opacity 0.3s;
-            z-index: -1;
-        }
-
-        .nav-link:hover::before {
-            opacity: 1;
-        }
-
-        .nav-link:hover {
-            color: #10b981 !important;
-            text-shadow: 0 0 10px rgba(16, 185, 129, 0.5);
-        }
-
-        .animated-button {
-            background: linear-gradient(135deg, #10b981, #059669, #3b82f6);
-            background-size: 200% 200%;
-            animation: gradientShift 3s ease infinite;
-            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-            border: none;
-            position: relative;
-            overflow: hidden;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            box-shadow:
-                0 4px 15px rgba(16, 185, 129, 0.3),
-                inset 0 1px 0 rgba(255, 255, 255, 0.2);
-        }
-
-        .animated-button::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg,
-                    transparent,
-                    rgba(255, 255, 255, 0.3),
-                    transparent);
-            transition: left 0.5s;
-        }
-
-        .animated-button:hover::before {
-            left: 100%;
-        }
-
-        .animated-button:hover {
-            transform: scale(1.05) translateY(-2px);
-            box-shadow:
-                0 8px 25px rgba(16, 185, 129, 0.5),
-                0 0 20px rgba(59, 130, 246, 0.3);
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(37, 99, 235, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(124, 58, 237, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(6, 182, 212, 0.1) 0%, transparent 50%);
+            animation: gradientShift 20s ease infinite;
         }
 
         @keyframes gradientShift {
-
-            0%,
-            100% {
-                background-position: 0% 50%;
-            }
-
-            50% {
-                background-position: 100% 50%;
-            }
+            0%, 100% { transform: rotate(0deg) scale(1); opacity: 0.7; }
+            25% { transform: rotate(90deg) scale(1.1); opacity: 0.8; }
+            50% { transform: rotate(180deg) scale(1); opacity: 0.9; }
+            75% { transform: rotate(270deg) scale(0.9); opacity: 0.8; }
         }
 
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translate3d(0, 40px, 0);
-            }
-
-            to {
-                opacity: 1;
-                transform: translate3d(0, 0, 0);
-            }
-        }
-
-        @keyframes floatIn {
-            0% {
-                opacity: 0;
-                transform: translateY(50px) rotateX(20deg);
-            }
-
-            100% {
-                opacity: 1;
-                transform: translateY(0) rotateX(0deg);
-            }
-        }
-
-        .animate-fade-in-up {
-            animation: fadeInUp 0.8s ease-out forwards;
-        }
-
-        .animate-float-in {
-            animation: floatIn 0.6s ease-out forwards;
-        }
-
-        .search-container {
-            position: relative;
-            overflow: hidden;
-        }
-
-        .search-bar {
-            background: rgba(255, 255, 255, 0.1);
-            border: 2px solid rgba(255, 255, 255, 0.2);
-            border-radius: 2rem;
-            padding: 0.75rem 1.5rem;
-            color: white;
-            width: 250px;
-            backdrop-filter: blur(10px);
-            transition: all 0.3s;
-            font-weight: 500;
-        }
-
-        .search-bar::placeholder {
-            color: rgba(255, 255, 255, 0.6);
-            font-weight: 400;
-        }
-
-        .search-bar:focus {
-            outline: none;
-            border-color: #10b981;
-            background: rgba(255, 255, 255, 0.15);
-            box-shadow:
-                0 0 0 3px rgba(16, 185, 129, 0.2),
-                0 5px 15px rgba(16, 185, 129, 0.3);
-            transform: scale(1.02);
-        }
-
-        .card-grid {
-            perspective: 1000px;
-        }
-
-        .project-card {
-            opacity: 0;
-            animation-fill-mode: forwards;
-        }
-
-        .project-card:nth-child(1) {
-            animation-delay: 0.1s;
-        }
-
-        .project-card:nth-child(2) {
-            animation-delay: 0.2s;
-        }
-
-        .project-card:nth-child(3) {
-            animation-delay: 0.3s;
-        }
-
-        .project-card:nth-child(4) {
-            animation-delay: 0.4s;
-        }
-
-        .project-card:nth-child(5) {
-            animation-delay: 0.5s;
-        }
-
-        .project-card:nth-child(6) {
-            animation-delay: 0.6s;
-        }
-
-        .project-card:nth-child(7) {
-            animation-delay: 0.7s;
-        }
-
-        .project-card:nth-child(8) {
-            animation-delay: 0.8s;
-        }
-
-        .project-card:nth-child(9) {
-            animation-delay: 0.9s;
-        }
-
-        .project-card:nth-child(10) {
-            animation-delay: 1.0s;
-        }
-
-        .project-card:nth-child(11) {
-            animation-delay: 1.1s;
-        }
-
-        .project-card:nth-child(12) {
-            animation-delay: 1.2s;
-        }
-
-        .project-card:nth-child(13) {
-            animation-delay: 1.3s;
-        }
-
-        .project-card:nth-child(14) {
-            animation-delay: 1.4s;
-        }
-
-        .project-card:nth-child(15) {
-            animation-delay: 1.5s;
-        }
-
-        .project-card:nth-child(16) {
-            animation-delay: 1.6s;
-        }
-
-        .project-card:nth-child(17) {
-            animation-delay: 1.7s;
-        }
-
-        .project-card:nth-child(18) {
-            animation-delay: 1.8s;
-        }
-
-        .project-card:nth-child(19) {
-            animation-delay: 1.9s;
-        }
-
-        .project-card:nth-child(20) {
-            animation-delay: 2.0s;
-        }
-
-        .project-title {
-            background: linear-gradient(135deg, #ffffff, #e2e8f0);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            font-weight: 700;
-            margin-bottom: 0.75rem;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-        }
-
-        .project-description {
-            color: rgba(255, 255, 255, 0.85);
-            line-height: 1.6;
-            font-weight: 400;
-        }
-
-        footer {
-            background: rgba(0, 0, 0, 0.4);
-            backdrop-filter: blur(20px);
-            margin-top: auto;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .footer-text {
-            background: linear-gradient(135deg, #10b981, #3b82f6);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            font-weight: 600;
-        }
-
+        /* Floating Particles */
         .particles {
             position: fixed;
             top: 0;
@@ -382,391 +122,968 @@
 
         .particle {
             position: absolute;
-            width: 2px;
-            height: 2px;
-            background: rgba(16, 185, 129, 0.6);
+            width: 4px;
+            height: 4px;
+            background: var(--gradient-1);
             border-radius: 50%;
-            animation: float 6s infinite linear;
+            opacity: 0.6;
+            animation: floatUp 20s infinite linear;
         }
 
-        @keyframes float {
+        @keyframes floatUp {
             0% {
-                transform: translateY(100vh) scale(0);
-                opacity: 1;
+                transform: translateY(100vh) translateX(0) scale(0);
+                opacity: 0;
             }
-
+            10% {
+                opacity: 0.6;
+            }
+            90% {
+                opacity: 0.6;
+            }
             100% {
-                transform: translateY(-10px) scale(1);
+                transform: translateY(-100vh) translateX(100px) scale(1.5);
                 opacity: 0;
             }
         }
 
-        ::-webkit-scrollbar {
-            width: 8px;
+        /* Custom Cursor */
+        .cursor {
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--primary-color);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            transition: all 0.1s ease;
+            transform: translate(-50%, -50%);
         }
 
-        ::-webkit-scrollbar-track {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 4px;
+        .cursor-follower {
+            width: 40px;
+            height: 40px;
+            background: rgba(37, 99, 235, 0.1);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9998;
+            transition: all 0.3s ease;
+            transform: translate(-50%, -50%);
         }
 
-        ::-webkit-scrollbar-thumb {
-            background: linear-gradient(135deg, #10b981, #3b82f6);
-            border-radius: 4px;
+        .cursor.hover {
+            width: 40px;
+            height: 40px;
+            background: rgba(37, 99, 235, 0.2);
+            border-color: var(--secondary-color);
         }
 
-        ::-webkit-scrollbar-thumb:hover {
-            background: linear-gradient(135deg, #059669, #2563eb);
+        /* Navigation */
+        .navbar {
+            background: var(--nav-bg);
+            backdrop-filter: blur(20px);
+            box-shadow: 0 10px 30px var(--shadow-color);
+            transition: all 0.3s ease;
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--border-color);
         }
 
-        .highlight {
-            background: rgba(16, 185, 129, 0.3);
-            padding: 2px 4px;
-            border-radius: 3px;
+        .navbar-brand {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+            font-size: 2rem;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            transition: all 0.3s ease;
+            position: relative;
         }
 
-        #noResults {
-            font-size: 1.2rem;
-            color: rgba(255, 255, 255, 0.7);
+        .navbar-brand::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 3px;
+            background: var(--gradient-1);
+            transition: width 0.3s ease;
+        }
+
+        .navbar-brand:hover::after {
+            width: 100%;
+        }
+
+        .nav-link {
+            color: var(--text-primary) !important;
+            font-weight: 500;
+            margin: 0 0.5rem;
+            position: relative;
+            transition: all 0.3s ease;
+            padding: 0.5rem 1rem !important;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .nav-link::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: var(--gradient-1);
+            opacity: 0.1;
+            transition: left 0.3s ease;
+        }
+
+        .nav-link:hover::before {
+            left: 0;
+        }
+
+        .nav-link:hover {
+            color: var(--primary-color) !important;
+            transform: translateY(-2px);
+        }
+
+        /* Theme Toggle */
+        .theme-toggle {
+            background: var(--glass-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 50px;
+            padding: 0.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 60px;
+            height: 30px;
+            position: relative;
+        }
+
+        .theme-toggle-slider {
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            width: 24px;
+            height: 24px;
+            background: var(--gradient-1);
+            border-radius: 50%;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 12px;
+        }
+
+        [data-theme="light"] .theme-toggle-slider {
+            transform: translateX(30px);
+        }
+
+        /* Search Bar */
+        .search-container {
+            position: relative;
+        }
+
+        .search-bar {
+            background: var(--glass-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 50px;
+            padding: 0.7rem 1.2rem 0.7rem 3rem;
+            color: var(--text-primary);
+            width: 280px;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .search-bar:focus {
+            outline: none;
+            background: var(--glass-bg);
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
+            width: 320px;
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            font-size: 1.1rem;
+        }
+
+        .clear-search {
+            position: absolute;
+            right: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            cursor: pointer;
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+
+        .search-bar:focus ~ .clear-search {
+            opacity: 1;
+        }
+
+        /* Projects Section */
+        .projects-section {
+            padding: 6rem 0 4rem;
+        }
+
+        .section-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 3rem;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Project Cards */
+        .project-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 2rem;
+            height: 100%;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .project-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--gradient-1);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            z-index: -1;
+        }
+
+        .project-card::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            opacity: 0;
+            transition: all 0.4s ease;
+            transform: scale(0);
+        }
+
+        .project-card:hover::before {
+            opacity: 0.05;
+        }
+
+        .project-card:hover::after {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .project-card:hover {
+            transform: translateY(-15px) scale(1.02);
+            box-shadow: 0 20px 40px var(--shadow-color);
+            border-color: var(--primary-color);
+        }
+
+        .project-icon-wrapper {
+            width: 80px;
+            height: 80px;
+            background: var(--gradient-1);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .project-icon-wrapper::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .project-card:hover .project-icon-wrapper::before {
+            left: 100%;
+        }
+
+        .project-icon {
+            font-size: 2rem;
+            color: white;
+            z-index: 1;
+        }
+
+        .project-title {
+            font-weight: 700;
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+            transition: all 0.3s ease;
+        }
+
+        .project-card:hover .project-title {
+            transform: translateX(5px);
+        }
+
+        .project-description {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            line-height: 1.7;
+            font-size: 0.95rem;
+        }
+
+        .project-btn {
+            background: var(--gradient-1);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 0.8rem 2rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.85rem;
+        }
+
+        .project-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: var(--gradient-2);
+            transition: left 0.3s ease;
+        }
+
+        .project-btn:hover::before {
+            left: 0;
+        }
+
+        .project-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(37, 99, 235, 0.4);
+        }
+
+        .project-btn span {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* No Results */
+        .no-results {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: var(--text-muted);
+            display: none;
+        }
+
+        .no-results i {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--nav-bg);
+            backdrop-filter: blur(20px);
+            padding: 3rem 0;
+            margin-top: 5rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .footer-content {
+            text-align: center;
+        }
+
+        .footer-text {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+        }
+
+        .footer-text span {
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 700;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .social-link {
+            width: 40px;
+            height: 40px;
+            background: var(--glass-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-primary);
+            transition: all 0.3s ease;
+        }
+
+        .social-link:hover {
+            background: var(--gradient-1);
+            transform: translateY(-5px);
+            color: white;
+        }
+
+        /* Loading Animation */
+        .loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--bg-primary);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+            transition: opacity 0.5s ease;
+        }
+
+        .loader.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .loader-circle {
+            width: 50px;
+            height: 50px;
+            border: 3px solid var(--border-color);
+            border-top: 3px solid var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .search-bar {
+                width: 220px;
+            }
+            
+            .search-bar:focus {
+                width: 240px;
+            }
         }
 
         @media (max-width: 768px) {
-            .container {
-                padding: 1rem;
+            .projects-section {
+                padding: 4rem 0 2rem;
             }
-
-            .search-bar {
-                width: 100%;
-                margin-bottom: 1rem;
-            }
-
+            
             .navbar-brand {
                 font-size: 1.5rem;
             }
-
-            .glass {
-                margin-bottom: 1rem;
+            
+            .search-bar {
+                width: 180px;
+                margin-top: 1rem;
+            }
+            
+            .search-bar:focus {
+                width: 200px;
+            }
+            
+            .project-card {
+                margin-bottom: 2rem;
             }
         }
 
-        @media (max-width: 640px) {
-            .nav-link {
-                padding: 0.25rem 0.5rem;
-                font-size: 0.9rem;
+        @media (max-width: 576px) {
+            .section-title {
+                font-size: 2rem;
             }
+            
+            .project-card {
+                padding: 1.5rem;
+            }
+            
+            .project-icon-wrapper {
+                width: 60px;
+                height: 60px;
+            }
+            
+            .project-icon {
+                font-size: 1.5rem;
+            }
+        }
+
+        /* Scrollbar Styling */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-secondary);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--gradient-1);
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--gradient-2);
+        }
+
+        /* Highlight */
+        .highlight {
+            background: rgba(37, 99, 235, 0.3);
+            padding: 2px 5px;
+            border-radius: 3px;
         }
     </style>
 </head>
+<body data-theme="dark">
+    <!-- Loading Screen -->
+    <div class="loader" id="loader">
+        <div class="loader-circle"></div>
+    </div>
 
-<body>
+    <!-- Custom Cursor -->
+    <div class="cursor"></div>
+    <div class="cursor-follower"></div>
+
+    <!-- Animated Background -->
+    <div class="animated-bg"></div>
+    
     <!-- Floating Particles -->
     <div class="particles" id="particles"></div>
 
-    <!-- Navigation Bar -->
-    <nav class="navbar py-4">
-        <div class="container mx-auto px-4 flex justify-between items-center flex-wrap">
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container">
             <a class="navbar-brand" href="#">Thirupathi G</a>
-            <div class="flex items-center space-x-4 mt-2 sm:mt-0 flex-wrap">
-                <div class="search-container relative">
-                    <input type="text" id="searchInput" class="search-bar" placeholder="🔍 Search projects..." aria-label="Search projects">
-                    <button class="absolute right-3 top-1/2 transform -translate-y-1/2 text-white opacity-60 hover:opacity-100 transition" aria-label="Clear search">✖</button>
-                </div>
-                <a class="nav-link text-white transition" href="index.html">Home</a>
-                <a class="nav-link text-white transition" href="aboutMe.html">About</a>
-                <a class="nav-link text-white transition" href="contactMe.html">Contact</a>
-                <a class="nav-link text-white transition" href="resume.html">Resume</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto align-items-center">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="aboutMe.html">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="contactMe.html">Contact</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="resume.html">Resume</a>
+                    </li>
+                    <li class="nav-item ms-3">
+                        <div class="search-container">
+                            <i class="bi bi-search search-icon"></i>
+                            <input type="text" id="searchInput" class="search-bar" placeholder="Search projects...">
+                            <i class="bi bi-x-circle clear-search" id="clearSearch"></i>
+                        </div>
+                    </li>
+                    <li class="nav-item ms-3">
+                        <div class="theme-toggle" id="themeToggle">
+                            <div class="theme-toggle-slider">
+                                <i class="bi bi-moon-fill" id="themeIcon"></i>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
             </div>
         </div>
     </nav>
 
-    <!-- Content -->
-    <div class="container mx-auto px-4 py-12">
-        <div id="cardContainer" class="card-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-
-            <div class="glass project-card animate-float-in p-8 flex flex-col justify-between h-full">
-                <div>
-                    <h2 class="project-title text-xl">Learn Automation – TestNG & XPath</h2>
-                    <p class="project-description text-sm">🚀 Master Selenium automation with TestNG and XPath locators. Includes tutorials, examples, and interview-focused questions. 🧩🖥️</p>
-                </div>
-                <button class="animated-button text-white font-medium py-3 px-6 rounded-xl mt-6" onclick="window.location.href='learnAutomation.html'">Start Learning</button>
+    <!-- Projects Section -->
+    <section class="projects-section">
+        <div class="container">
+            <h2 class="section-title" data-aos="fade-up">My Projects</h2>
+            <div class="row g-4" id="projectsContainer">
+                <!-- Project Cards will be dynamically inserted here -->
             </div>
 
-
-            <div class="glass project-card animate-float-in p-8 flex flex-col justify-between h-full">
-                <div>
-                    <h2 class="project-title text-xl">MySQL Topics Explorer</h2>
-                    <p class="project-description text-sm">✅ Discover all MySQL concepts with categorized sections, descriptions, and syntax-highlighted example queries. 📚💻</p>
-                </div>
-                <button class="animated-button text-white font-medium py-3 px-6 rounded-xl mt-6" onclick="window.location.href='mySqlExplorer.html'">Explore Now</button>
-            </div>
-            <div class="glass project-card animate-float-in p-8 flex flex-col justify-between h-full">
-                <div>
-                    <h2 class="project-title text-xl">MySQL Table Creator</h2>
-                    <p class="project-description text-sm">💻 A simple web-based tool to generate MySQL CREATE TABLE statements 🛠️ easily without writing SQL by hand ✍️⚡</p>
-                </div>
-                <button class="animated-button text-white font-medium py-3 px-6 rounded-xl mt-6" onclick="window.location.href='mySQLTableCreator.html'">Create Tables</button>
-            </div>
-            <div class="glass project-card animate-float-in p-8 flex flex-col justify-between h-full">
-                <div>
-                    <h2 class="project-title text-xl">JPA & Hibernate Annotations</h2>
-                    <p class="project-description text-sm">💻 A handy web tool to explore and learn JPA & Hibernate annotations with examples 📘 — simplify your database mapping and boost development speed ⚡</p>
-                </div>
-                <button class="animated-button text-white font-medium py-3 px-6 rounded-xl mt-6" onclick="window.location.href='hibernateAnnotations.html'">Learn Annotations</button>
-            </div>
-            <div class="glass project-card animate-float-in p-8 flex flex-col justify-between h-full">
-                <div>
-                    <h2 class="project-title text-xl">Excel Comparison</h2>
-                    <p class="project-description text-sm">🌐 A simple website to compare 🔄 two Excel workbooks 📊 and download ⬇️ only the rows that are different 🧾</p>
-                </div>
-                <button class="animated-button text-white font-medium py-3 px-6 rounded-xl mt-6" onclick="window.location.href='excelComparison.html'">Compare Files</button>
-            </div>
-            <div class="glass project-card animate-float-in p-8 flex flex-col justify-between h-full">
-                <div>
-                    <h2 class="project-title text-xl">XML Formatter</h2>
-                    <p class="project-description text-sm">🧩 A clean and easy-to-use tool for formatting and beautifying your XML data 🔧 for better readability 📖</p>
-                </div>
-                <button class="animated-button text-white font-medium py-3 px-6 rounded-xl mt-6" onclick="window.location.href='xmlFormatter.html'">Format XML</button>
-            </div>
-            <div class="glass project-card animate-float-in p-8 flex flex-col justify-between h-full">
-                <div>
-                    <h2 class="project-title text-xl">XML Formatter Advanced</h2>
-                    <p class="project-description text-sm">🤞 A clean and easy-to-use tool for formatting and beautifying your XML data 🔧 for better readability 📖</p>
-                </div>
-                <button class="animated-button text-white font-medium py-3 px-6 rounded-xl mt-6" onclick="window.location.href='xml-formatter-adv.html'">Format XML</button>
-            </div>
-            <div class="glass project-card animate-float-in p-8 flex flex-col justify-between h-full">
-                <div>
-                    <h2 class="project-title text-xl">File Manager</h2>
-                    <p class="project-description text-sm">✨ You can save your files 🖼️📁 in localStorage 🗄️</p>
-                </div>
-                <button class="animated-button text-white font-medium py-3 px-6 rounded-xl mt-6" onclick="window.location.href='fileStorage'">Manage Files</button>
-            </div>
-            <div class="glass project-card animate-float-in p-8 flex flex-col justify-between h-full">
-                <div>
-                    <h2 class="project-title text-xl">HTML Online Editor</h2>
-                    <p class="project-description text-sm">🚀 An HTML viewer with a toolbar for easy input and formatting of HTML code</p>
-                </div>
-                <button class="animated-button text-white font-medium py-3 px-6 rounded-xl mt-6" onclick="window.location.href='htmlEditor.html'">Edit HTML</button>
-            </div>
-            <div class="glass project-card animate-float-in p-8 flex flex-col justify-between h-full">
-                <div>
-                    <h2 class="project-title text-xl">Loan Calculator</h2>
-                    <p class="project-description text-sm">🏦 Understand your loan payments and schedule with this easy-to-use calculator</p>
-                </div>
-                <button class="animated-button text-white font-medium py-3 px-6 rounded-xl mt-6" onclick="window.location.href='https://thirupathimech.github.io/dashBoard/loanCalculator'">Calculate Loans</button>
-            </div>
-            <div class="glass project-card animate-float-in p-8 flex flex-col justify-between h-full">
-                <div>
-                    <h2 class="project-title text-xl">Find And Replace</h2>
-                    <p class="project-description text-sm">🔍 Streamline text editing with this powerful find and replace tool</p>
-                </div>
-                <button class="animated-button text-white font-medium py-3 px-6 rounded-xl mt-6" onclick="window.location.href='https://thirupathimech.github.io/dashBoard/FindAndReplace'">Find & Replace</button>
-            </div>
-            <div class="glass project-card animate-float-in p-8 flex flex-col justify-between h-full">
-                <div>
-                    <h2 class="project-title text-xl">Java File Scanner</h2>
-                    <p class="project-description text-sm">📁 Scan and manage files for seamless data migration</p>
-                </div>
-                <button class="animated-button text-white font-medium py-3 px-6 rounded-xl mt-6" onclick="window.location.href='javaFilePathScanner.html'">Scan Files</button>
-            </div>
-            <div class="glass project-card animate-float-in p-8 flex flex-col justify-between h-full">
-                <div>
-                    <h2 class="project-title text-xl">Text Processor</h2>
-                    <p class="project-description text-sm">📝 Easily edit text—trim whitespace, change case, remove special characters, and more, with a stylish glassmorphism look! ✨</p>
-                </div>
-                <button class="animated-button text-white font-medium py-3 px-6 rounded-xl mt-6" onclick="window.location.href='textProcessor.html'">Process Text</button>
-            </div>
-            <div class="glass project-card animate-float-in p-8 flex flex-col justify-between h-full">
-                <div>
-                    <h2 class="project-title text-xl">Color Picker</h2>
-                    <p class="project-description text-sm">🎨 A simple color picker website to choose any color and get its hex code instantly. ✨</p>
-                </div>
-                <button class="animated-button text-white font-medium py-3 px-6 rounded-xl mt-6" onclick="window.location.href='colorPicker.html'">Pick Colors</button>
-            </div>
-            <div class="glass project-card animate-float-in p-8 flex flex-col justify-between h-full">
-                <div>
-                    <h2 class="project-title text-xl">Chat Bot</h2>
-                    <p class="project-description text-sm">🤖 Talk to a smart, chatty bot that gets your vibe. Great for dev portfolios, demos, or just some fun! ⚡</p>
-                </div>
-                <button class="animated-button text-white font-medium py-3 px-6 rounded-xl mt-6" onclick="window.location.href='chatbot.html'">Start Chatting</button>
-            </div>
-            <div class="glass project-card animate-float-in p-8 flex flex-col justify-between h-full">
-                <div>
-                    <h2 class="project-title text-xl">Employee Form</h2>
-                    <p class="project-description text-sm">🚀 Simplify the management of employee payroll information with this user-friendly application</p>
-                </div>
-                <button class="animated-button text-white font-medium py-3 px-6 rounded-xl mt-6" onclick="window.location.href='https://thirupathimech.github.io/dashBoard/employeeForm'">Manage Employees</button>
-            </div>
-            <div class="glass project-card animate-float-in p-8 flex flex-col justify-between h-full">
-                <div>
-                    <h2 class="project-title text-xl">Snake Game</h2>
-                    <p class="project-description text-sm">🐍 Enjoy a classic Snake Game with enhanced visuals and gameplay</p>
-                </div>
-                <button class="animated-button text-white font-medium py-3 px-6 rounded-xl mt-6" onclick="window.location.href='snakeGame.html'">Play Game</button>
-            </div>
-            <div class="glass project-card animate-float-in p-8 flex flex-col justify-between h-full">
-                <div>
-                    <h2 class="project-title text-xl">Resume Analyzer</h2>
-                    <p class="project-description text-sm">📄 Analyze your resume instantly: view ATS score, keyword highlights, and actionable insights to boost your job search</p>
-                </div>
-                <button class="animated-button text-white font-medium py-3 px-6 rounded-xl mt-6" onclick="window.location.href='resume_analyzer.html'">Analyze Resume</button>
-            </div>
-            <div class="glass project-card animate-float-in p-8 flex flex-col justify-between h-full">
-                <div>
-                    <h2 class="project-title text-xl">Daily Expense Tracker</h2>
-                    <p class="project-description text-sm">💰 Effortlessly record your daily expenses, view spending trends and get budget-friendly tips to stay on top of your finances</p>
-                </div>
-                <button class="animated-button text-white font-medium py-3 px-6 rounded-xl mt-6" onclick="window.location.href='expense_tracker.html'">Track Expenses</button>
-            </div>
-            <div class="glass project-card animate-float-in p-8 flex flex-col justify-between h-full">
-                <div>
-                    <h2 class="project-title text-xl">Image Base64 Converter</h2>
-                    <p class="project-description text-sm">🖼️ Instantly convert your images to Base64 strings: upload, encode, and copy ready-to-use code for embedding images directly within HTML, CSS, or JSON</p>
-                </div>
-                <button class="animated-button text-white font-medium py-3 px-6 rounded-xl mt-6" onclick="window.location.href='image_base64_converter.html'">Convert Images</button>
-            </div>
-            <div class="glass project-card animate-float-in p-8 flex flex-col justify-between h-full">
-                <div>
-                    <h2 class="project-title text-xl">QR Generator</h2>
-                    <p class="project-description text-sm">🔗 Easily create custom QR codes for your links, text, or data. Upload or input your content, generate a QR code instantly, and download or embed it for websites, print, or digital sharing.</p>
-                </div>
-                <button class="animated-button text-white font-medium py-3 px-6 rounded-xl mt-6" onclick="window.location.href='qr_generator.html'">Generate QR</button>
-            </div>
-            <div class="glass project-card animate-float-in p-8 flex flex-col justify-between h-full">
-                <div>
-                    <h2 class="project-title text-xl">Audio Trimmer</h2>
-                    <p class="project-description text-sm">
-                        🎵 Effortlessly trim and edit audio files with millisecond precision. Create custom sound bites, ringtones, and remove unwanted sections in seconds. Just upload, select, and export your audio—all online and in your favorite formats.
-                    </p>
-                </div>
-                <button class="animated-button text-white font-medium py-3 px-6 rounded-xl mt-6" onclick="window.location.href='audioTrimmer.html'">Trim Audio</button>
-            </div>
-            <div class="glass project-card animate-float-in p-8 flex flex-col justify-between h-full">
-                <div>
-                    <h2 class="project-title text-xl">Postman Lite</h2>
-                    <p class="project-description text-sm">🚀 Test APIs effortlessly with Postman Lite: input your endpoint, select HTTP methods, add headers and payloads, and view responses in a sleek, user-friendly interface</p>
-                </div>
-                <button class="animated-button text-white font-medium py-3 px-6 rounded-xl mt-6" onclick="window.location.href='postman_lite.html'">Test APIs</button>
-            </div>
-            <div class="glass project-card animate-float-in p-8 flex flex-col justify-between h-full">
-                <div>
-                    <h2 class="project-title text-xl">Capture Image Or Video</h2>
-                    <p class="project-description text-sm">📸 Capture and process images or videos with ease</p>
-                </div>
-                <button class="animated-button text-white font-medium py-3 px-6 rounded-xl mt-6" onclick="window.location.href='FaceRecognization.html'">Capture Media</button>
+            <!-- No Results Message -->
+            <div class="no-results" id="noResults">
+                <i class="bi bi-search"></i>
+                <h3>No projects found</h3>
+                <p>Try a different search term!</p>
             </div>
         </div>
-    </div>
+    </section>
 
     <!-- Footer -->
-    <footer class="py-8 text-center">
-        <p class="footer-text text-lg">© 2025 Thirupathi G Developments</p>
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <p class="footer-text">© 2025 <span>Thirupathi G</span> Developments</p>
+                <div class="social-links">
+                    <a href="#" class="social-link"><i class="bi bi-github"></i></a>
+                    <a href="#" class="social-link"><i class="bi bi-linkedin"></i></a>
+                    <a href="#" class="social-link"><i class="bi bi-twitter"></i></a>
+                    <a href="#" class="social-link"><i class="bi bi-envelope"></i></a>
+                </div>
+            </div>
+        </div>
     </footer>
 
+    <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    
     <script>
-        // Search functionality with debounce and enhancements
-        const searchInput = document.getElementById('searchInput');
-        let debounceTimeout;
+        // Projects Data
+        const projects = [
+            {
+                icon: 'bi-code-slash',
+                title: 'Learn Automation – TestNG & XPath',
+                description: 'Master Selenium automation with TestNG and XPath locators. Includes tutorials, examples, and interview-focused questions.',
+                link: 'learnAutomation.html'
+            },
+            {
+                icon: 'bi-database',
+                title: 'MySQL Topics Explorer',
+                description: 'Discover all MySQL concepts with categorized sections, descriptions, and syntax-highlighted example queries.',
+                link: 'mySqlExplorer.html'
+            },
+            {
+                icon: 'bi-table',
+                title: 'MySQL Table Creator',
+                description: 'A simple web-based tool to generate MySQL CREATE TABLE statements easily without writing SQL by hand.',
+                link: 'mySQLTableCreator.html'
+            },
+            {
+                icon: 'bi-tags',
+                title: 'JPA & Hibernate Annotations',
+                description: 'A handy web tool to explore and learn JPA & Hibernate annotations with examples — simplify your database mapping.',
+                link: 'hibernateAnnotations.html'
+            },
+            {
+                icon: 'bi-file-earmark-excel',
+                title: 'Excel Comparison',
+                description: 'A simple website to compare two Excel workbooks and download only the rows that are different.',
+                link: 'excelComparison.html'
+            },
+            {
+                icon: 'bi-code',
+                title: 'XML Formatter',
+                description: 'A clean and easy-to-use tool for formatting and beautifying your XML data for better readability.',
+                link: 'xmlFormatter.html'
+            },
+            {
+                icon: 'bi-code-square',
+                title: 'XML Formatter Advanced',
+                description: 'A clean and easy-to-use tool for formatting and beautifying your XML data for better readability.',
+                link: 'xml-formatter-adv.html'
+            },
+            {
+                icon: 'bi-folder',
+                title: 'File Manager',
+                description: 'You can save your files in localStorage for easy access and management.',
+                link: 'fileStorage'
+            },
+            {
+                icon: 'bi-filetype-html',
+                title: 'HTML Online Editor',
+                description: 'An HTML viewer with a toolbar for easy input and formatting of HTML code.',
+                link: 'htmlEditor.html'
+            },
+            {
+                icon: 'bi-calculator',
+                title: 'Loan Calculator',
+                description: 'Understand your loan payments and schedule with this easy-to-use calculator.',
+                link: 'https://thirupathimech.github.io/dashBoard/loanCalculator'
+            },
+            {
+                icon: 'bi-search-and-replace',
+                title: 'Find And Replace',
+                description: 'Streamline text editing with this powerful find and replace tool.',
+                link: 'https://thirupathimech.github.io/dashBoard/FindAndReplace'
+            },
+            {
+                icon: 'bi-file-earmark-code',
+                title: 'Java File Scanner',
+                description: 'Scan and manage files for seamless data migration.',
+                link: 'javaFilePathScanner.html'
+            },
+            {
+                icon: 'bi-text-paragraph',
+                title: 'Text Processor',
+                description: 'Easily edit text—trim whitespace, change case, remove special characters, and more, with a stylish look!',
+                link: 'textProcessor.html'
+            },
+            {
+                icon: 'bi-palette',
+                title: 'Color Picker',
+                description: 'A simple color picker website to choose any color and get its hex code instantly.',
+                link: 'colorPicker.html'
+            },
+            {
+                icon: 'bi-chat-dots',
+                title: 'Chat Bot',
+                description: 'Talk to a smart, chatty bot that gets your vibe. Great for dev portfolios, demos, or just some fun!',
+                link: 'chatbot.html'
+            },
+            {
+                icon: 'bi-person-badge',
+                title: 'Employee Form',
+                description: 'Simplify the management of employee payroll information with this user-friendly application.',
+                link: 'https://thirupathimech.github.io/dashBoard/employeeForm'
+            },
+            {
+                icon: 'bi-controller',
+                title: 'Snake Game',
+                description: 'Enjoy a classic Snake Game with enhanced visuals and gameplay.',
+                link: 'snakeGame.html'
+            },
+            {
+                icon: 'bi-file-earmark-text',
+                title: 'Resume Analyzer',
+                description: 'Analyze your resume instantly: view ATS score, keyword highlights, and actionable insights to boost your job search.',
+                link: 'resume_analyzer.html'
+            },
+            {
+                icon: 'bi-cash-stack',
+                title: 'Daily Expense Tracker',
+                description: 'Effortlessly record your daily expenses, view spending trends and get budget-friendly tips to stay on top of your finances.',
+                link: 'expense_tracker.html'
+            },
+            {
+                icon: 'bi-image',
+                title: 'Image Base64 Converter',
+                description: 'Instantly convert your images to Base64 strings: upload, encode, and copy ready-to-use code for embedding images.',
+                link: 'image_base64_converter.html'
+            },
+            {
+                icon: 'bi-qr-code',
+                title: 'QR Generator',
+                description: 'Easily create custom QR codes for your links, text, or data. Upload or input your content, generate a QR code instantly.',
+                link: 'qr_generator.html'
+            },
+            {
+                icon: 'bi-music-note-beamed',
+                title: 'Audio Trimmer',
+                description: 'Effortlessly trim and edit audio files with millisecond precision. Create custom sound bites, ringtones, and remove unwanted sections.',
+                link: 'audioTrimmer.html'
+            },
+            {
+                icon: 'bi-send',
+                title: 'Postman Lite',
+                description: 'Test APIs effortlessly with Postman Lite: input your endpoint, select HTTP methods, add headers and payloads.',
+                link: 'postman_lite.html'
+            },
+            {
+                icon: 'bi-camera-video',
+                title: 'Capture Image Or Video',
+                description: 'Capture and process images or videos with ease.',
+                link: 'FaceRecognization.html'
+            }
+        ];
 
-        // Debounce function to limit how often the search runs
-        function debounce(func, delay) {
-            return function(...args) {
-                clearTimeout(debounceTimeout);
-                debounceTimeout = setTimeout(() => func.apply(this, args), delay);
-            };
-        }
+        $(document).ready(function() {
+            // Initialize AOS
+            AOS.init({
+                duration: 1000,
+                once: true,
+                offset: 100
+            });
 
-        // Highlight matched text
-        function highlightText(text, searchTerm) {
-            if (!searchTerm) return text;
-            const regex = new RegExp(`(${searchTerm})`, 'gi');
-            return text.replace(regex, '<span class="highlight">$1</span>');
-        }
+            // Hide loader after page loads
+            setTimeout(() => {
+                $('#loader').addClass('hidden');
+            }, 1000);
 
-        // Search handler
-        function handleSearch(e) {
-            const searchTerm = e.target.value.toLowerCase().trim();
-            const cards = document.querySelectorAll('#cardContainer .project-card');
-            const noResults = document.getElementById('noResults') || createNoResultsMessage();
+            // Render projects
+            function renderProjects(projectsToRender = projects) {
+                const container = $('#projectsContainer');
+                container.empty();
+                
+                projectsToRender.forEach((project, index) => {
+                    const card = `
+                        <div class="col-md-6 col-lg-4 project-item" data-aos="fade-up" data-aos-delay="${index * 50}">
+                            <div class="project-card">
+                                <div class="project-icon-wrapper">
+                                    <i class="bi ${project.icon} project-icon"></i>
+                                </div>
+                                <h3 class="project-title">${project.title}</h3>
+                                <p class="project-description">${project.description}</p>
+                                <button class="project-btn" onclick="window.location.href='${project.link}'">
+                                    <span>View Project</span>
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                    container.append(card);
+                });
+            }
 
-            let hasResults = false;
+            renderProjects();
 
-            cards.forEach(card => {
-                const titleElement = card.querySelector('h2');
-                const descriptionElement = card.querySelector('p');
-                const title = titleElement.textContent.toLowerCase();
-                const description = descriptionElement.textContent.toLowerCase();
+            // Create floating particles
+            function createParticles() {
+                const particles = $('#particles');
+                const particleCount = 30;
 
-                if (title.includes(searchTerm) || description.includes(searchTerm)) {
-                    card.style.display = 'flex';
-                    card.style.opacity = '1';
+                for (let i = 0; i < particleCount; i++) {
+                    const particle = $('<div class="particle"></div>');
+                    particle.css({
+                        left: Math.random() * 100 + '%',
+                        animationDelay: Math.random() * 20 + 's',
+                        animationDuration: (Math.random() * 10 + 15) + 's'
+                    });
+                    particles.append(particle);
+                }
+            }
+
+            createParticles();
+
+            // Custom cursor
+            const cursor = $('.cursor');
+            const follower = $('.cursor-follower');
+
+            $(document).on('mousemove', (e) => {
+                cursor.css({
+                    left: e.clientX,
+                    top: e.clientY
+                });
+                follower.css({
+                    left: e.clientX,
+                    top: e.clientY
+                });
+            });
+
+            // Cursor hover effect
+            $('a, button, .project-card, .theme-toggle').on('mouseenter', () => {
+                cursor.addClass('hover');
+            }).on('mouseleave', () => {
+                cursor.removeClass('hover');
+            });
+
+            // Theme toggle
+            const themeToggle = $('#themeToggle');
+            const themeIcon = $('#themeIcon');
+            const currentTheme = localStorage.getItem('theme') || 'dark';
+            
+            $('body').attr('data-theme', currentTheme);
+            updateThemeIcon(currentTheme);
+
+            themeToggle.on('click', () => {
+                const theme = $('body').attr('data-theme') === 'dark' ? 'light' : 'dark';
+                $('body').attr('data-theme', theme);
+                localStorage.setItem('theme', theme);
+                updateThemeIcon(theme);
+            });
+
+            function updateThemeIcon(theme) {
+                themeIcon.removeClass('bi-moon-fill bi-sun-fill');
+                themeIcon.addClass(theme === 'dark' ? 'bi-moon-fill' : 'bi-sun-fill');
+            }
+
+            // Search functionality
+            const searchInput = $('#searchInput');
+            const clearSearch = $('#clearSearch');
+            const noResults = $('#noResults');
+
+            function highlightText(text, searchTerm) {
+                if (!searchTerm) return text;
+                const regex = new RegExp(`(${searchTerm})`, 'gi');
+                return text.replace(regex, '<span class="highlight">$1</span>');
+            }
+
+            searchInput.on('input', function() {
+                const searchTerm = $(this).val().toLowerCase().trim();
+                let hasResults = false;
+
+                if (searchTerm === '') {
+                    renderProjects();
+                    noResults.hide();
+                    return;
+                }
+
+                const filteredProjects = projects.filter(project => {
+                    const title = project.title.toLowerCase();
+                    const description = project.description.toLowerCase();
+                    return title.includes(searchTerm) || description.includes(searchTerm);
+                });
+
+                if (filteredProjects.length > 0) {
                     hasResults = true;
+                    renderProjects(filteredProjects);
+                }
 
-                    // Highlight matched text
-                    titleElement.innerHTML = highlightText(titleElement.textContent, searchTerm);
-                    descriptionElement.innerHTML = highlightText(descriptionElement.textContent, searchTerm);
-                } else {
-                    card.style.display = 'none';
-                    titleElement.innerHTML = titleElement.textContent; // Reset highlight
-                    descriptionElement.innerHTML = descriptionElement.textContent; // Reset highlight
+                noResults.toggle(!hasResults);
+            });
+
+            clearSearch.on('click', () => {
+                searchInput.val('');
+                renderProjects();
+                noResults.hide();
+            });
+
+            // Smooth scroll for navigation links
+            $('a[href^="#"]').on('click', function(e) {
+                e.preventDefault();
+                const target = $($(this).attr('href'));
+                if (target.length) {
+                    $('html, body').animate({
+                        scrollTop: target.offset().top - 80
+                    }, 800);
                 }
             });
 
-            // Show/hide no results message
-            noResults.style.display = hasResults ? 'none' : 'block';
-        }
-
-        // Create "No Results" message element
-        function createNoResultsMessage() {
-            const noResults = document.createElement('div');
-            noResults.id = 'noResults';
-            noResults.className = 'text-white text-center py-8';
-            noResults.textContent = 'No projects found. Try a different search term!';
-            document.getElementById('cardContainer').after(noResults);
-            return noResults;
-        }
-
-        // Add clear button functionality
-        function addClearButton() {
-            const clearButton = document.querySelector('.search-container button');
-            clearButton.addEventListener('click', () => {
-                searchInput.value = '';
-                handleSearch({
-                    target: {
-                        value: ''
-                    }
-                });
-                searchInput.focus();
-            });
-        }
-
-        // Create floating particles
-        function createParticles() {
-            const particles = document.getElementById('particles');
-            const particleCount = 50;
-
-            for (let i = 0; i < particleCount; i++) {
-                const particle = document.createElement('div');
-                particle.className = 'particle';
-                particle.style.left = Math.random() * 100 + '%';
-                particle.style.animationDelay = Math.random() * 6 + 's';
-                particle.style.animationDuration = (Math.random() * 3 + 3) + 's';
-                particles.appendChild(particle);
-            }
-        }
-
-        // Initialize
-        searchInput.addEventListener('input', debounce(handleSearch, 300));
-        window.addEventListener('load', () => {
-            createParticles();
-            addClearButton();
-            const cards = document.querySelectorAll('.project-card');
-            cards.forEach(card => {
-                card.classList.add('animate-float-in');
+            // Navbar scroll effect
+            let lastScroll = 0;
+            $(window).on('scroll', () => {
+                const currentScroll = $(window).scrollTop();
+                const navbar = $('.navbar');
+                
+                if (currentScroll > 100) {
+                    navbar.addClass('scrolled');
+                } else {
+                    navbar.removeClass('scrolled');
+                }
+                
+                lastScroll = currentScroll;
             });
         });
     </script>
 </body>
-
 </html>
-
