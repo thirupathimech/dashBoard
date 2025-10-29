@@ -370,6 +370,42 @@
             to { transform: rotate(360deg); }
         }
         
+        .auth-container {
+            max-width: 450px;
+            margin: 50px auto;
+        }
+        
+        .auth-card {
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .auth-header {
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .auth-body {
+            padding: 30px;
+        }
+        
+        .storage-info {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .storage-info i {
+            color: var(--primary-color);
+            font-size: 1.5rem;
+            margin-right: 10px;
+        }
+        
         @media (max-width: 768px) {
             .table-container {
                 padding: 10px;
@@ -387,290 +423,362 @@
             .filter-section {
                 padding: 15px;
             }
+            
+            .auth-container {
+                margin: 20px auto;
+            }
         }
     </style>
 </head>
 <body>
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-light">
-        <div class="container">
-            <a class="navbar-brand d-flex align-items-center" href="index.html">
-                <i class="bi bi-shield-lock-fill text-primary me-2"></i>
-                <span class="fw-bold">Secure Image Vault</span>
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="index.html">
-                            <i class="bi bi-house-door me-1"></i> Home
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" href="#">
-                            <i class="bi bi-images me-1"></i> Image Vault
-                        </a>
-                    </li>
-                </ul>
+    <!-- Authentication Container (shown when not logged in) -->
+    <div id="authContainer" class="container">
+        <div class="auth-container">
+            <div class="auth-card animate__animated animate__fadeIn">
+                <div class="auth-header">
+                    <h2 class="mb-0">Secure Image Vault</h2>
+                    <p class="mb-0">Thirupathi G</p>
+                </div>
+                <div class="auth-body">
+                    <!-- Login Form -->
+                    <div id="loginForm">
+                        <h4 class="mb-4">Login to Your Account</h4>
+                        <div class="mb-3">
+                            <label for="loginUsername" class="form-label">Username</label>
+                            <input type="text" class="form-control" id="loginUsername" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="loginPassword" class="form-label">Password</label>
+                            <input type="password" class="form-control" id="loginPassword" required>
+                        </div>
+                        <button type="button" class="btn btn-primary w-100 mb-3" onclick="login()">Login</button>
+                        <p class="text-center">Don't have an account? <a href="#" onclick="showRegisterForm()">Register</a></p>
+                    </div>
+                    
+                    <!-- Registration Form -->
+                    <div id="registerForm" style="display: none;">
+                        <h4 class="mb-4">Create a New Account</h4>
+                        <div class="mb-3">
+                            <label for="registerUsername" class="form-label">Username</label>
+                            <input type="text" class="form-control" id="registerUsername" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="registerEmail" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="registerEmail" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="registerPassword" class="form-label">Password</label>
+                            <input type="password" class="form-control" id="registerPassword" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="confirmPassword" class="form-label">Confirm Password</label>
+                            <input type="password" class="form-control" id="confirmPassword" required>
+                        </div>
+                        <button type="button" class="btn btn-primary w-100 mb-3" onclick="register()">Register</button>
+                        <p class="text-center">Already have an account? <a href="#" onclick="showLoginForm()">Login</a></p>
+                    </div>
+                </div>
             </div>
         </div>
-    </nav>
+    </div>
 
-    <!-- Main Container -->
-    <div class="container main-container">
-        <div class="row">
-            <div class="col-12">
-                <div class="card animate__animated animate__fadeIn">
-                    <div class="card-body p-0">
-                        <!-- Tabs -->
-                        <ul class="nav nav-tabs" id="myTab" role="tablist">
-                            <li class="nav-item" role="presentation">
-                                <button class="nav-link active" id="upload-tab" data-bs-toggle="tab" data-bs-target="#upload" type="button" role="tab">
-                                    <i class="bi bi-cloud-upload me-2"></i> Upload Image
-                                </button>
-                            </li>
-                            <li class="nav-item" role="presentation">
-                                <button class="nav-link" id="gallery-tab" data-bs-toggle="tab" data-bs-target="#gallery" type="button" role="tab">
-                                    <i class="bi bi-grid-3x3-gap me-2"></i> Gallery View
-                                </button>
-                            </li>
-                            <li class="nav-item" role="presentation">
-                                <button class="nav-link" id="list-tab" data-bs-toggle="tab" data-bs-target="#list" type="button" role="tab">
-                                    <i class="bi bi-list-ul me-2"></i> List View
-                                </button>
-                            </li>
-                        </ul>
+    <!-- Main App Container (shown when logged in) -->
+    <div id="mainApp" style="display: none;">
+        <!-- Navbar -->
+        <nav class="navbar navbar-expand-lg navbar-light">
+            <div class="container">
+                <a class="navbar-brand d-flex align-items-center" href="index.html">
+                    <i class="bi bi-shield-lock-fill text-primary me-2"></i>
+                    <span class="fw-bold">Secure Image Vault</span>
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="index.html">
+                                <i class="bi bi-house-door me-1"></i> Home
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#">
+                                <i class="bi bi-images me-1"></i> Image Vault
+                            </a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
+                                <i class="bi bi-person-circle me-1"></i> <span id="currentUser"></span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#" onclick="logout()"><i class="bi bi-box-arrow-right me-2"></i> Logout</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
 
-                        <!-- Tab Content -->
-                        <div class="tab-content p-4" id="myTabContent">
-                            <!-- Upload Tab -->
-                            <div class="tab-pane fade show active" id="upload" role="tabpanel">
-                                <form id="uploadForm" class="row g-3">
-                                    <div class="col-md-6">
-                                        <label for="imageTitle" class="form-label fw-semibold">Image Name/Title</label>
-                                        <input type="text" class="form-control" id="imageTitle" required>
-                                        <div class="invalid-feedback">Please provide a valid image name.</div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label for="imagePassword" class="form-label fw-semibold">Password (Optional)</label>
-                                        <input type="password" class="form-control" id="imagePassword" placeholder="Leave empty for no password">
-                                    </div>
-                                    <div class="col-12">
-                                        <label for="imageFile" class="form-label fw-semibold">Select Image</label>
-                                        <input type="file" class="form-control" id="imageFile" accept="image/*" required>
-                                        <div class="invalid-feedback">Please select a valid image file.</div>
-                                    </div>
-                                    <div class="col-12">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" id="showPreview">
-                                            <label class="form-check-label" for="showPreview">
-                                                Show preview before upload
-                                            </label>
+        <!-- Main Container -->
+        <div class="container main-container">
+            <!-- Storage Information -->
+            <div class="storage-info animate__animated animate__fadeIn">
+                <h5><i class="bi bi-info-circle"></i> Storage Information</h5>
+                <p class="mb-0">This application stores images in your browser's local storage. When you publish this site to GitHub Pages, the images will not be stored on GitHub. For a production application, consider using a cloud storage service like Firebase, AWS S3, or similar.</p>
+            </div>
+            
+            <div class="row">
+                <div class="col-12">
+                    <div class="card animate__animated animate__fadeIn">
+                        <div class="card-body p-0">
+                            <!-- Tabs -->
+                            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link active" id="upload-tab" data-bs-toggle="tab" data-bs-target="#upload" type="button" role="tab">
+                                        <i class="bi bi-cloud-upload me-2"></i> Upload Image
+                                    </button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link" id="gallery-tab" data-bs-toggle="tab" data-bs-target="#gallery" type="button" role="tab">
+                                        <i class="bi bi-grid-3x3-gap me-2"></i> Gallery View
+                                    </button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link" id="list-tab" data-bs-toggle="tab" data-bs-target="#list" type="button" role="tab">
+                                        <i class="bi bi-list-ul me-2"></i> List View
+                                    </button>
+                                </li>
+                            </ul>
+
+                            <!-- Tab Content -->
+                            <div class="tab-content p-4" id="myTabContent">
+                                <!-- Upload Tab -->
+                                <div class="tab-pane fade show active" id="upload" role="tabpanel">
+                                    <form id="uploadForm" class="row g-3">
+                                        <div class="col-md-6">
+                                            <label for="imageTitle" class="form-label fw-semibold">Image Name/Title</label>
+                                            <input type="text" class="form-control" id="imageTitle" required>
+                                            <div class="invalid-feedback">Please provide a valid image name.</div>
                                         </div>
-                                    </div>
-                                    <div class="col-12" id="previewContainer" style="display: none;">
-                                        <div class="card">
-                                            <div class="card-body">
-                                                <h5 class="card-title">Image Preview</h5>
-                                                <img id="imagePreview" class="img-fluid rounded" alt="Preview">
+                                        <div class="col-md-6">
+                                            <label for="imagePassword" class="form-label fw-semibold">Password (Optional)</label>
+                                            <input type="password" class="form-control" id="imagePassword" placeholder="Leave empty for no password">
+                                        </div>
+                                        <div class="col-12">
+                                            <label for="imageFile" class="form-label fw-semibold">Select Image</label>
+                                            <input type="file" class="form-control" id="imageFile" accept="image/*" required>
+                                            <div class="invalid-feedback">Please select a valid image file.</div>
+                                        </div>
+                                        <div class="col-12">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" id="showPreview">
+                                                <label class="form-check-label" for="showPreview">
+                                                    Show preview before upload
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-12" id="previewContainer" style="display: none;">
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <h5 class="card-title">Image Preview</h5>
+                                                    <img id="imagePreview" class="img-fluid rounded" alt="Preview">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <button type="button" class="btn btn-primary" onclick="uploadImage()">
+                                                <i class="bi bi-cloud-upload me-2"></i> Upload Image
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+
+                                <!-- Gallery Tab -->
+                                <div class="tab-pane fade" id="gallery" role="tabpanel">
+                                    <div class="filter-section">
+                                        <div class="row g-3">
+                                            <div class="col-md-4">
+                                                <label for="yearFilter" class="form-label fw-semibold">Filter by Year</label>
+                                                <select class="form-select" id="yearFilter">
+                                                    <option value="">All Years</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label for="monthFilter" class="form-label fw-semibold">Filter by Month</label>
+                                                <select class="form-select" id="monthFilter">
+                                                    <option value="">All Months</option>
+                                                    <option value="01">January</option>
+                                                    <option value="02">February</option>
+                                                    <option value="03">March</option>
+                                                    <option value="04">April</option>
+                                                    <option value="05">May</option>
+                                                    <option value="06">June</option>
+                                                    <option value="07">July</option>
+                                                    <option value="08">August</option>
+                                                    <option value="09">September</option>
+                                                    <option value="10">October</option>
+                                                    <option value="11">November</option>
+                                                    <option value="12">December</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label for="searchGallery" class="form-label fw-semibold">Search by Name</label>
+                                                <div class="input-group">
+                                                    <input type="text" class="form-control" id="searchGallery" placeholder="Search images...">
+                                                    <button class="btn btn-primary" type="button" onclick="filterGallery()">
+                                                        <i class="bi bi-search"></i>
+                                                    </button>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-12">
-                                        <button type="button" class="btn btn-primary" onclick="uploadImage()">
-                                            <i class="bi bi-cloud-upload me-2"></i> Upload Image
-                                        </button>
+                                    <div class="row g-4" id="galleryContainer">
+                                        <!-- Gallery items will be added here dynamically -->
                                     </div>
-                                </form>
-                            </div>
-
-                            <!-- Gallery Tab -->
-                            <div class="tab-pane fade" id="gallery" role="tabpanel">
-                                <div class="filter-section">
-                                    <div class="row g-3">
-                                        <div class="col-md-4">
-                                            <label for="yearFilter" class="form-label fw-semibold">Filter by Year</label>
-                                            <select class="form-select" id="yearFilter">
-                                                <option value="">All Years</option>
-                                            </select>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <label for="monthFilter" class="form-label fw-semibold">Filter by Month</label>
-                                            <select class="form-select" id="monthFilter">
-                                                <option value="">All Months</option>
-                                                <option value="01">January</option>
-                                                <option value="02">February</option>
-                                                <option value="03">March</option>
-                                                <option value="04">April</option>
-                                                <option value="05">May</option>
-                                                <option value="06">June</option>
-                                                <option value="07">July</option>
-                                                <option value="08">August</option>
-                                                <option value="09">September</option>
-                                                <option value="10">October</option>
-                                                <option value="11">November</option>
-                                                <option value="12">December</option>
-                                            </select>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <label for="searchGallery" class="form-label fw-semibold">Search by Name</label>
-                                            <div class="input-group">
-                                                <input type="text" class="form-control" id="searchGallery" placeholder="Search images...">
-                                                <button class="btn btn-primary" type="button" onclick="filterGallery()">
-                                                    <i class="bi bi-search"></i>
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row g-4" id="galleryContainer">
-                                    <!-- Gallery items will be added here dynamically -->
-                                </div>
-                                <div class="empty-state" id="galleryEmptyState" style="display: none;">
-                                    <i class="bi bi-images"></i>
-                                    <h5>No images found</h5>
-                                    <p>Upload some images to see them here.</p>
-                                </div>
-                            </div>
-
-                            <!-- List Tab -->
-                            <div class="tab-pane fade" id="list" role="tabpanel">
-                                <div class="filter-section">
-                                    <div class="row g-3">
-                                        <div class="col-md-4">
-                                            <label for="yearFilterList" class="form-label fw-semibold">Filter by Year</label>
-                                            <select class="form-select" id="yearFilterList">
-                                                <option value="">All Years</option>
-                                            </select>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <label for="monthFilterList" class="form-label fw-semibold">Filter by Month</label>
-                                            <select class="form-select" id="monthFilterList">
-                                                <option value="">All Months</option>
-                                                <option value="01">January</option>
-                                                <option value="02">February</option>
-                                                <option value="03">March</option>
-                                                <option value="04">April</option>
-                                                <option value="05">May</option>
-                                                <option value="06">June</option>
-                                                <option value="07">July</option>
-                                                <option value="08">August</option>
-                                                <option value="09">September</option>
-                                                <option value="10">October</option>
-                                                <option value="11">November</option>
-                                                <option value="12">December</option>
-                                            </select>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <label for="searchList" class="form-label fw-semibold">Search by Name</label>
-                                            <div class="input-group">
-                                                <input type="text" class="form-control" id="searchList" placeholder="Search images...">
-                                                <button class="btn btn-primary" type="button" onclick="filterList()">
-                                                    <i class="bi bi-search"></i>
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="table-container">
-                                    <table class="table">
-                                        <thead>
-                                            <tr>
-                                                <th>Preview</th>
-                                                <th>Name/Title</th>
-                                                <th>Date</th>
-                                                <th>Protection</th>
-                                                <th>Actions</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody id="imageTableBody">
-                                            <!-- Table rows will be added here dynamically -->
-                                        </tbody>
-                                    </table>
-                                    <div class="empty-state" id="listEmptyState" style="display: none;">
-                                        <i class="bi bi-list-ul"></i>
+                                    <div class="empty-state" id="galleryEmptyState" style="display: none;">
+                                        <i class="bi bi-images"></i>
                                         <h5>No images found</h5>
                                         <p>Upload some images to see them here.</p>
                                     </div>
                                 </div>
+
+                                <!-- List Tab -->
+                                <div class="tab-pane fade" id="list" role="tabpanel">
+                                    <div class="filter-section">
+                                        <div class="row g-3">
+                                            <div class="col-md-4">
+                                                <label for="yearFilterList" class="form-label fw-semibold">Filter by Year</label>
+                                                <select class="form-select" id="yearFilterList">
+                                                    <option value="">All Years</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label for="monthFilterList" class="form-label fw-semibold">Filter by Month</label>
+                                                <select class="form-select" id="monthFilterList">
+                                                    <option value="">All Months</option>
+                                                    <option value="01">January</option>
+                                                    <option value="02">February</option>
+                                                    <option value="03">March</option>
+                                                    <option value="04">April</option>
+                                                    <option value="05">May</option>
+                                                    <option value="06">June</option>
+                                                    <option value="07">July</option>
+                                                    <option value="08">August</option>
+                                                    <option value="09">September</option>
+                                                    <option value="10">October</option>
+                                                    <option value="11">November</option>
+                                                    <option value="12">December</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label for="searchList" class="form-label fw-semibold">Search by Name</label>
+                                                <div class="input-group">
+                                                    <input type="text" class="form-control" id="searchList" placeholder="Search images...">
+                                                    <button class="btn btn-primary" type="button" onclick="filterList()">
+                                                        <i class="bi bi-search"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="table-container">
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th>Preview</th>
+                                                    <th>Name/Title</th>
+                                                    <th>Date</th>
+                                                    <th>Protection</th>
+                                                    <th>Actions</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="imageTableBody">
+                                                <!-- Table rows will be added here dynamically -->
+                                            </tbody>
+                                        </table>
+                                        <div class="empty-state" id="listEmptyState" style="display: none;">
+                                            <i class="bi bi-list-ul"></i>
+                                            <h5>No images found</h5>
+                                            <p>Upload some images to see them here.</p>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <!-- Image Viewer Modal -->
-    <div class="modal fade" id="imageViewerModal" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-lg modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Image Viewer</h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body text-center">
-                    <img id="modalImage" class="image-viewer" src="" alt="Image">
-                    <div class="image-details">
-                        <div class="detail-item">
-                            <div class="detail-label">Name:</div>
-                            <div class="detail-value" id="modalImageName"></div>
-                        </div>
-                        <div class="detail-item">
-                            <div class="detail-label">Date:</div>
-                            <div class="detail-value" id="modalImageDate"></div>
-                        </div>
-                        <div class="detail-item">
-                            <div class="detail-label">Path:</div>
-                            <div class="detail-value" id="modalImagePath"></div>
+        <!-- Image Viewer Modal -->
+        <div class="modal fade" id="imageViewerModal" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-lg modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Image Viewer</h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body text-center">
+                        <img id="modalImage" class="image-viewer" src="" alt="Image">
+                        <div class="image-details">
+                            <div class="detail-item">
+                                <div class="detail-label">Name:</div>
+                                <div class="detail-value" id="modalImageName"></div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-label">Date:</div>
+                                <div class="detail-value" id="modalImageDate"></div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-label">Path:</div>
+                                <div class="detail-value" id="modalImagePath"></div>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-success" id="downloadBtn">
-                        <i class="bi bi-download me-2"></i> Download
-                    </button>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-success" id="downloadBtn">
+                            <i class="bi bi-download me-2"></i> Download
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <!-- Password Modal -->
-    <div class="modal fade" id="passwordModal" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Password Required</h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <p>This image is protected with a password. Please enter the password to continue.</p>
-                    <div class="mb-3">
-                        <label for="passwordInput" class="form-label">Password</label>
-                        <input type="password" class="form-control" id="passwordInput">
-                        <div class="invalid-feedback">Incorrect password. Please try again.</div>
+        <!-- Password Modal -->
+        <div class="modal fade" id="passwordModal" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Password Required</h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn btn-primary" id="submitPassword">Submit</button>
+                    <div class="modal-body">
+                        <p>This image is protected with a password. Please enter the password to continue.</p>
+                        <div class="mb-3">
+                            <label for="passwordInput" class="form-label">Password</label>
+                            <input type="password" class="form-control" id="passwordInput">
+                            <div class="invalid-feedback">Incorrect password. Please try again.</div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-primary" id="submitPassword">Submit</button>
+                    </div>
                 </div>
             </div>
         </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="container">
+                <p>&copy; 2023 Secure Image Vault - Thirupathi G</p>
+            </div>
+        </footer>
     </div>
 
     <!-- Toast Container -->
     <div class="toast-container" id="toastContainer"></div>
-
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <p>&copy; 2023 Secure Image Vault - Thirupathi G</p>
-        </div>
-    </footer>
 
     <!-- Bootstrap JS Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
@@ -679,11 +787,11 @@
         let images = [];
         let currentImageIndex = -1;
         let currentAction = '';
+        let currentUser = null;
 
         // Initialize the app
         document.addEventListener('DOMContentLoaded', function() {
-            retrieveFromStorage();
-            populateYearFilters();
+            checkAuthStatus();
             
             // Set up event listeners
             document.getElementById('imageFile').addEventListener('change', handleFileSelect);
@@ -703,12 +811,135 @@
             document.getElementById('yearFilterList').addEventListener('change', filterList);
             document.getElementById('monthFilterList').addEventListener('change', filterList);
             document.getElementById('searchList').addEventListener('input', filterList);
-            
-            // Display images in gallery and list views
-            displayGallery();
-            displayList();
         });
 
+        // Authentication Functions
+        function checkAuthStatus() {
+            const userData = localStorage.getItem('currentUser');
+            if (userData) {
+                currentUser = JSON.parse(userData);
+                document.getElementById('currentUser').textContent = currentUser.username;
+                document.getElementById('authContainer').style.display = 'none';
+                document.getElementById('mainApp').style.display = 'block';
+                retrieveFromStorage();
+                populateYearFilters();
+                displayGallery();
+                displayList();
+            } else {
+                document.getElementById('authContainer').style.display = 'block';
+                document.getElementById('mainApp').style.display = 'none';
+            }
+        }
+
+        function showLoginForm() {
+            document.getElementById('loginForm').style.display = 'block';
+            document.getElementById('registerForm').style.display = 'none';
+        }
+
+        function showRegisterForm() {
+            document.getElementById('loginForm').style.display = 'none';
+            document.getElementById('registerForm').style.display = 'block';
+        }
+
+        function login() {
+            const username = document.getElementById('loginUsername').value.trim();
+            const password = document.getElementById('loginPassword').value;
+            
+            if (!username || !password) {
+                showToast('Please enter both username and password', 'error');
+                return;
+            }
+            
+            // Get users from localStorage
+            const users = JSON.parse(localStorage.getItem('users') || '[]');
+            
+            // Find user
+            const user = users.find(u => u.username === username && u.password === password);
+            
+            if (user) {
+                currentUser = user;
+                localStorage.setItem('currentUser', JSON.stringify(user));
+                document.getElementById('currentUser').textContent = user.username;
+                document.getElementById('authContainer').style.display = 'none';
+                document.getElementById('mainApp').style.display = 'block';
+                
+                // Clear form
+                document.getElementById('loginUsername').value = '';
+                document.getElementById('loginPassword').value = '';
+                
+                // Load user's images
+                retrieveFromStorage();
+                populateYearFilters();
+                displayGallery();
+                displayList();
+                
+                showToast('Login successful!', 'success');
+            } else {
+                showToast('Invalid username or password', 'error');
+            }
+        }
+
+        function register() {
+            const username = document.getElementById('registerUsername').value.trim();
+            const email = document.getElementById('registerEmail').value.trim();
+            const password = document.getElementById('registerPassword').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            
+            if (!username || !email || !password || !confirmPassword) {
+                showToast('Please fill in all fields', 'error');
+                return;
+            }
+            
+            if (password !== confirmPassword) {
+                showToast('Passwords do not match', 'error');
+                return;
+            }
+            
+            // Get users from localStorage
+            const users = JSON.parse(localStorage.getItem('users') || '[]');
+            
+            // Check if username already exists
+            if (users.find(u => u.username === username)) {
+                showToast('Username already exists', 'error');
+                return;
+            }
+            
+            // Add new user
+            const newUser = {
+                username: username,
+                email: email,
+                password: password,
+                createdAt: new Date().toISOString()
+            };
+            
+            users.push(newUser);
+            localStorage.setItem('users', JSON.stringify(users));
+            
+            // Auto login
+            currentUser = newUser;
+            localStorage.setItem('currentUser', JSON.stringify(newUser));
+            document.getElementById('currentUser').textContent = newUser.username;
+            document.getElementById('authContainer').style.display = 'none';
+            document.getElementById('mainApp').style.display = 'block';
+            
+            // Clear form
+            document.getElementById('registerUsername').value = '';
+            document.getElementById('registerEmail').value = '';
+            document.getElementById('registerPassword').value = '';
+            document.getElementById('confirmPassword').value = '';
+            
+            showToast('Registration successful!', 'success');
+        }
+
+        function logout() {
+            localStorage.removeItem('currentUser');
+            currentUser = null;
+            document.getElementById('authContainer').style.display = 'block';
+            document.getElementById('mainApp').style.display = 'none';
+            showToast('Logged out successfully', 'success');
+        }
+
+        // Image Functions
         function handleFileSelect(e) {
             const file = e.target.files[0];
             if (file && file.type.startsWith('image/')) {
@@ -762,7 +993,8 @@
                     data: e.target.result,
                     extension: file.name.split('.').pop(),
                     path: `uploads/${date}/${title}.${file.name.split('.').pop()}`,
-                    password: password || null
+                    password: password || null,
+                    userId: currentUser.username
                 };
                 
                 images.push(imageData);
@@ -786,7 +1018,8 @@
 
         function saveToStorage() {
             try {
-                localStorage.setItem('secureImages', JSON.stringify(images));
+                const userImagesKey = `images_${currentUser.username}`;
+                localStorage.setItem(userImagesKey, JSON.stringify(images));
             } catch (e) {
                 showToast('Error saving image. Storage may be full.', 'error');
                 console.error('Storage error:', e);
@@ -795,9 +1028,12 @@
 
         function retrieveFromStorage() {
             try {
-                const data = localStorage.getItem('secureImages');
+                const userImagesKey = `images_${currentUser.username}`;
+                const data = localStorage.getItem(userImagesKey);
                 if (data) {
                     images = JSON.parse(data);
+                } else {
+                    images = [];
                 }
             } catch (e) {
                 console.error('Error retrieving images:', e);
