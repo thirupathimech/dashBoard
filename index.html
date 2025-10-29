@@ -298,18 +298,20 @@
             margin-bottom: 4rem;
         }
 
-        /* Project Cards - New Design */
+        /* Project Cards - New Design with Mouse Tracking */
         .project-card {
             background: var(--bg-card);
             border: 1px solid var(--border-color);
             border-radius: 20px;
             padding: 0;
             height: 100%;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
             display: flex;
             flex-direction: column;
+            transform-style: preserve-3d;
+            perspective: 1000px;
         }
 
         .project-card-header {
@@ -421,12 +423,6 @@
         .project-btn span {
             position: relative;
             z-index: 1;
-        }
-
-        .project-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 20px 40px var(--shadow-color);
-            border-color: var(--primary-color);
         }
 
         /* Tags */
@@ -1259,24 +1255,48 @@
                     container.append(card);
                 });
                 
-                // Reinitialize GSAP animations for new cards
-                gsap.utils.toArray('.project-card').forEach((card, index) => {
-                    gsap.from(card, {
-                        scrollTrigger: {
-                            trigger: card,
-                            start: 'top 80%',
-                            toggleActions: 'play none none reverse'
-                        },
-                        y: 50,
-                        opacity: 0,
-                        duration: 0.8,
-                        delay: index * 0.1,
-                        ease: 'power2.out'
-                    });
-                });
+                // Add mouse tracking effect to cards
+                initCardMouseTracking();
             }
 
             renderProjects();
+
+            // Initialize mouse tracking for project cards
+            function initCardMouseTracking() {
+                $('.project-card').each(function() {
+                    const card = $(this);
+                    
+                    card.on('mousemove', function(e) {
+                        const rect = this.getBoundingClientRect();
+                        const x = e.clientX - rect.left;
+                        const y = e.clientY - rect.top;
+                        
+                        const centerX = rect.width / 2;
+                        const centerY = rect.height / 2;
+                        
+                        const rotateX = (y - centerY) / 10;
+                        const rotateY = (centerX - x) / 10;
+                        
+                        gsap.to(this, {
+                            rotationX: rotateX,
+                            rotationY: rotateY,
+                            scale: 1.02,
+                            ease: "power2.out",
+                            duration: 0.3
+                        });
+                    });
+                    
+                    card.on('mouseleave', function() {
+                        gsap.to(this, {
+                            rotationX: 0,
+                            rotationY: 0,
+                            scale: 1,
+                            ease: "power2.out",
+                            duration: 0.5
+                        });
+                    });
+                });
+            }
 
             // Theme toggle
             const themeToggle = $('#themeToggle');
