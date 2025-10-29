@@ -3,356 +3,801 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Image Upload & Search - Thirupathi G</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <title>Secure Image Vault - Thirupathi G</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <!-- Animate.css -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="icon" href="https://blogger.googleusercontent.com/img/a/AVvXsEgIFnXbCEgaASrlgiFnXz6MPaK-kyelPH7eTOt9s0-nWtY5YSMAIG5mN4k7dnxX6M-C0AmbO3U9jikPwhBdpp7G9848hK_1c7kXLbqxamlfCbhe_l-kEb8pe5V6mEH3fiIokyxkIyavBLAMlAzSApPTbcYA1r-P9YDwpu9GBIsL1SV4zGLvMwFulKOECQ4" type="image/x-icon">
+    
     <style>
+        :root {
+            --primary-color: #4361ee;
+            --secondary-color: #3f37c9;
+            --accent-color: #f72585;
+            --dark-color: #2b2d42;
+            --light-color: #f8f9fa;
+            --success-color: #06ffa5;
+            --warning-color: #ffbe0b;
+            --danger-color: #fb5607;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
         body {
             font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            margin: 0;
-            background: linear-gradient(135deg, #214520, #033504);
+            color: var(--dark-color);
         }
-
-        .glass {
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-            border-radius: 1rem;
+        
+        .navbar {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .main-container {
+            padding: 2rem 0;
+            min-height: calc(100vh - 80px);
+        }
+        
+        .card {
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
-
-        .glass:hover {
+        
+        .card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
         }
-
-        .home-button {
-            position: fixed;
-            top: 1rem;
-            left: 1rem;
-            z-index: 999;
-            width: 3rem;
-            height: 3rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(15px);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            border-radius: 0.75rem;
-            transition: transform 0.3s ease;
+        
+        .nav-tabs {
+            border-bottom: none;
         }
-
-        .home-button:hover {
-            transform: scale(1.1);
-        }
-
-        .tab-button {
-            background: rgba(255, 255, 255, 0.1);
-            color: #fff;
-            padding: 0.75rem 1.5rem;
-            border-radius: 0.5rem 0.5rem 0 0;
-            transition: background 0.3s ease;
-        }
-
-        .tab-button.active {
-            background: rgba(255, 255, 255, 0.25);
-            backdrop-filter: blur(12px);
-        }
-
-        .tab-button:hover {
-            background: rgba(255, 255, 255, 0.2);
-        }
-
-        .form-input {
-            background: rgba(255, 255, 255, 0.2);
+        
+        .nav-tabs .nav-link {
+            color: var(--dark-color);
             border: none;
-            color: #fff;
-            border-radius: 0.5rem;
-            padding: 0.75rem;
-            transition: transform 0.3s ease, border-color 0.3s ease;
+            border-radius: 10px 10px 0 0;
+            margin-right: 5px;
+            padding: 12px 20px;
+            font-weight: 500;
+            transition: all 0.3s ease;
         }
-
-        .form-input:focus {
-            outline: none;
-            transform: scale(1.02);
-            border-color: #10b981;
+        
+        .nav-tabs .nav-link:hover {
+            background-color: rgba(67, 97, 238, 0.1);
         }
-
-        .form-input.invalid {
-            border: 2px solid #ef4444;
+        
+        .nav-tabs .nav-link.active {
+            background-color: var(--primary-color);
+            color: white;
         }
-
-        .action-button {
-            background: linear-gradient(45deg, #10b981, #34d399);
-            transition: transform 0.3s ease, background 0.3s ease;
+        
+        .form-control, .form-select {
+            border-radius: 10px;
+            border: 1px solid #e0e0e0;
+            padding: 12px 15px;
+            transition: all 0.3s ease;
         }
-
-        .action-button:hover {
-            transform: scale(1.05);
-            background: linear-gradient(45deg, #059669, #10b981);
+        
+        .form-control:focus, .form-select:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 0.25rem rgba(67, 97, 238, 0.25);
         }
-
-        .image-preview {
-            max-width: 150px;
-            border-radius: 0.5rem;
+        
+        .btn-primary {
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            border: none;
+            border-radius: 10px;
+            padding: 10px 20px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(67, 97, 238, 0.3);
+        }
+        
+        .btn-success {
+            background: linear-gradient(45deg, #06ffa5, #00d084);
+            border: none;
+            border-radius: 10px;
+            padding: 10px 20px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-success:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(6, 255, 165, 0.3);
+        }
+        
+        .image-card {
+            position: relative;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            height: 100%;
+        }
+        
+        .image-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+        
+        .image-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
             transition: transform 0.3s ease;
         }
-
-        .image-preview:hover {
+        
+        .image-card:hover img {
             transform: scale(1.05);
         }
-
-        .table-row:nth-child(even) {
-            background: rgba(31, 41, 55, 0.2);
+        
+        .image-card .overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+            color: white;
+            padding: 15px;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
         }
-
-        .table-row:hover {
-            background: rgba(255, 255, 255, 0.1);
-            transform: translateY(-2px);
+        
+        .image-card:hover .overlay {
+            transform: translateY(0);
         }
-
-        .table-row {
-            transition: transform 0.3s ease, background 0.3s ease;
-            animation: rowFadeIn 0.5s ease-in-out;
+        
+        .filter-section {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
         }
-
-        @keyframes rowFadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+        
+        .table-container {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            overflow-x: auto;
         }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+        
+        .table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0 10px;
         }
-
-        .animate-fade-in {
-            animation: fadeIn 1s ease-in-out;
+        
+        .table thead th {
+            border: none;
+            padding: 15px;
+            color: var(--primary-color);
+            font-weight: 600;
         }
-
-        footer {
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(12px);
-            margin-top: auto;
-            padding: 1rem;
-            text-align: center;
-            color: #fff;
+        
+        .table tbody tr {
+            background: white;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+        
+        .table tbody tr:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .table tbody td {
+            padding: 15px;
+            vertical-align: middle;
+            border: none;
+        }
+        
+        .table tbody td:first-child {
+            border-radius: 10px 0 0 10px;
+        }
+        
+        .table tbody td:last-child {
+            border-radius: 0 10px 10px 0;
+        }
+        
+        .preview-img {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .preview-img:hover {
+            transform: scale(1.05);
+        }
+        
+        .password-badge {
+            background: var(--warning-color);
+            color: white;
+            padding: 3px 8px;
+            border-radius: 5px;
+            font-size: 0.75rem;
             font-weight: 500;
         }
-
-        .error-text {
-            color: #ef4444;
-            font-size: 0.85rem;
-            margin-top: 0.25rem;
-            display: none;
+        
+        .modal-content {
+            border-radius: 15px;
+            border: none;
         }
-
-        .table th, .table td {
-            min-width: 100px;
-            text-align: left;
+        
+        .modal-header {
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border-radius: 15px 15px 0 0;
+            border: none;
         }
-
+        
+        .modal-body {
+            padding: 30px;
+        }
+        
+        .image-viewer {
+            max-width: 100%;
+            max-height: 70vh;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .image-details {
+            margin-top: 20px;
+        }
+        
+        .detail-item {
+            display: flex;
+            margin-bottom: 10px;
+        }
+        
+        .detail-label {
+            font-weight: 600;
+            width: 100px;
+        }
+        
+        .detail-value {
+            flex: 1;
+        }
+        
+        .footer {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            padding: 20px 0;
+            text-align: center;
+            color: var(--dark-color);
+            font-weight: 500;
+        }
+        
+        .toast-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1050;
+        }
+        
+        .custom-toast {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            padding: 15px 20px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            animation: slideInRight 0.3s ease;
+        }
+        
+        @keyframes slideInRight {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        
+        .toast-success {
+            border-left: 4px solid var(--success-color);
+        }
+        
+        .toast-error {
+            border-left: 4px solid var(--danger-color);
+        }
+        
+        .toast-icon {
+            margin-right: 10px;
+            font-size: 1.2rem;
+        }
+        
+        .toast-success .toast-icon {
+            color: var(--success-color);
+        }
+        
+        .toast-error .toast-icon {
+            color: var(--danger-color);
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: #6c757d;
+        }
+        
+        .empty-state i {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            color: #dee2e6;
+        }
+        
+        .loading-spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
         @media (max-width: 768px) {
-            .tab-button {
-                padding: 0.5rem 1rem;
+            .table-container {
+                padding: 10px;
+            }
+            
+            .table {
                 font-size: 0.9rem;
             }
-            .form-input {
-                font-size: 0.9rem;
+            
+            .preview-img {
+                width: 60px;
+                height: 60px;
             }
-            .table th, .table td {
-                font-size: 0.85rem;
-                padding: 0.5rem;
-                min-width: 80px;
-            }
-            .image-preview {
-                max-width: 100px;
+            
+            .filter-section {
+                padding: 15px;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Home Button -->
-    <button class="home-button" onclick="window.location.href='index.html'" title="Back to Home">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
-        </svg>
-    </button>
-
-    <!-- Header -->
-    <header class="glass py-4 text-center">
-        <h1 class="text-3xl md:text-4xl font-bold text-white">Image Upload & Search</h1>
-    </header>
-
-    <!-- Main Content -->
-    <div class="container mx-auto px-4 py-8 animate-fade-in">
-        <!-- Tabs -->
-        <div class="flex border-b border-gray-200 mb-6">
-            <button class="tab-button active" onclick="showTab('upload')">Upload Image</button>
-            <button class="tab-button" onclick="showTab('search')">Search Images</button>
-        </div>
-
-        <!-- Tab Content -->
-        <div id="tabContent">
-            <!-- Upload Tab -->
-            <div id="upload" class="tab-pane glass p-6">
-                <form id="uploadForm" class="space-y-4">
-                    <div>
-                        <label for="imageTitle" class="block text-white font-medium">Image Name/Title</label>
-                        <input type="text" id="imageTitle" class="form-input w-full" required>
-                        <p id="imageTitleError" class="error-text">Image Name is required</p>
-                    </div>
-                    <div>
-                        <label for="imageFile" class="block text-white font-medium">Select Image</label>
-                        <input type="file" id="imageFile" class="form-input w-full" accept="image/*" required>
-                        <p id="imageFileError" class="error-text">Please select an image file</p>
-                    </div>
-                    <button type="button" class="action-button text-white font-medium py-2 px-4 rounded-lg" onclick="uploadImage()">Upload</button>
-                </form>
-                <div class="mt-6">
-                    <h3 class="text-lg font-semibold text-white mb-2">Uploaded Images</h3>
-                    <div class="overflow-x-auto">
-                        <table class="table w-full text-white">
-                            <thead>
-                                <tr>
-                                    <th class="p-2">Preview</th>
-                                    <th class="p-2">Name/Title</th>
-                                    <th class="p-2">Date</th>
-                                    <th class="p-2">Path</th>
-                                    <th class="p-2">Download</th>
-                                </tr>
-                            </thead>
-                            <tbody id="imageTableBody">
-                                <!-- Images will be added here dynamically -->
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="index.html">
+                <i class="bi bi-shield-lock-fill text-primary me-2"></i>
+                <span class="fw-bold">Secure Image Vault</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">
+                            <i class="bi bi-house-door me-1"></i> Home
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#">
+                            <i class="bi bi-images me-1"></i> Image Vault
+                        </a>
+                    </li>
+                </ul>
             </div>
+        </div>
+    </nav>
 
-            <!-- Search Tab -->
-            <div id="search" class="tab-pane glass p-6 hidden">
-                <div class="flex space-x-2 mb-4">
-                    <input type="text" id="searchInput" class="form-input w-full" placeholder="Search by Name/Title">
-                    <button type="button" class="action-button text-white font-medium py-2 px-4 rounded-lg" onclick="searchImages()">Search</button>
-                </div>
-                <div class="mt-6">
-                    <h3 class="text-lg font-semibold text-white mb-2">Search Results</h3>
-                    <div class="overflow-x-auto">
-                        <table class="table w-full text-white">
-                            <thead>
-                                <tr>
-                                    <th class="p-2">Preview</th>
-                                    <th class="p-2">Name/Title</th>
-                                    <th class="p-2">Date</th>
-                                    <th class="p-2">Path</th>
-                                    <th class="p-2">Download</th>
-                                </tr>
-                            </thead>
-                            <tbody id="searchResultTableBody">
-                                <!-- Search results will be added here dynamically -->
-                            </tbody>
-                        </table>
+    <!-- Main Container -->
+    <div class="container main-container">
+        <div class="row">
+            <div class="col-12">
+                <div class="card animate__animated animate__fadeIn">
+                    <div class="card-body p-0">
+                        <!-- Tabs -->
+                        <ul class="nav nav-tabs" id="myTab" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link active" id="upload-tab" data-bs-toggle="tab" data-bs-target="#upload" type="button" role="tab">
+                                    <i class="bi bi-cloud-upload me-2"></i> Upload Image
+                                </button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="gallery-tab" data-bs-toggle="tab" data-bs-target="#gallery" type="button" role="tab">
+                                    <i class="bi bi-grid-3x3-gap me-2"></i> Gallery View
+                                </button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="list-tab" data-bs-toggle="tab" data-bs-target="#list" type="button" role="tab">
+                                    <i class="bi bi-list-ul me-2"></i> List View
+                                </button>
+                            </li>
+                        </ul>
+
+                        <!-- Tab Content -->
+                        <div class="tab-content p-4" id="myTabContent">
+                            <!-- Upload Tab -->
+                            <div class="tab-pane fade show active" id="upload" role="tabpanel">
+                                <form id="uploadForm" class="row g-3">
+                                    <div class="col-md-6">
+                                        <label for="imageTitle" class="form-label fw-semibold">Image Name/Title</label>
+                                        <input type="text" class="form-control" id="imageTitle" required>
+                                        <div class="invalid-feedback">Please provide a valid image name.</div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="imagePassword" class="form-label fw-semibold">Password (Optional)</label>
+                                        <input type="password" class="form-control" id="imagePassword" placeholder="Leave empty for no password">
+                                    </div>
+                                    <div class="col-12">
+                                        <label for="imageFile" class="form-label fw-semibold">Select Image</label>
+                                        <input type="file" class="form-control" id="imageFile" accept="image/*" required>
+                                        <div class="invalid-feedback">Please select a valid image file.</div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="showPreview">
+                                            <label class="form-check-label" for="showPreview">
+                                                Show preview before upload
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-12" id="previewContainer" style="display: none;">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <h5 class="card-title">Image Preview</h5>
+                                                <img id="imagePreview" class="img-fluid rounded" alt="Preview">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <button type="button" class="btn btn-primary" onclick="uploadImage()">
+                                            <i class="bi bi-cloud-upload me-2"></i> Upload Image
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+
+                            <!-- Gallery Tab -->
+                            <div class="tab-pane fade" id="gallery" role="tabpanel">
+                                <div class="filter-section">
+                                    <div class="row g-3">
+                                        <div class="col-md-4">
+                                            <label for="yearFilter" class="form-label fw-semibold">Filter by Year</label>
+                                            <select class="form-select" id="yearFilter">
+                                                <option value="">All Years</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label for="monthFilter" class="form-label fw-semibold">Filter by Month</label>
+                                            <select class="form-select" id="monthFilter">
+                                                <option value="">All Months</option>
+                                                <option value="01">January</option>
+                                                <option value="02">February</option>
+                                                <option value="03">March</option>
+                                                <option value="04">April</option>
+                                                <option value="05">May</option>
+                                                <option value="06">June</option>
+                                                <option value="07">July</option>
+                                                <option value="08">August</option>
+                                                <option value="09">September</option>
+                                                <option value="10">October</option>
+                                                <option value="11">November</option>
+                                                <option value="12">December</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label for="searchGallery" class="form-label fw-semibold">Search by Name</label>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="searchGallery" placeholder="Search images...">
+                                                <button class="btn btn-primary" type="button" onclick="filterGallery()">
+                                                    <i class="bi bi-search"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row g-4" id="galleryContainer">
+                                    <!-- Gallery items will be added here dynamically -->
+                                </div>
+                                <div class="empty-state" id="galleryEmptyState" style="display: none;">
+                                    <i class="bi bi-images"></i>
+                                    <h5>No images found</h5>
+                                    <p>Upload some images to see them here.</p>
+                                </div>
+                            </div>
+
+                            <!-- List Tab -->
+                            <div class="tab-pane fade" id="list" role="tabpanel">
+                                <div class="filter-section">
+                                    <div class="row g-3">
+                                        <div class="col-md-4">
+                                            <label for="yearFilterList" class="form-label fw-semibold">Filter by Year</label>
+                                            <select class="form-select" id="yearFilterList">
+                                                <option value="">All Years</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label for="monthFilterList" class="form-label fw-semibold">Filter by Month</label>
+                                            <select class="form-select" id="monthFilterList">
+                                                <option value="">All Months</option>
+                                                <option value="01">January</option>
+                                                <option value="02">February</option>
+                                                <option value="03">March</option>
+                                                <option value="04">April</option>
+                                                <option value="05">May</option>
+                                                <option value="06">June</option>
+                                                <option value="07">July</option>
+                                                <option value="08">August</option>
+                                                <option value="09">September</option>
+                                                <option value="10">October</option>
+                                                <option value="11">November</option>
+                                                <option value="12">December</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label for="searchList" class="form-label fw-semibold">Search by Name</label>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="searchList" placeholder="Search images...">
+                                                <button class="btn btn-primary" type="button" onclick="filterList()">
+                                                    <i class="bi bi-search"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="table-container">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>Preview</th>
+                                                <th>Name/Title</th>
+                                                <th>Date</th>
+                                                <th>Protection</th>
+                                                <th>Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="imageTableBody">
+                                            <!-- Table rows will be added here dynamically -->
+                                        </tbody>
+                                    </table>
+                                    <div class="empty-state" id="listEmptyState" style="display: none;">
+                                        <i class="bi bi-list-ul"></i>
+                                        <h5>No images found</h5>
+                                        <p>Upload some images to see them here.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Footer -->
-    <footer class="glass">Thirupathi G</footer>
+    <!-- Image Viewer Modal -->
+    <div class="modal fade" id="imageViewerModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Image Viewer</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-center">
+                    <img id="modalImage" class="image-viewer" src="" alt="Image">
+                    <div class="image-details">
+                        <div class="detail-item">
+                            <div class="detail-label">Name:</div>
+                            <div class="detail-value" id="modalImageName"></div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Date:</div>
+                            <div class="detail-value" id="modalImageDate"></div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Path:</div>
+                            <div class="detail-value" id="modalImagePath"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-success" id="downloadBtn">
+                        <i class="bi bi-download me-2"></i> Download
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 
+    <!-- Password Modal -->
+    <div class="modal fade" id="passwordModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Password Required</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>This image is protected with a password. Please enter the password to continue.</p>
+                    <div class="mb-3">
+                        <label for="passwordInput" class="form-label">Password</label>
+                        <input type="password" class="form-control" id="passwordInput">
+                        <div class="invalid-feedback">Incorrect password. Please try again.</div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" id="submitPassword">Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2023 Secure Image Vault - Thirupathi G</p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
     <script>
         let images = [];
+        let currentImageIndex = -1;
+        let currentAction = '';
 
-        function showTab(tabId) {
-            document.querySelectorAll('.tab-pane').forEach(pane => pane.classList.add('hidden'));
-            document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
-            document.getElementById(tabId).classList.remove('hidden');
-            document.querySelector(`button[onclick="showTab('${tabId}')"]`).classList.add('active');
-            if (tabId === 'upload') {
-                displayImages();
-            } else if (tabId === 'search') {
-                searchImages();
+        // Initialize the app
+        document.addEventListener('DOMContentLoaded', function() {
+            retrieveFromStorage();
+            populateYearFilters();
+            
+            // Set up event listeners
+            document.getElementById('imageFile').addEventListener('change', handleFileSelect);
+            document.getElementById('showPreview').addEventListener('change', togglePreview);
+            document.getElementById('submitPassword').addEventListener('click', checkPassword);
+            document.getElementById('passwordInput').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    checkPassword();
+                }
+            });
+            
+            // Set up filter event listeners
+            document.getElementById('yearFilter').addEventListener('change', filterGallery);
+            document.getElementById('monthFilter').addEventListener('change', filterGallery);
+            document.getElementById('searchGallery').addEventListener('input', filterGallery);
+            
+            document.getElementById('yearFilterList').addEventListener('change', filterList);
+            document.getElementById('monthFilterList').addEventListener('change', filterList);
+            document.getElementById('searchList').addEventListener('input', filterList);
+            
+            // Display images in gallery and list views
+            displayGallery();
+            displayList();
+        });
+
+        function handleFileSelect(e) {
+            const file = e.target.files[0];
+            if (file && file.type.startsWith('image/')) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('imagePreview').src = e.target.result;
+                };
+                reader.readAsDataURL(file);
             }
         }
 
-        function validateUploadForm() {
-            let isValid = true;
-            const titleInput = document.getElementById('imageTitle');
-            const fileInput = document.getElementById('imageFile');
-            const titleError = document.getElementById('imageTitleError');
-            const fileError = document.getElementById('imageFileError');
-
-            if (!titleInput.value.trim()) {
-                titleInput.classList.add('invalid');
-                titleError.style.display = 'block';
-                isValid = false;
+        function togglePreview() {
+            const previewContainer = document.getElementById('previewContainer');
+            const showPreview = document.getElementById('showPreview').checked;
+            
+            if (showPreview && document.getElementById('imageFile').files[0]) {
+                previewContainer.style.display = 'block';
             } else {
-                titleInput.classList.remove('invalid');
-                titleError.style.display = 'none';
+                previewContainer.style.display = 'none';
             }
-
-            if (!fileInput.files[0] || !fileInput.files[0].type.startsWith('image/')) {
-                fileInput.classList.add('invalid');
-                fileError.style.display = 'block';
-                isValid = false;
-            } else {
-                fileInput.classList.remove('invalid');
-                fileError.style.display = 'none';
-            }
-
-            return isValid;
         }
 
         function uploadImage() {
-            if (!validateUploadForm()) {
-                alert('Please fix the errors in the form.');
+            const form = document.getElementById('uploadForm');
+            
+            if (!form.checkValidity()) {
+                form.classList.add('was-validated');
                 return;
             }
-
+            
             const title = document.getElementById('imageTitle').value.trim();
+            const password = document.getElementById('imagePassword').value;
             const file = document.getElementById('imageFile').files[0];
+            
+            if (!file || !file.type.startsWith('image/')) {
+                showToast('Please select a valid image file.', 'error');
+                return;
+            }
+            
             const reader = new FileReader();
-
+            
             reader.onload = function(e) {
-                const date = new Date().toISOString().split('T')[0]; // YYYY-MM-DD
+                const now = new Date();
+                const date = now.toISOString().split('T')[0]; // YYYY-MM-DD
+                const time = now.toTimeString().split(' ')[0]; // HH:MM:SS
+                
                 const imageData = {
                     title: title,
                     date: date,
+                    time: time,
                     data: e.target.result,
                     extension: file.name.split('.').pop(),
-                    path: `uploads/${date}/${title}.${file.name.split('.').pop()}`
+                    path: `uploads/${date}/${title}.${file.name.split('.').pop()}`,
+                    password: password || null
                 };
+                
                 images.push(imageData);
                 saveToStorage();
-                document.getElementById('uploadForm').reset();
-                displayImages();
+                
+                // Reset form
+                form.reset();
+                form.classList.remove('was-validated');
+                document.getElementById('previewContainer').style.display = 'none';
+                
+                // Update displays
+                displayGallery();
+                displayList();
+                populateYearFilters();
+                
+                showToast('Image uploaded successfully!', 'success');
             };
-
+            
             reader.readAsDataURL(file);
         }
 
         function saveToStorage() {
             try {
-                localStorage.setItem('images', JSON.stringify(images));
+                localStorage.setItem('secureImages', JSON.stringify(images));
             } catch (e) {
-                alert('Error saving image. Storage may be full.');
+                showToast('Error saving image. Storage may be full.', 'error');
+                console.error('Storage error:', e);
             }
         }
 
         function retrieveFromStorage() {
             try {
-                const data = localStorage.getItem('images');
+                const data = localStorage.getItem('secureImages');
                 if (data) {
                     images = JSON.parse(data);
-                    displayImages();
                 }
             } catch (e) {
                 console.error('Error retrieving images:', e);
@@ -360,59 +805,477 @@
             }
         }
 
-        function displayImages() {
-            const tableBody = document.getElementById('imageTableBody');
-            tableBody.innerHTML = '';
+        function displayGallery() {
+            const container = document.getElementById('galleryContainer');
+            const emptyState = document.getElementById('galleryEmptyState');
+            
+            container.innerHTML = '';
+            
+            if (images.length === 0) {
+                emptyState.style.display = 'block';
+                return;
+            }
+            
+            emptyState.style.display = 'none';
+            
             images.forEach((image, index) => {
-                const row = tableBody.insertRow();
-                row.className = 'table-row';
-                row.innerHTML = `
-                    <td class="p-2"><img src="${image.data}" class="image-preview" alt="${image.title}"></td>
-                    <td class="p-2">${image.title}</td>
-                    <td class="p-2">${image.date}</td>
-                    <td class="p-2">${image.path}</td>
-                    <td class="p-2"><button class="bg-emerald-500 text-white font-medium py-1 px-2 rounded-lg hover:bg-emerald-600" onclick="downloadImage(${index})">Download</button></td>
-                `;
+                const col = document.createElement('div');
+                col.className = 'col-md-4 col-sm-6';
+                
+                const card = document.createElement('div');
+                card.className = 'image-card';
+                
+                const img = document.createElement('img');
+                img.src = image.data;
+                img.alt = image.title;
+                img.onclick = () => viewImage(index);
+                
+                const overlay = document.createElement('div');
+                overlay.className = 'overlay';
+                
+                const title = document.createElement('h5');
+                title.textContent = image.title;
+                
+                const date = document.createElement('p');
+                date.textContent = formatDate(image.date);
+                
+                const actions = document.createElement('div');
+                actions.className = 'mt-2';
+                
+                const viewBtn = document.createElement('button');
+                viewBtn.className = 'btn btn-sm btn-light me-2';
+                viewBtn.innerHTML = '<i class="bi bi-eye"></i> View';
+                viewBtn.onclick = () => viewImage(index);
+                
+                const downloadBtn = document.createElement('button');
+                downloadBtn.className = 'btn btn-sm btn-light';
+                downloadBtn.innerHTML = '<i class="bi bi-download"></i> Download';
+                downloadBtn.onclick = () => downloadImage(index);
+                
+                actions.appendChild(viewBtn);
+                actions.appendChild(downloadBtn);
+                
+                if (image.password) {
+                    const badge = document.createElement('span');
+                    badge.className = 'password-badge ms-2';
+                    badge.innerHTML = '<i class="bi bi-lock-fill"></i> Protected';
+                    actions.appendChild(badge);
+                }
+                
+                overlay.appendChild(title);
+                overlay.appendChild(date);
+                overlay.appendChild(actions);
+                
+                card.appendChild(img);
+                card.appendChild(overlay);
+                
+                col.appendChild(card);
+                container.appendChild(col);
             });
         }
 
-        function searchImages() {
-            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
-            const filteredImages = images.filter(image => image.title.toLowerCase().includes(searchTerm));
-            displayFilteredImages(filteredImages);
-        }
-
-        function displayFilteredImages(filteredImages) {
-            const tableBody = document.getElementById('searchResultTableBody');
+        function displayList() {
+            const tableBody = document.getElementById('imageTableBody');
+            const emptyState = document.getElementById('listEmptyState');
+            
             tableBody.innerHTML = '';
-            filteredImages.forEach((image, index) => {
-                const originalIndex = images.findIndex(i => i.title === image.title && i.date === image.date);
-                const row = tableBody.insertRow();
-                row.className = 'table-row';
-                row.innerHTML = `
-                    <td class="p-2"><img src="${image.data}" class="image-preview" alt="${image.title}"></td>
-                    <td class="p-2">${image.title}</td>
-                    <td class="p-2">${image.date}</td>
-                    <td class="p-2">${image.path}</td>
-                    <td class="p-2"><button class="bg-emerald-500 text-white font-medium py-1 px-2 rounded-lg hover:bg-emerald-600" onclick="downloadImage(${originalIndex})">Download</button></td>
-                `;
+            
+            if (images.length === 0) {
+                emptyState.style.display = 'block';
+                return;
+            }
+            
+            emptyState.style.display = 'none';
+            
+            images.forEach((image, index) => {
+                const row = document.createElement('tr');
+                
+                const previewCell = document.createElement('td');
+                const previewImg = document.createElement('img');
+                previewImg.src = image.data;
+                previewImg.alt = image.title;
+                previewImg.className = 'preview-img';
+                previewImg.onclick = () => viewImage(index);
+                previewCell.appendChild(previewImg);
+                
+                const titleCell = document.createElement('td');
+                titleCell.textContent = image.title;
+                
+                const dateCell = document.createElement('td');
+                dateCell.textContent = formatDate(image.date);
+                
+                const protectionCell = document.createElement('td');
+                if (image.password) {
+                    const badge = document.createElement('span');
+                    badge.className = 'password-badge';
+                    badge.innerHTML = '<i class="bi bi-lock-fill"></i> Protected';
+                    protectionCell.appendChild(badge);
+                } else {
+                    protectionCell.innerHTML = '<span class="text-success"><i class="bi bi-unlock"></i> Public</span>';
+                }
+                
+                const actionsCell = document.createElement('td');
+                
+                const viewBtn = document.createElement('button');
+                viewBtn.className = 'btn btn-sm btn-primary me-2';
+                viewBtn.innerHTML = '<i class="bi bi-eye"></i>';
+                viewBtn.title = 'View';
+                viewBtn.onclick = () => viewImage(index);
+                
+                const downloadBtn = document.createElement('button');
+                downloadBtn.className = 'btn btn-sm btn-success';
+                downloadBtn.innerHTML = '<i class="bi bi-download"></i>';
+                downloadBtn.title = 'Download';
+                downloadBtn.onclick = () => downloadImage(index);
+                
+                actionsCell.appendChild(viewBtn);
+                actionsCell.appendChild(downloadBtn);
+                
+                row.appendChild(previewCell);
+                row.appendChild(titleCell);
+                row.appendChild(dateCell);
+                row.appendChild(protectionCell);
+                row.appendChild(actionsCell);
+                
+                tableBody.appendChild(row);
             });
+        }
+
+        function viewImage(index) {
+            currentImageIndex = index;
+            currentAction = 'view';
+            
+            const image = images[index];
+            
+            if (image.password) {
+                // Show password modal
+                const passwordModal = new bootstrap.Modal(document.getElementById('passwordModal'));
+                passwordModal.show();
+            } else {
+                // Show image directly
+                showImageModal(image);
+            }
         }
 
         function downloadImage(index) {
+            currentImageIndex = index;
+            currentAction = 'download';
+            
             const image = images[index];
+            
+            if (image.password) {
+                // Show password modal
+                const passwordModal = new bootstrap.Modal(document.getElementById('passwordModal'));
+                passwordModal.show();
+            } else {
+                // Download directly
+                performDownload(image);
+            }
+        }
+
+        function checkPassword() {
+            const passwordInput = document.getElementById('passwordInput');
+            const password = passwordInput.value;
+            const image = images[currentImageIndex];
+            
+            if (password === image.password) {
+                // Password correct
+                passwordInput.classList.remove('is-invalid');
+                
+                // Close password modal
+                const passwordModal = bootstrap.Modal.getInstance(document.getElementById('passwordModal'));
+                passwordModal.hide();
+                
+                // Reset password input
+                passwordInput.value = '';
+                
+                // Perform action
+                if (currentAction === 'view') {
+                    showImageModal(image);
+                } else if (currentAction === 'download') {
+                    performDownload(image);
+                }
+            } else {
+                // Password incorrect
+                passwordInput.classList.add('is-invalid');
+            }
+        }
+
+        function showImageModal(image) {
+            document.getElementById('modalImage').src = image.data;
+            document.getElementById('modalImageName').textContent = image.title;
+            document.getElementById('modalImageDate').textContent = formatDate(image.date) + ' at ' + image.time;
+            document.getElementById('modalImagePath').textContent = image.path;
+            
+            // Set up download button
+            document.getElementById('downloadBtn').onclick = () => performDownload(image);
+            
+            // Show modal
+            const imageModal = new bootstrap.Modal(document.getElementById('imageViewerModal'));
+            imageModal.show();
+        }
+
+        function performDownload(image) {
             const link = document.createElement('a');
             link.href = image.data;
             link.download = `${image.title}.${image.extension}`;
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
+            
+            showToast('Image downloaded successfully!', 'success');
         }
 
-        window.onload = () => {
-            retrieveFromStorage();
-            showTab('upload');
-        };
+        function filterGallery() {
+            const yearFilter = document.getElementById('yearFilter').value;
+            const monthFilter = document.getElementById('monthFilter').value;
+            const searchTerm = document.getElementById('searchGallery').value.toLowerCase();
+            
+            const filteredImages = images.filter(image => {
+                const date = new Date(image.date);
+                const year = date.getFullYear().toString();
+                const month = (date.getMonth() + 1).toString().padStart(2, '0');
+                
+                const yearMatch = !yearFilter || year === yearFilter;
+                const monthMatch = !monthFilter || month === monthFilter;
+                const searchMatch = !searchTerm || image.title.toLowerCase().includes(searchTerm);
+                
+                return yearMatch && monthMatch && searchMatch;
+            });
+            
+            displayFilteredGallery(filteredImages);
+        }
+
+        function filterList() {
+            const yearFilter = document.getElementById('yearFilterList').value;
+            const monthFilter = document.getElementById('monthFilterList').value;
+            const searchTerm = document.getElementById('searchList').value.toLowerCase();
+            
+            const filteredImages = images.filter(image => {
+                const date = new Date(image.date);
+                const year = date.getFullYear().toString();
+                const month = (date.getMonth() + 1).toString().padStart(2, '0');
+                
+                const yearMatch = !yearFilter || year === yearFilter;
+                const monthMatch = !monthFilter || month === monthFilter;
+                const searchMatch = !searchTerm || image.title.toLowerCase().includes(searchTerm);
+                
+                return yearMatch && monthMatch && searchMatch;
+            });
+            
+            displayFilteredList(filteredImages);
+        }
+
+        function displayFilteredGallery(filteredImages) {
+            const container = document.getElementById('galleryContainer');
+            const emptyState = document.getElementById('galleryEmptyState');
+            
+            container.innerHTML = '';
+            
+            if (filteredImages.length === 0) {
+                emptyState.style.display = 'block';
+                emptyState.querySelector('h5').textContent = 'No images match your filters';
+                emptyState.querySelector('p').textContent = 'Try adjusting your filters or search terms.';
+                return;
+            }
+            
+            emptyState.style.display = 'none';
+            
+            filteredImages.forEach((image, index) => {
+                // Find the original index
+                const originalIndex = images.findIndex(i => i.title === image.title && i.date === image.date);
+                
+                const col = document.createElement('div');
+                col.className = 'col-md-4 col-sm-6';
+                
+                const card = document.createElement('div');
+                card.className = 'image-card';
+                
+                const img = document.createElement('img');
+                img.src = image.data;
+                img.alt = image.title;
+                img.onclick = () => viewImage(originalIndex);
+                
+                const overlay = document.createElement('div');
+                overlay.className = 'overlay';
+                
+                const title = document.createElement('h5');
+                title.textContent = image.title;
+                
+                const date = document.createElement('p');
+                date.textContent = formatDate(image.date);
+                
+                const actions = document.createElement('div');
+                actions.className = 'mt-2';
+                
+                const viewBtn = document.createElement('button');
+                viewBtn.className = 'btn btn-sm btn-light me-2';
+                viewBtn.innerHTML = '<i class="bi bi-eye"></i> View';
+                viewBtn.onclick = () => viewImage(originalIndex);
+                
+                const downloadBtn = document.createElement('button');
+                downloadBtn.className = 'btn btn-sm btn-light';
+                downloadBtn.innerHTML = '<i class="bi bi-download"></i> Download';
+                downloadBtn.onclick = () => downloadImage(originalIndex);
+                
+                actions.appendChild(viewBtn);
+                actions.appendChild(downloadBtn);
+                
+                if (image.password) {
+                    const badge = document.createElement('span');
+                    badge.className = 'password-badge ms-2';
+                    badge.innerHTML = '<i class="bi bi-lock-fill"></i> Protected';
+                    actions.appendChild(badge);
+                }
+                
+                overlay.appendChild(title);
+                overlay.appendChild(date);
+                overlay.appendChild(actions);
+                
+                card.appendChild(img);
+                card.appendChild(overlay);
+                
+                col.appendChild(card);
+                container.appendChild(col);
+            });
+        }
+
+        function displayFilteredList(filteredImages) {
+            const tableBody = document.getElementById('imageTableBody');
+            const emptyState = document.getElementById('listEmptyState');
+            
+            tableBody.innerHTML = '';
+            
+            if (filteredImages.length === 0) {
+                emptyState.style.display = 'block';
+                emptyState.querySelector('h5').textContent = 'No images match your filters';
+                emptyState.querySelector('p').textContent = 'Try adjusting your filters or search terms.';
+                return;
+            }
+            
+            emptyState.style.display = 'none';
+            
+            filteredImages.forEach((image, index) => {
+                // Find the original index
+                const originalIndex = images.findIndex(i => i.title === image.title && i.date === image.date);
+                
+                const row = document.createElement('tr');
+                
+                const previewCell = document.createElement('td');
+                const previewImg = document.createElement('img');
+                previewImg.src = image.data;
+                previewImg.alt = image.title;
+                previewImg.className = 'preview-img';
+                previewImg.onclick = () => viewImage(originalIndex);
+                previewCell.appendChild(previewImg);
+                
+                const titleCell = document.createElement('td');
+                titleCell.textContent = image.title;
+                
+                const dateCell = document.createElement('td');
+                dateCell.textContent = formatDate(image.date);
+                
+                const protectionCell = document.createElement('td');
+                if (image.password) {
+                    const badge = document.createElement('span');
+                    badge.className = 'password-badge';
+                    badge.innerHTML = '<i class="bi bi-lock-fill"></i> Protected';
+                    protectionCell.appendChild(badge);
+                } else {
+                    protectionCell.innerHTML = '<span class="text-success"><i class="bi bi-unlock"></i> Public</span>';
+                }
+                
+                const actionsCell = document.createElement('td');
+                
+                const viewBtn = document.createElement('button');
+                viewBtn.className = 'btn btn-sm btn-primary me-2';
+                viewBtn.innerHTML = '<i class="bi bi-eye"></i>';
+                viewBtn.title = 'View';
+                viewBtn.onclick = () => viewImage(originalIndex);
+                
+                const downloadBtn = document.createElement('button');
+                downloadBtn.className = 'btn btn-sm btn-success';
+                downloadBtn.innerHTML = '<i class="bi bi-download"></i>';
+                downloadBtn.title = 'Download';
+                downloadBtn.onclick = () => downloadImage(originalIndex);
+                
+                actionsCell.appendChild(viewBtn);
+                actionsCell.appendChild(downloadBtn);
+                
+                row.appendChild(previewCell);
+                row.appendChild(titleCell);
+                row.appendChild(dateCell);
+                row.appendChild(protectionCell);
+                row.appendChild(actionsCell);
+                
+                tableBody.appendChild(row);
+            });
+        }
+
+        function populateYearFilters() {
+            const years = new Set();
+            
+            images.forEach(image => {
+                const year = new Date(image.date).getFullYear();
+                years.add(year);
+            });
+            
+            const yearFilterGallery = document.getElementById('yearFilter');
+            const yearFilterList = document.getElementById('yearFilterList');
+            
+            // Clear existing options except the first one
+            while (yearFilterGallery.children.length > 1) {
+                yearFilterGallery.removeChild(yearFilterGallery.lastChild);
+            }
+            
+            while (yearFilterList.children.length > 1) {
+                yearFilterList.removeChild(yearFilterList.lastChild);
+            }
+            
+            // Add years in descending order
+            Array.from(years).sort((a, b) => b - a).forEach(year => {
+                const optionGallery = document.createElement('option');
+                optionGallery.value = year;
+                optionGallery.textContent = year;
+                yearFilterGallery.appendChild(optionGallery);
+                
+                const optionList = document.createElement('option');
+                optionList.value = year;
+                optionList.textContent = year;
+                yearFilterList.appendChild(optionList);
+            });
+        }
+
+        function formatDate(dateString) {
+            const options = { year: 'numeric', month: 'long', day: 'numeric' };
+            return new Date(dateString).toLocaleDateString(undefined, options);
+        }
+
+        function showToast(message, type) {
+            const toastContainer = document.getElementById('toastContainer');
+            
+            const toast = document.createElement('div');
+            toast.className = `custom-toast toast-${type}`;
+            
+            const icon = document.createElement('i');
+            icon.className = `toast-icon bi ${type === 'success' ? 'bi-check-circle-fill' : 'bi-exclamation-circle-fill'}`;
+            
+            const messageElement = document.createElement('div');
+            messageElement.textContent = message;
+            
+            toast.appendChild(icon);
+            toast.appendChild(messageElement);
+            
+            toastContainer.appendChild(toast);
+            
+            // Auto remove after 3 seconds
+            setTimeout(() => {
+                toast.style.animation = 'slideInRight 0.3s ease reverse';
+                setTimeout(() => {
+                    toastContainer.removeChild(toast);
+                }, 300);
+            }, 3000);
+        }
     </script>
 </body>
 </html>
