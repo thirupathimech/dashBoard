@@ -29,46 +29,46 @@
     
     <style>
         :root {
-            --primary-color: #2563eb;
-            --secondary-color: #7c3aed;
-            --accent-color: #06b6d4;
+            --primary-color: #6366f1;
+            --secondary-color: #8b5cf6;
+            --accent-color: #ec4899;
             --success-color: #10b981;
             --warning-color: #f59e0b;
             --danger-color: #ef4444;
-            --dark-color: #1e293b;
+            --dark-color: #0f172a;
             --light-color: #f8fafc;
         }
 
         [data-theme="dark"] {
-            --bg-primary: #0f0f23;
-            --bg-secondary: #1a1a2e;
-            --bg-card: rgba(30, 30, 45, 0.9);
-            --text-primary: #ffffff;
-            --text-secondary: #e0e0e0;
-            --text-muted: #a0a0a0;
-            --border-color: rgba(255, 255, 255, 0.1);
-            --shadow-color: rgba(0, 0, 0, 0.5);
-            --glass-bg: rgba(30, 30, 45, 0.7);
-            --nav-bg: rgba(15, 15, 35, 0.95);
-            --gradient-1: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%);
-            --gradient-2: linear-gradient(135deg, #7c3aed 0%, #06b6d4 100%);
-            --gradient-3: linear-gradient(135deg, #06b6d4 0%, #10b981 100%);
+            --bg-primary: #0f172a;
+            --bg-secondary: #1e293b;
+            --bg-card: #1e293b;
+            --text-primary: #f1f5f9;
+            --text-secondary: #cbd5e1;
+            --text-muted: #94a3b8;
+            --border-color: #334155;
+            --shadow-color: rgba(0, 0, 0, 0.3);
+            --glass-bg: rgba(30, 41, 59, 0.8);
+            --nav-bg: rgba(15, 23, 42, 0.95);
+            --gradient-1: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            --gradient-2: linear-gradient(135deg, #8b5cf6 0%, #ec4899 100%);
+            --gradient-3: linear-gradient(135deg, #ec4899 0%, #f43f5e 100%);
         }
 
         [data-theme="light"] {
-            --bg-primary: #f8fafc;
-            --bg-secondary: #f1f5f9;
-            --bg-card: rgba(255, 255, 255, 0.95);
-            --text-primary: #1e293b;
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8fafc;
+            --bg-card: #ffffff;
+            --text-primary: #0f172a;
             --text-secondary: #334155;
             --text-muted: #64748b;
-            --border-color: rgba(0, 0, 0, 0.1);
-            --shadow-color: rgba(0, 0, 0, 0.08);
-            --glass-bg: rgba(255, 255, 255, 0.8);
+            --border-color: #e2e8f0;
+            --shadow-color: rgba(0, 0, 0, 0.1);
+            --glass-bg: rgba(255, 255, 255, 0.9);
             --nav-bg: rgba(255, 255, 255, 0.95);
-            --gradient-1: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%);
-            --gradient-2: linear-gradient(135deg, #7c3aed 0%, #06b6d4 100%);
-            --gradient-3: linear-gradient(135deg, #06b6d4 0%, #10b981 100%);
+            --gradient-1: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            --gradient-2: linear-gradient(135deg, #8b5cf6 0%, #ec4899 100%);
+            --gradient-3: linear-gradient(135deg, #ec4899 0%, #f43f5e 100%);
         }
 
         * {
@@ -85,7 +85,6 @@
             overflow-x: hidden;
             transition: all 0.3s ease;
             position: relative;
-            line-height: 1.6;
         }
 
         /* Animated Background */
@@ -97,127 +96,64 @@
             height: 100%;
             z-index: -2;
             background: var(--bg-primary);
-            transition: all 0.5s ease;
+            overflow: hidden;
         }
 
         .animated-bg::before {
             content: '';
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: 
-                radial-gradient(circle at 20% 80%, rgba(37, 99, 235, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 80% 20%, rgba(124, 58, 237, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 40% 40%, rgba(6, 182, 212, 0.08) 0%, transparent 50%);
-            animation: gradientShift 20s ease infinite;
+            width: 200%;
+            height: 200%;
+            top: -50%;
+            left: -50%;
+            background: radial-gradient(circle at 20% 50%, rgba(99, 102, 241, 0.1) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 80%, rgba(139, 92, 246, 0.1) 0%, transparent 50%),
+                        radial-gradient(circle at 40% 20%, rgba(236, 72, 153, 0.05) 0%, transparent 50%);
+            animation: rotate 30s linear infinite;
         }
 
-        @keyframes gradientShift {
-            0%, 100% { transform: rotate(0deg) scale(1); opacity: 0.7; }
-            25% { transform: rotate(90deg) scale(1.1); opacity: 0.8; }
-            50% { transform: rotate(180deg) scale(1); opacity: 0.9; }
-            75% { transform: rotate(270deg) scale(0.9); opacity: 0.8; }
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
 
-        /* Floating Particles */
-        .particles {
+        /* Grid Pattern */
+        .grid-pattern {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            pointer-events: none;
+            background-image: 
+                linear-gradient(var(--border-color) 1px, transparent 1px),
+                linear-gradient(90deg, var(--border-color) 1px, transparent 1px);
+            background-size: 50px 50px;
+            opacity: 0.03;
             z-index: -1;
-        }
-
-        .particle {
-            position: absolute;
-            width: 3px;
-            height: 3px;
-            background: var(--gradient-1);
-            border-radius: 50%;
-            opacity: 0.4;
-            animation: floatUp 20s infinite linear;
-        }
-
-        @keyframes floatUp {
-            0% {
-                transform: translateY(100vh) translateX(0) scale(0);
-                opacity: 0;
-            }
-            10% {
-                opacity: 0.4;
-            }
-            90% {
-                opacity: 0.4;
-            }
-            100% {
-                transform: translateY(-100vh) translateX(100px) scale(1.5);
-                opacity: 0;
-            }
-        }
-
-        /* Custom Cursor */
-        .cursor {
-            width: 20px;
-            height: 20px;
-            border: 2px solid var(--primary-color);
-            border-radius: 50%;
-            position: fixed;
-            pointer-events: none;
-            z-index: 9999;
-            transition: all 0.1s ease;
-            transform: translate(-50%, -50%);
-            mix-blend-mode: difference;
-        }
-
-        .cursor-follower {
-            width: 40px;
-            height: 40px;
-            background: rgba(37, 99, 235, 0.1);
-            border-radius: 50%;
-            position: fixed;
-            pointer-events: none;
-            z-index: 9998;
-            transition: all 0.3s ease;
-            transform: translate(-50%, -50%);
-        }
-
-        .cursor.hover {
-            width: 40px;
-            height: 40px;
-            background: rgba(37, 99, 235, 0.2);
-            border-color: var(--secondary-color);
         }
 
         /* Navigation */
         .navbar {
             background: var(--nav-bg);
             backdrop-filter: blur(20px);
-            box-shadow: 0 4px 20px var(--shadow-color);
+            border-bottom: 1px solid var(--border-color);
             transition: all 0.3s ease;
             padding: 1rem 0;
-            border-bottom: 1px solid var(--border-color);
         }
 
         .navbar-brand {
             font-family: 'Space Grotesk', sans-serif;
-            font-weight: 700;
+            font-weight: 800;
             font-size: 1.8rem;
-            background: var(--gradient-1);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            transition: all 0.3s ease;
+            color: var(--text-primary) !important;
             position: relative;
+            transition: all 0.3s ease;
         }
 
         .navbar-brand::after {
             content: '';
             position: absolute;
-            bottom: -5px;
+            bottom: -2px;
             left: 0;
             width: 0;
             height: 3px;
@@ -230,68 +166,32 @@
         }
 
         .nav-link {
-            color: var(--text-primary) !important;
+            color: var(--text-secondary) !important;
             font-weight: 500;
-            margin: 0 0.5rem;
+            margin: 0 0.75rem;
             position: relative;
             transition: all 0.3s ease;
-            padding: 0.5rem 1rem !important;
-            border-radius: 10px;
-            overflow: hidden;
+            padding: 0.5rem 0 !important;
         }
 
-        .nav-link::before {
+        .nav-link::after {
             content: '';
             position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 2px;
             background: var(--gradient-1);
-            opacity: 0.1;
-            transition: left 0.3s ease;
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
         }
 
-        .nav-link:hover::before {
-            left: 0;
+        .nav-link:hover::after {
+            width: 100%;
         }
 
         .nav-link:hover {
             color: var(--primary-color) !important;
-            transform: translateY(-2px);
-        }
-
-        /* Theme Toggle */
-        .theme-toggle {
-            background: var(--glass-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 50px;
-            padding: 0.5rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            width: 60px;
-            height: 30px;
-            position: relative;
-        }
-
-        .theme-toggle-slider {
-            position: absolute;
-            top: 3px;
-            left: 3px;
-            width: 24px;
-            height: 24px;
-            background: var(--gradient-1);
-            border-radius: 50%;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 12px;
-        }
-
-        [data-theme="light"] .theme-toggle-slider {
-            transform: translateX(30px);
         }
 
         /* Search Bar */
@@ -300,36 +200,35 @@
         }
 
         .search-bar {
-            background: var(--glass-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 50px;
-            padding: 0.7rem 1.2rem 0.7rem 3rem;
+            background: var(--bg-card);
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            padding: 0.6rem 1rem 0.6rem 2.5rem;
             color: var(--text-primary);
-            width: 280px;
+            width: 250px;
             transition: all 0.3s ease;
-            backdrop-filter: blur(10px);
+            font-size: 0.9rem;
         }
 
         .search-bar:focus {
             outline: none;
-            background: var(--glass-bg);
             border-color: var(--primary-color);
-            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
-            width: 320px;
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+            width: 280px;
         }
 
         .search-icon {
             position: absolute;
-            left: 1rem;
+            left: 0.75rem;
             top: 50%;
             transform: translateY(-50%);
             color: var(--text-muted);
-            font-size: 1.1rem;
+            font-size: 1rem;
         }
 
         .clear-search {
             position: absolute;
-            right: 1rem;
+            right: 0.75rem;
             top: 50%;
             transform: translateY(-50%);
             color: var(--text-muted);
@@ -342,81 +241,85 @@
             opacity: 1;
         }
 
+        /* Theme Toggle */
+        .theme-toggle {
+            background: var(--bg-card);
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            padding: 0.4rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 56px;
+            height: 28px;
+            position: relative;
+        }
+
+        .theme-toggle-slider {
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 20px;
+            height: 20px;
+            background: var(--gradient-1);
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 10px;
+        }
+
+        [data-theme="light"] .theme-toggle-slider {
+            transform: translateX(28px);
+        }
+
         /* Projects Section */
         .projects-section {
-            padding: 8rem 0 4rem;
+            padding: 7rem 0 4rem;
         }
 
         .section-title {
             font-family: 'Space Grotesk', sans-serif;
-            font-size: clamp(2rem, 4vw, 3rem);
-            font-weight: 700;
+            font-size: clamp(2.5rem, 5vw, 3.5rem);
+            font-weight: 800;
             text-align: center;
-            margin-bottom: 3rem;
+            margin-bottom: 1rem;
             background: var(--gradient-1);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
 
-        /* Project Cards */
+        .section-subtitle {
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            margin-bottom: 4rem;
+        }
+
+        /* Project Cards - New Design */
         .project-card {
-            background: var(--glass-bg);
-            backdrop-filter: blur(20px);
+            background: var(--bg-card);
             border: 1px solid var(--border-color);
-            border-radius: 16px;
-            padding: 2rem;
+            border-radius: 20px;
+            padding: 0;
             height: 100%;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
             overflow: hidden;
-            box-shadow: 0 4px 20px var(--shadow-color);
+            display: flex;
+            flex-direction: column;
         }
 
-        .project-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: var(--gradient-1);
-            opacity: 0;
-            transition: opacity 0.4s ease;
-            z-index: -1;
-        }
-
-        .project-card::after {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
-            opacity: 0;
-            transition: all 0.4s ease;
-            transform: scale(0);
-        }
-
-        .project-card:hover::before {
-            opacity: 0.05;
-        }
-
-        .project-card:hover::after {
-            opacity: 1;
-            transform: scale(1);
-        }
-
-        .project-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 30px var(--shadow-color);
-            border-color: var(--primary-color);
+        .project-card-header {
+            padding: 2rem 2rem 1rem;
+            position: relative;
         }
 
         .project-icon-wrapper {
-            width: 70px;
-            height: 70px;
+            width: 64px;
+            height: 64px;
             background: var(--gradient-1);
             border-radius: 16px;
             display: flex;
@@ -450,14 +353,21 @@
 
         .project-title {
             font-weight: 700;
-            font-size: 1.25rem;
-            margin-bottom: 1rem;
+            font-size: 1.3rem;
+            margin-bottom: 0.75rem;
             color: var(--text-primary);
             transition: all 0.3s ease;
         }
 
         .project-card:hover .project-title {
-            transform: translateX(5px);
+            color: var(--primary-color);
+        }
+
+        .project-card-body {
+            padding: 0 2rem 2rem;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
         }
 
         .project-description {
@@ -465,21 +375,27 @@
             margin-bottom: 1.5rem;
             line-height: 1.6;
             font-size: 0.95rem;
+            flex: 1;
+        }
+
+        .project-footer {
+            padding: 1.5rem 2rem;
+            background: var(--bg-secondary);
+            border-top: 1px solid var(--border-color);
         }
 
         .project-btn {
             background: var(--gradient-1);
             color: white;
             border: none;
-            border-radius: 50px;
-            padding: 0.7rem 1.8rem;
+            border-radius: 12px;
+            padding: 0.75rem 1.5rem;
             font-weight: 600;
             transition: all 0.3s ease;
+            width: 100%;
+            font-size: 0.95rem;
             position: relative;
             overflow: hidden;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            font-size: 0.85rem;
         }
 
         .project-btn::before {
@@ -498,8 +414,8 @@
         }
 
         .project-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 20px rgba(37, 99, 235, 0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(99, 102, 241, 0.3);
         }
 
         .project-btn span {
@@ -507,10 +423,34 @@
             z-index: 1;
         }
 
+        .project-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px var(--shadow-color);
+            border-color: var(--primary-color);
+        }
+
+        /* Tags */
+        .project-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .tag {
+            background: var(--bg-secondary);
+            color: var(--text-muted);
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            border: 1px solid var(--border-color);
+        }
+
         /* No Results */
         .no-results {
             text-align: center;
-            padding: 4rem 2rem;
+            padding: 5rem 2rem;
             color: var(--text-muted);
             display: none;
         }
@@ -526,11 +466,10 @@
 
         /* Footer */
         footer {
-            background: var(--nav-bg);
-            backdrop-filter: blur(20px);
+            background: var(--bg-secondary);
+            border-top: 1px solid var(--border-color);
             padding: 3rem 0;
             margin-top: 5rem;
-            border-top: 1px solid var(--border-color);
         }
 
         .footer-content {
@@ -539,8 +478,8 @@
 
         .footer-text {
             color: var(--text-secondary);
-            font-size: 1.1rem;
-            margin-bottom: 1rem;
+            font-size: 1rem;
+            margin-bottom: 1.5rem;
         }
 
         .footer-text span {
@@ -555,25 +494,25 @@
             display: flex;
             justify-content: center;
             gap: 1rem;
-            margin-top: 1.5rem;
         }
 
         .social-link {
-            width: 45px;
-            height: 45px;
-            background: var(--glass-bg);
+            width: 44px;
+            height: 44px;
+            background: var(--bg-card);
             border: 1px solid var(--border-color);
-            border-radius: 50%;
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: var(--text-primary);
+            color: var(--text-secondary);
             transition: all 0.3s ease;
         }
 
         .social-link:hover {
             background: var(--gradient-1);
-            transform: translateY(-5px);
+            border-color: transparent;
+            transform: translateY(-3px);
             color: white;
         }
 
@@ -582,12 +521,11 @@
             position: fixed;
             bottom: 30px;
             right: 30px;
-            width: 60px;
-            height: 60px;
-            background: var(--glass-bg);
-            backdrop-filter: blur(20px);
-            border: 1px solid var(--border-color);
-            border-radius: 50%;
+            width: 56px;
+            height: 56px;
+            background: var(--bg-card);
+            border: 2px solid var(--border-color);
+            border-radius: 16px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -599,12 +537,13 @@
 
         .music-toggle:hover {
             background: var(--gradient-1);
+            border-color: transparent;
+            transform: scale(1.05);
             color: white;
-            transform: scale(1.1);
         }
 
         .music-toggle i {
-            font-size: 1.5rem;
+            font-size: 1.3rem;
         }
 
         .music-toggle.playing i {
@@ -613,7 +552,7 @@
 
         @keyframes pulse {
             0% { transform: scale(1); }
-            50% { transform: scale(1.2); }
+            50% { transform: scale(1.1); }
             100% { transform: scale(1); }
         }
 
@@ -622,9 +561,8 @@
             position: fixed;
             bottom: 30px;
             left: 30px;
-            background: var(--glass-bg);
-            backdrop-filter: blur(20px);
-            border: 1px solid var(--border-color);
+            background: var(--bg-card);
+            border: 2px solid var(--border-color);
             border-radius: 16px;
             padding: 1rem 1.5rem;
             color: var(--text-primary);
@@ -634,13 +572,13 @@
         }
 
         .clock-time {
-            font-size: 1.4rem;
+            font-size: 1.3rem;
             margin-bottom: 0.25rem;
         }
 
         .clock-date {
-            font-size: 0.9rem;
-            color: var(--text-secondary);
+            font-size: 0.85rem;
+            color: var(--text-muted);
         }
 
         /* Easter Egg */
@@ -683,14 +621,13 @@
         }
 
         .easter-egg-content {
-            background: var(--glass-bg);
-            backdrop-filter: blur(20px);
+            background: var(--bg-card);
             border: 1px solid var(--border-color);
             border-radius: 20px;
-            padding: 2rem;
+            padding: 2.5rem;
             max-width: 500px;
             text-align: center;
-            transform: scale(0.8);
+            transform: scale(0.9);
             transition: transform 0.3s ease;
         }
 
@@ -711,7 +648,7 @@
 
         .easter-egg-message {
             color: var(--text-secondary);
-            margin-bottom: 1.5rem;
+            margin-bottom: 2rem;
             line-height: 1.7;
         }
 
@@ -719,16 +656,16 @@
             background: var(--gradient-1);
             color: white;
             border: none;
-            border-radius: 50px;
-            padding: 0.8rem 2rem;
+            border-radius: 12px;
+            padding: 0.75rem 2rem;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
         }
 
         .easter-egg-close:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 25px rgba(37, 99, 235, 0.4);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(99, 102, 241, 0.3);
         }
 
         /* Loading Animation */
@@ -753,8 +690,8 @@
 
         .loader-container {
             position: relative;
-            width: 150px;
-            height: 150px;
+            width: 120px;
+            height: 120px;
         }
 
         .loader-logo {
@@ -762,16 +699,16 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 60px;
-            height: 60px;
+            width: 50px;
+            height: 50px;
             background: var(--gradient-1);
-            border-radius: 15px;
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
             font-weight: 700;
-            font-size: 1.5rem;
+            font-size: 1.3rem;
             z-index: 2;
         }
 
@@ -863,26 +800,26 @@
             background: var(--gradient-1);
             color: white;
             border: none;
-            border-radius: 50px;
-            padding: 0.8rem 2rem;
+            border-radius: 12px;
+            padding: 0.75rem 2rem;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
         }
 
         .offline-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 25px rgba(37, 99, 235, 0.4);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(99, 102, 241, 0.3);
         }
 
         /* Responsive Design */
         @media (max-width: 992px) {
             .search-bar {
-                width: 220px;
+                width: 200px;
             }
             
             .search-bar:focus {
-                width: 240px;
+                width: 220px;
             }
         }
 
@@ -924,13 +861,21 @@
                 font-size: 2rem;
             }
             
-            .project-card {
-                padding: 1.5rem;
+            .project-card-header {
+                padding: 1.5rem 1.5rem 1rem;
+            }
+            
+            .project-card-body {
+                padding: 0 1.5rem 1.5rem;
+            }
+            
+            .project-footer {
+                padding: 1rem 1.5rem;
             }
             
             .project-icon-wrapper {
-                width: 60px;
-                height: 60px;
+                width: 56px;
+                height: 56px;
             }
             
             .project-icon {
@@ -940,7 +885,7 @@
 
         /* Scrollbar Styling */
         ::-webkit-scrollbar {
-            width: 10px;
+            width: 8px;
         }
 
         ::-webkit-scrollbar-track {
@@ -949,7 +894,7 @@
 
         ::-webkit-scrollbar-thumb {
             background: var(--gradient-1);
-            border-radius: 5px;
+            border-radius: 4px;
         }
 
         ::-webkit-scrollbar-thumb:hover {
@@ -958,9 +903,9 @@
 
         /* Highlight */
         .highlight {
-            background: rgba(37, 99, 235, 0.3);
+            background: rgba(99, 102, 241, 0.2);
             padding: 2px 5px;
-            border-radius: 3px;
+            border-radius: 4px;
         }
     </style>
 </head>
@@ -985,18 +930,12 @@
         </div>
     </div>
 
-    <!-- Custom Cursor -->
-    <div class="cursor"></div>
-    <div class="cursor-follower"></div>
-
     <!-- Animated Background -->
     <div class="animated-bg"></div>
-    
-    <!-- Floating Particles -->
-    <div class="particles" id="particles"></div>
+    <div class="grid-pattern"></div>
 
     <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+    <nav class="navbar navbar-expand-lg fixed-top">
         <div class="container">
             <a class="navbar-brand" href="#">Thirupathi G</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
@@ -1038,7 +977,8 @@
     <!-- Projects Section -->
     <section class="projects-section" id="projects">
         <div class="container">
-            <h2 class="section-title">My Projects</h2>
+            <h1 class="section-title">My Projects</h1>
+            <p class="section-subtitle">Explore my collection of innovative web applications and tools</p>
             <div class="row g-4" id="projectsContainer">
                 <!-- Project Cards will be dynamically inserted here -->
             </div>
@@ -1113,145 +1053,169 @@
                 icon: 'bi-code-slash',
                 title: 'Learn Automation – TestNG & XPath',
                 description: 'Master Selenium automation with TestNG and XPath locators. Includes tutorials, examples, and interview-focused questions.',
-                link: 'learnAutomation.html'
+                link: 'learnAutomation.html',
+                tags: ['Automation', 'Testing', 'Selenium']
             },
             {
                 icon: 'bi-database',
                 title: 'MySQL Topics Explorer',
                 description: 'Discover all MySQL concepts with categorized sections, descriptions, and syntax-highlighted example queries.',
-                link: 'mySqlExplorer.html'
+                link: 'mySqlExplorer.html',
+                tags: ['Database', 'MySQL', 'SQL']
             },
             {
                 icon: 'bi-table',
                 title: 'MySQL Table Creator',
                 description: 'A simple web-based tool to generate MySQL CREATE TABLE statements easily without writing SQL by hand.',
-                link: 'mySQLTableCreator.html'
+                link: 'mySQLTableCreator.html',
+                tags: ['Database', 'MySQL', 'Tool']
             },
             {
                 icon: 'bi-tags',
                 title: 'JPA & Hibernate Annotations',
                 description: 'A handy web tool to explore and learn JPA & Hibernate annotations with examples — simplify your database mapping.',
-                link: 'hibernateAnnotations.html'
+                link: 'hibernateAnnotations.html',
+                tags: ['Java', 'JPA', 'Hibernate']
             },
             {
                 icon: 'bi-file-earmark-excel',
                 title: 'Excel Comparison',
                 description: 'A simple website to compare two Excel workbooks and download only the rows that are different.',
-                link: 'excelComparison.html'
+                link: 'excelComparison.html',
+                tags: ['Excel', 'Comparison', 'Tool']
             },
             {
                 icon: 'bi-code',
                 title: 'XML Formatter',
                 description: 'A clean and easy-to-use tool for formatting and beautifying your XML data for better readability.',
-                link: 'xmlFormatter.html'
+                link: 'xmlFormatter.html',
+                tags: ['XML', 'Formatter', 'Tool']
             },
             {
                 icon: 'bi-code-square',
                 title: 'XML Formatter Advanced',
                 description: 'A clean and easy-to-use tool for formatting and beautifying your XML data for better readability.',
-                link: 'xml-formatter-adv.html'
+                link: 'xml-formatter-adv.html',
+                tags: ['XML', 'Advanced', 'Tool']
             },
             {
                 icon: 'bi-folder',
                 title: 'File Manager',
                 description: 'You can save your files in localStorage for easy access and management.',
-                link: 'fileStorage'
+                link: 'fileStorage',
+                tags: ['Storage', 'File Manager', 'Tool']
             },
             {
                 icon: 'bi-filetype-html',
                 title: 'HTML Online Editor',
                 description: 'An HTML viewer with a toolbar for easy input and formatting of HTML code.',
-                link: 'htmlEditor.html'
+                link: 'htmlEditor.html',
+                tags: ['HTML', 'Editor', 'Tool']
             },
             {
                 icon: 'bi-calculator',
                 title: 'Loan Calculator',
                 description: 'Understand your loan payments and schedule with this easy-to-use calculator.',
-                link: 'https://thirupathimech.github.io/dashBoard/loanCalculator'
+                link: 'https://thirupathimech.github.io/dashBoard/loanCalculator',
+                tags: ['Calculator', 'Finance', 'Tool']
             },
             {
                 icon: 'bi-search-and-replace',
                 title: 'Find And Replace',
                 description: 'Streamline text editing with this powerful find and replace tool.',
-                link: 'https://thirupathimech.github.io/dashBoard/FindAndReplace'
+                link: 'https://thirupathimech.github.io/dashBoard/FindAndReplace',
+                tags: ['Text', 'Editor', 'Tool']
             },
             {
                 icon: 'bi-file-earmark-code',
                 title: 'Java File Scanner',
                 description: 'Scan and manage files for seamless data migration.',
-                link: 'javaFilePathScanner.html'
+                link: 'javaFilePathScanner.html',
+                tags: ['Java', 'Scanner', 'Tool']
             },
             {
                 icon: 'bi-text-paragraph',
                 title: 'Text Processor',
                 description: 'Easily edit text—trim whitespace, change case, remove special characters, and more, with a stylish look!',
-                link: 'textProcessor.html'
+                link: 'textProcessor.html',
+                tags: ['Text', 'Processor', 'Tool']
             },
             {
                 icon: 'bi-palette',
                 title: 'Color Picker',
                 description: 'A simple color picker website to choose any color and get its hex code instantly.',
-                link: 'colorPicker.html'
+                link: 'colorPicker.html',
+                tags: ['Color', 'Picker', 'Tool']
             },
             {
                 icon: 'bi-chat-dots',
                 title: 'Chat Bot',
                 description: 'Talk to a smart, chatty bot that gets your vibe. Great for dev portfolios, demos, or just some fun!',
-                link: 'chatbot.html'
+                link: 'chatbot.html',
+                tags: ['AI', 'Chat', 'Bot']
             },
             {
                 icon: 'bi-person-badge',
                 title: 'Employee Form',
                 description: 'Simplify the management of employee payroll information with this user-friendly application.',
-                link: 'https://thirupathimech.github.io/dashBoard/employeeForm'
+                link: 'https://thirupathimech.github.io/dashBoard/employeeForm',
+                tags: ['Form', 'Employee', 'Management']
             },
             {
                 icon: 'bi-controller',
                 title: 'Snake Game',
                 description: 'Enjoy a classic Snake Game with enhanced visuals and gameplay.',
-                link: 'snakeGame.html'
+                link: 'snakeGame.html',
+                tags: ['Game', 'Snake', 'Fun']
             },
             {
                 icon: 'bi-file-earmark-text',
                 title: 'Resume Analyzer',
                 description: 'Analyze your resume instantly: view ATS score, keyword highlights, and actionable insights to boost your job search.',
-                link: 'resume_analyzer.html'
+                link: 'resume_analyzer.html',
+                tags: ['Resume', 'Analyzer', 'Career']
             },
             {
                 icon: 'bi-cash-stack',
                 title: 'Daily Expense Tracker',
                 description: 'Effortlessly record your daily expenses, view spending trends and get budget-friendly tips to stay on top of your finances.',
-                link: 'expense_tracker.html'
+                link: 'expense_tracker.html',
+                tags: ['Finance', 'Tracker', 'Expense']
             },
             {
                 icon: 'bi-image',
                 title: 'Image Base64 Converter',
                 description: 'Instantly convert your images to Base64 strings: upload, encode, and copy ready-to-use code for embedding images.',
-                link: 'image_base64_converter.html'
+                link: 'image_base64_converter.html',
+                tags: ['Image', 'Converter', 'Base64']
             },
             {
                 icon: 'bi-qr-code',
                 title: 'QR Generator',
                 description: 'Easily create custom QR codes for your links, text, or data. Upload or input your content, generate a QR code instantly.',
-                link: 'qr_generator.html'
+                link: 'qr_generator.html',
+                tags: ['QR', 'Generator', 'Tool']
             },
             {
                 icon: 'bi-music-note-beamed',
                 title: 'Audio Trimmer',
                 description: 'Effortlessly trim and edit audio files with millisecond precision. Create custom sound bites, ringtones, and remove unwanted sections.',
-                link: 'audioTrimmer.html'
+                link: 'audioTrimmer.html',
+                tags: ['Audio', 'Trimmer', 'Editor']
             },
             {
                 icon: 'bi-send',
                 title: 'Postman Lite',
                 description: 'Test APIs effortlessly with Postman Lite: input your endpoint, select HTTP methods, add headers and payloads.',
-                link: 'postman_lite.html'
+                link: 'postman_lite.html',
+                tags: ['API', 'Testing', 'Tool']
             },
             {
                 icon: 'bi-camera-video',
                 title: 'Capture Image Or Video',
                 description: 'Capture and process images or videos with ease.',
-                link: 'FaceRecognization.html'
+                link: 'FaceRecognization.html',
+                tags: ['Camera', 'Capture', 'Media']
             }
         ];
 
@@ -1270,17 +1234,25 @@
                 container.empty();
                 
                 projectsToRender.forEach((project, index) => {
+                    const tagsHtml = project.tags ? project.tags.map(tag => `<span class="tag">${tag}</span>`).join('') : '';
                     const card = `
                         <div class="col-md-6 col-lg-4 project-item">
                             <div class="project-card">
-                                <div class="project-icon-wrapper">
-                                    <i class="bi ${project.icon} project-icon"></i>
+                                <div class="project-card-header">
+                                    <div class="project-icon-wrapper">
+                                        <i class="bi ${project.icon} project-icon"></i>
+                                    </div>
+                                    <h3 class="project-title">${project.title}</h3>
+                                    ${tagsHtml ? `<div class="project-tags">${tagsHtml}</div>` : ''}
                                 </div>
-                                <h3 class="project-title">${project.title}</h3>
-                                <p class="project-description">${project.description}</p>
-                                <button class="project-btn" onclick="window.location.href='${project.link}'">
-                                    <span>View Project</span>
-                                </button>
+                                <div class="project-card-body">
+                                    <p class="project-description">${project.description}</p>
+                                </div>
+                                <div class="project-footer">
+                                    <button class="project-btn" onclick="window.location.href='${project.link}'">
+                                        <span>View Project</span>
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     `;
@@ -1305,46 +1277,6 @@
             }
 
             renderProjects();
-
-            // Create floating particles
-            function createParticles() {
-                const particles = $('#particles');
-                const particleCount = 30;
-
-                for (let i = 0; i < particleCount; i++) {
-                    const particle = $('<div class="particle"></div>');
-                    particle.css({
-                        left: Math.random() * 100 + '%',
-                        animationDelay: Math.random() * 20 + 's',
-                        animationDuration: (Math.random() * 10 + 15) + 's'
-                    });
-                    particles.append(particle);
-                }
-            }
-
-            createParticles();
-
-            // Custom cursor
-            const cursor = $('.cursor');
-            const follower = $('.cursor-follower');
-
-            $(document).on('mousemove', (e) => {
-                cursor.css({
-                    left: e.clientX,
-                    top: e.clientY
-                });
-                follower.css({
-                    left: e.clientX,
-                    top: e.clientY
-                });
-            });
-
-            // Cursor hover effect
-            $('a, button, .project-card, .theme-toggle, .music-toggle, .easter-egg').on('mouseenter', () => {
-                cursor.addClass('hover');
-            }).on('mouseleave', () => {
-                cursor.removeClass('hover');
-            });
 
             // Theme toggle
             const themeToggle = $('#themeToggle');
@@ -1390,7 +1322,8 @@
                 const filteredProjects = projects.filter(project => {
                     const title = project.title.toLowerCase();
                     const description = project.description.toLowerCase();
-                    return title.includes(searchTerm) || description.includes(searchTerm);
+                    const tags = project.tags ? project.tags.join(' ').toLowerCase() : '';
+                    return title.includes(searchTerm) || description.includes(searchTerm) || tags.includes(searchTerm);
                 });
 
                 if (filteredProjects.length > 0) {
