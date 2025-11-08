@@ -1,1118 +1,1096 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MySQL Topics Explorer</title>
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
     <!-- Font Awesome for Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous">
-    <link rel="icon" href="https://blogger.googleusercontent.com/img/a/AVvXsEgIFnXbCEgaASrlgiFnXz6MPaK-kyelPH7eTOt9s0-nWtY5YSMAIG5mN4k7dnxX6M-C0AmbO3U9jikPwhBdpp7G9848hK_1c7kXLbqxamlfCbhe_l-kEb8pe5V6mEH3fiIokyxkIyavBLAMlAzSApPTbcYA1r-P9YDwpu9GBIsL1SV4zGLvMwFulKOECQ4" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    
     <!-- Prism.js for Syntax Highlighting -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-okaidia.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-sql.min.js"></script>
-    <!-- jQuery -->
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    
+    <!-- Alpine.js for Reactive Components -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    
+    <!-- Favicon -->
+    <link rel="icon" href="https://blogger.googleusercontent.com/img/a/AVvXsEgIFnXbCEgaASrlgiFnXz6MPaK-kyelPH7eTOt9s0-nWtY5YSMAIG5mN4k7dnxX6M-C0AmbO3U9jikPwhBdpp7G9848hK_1c7kXLbqxamlfCbhe_l-kEb8pe5V6mEH3fiIokyxkIyavBLAMlAzSApPTbcYA1r-P9YDwpu9GBIsL1SV4zGLvMwFulKOECQ4" type="image/x-icon">
+    
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        
         body {
-            background: linear-gradient(135deg, #a855f7, #facc15);
-            min-height: 100vh;
-            animation: fadeIn 1s ease-in;
+            font-family: 'Inter', sans-serif;
         }
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         }
-        .glassmorphism {
+        
+        .glass-effect {
             background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 15px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
         }
-        .category-header {
-            background: #6b21a8;
-            color: #ffffff;
-            padding: 15px;
-            border-radius: 10px;
-            margin-bottom: 10px;
-            font-size: 1.5rem;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            animation: slideIn 0.5s ease-in;
+        
+        .code-container {
+            position: relative;
+            overflow: hidden;
         }
-        @keyframes slideIn {
-            from { transform: translateX(-100px); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
+        
+        .code-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+            transform: translateX(-100%);
+            transition: transform 0.6s;
         }
-        .accordion-button {
-            font-weight: 600;
-            color: #ffffff;
-            background: #1a4d4d;
+        
+        .code-container:hover::before {
+            transform: translateX(100%);
+        }
+        
+        .topic-card {
             transition: all 0.3s ease;
         }
-        .accordion-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        
+        .topic-card:hover {
+            transform: translateY(-5px);
         }
-        .accordion-button:not(.collapsed) {
-            background: #2a6d6d;
-            color: #ffffff;
+        
+        .sidebar-item {
+            transition: all 0.2s ease;
         }
-        .accordion-item {
-            animation: fadeIn 0.5s ease-in;
-            animation-delay: calc(var(--index) * 0.1s);
-            animation-fill-mode: both;
-            background: #1a4d4d;
-            border: none;
-            margin-bottom: 5px;
-            border-radius: 10px !important;
+        
+        .sidebar-item:hover {
+            padding-left: 1.5rem;
         }
-        .accordion-body {
-            color: #e5e7eb;
+        
+        .sidebar-item.active {
+            border-left: 4px solid #667eea;
+            background: rgba(102, 126, 234, 0.1);
         }
-        pre {
-            background-color: #1e293b;
-            padding: 15px;
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .animate-fadeInUp {
+            animation: fadeInUp 0.6s ease-out;
+        }
+        
+        .search-highlight {
+            background: rgba(251, 191, 36, 0.3);
+            padding: 2px 4px;
+            border-radius: 3px;
+        }
+        
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.1);
             border-radius: 10px;
-            font-size: 0.9rem;
-            white-space: pre-wrap;
-            margin: 0;
-            opacity: 0;
-            animation: fadeInCode 0.5s ease-in forwards;
         }
-        @keyframes fadeInCode {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+        
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: rgba(102, 126, 234, 0.5);
+            border-radius: 10px;
         }
-        .search-bar {
-            max-width: 500px;
-            margin-bottom: 20px;
-            transition: transform 0.3s ease;
-        }
-        .search-bar:focus {
-            transform: scale(1.05);
-        }
-        .container {
-            max-width: 1200px;
-        }
-        .back-to-top {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            background: #6b21a8;
-            color: #fff;
-            border: none;
-            border-radius: 50%;
-            width: 50px;
-            height: 50px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.3s ease;
-        }
-        .back-to-top.visible {
-            opacity: 1;
-            visibility: visible;
-            animation: bounce 1s infinite;
-        }
-        @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
-            40% { transform: translateY(-10px); }
-            60% { transform: translateY(-5px); }
-        }
-        .home-button {
-            position: fixed;
-            top: 1rem;
-            box-shadow: 2px 3px 20px 0px;
-            left: 1rem;
-            z-index: 999;
-            width: 3rem;
-            height: 3rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(15px);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            border-radius: 0.75rem;
-            transition: transform 0.3s ease;
-        }
-
-        .home-button:hover {
-            transform: scale(1.1);
+        
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: rgba(102, 126, 234, 0.7);
         }
     </style>
 </head>
-<body>
-
-     <!-- Home Button -->
-    <button class="home-button" onclick="window.location.href='index.html'" title="Back to Home">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
-        </svg>
+<body class="bg-gray-50 dark:bg-gray-900 transition-colors duration-300" x-data="mysqlExplorer()">
+    <!-- Progress Bar -->
+    <div class="fixed top-0 left-0 h-1 bg-gradient-to-r from-purple-500 to-indigo-600 z-50 transition-all duration-300" 
+         :style="`width: ${scrollPercentage}%`"></div>
+    
+    <!-- Header -->
+    <header class="gradient-bg text-white shadow-lg sticky top-0 z-40">
+        <div class="container mx-auto px-4 py-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-4">
+                    <button @click="window.location.href='index.html'" 
+                            class="p-2 rounded-lg glass-effect hover:bg-white/20 transition-all">
+                        <i class="fas fa-home text-xl"></i>
+                    </button>
+                    <div>
+                        <h1 class="text-2xl font-bold">MySQL Topics Explorer</h1>
+                        <p class="text-sm opacity-90">Master MySQL with interactive examples</p>
+                    </div>
+                </div>
+                
+                <div class="flex items-center space-x-4">
+                    <!-- Search Bar -->
+                    <div class="relative">
+                        <input type="text" 
+                               x-model="searchQuery" 
+                               @input="filterTopics()"
+                               placeholder="Search topics..." 
+                               class="w-64 px-4 py-2 pl-10 rounded-lg bg-white/20 glass-effect text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-white/50">
+                        <i class="fas fa-search absolute left-3 top-3 text-white/70"></i>
+                    </div>
+                    
+                    <!-- Theme Toggle -->
+                    <button @click="toggleTheme()" 
+                            class="p-2 rounded-lg glass-effect hover:bg-white/20 transition-all">
+                        <i class="fas" :class="darkMode ? 'fa-sun' : 'fa-moon'"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+    
+    <div class="flex">
+        <!-- Sidebar -->
+        <aside class="w-64 bg-white dark:bg-gray-800 shadow-lg h-screen sticky top-16 overflow-y-auto custom-scrollbar hidden lg:block">
+            <div class="p-4">
+                <h3 class="text-lg font-semibold text-gray-800 dark:text-white mb-4">Categories</h3>
+                <nav class="space-y-2">
+                    <template x-for="category in categories" :key="category.id">
+                        <button @click="scrollToCategory(category.id)"
+                                :class="activeCategory === category.id ? 'active' : ''"
+                                class="sidebar-item w-full text-left px-4 py-3 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">
+                            <i :class="category.icon" class="mr-3"></i>
+                            <span x-text="category.name"></span>
+                        </button>
+                    </template>
+                </nav>
+            </div>
+        </aside>
+        
+        <!-- Main Content -->
+        <main class="flex-1 container mx-auto px-4 py-8">
+            <!-- MySQL SQL Section -->
+            <section id="mysql-sql" class="mb-12 animate-fadeInUp">
+                <div class="flex items-center mb-6">
+                    <div class="bg-gradient-to-r from-purple-500 to-indigo-600 text-white p-3 rounded-lg mr-4">
+                        <i class="fas fa-code text-2xl"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-3xl font-bold text-gray-800 dark:text-white">MySQL SQL</h2>
+                        <p class="text-gray-600 dark:text-gray-400">Core SQL commands and queries</p>
+                    </div>
+                </div>
+                
+                <div class="grid gap-4">
+                    <template x-for="topic in filteredSqlTopics" :key="topic.topic">
+                        <div class="topic-card bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden">
+                            <button @click="topic.expanded = !topic.expanded"
+                                    class="w-full px-6 py-4 flex items-center justify-between hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+                                <div class="flex items-center">
+                                    <i class="fas fa-chevron-right mr-3 transition-transform" 
+                                       :class="topic.expanded ? 'rotate-90' : ''"></i>
+                                    <h3 class="text-lg font-semibold text-gray-800 dark:text-white" x-text="topic.topic"></h3>
+                                </div>
+                                <span class="text-sm text-gray-500 dark:text-gray-400" x-text="`${topic.examples.length} examples`"></span>
+                            </button>
+                            
+                            <div x-show="topic.expanded" x-transition class="px-6 pb-4">
+                                <p class="text-gray-600 dark:text-gray-300 mb-4" x-text="topic.description"></p>
+                                
+                                <div class="space-y-3">
+                                    <template x-for="(example, index) in topic.examples" :key="index">
+                                        <div class="code-container bg-gray-900 rounded-lg p-4 relative group">
+                                            <pre><code class="language-sql text-sm" x-text="example"></code></pre>
+                                            <button @click="copyToClipboard(example)"
+                                                    class="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity bg-purple-600 text-white px-3 py-1 rounded text-sm hover:bg-purple-700">
+                                                <i class="fas fa-copy mr-1"></i> Copy
+                                            </button>
+                                        </div>
+                                    </template>
+                                </div>
+                            </div>
+                        </div>
+                    </template>
+                </div>
+            </section>
+            
+            <!-- MySQL Database Section -->
+            <section id="mysql-database" class="mb-12 animate-fadeInUp">
+                <div class="flex items-center mb-6">
+                    <div class="bg-gradient-to-r from-green-500 to-teal-600 text-white p-3 rounded-lg mr-4">
+                        <i class="fas fa-database text-2xl"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-3xl font-bold text-gray-800 dark:text-white">MySQL Database</h2>
+                        <p class="text-gray-600 dark:text-gray-400">Database management and operations</p>
+                    </div>
+                </div>
+                
+                <div class="grid gap-4">
+                    <template x-for="topic in filteredDatabaseTopics" :key="topic.topic">
+                        <div class="topic-card bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden">
+                            <button @click="topic.expanded = !topic.expanded"
+                                    class="w-full px-6 py-4 flex items-center justify-between hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+                                <div class="flex items-center">
+                                    <i class="fas fa-chevron-right mr-3 transition-transform" 
+                                       :class="topic.expanded ? 'rotate-90' : ''"></i>
+                                    <h3 class="text-lg font-semibold text-gray-800 dark:text-white" x-text="topic.topic"></h3>
+                                </div>
+                                <span class="text-sm text-gray-500 dark:text-gray-400" x-text="`${topic.examples.length} examples`"></span>
+                            </button>
+                            
+                            <div x-show="topic.expanded" x-transition class="px-6 pb-4">
+                                <p class="text-gray-600 dark:text-gray-300 mb-4" x-text="topic.description"></p>
+                                
+                                <div class="space-y-3">
+                                    <template x-for="(example, index) in topic.examples" :key="index">
+                                        <div class="code-container bg-gray-900 rounded-lg p-4 relative group">
+                                            <pre><code class="language-sql text-sm" x-text="example"></code></pre>
+                                            <button @click="copyToClipboard(example)"
+                                                    class="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity bg-green-600 text-white px-3 py-1 rounded text-sm hover:bg-green-700">
+                                                <i class="fas fa-copy mr-1"></i> Copy
+                                            </button>
+                                        </div>
+                                    </template>
+                                </div>
+                            </div>
+                        </div>
+                    </template>
+                </div>
+            </section>
+            
+            <!-- MySQL References Section -->
+            <section id="mysql-references" class="mb-12 animate-fadeInUp">
+                <div class="flex items-center mb-6">
+                    <div class="bg-gradient-to-r from-orange-500 to-red-600 text-white p-3 rounded-lg mr-4">
+                        <i class="fas fa-book text-2xl"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-3xl font-bold text-gray-800 dark:text-white">MySQL References</h2>
+                        <p class="text-gray-600 dark:text-gray-400">Data types and functions</p>
+                    </div>
+                </div>
+                
+                <div class="grid gap-4">
+                    <template x-for="topic in filteredReferenceTopics" :key="topic.topic">
+                        <div class="topic-card bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden">
+                            <button @click="topic.expanded = !topic.expanded"
+                                    class="w-full px-6 py-4 flex items-center justify-between hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+                                <div class="flex items-center">
+                                    <i class="fas fa-chevron-right mr-3 transition-transform" 
+                                       :class="topic.expanded ? 'rotate-90' : ''"></i>
+                                    <h3 class="text-lg font-semibold text-gray-800 dark:text-white" x-text="topic.topic"></h3>
+                                </div>
+                                <span class="text-sm text-gray-500 dark:text-gray-400" x-text="`${topic.examples.length} examples`"></span>
+                            </button>
+                            
+                            <div x-show="topic.expanded" x-transition class="px-6 pb-4">
+                                <p class="text-gray-600 dark:text-gray-300 mb-4" x-text="topic.description"></p>
+                                
+                                <div class="space-y-3">
+                                    <template x-for="(example, index) in topic.examples" :key="index">
+                                        <div class="code-container bg-gray-900 rounded-lg p-4 relative group">
+                                            <pre><code class="language-sql text-sm" x-text="example"></code></pre>
+                                            <button @click="copyToClipboard(example)"
+                                                    class="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity bg-orange-600 text-white px-3 py-1 rounded text-sm hover:bg-orange-700">
+                                                <i class="fas fa-copy mr-1"></i> Copy
+                                            </button>
+                                        </div>
+                                    </template>
+                                </div>
+                            </div>
+                        </div>
+                    </template>
+                </div>
+            </section>
+        </main>
+    </div>
+    
+    <!-- Back to Top Button -->
+    <button @click="scrollToTop()"
+            x-show="showBackToTop"
+            x-transition
+            class="fixed bottom-8 right-8 bg-gradient-to-r from-purple-500 to-indigo-600 text-white p-4 rounded-full shadow-lg hover:shadow-xl transform hover:scale-110 transition-all z-40">
+        <i class="fas fa-arrow-up"></i>
     </button>
     
-     <div class="container py-5">
-        <h1 class="display-5 fw-bold text-white mb-4">MySQL Topics Explorer</h1>
-        <p class="lead text-light mb-4">Discover all MySQL concepts with categorized sections, descriptions, and syntax-highlighted example queries.</p>
-        <!-- Search Bar -->
-        <input type="text" id="searchInput" class="form-control search-bar glassmorphism" placeholder="Search topics...">
-        <!-- Categories and Accordions -->
-        <!-- MySQL SQL Category -->
-        <div class="category-header">
-            <i class="fas fa-code"></i> MySQL SQL
-        </div>
-        <div class="accordion glassmorphism mb-5" id="mysqlSqlAccordion">
-            <div class="accordion-item" data-topic="SELECT" style="--index: 1;">
-                <h2 class="accordion-header">
-                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#sqlCollapse1">
-                        SELECT
-                    </button>
-                </h2>
-                <div id="sqlCollapse1" class="accordion-collapse collapse show" data-bs-parent="#mysqlSqlAccordion">
-                    <div class="accordion-body">
-                        <p>Retrieves data from tables.</p>
-                        <pre><code class="language-sql">SELECT first_name, last_name FROM customers WHERE city = 'Chennai';</code></pre>
-                        <pre><code class="language-sql">SELECT * FROM products WHERE price > 500;</code></pre>
-                        <pre><code class="language-sql">SELECT id, name FROM employees WHERE dept_id = 2;</code></pre>
-                        <pre><code class="language-sql">SELECT product_name, price FROM inventory WHERE stock > 0;</code></pre>
-                    </div>
-                </div>
-            </div>
-            <div class="accordion-item" data-topic="WHERE" style="--index: 2;">
-                <h2 class="accordion-header">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sqlCollapse2">
-                        WHERE
-                    </button>
-                </h2>
-                <div id="sqlCollapse2" class="accordion-collapse collapse" data-bs-parent="#mysqlSqlAccordion">
-                    <div class="accordion-body">
-                        <p>Filters records based on a condition.</p>
-                        <pre><code class="language-sql">SELECT * FROM employees WHERE dept_id = 3;</code></pre>
-                        <pre><code class="language-sql">SELECT * FROM orders WHERE order_date >= '2025-01-01';</code></pre>
-                        <pre><code class="language-sql">SELECT name FROM products WHERE category = 'Electronics';</code></pre>
-                        <pre><code class="language-sql">SELECT * FROM users WHERE status = 'active';</code></pre>
-                    </div>
-                </div>
-            </div>
-            <div class="accordion-item" data-topic="AND, OR, NOT" style="--index: 3;">
-                <h2 class="accordion-header">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sqlCollapse3">
-                        AND, OR, NOT
-                    </button>
-                </h2>
-                <div id="sqlCollapse3" class="accordion-collapse collapse" data-bs-parent="#mysqlSqlAccordion">
-                    <div class="accordion-body">
-                        <p>Combines conditions in a WHERE clause.</p>
-                        <pre><code class="language-sql">SELECT * FROM products WHERE price > 100 AND category = 'Electronics' OR NOT in_stock;</code></pre>
-                        <pre><code class="language-sql">SELECT * FROM users WHERE age >= 18 AND NOT status = 'inactive';</code></pre>
-                        <pre><code class="language-sql">SELECT * FROM orders WHERE customer_id = 101 AND order_date < '2025-01-01';</code></pre>
-                        <pre><code class="language-sql">SELECT * FROM employees WHERE dept_id = 5 OR NOT salary > 50000;</code></pre>
-                    </div>
-                </div>
-            </div>
-            <div class="accordion-item" data-topic="ORDER BY" style="--index: 4;">
-                <h2 class="accordion-header">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sqlCollapse4">
-                        ORDER BY
-                    </button>
-                </h2>
-                <div id="sqlCollapse4" class="accordion-collapse collapse" data-bs-parent="#mysqlSqlAccordion">
-                    <div class="accordion-body">
-                        <p>Sorts the result set by columns.</p>
-                        <pre><code class="language-sql">SELECT * FROM products ORDER BY price DESC;</code></pre>
-                        <pre><code class="language-sql">SELECT name, age FROM users ORDER BY age ASC, name DESC;</code></pre>
-                        <pre><code class="language-sql">SELECT * FROM orders ORDER BY order_date DESC;</code></pre>
-                        <pre><code class="language-sql">SELECT name, salary FROM employees ORDER BY salary ASC;</code></pre>
-                    </div>
-                </div>
-            </div>
-            <div class="accordion-item" data-topic="INSERT INTO" style="--index: 5;">
-                <h2 class="accordion-header">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sqlCollapse5">
-                        INSERT INTO
-                    </button>
-                </h2>
-                <div id="sqlCollapse5" class="accordion-collapse collapse" data-bs-parent="#mysqlSqlAccordion">
-                    <div class="accordion-body">
-                        <p>Adds new rows to a table.</p>
-                        <pre><code class="language-sql">INSERT INTO orders (customer_id, order_date) VALUES (101, '2025-05-23');</code></pre>
-                        <pre><code class="language-sql">INSERT INTO products (name, price) VALUES ('Laptop', 75000);</code></pre>
-                        <pre><code class="language-sql">INSERT INTO employees (name, dept_id) VALUES ('John', 3);</code></pre>
-                        <pre><code class="language-sql">INSERT INTO users (username, status) VALUES ('alice', 'active');</code></pre>
-                    </div>
-                </div>
-            </div>
-            <div class="accordion-item" data-topic="NULL Values" style="--index: 6;">
-                <h2 class="accordion-header">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sqlCollapse6">
-                        NULL Values
-                    </button>
-                </h2>
-                <div id="sqlCollapse6" class="accordion-collapse collapse" data-bs-parent="#mysqlSqlAccordion">
-                    <div class="accordion-body">
-                        <p>Handles NULL values in queries.</p>
-                        <pre><code class="language-sql">SELECT * FROM employees WHERE email IS NULL;</code></pre>
-                        <pre><code class="language-sql">SELECT * FROM orders WHERE shipped_date IS NOT NULL;</code></pre>
-                        <pre><code class="language-sql">SELECT name FROM customers WHERE phone IS NULL;</code></pre>
-                        <pre><code class="language-sql">SELECT * FROM products WHERE description IS NOT NULL;</code></pre>
-                    </div>
-                </div>
-            </div>
-            <div class="accordion-item" data-topic="UPDATE" style="--index: 7;">
-                <h2 class="accordion-header">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sqlCollapse7">
-                        UPDATE
-                    </button>
-                </h2>
-                <div id="sqlCollapse7" class="accordion-collapse collapse" data-bs-parent="#mysqlSqlAccordion">
-                    <div class="accordion-body">
-                        <p>Modifies existing data in a table.</p>
-                        <pre><code class="language-sql">UPDATE employees SET salary = salary + 5000 WHERE dept_id = 3;</code></pre>
-                        <pre><code class="language-sql">UPDATE products SET price = 600 WHERE id = 101;</code></pre>
-                        <pre><code class="language-sql">UPDATE users SET status = 'inactive' WHERE last_login < '2024-01-01';</code></pre>
-                        <pre><code class="language-sql">UPDATE orders SET shipped_date = '2025-05-24' WHERE order_id = 1001;</code></pre>
-                    </div>
-                </div>
-            </div>
-            <div class="accordion-item" data-topic="DELETE" style="--index: 8;">
-                <h2 class="accordion-header">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sqlCollapse8">
-                        DELETE
-                    </button>
-                </h2>
-                <div id="sqlCollapse8" class="accordion-collapse collapse" data-bs-parent="#mysqlSqlAccordion">
-                    <div class="accordion-body">
-                        <p>Removes rows based on a condition.</p>
-                        <pre><code class="language-sql">DELETE FROM orders WHERE order_date < '2024-01-01';</code></pre>
-                        <pre><code class="language-sql">DELETE FROM users WHERE status = 'inactive';</code></pre>
-                        <pre><code class="language-sql">DELETE FROM products WHERE stock = 0;</code></pre>
-                        <pre><code class="language-sql">DELETE FROM employees WHERE dept_id = 4;</code></pre>
-                    </div>
-                </div>
-            </div>
-            <div class="accordion-item" data-topic="LIMIT" style="--index: 9;">
-                <h2 class="accordion-header">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sqlCollapse9">
-                        LIMIT
-                    </button>
-                </h2>
-                <div id="sqlCollapse9" class="accordion-collapse collapse" data-bs-parent="#mysqlSqlAccordion">
-                    <div class="accordion-body">
-                        <p>Limits the number of rows returned.</p>
-                        <pre><code class="language-sql">SELECT * FROM products LIMIT 10;</code></pre>
-                        <pre><code class="language-sql">SELECT * FROM orders ORDER BY order_date DESC LIMIT 5;</code></pre>
-                        <pre><code class="language-sql">SELECT name FROM employees LIMIT 3;</code></pre>
-                        <pre><code class="language-sql">SELECT * FROM customers ORDER BY id ASC LIMIT 20;</code></pre>
-                    </div>
-                </div>
-            </div>
-            <div class="accordion-item" data-topic="MIN and MAX" style="--index: 10;">
-                <h2 class="accordion-header">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sqlCollapse10">
-                        MIN and MAX
-                    </button>
-                </h2>
-                <div id="sqlCollapse10" class="accordion-collapse collapse" data-bs-parent="#mysqlSqlAccordion">
-                    <div class="accordion-body">
-                        <p>Finds the minimum or maximum value in a column.</p>
-                        <pre><code class="language-sql">SELECT MIN(price), MAX(price) FROM products;</code></pre>
-                        <pre><code class="language-sql">SELECT MIN(order_date), MAX(order_date) FROM orders;</code></pre>
-                        <pre><code class="language-sql">SELECT MIN(salary), MAX(salary) FROM employees;</code></pre>
-                        <pre><code class="language-sql">SELECT MIN(stock), MAX(stock) FROM inventory;</code></pre>
-                    </div>
-                </div>
-            </div>
-            <div class="accordion-item" data-topic="COUNT, AVG, SUM" style="--index: 11;">
-                <h2 class="accordion-header">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sqlCollapse11">
-                        COUNT, AVG, SUM
-                    </button>
-                </h2>
-                <div id="sqlCollapse11" class="accordion-collapse collapse" data-bs-parent="#mysqlSqlAccordion">
-                    <div class="accordion-body">
-                        <p>Aggregate functions for counting, averaging, and summing.</p>
-                        <pre><code class="language-sql">SELECT COUNT(*), AVG(salary), SUM(salary) FROM employees;</code></pre>
-                        <pre><code class="language-sql">SELECT COUNT(id), SUM(quantity) FROM orders WHERE status = 'shipped';</code></pre>
-                        <pre><code class="language-sql">SELECT COUNT(*), AVG(price), SUM(price) FROM products;</code></pre>
-                        <pre><code class="language-sql">SELECT COUNT(id), SUM(stock) FROM inventory WHERE location = 'Warehouse';</code></pre>
-                    </div>
-                </div>
-            </div>
-            <div class="accordion-item" data-topic="LIKE" style="--index: 12;">
-                <h2 class="accordion-header">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sqlCollapse12">
-                        LIKE
-                    </button>
-                </h2>
-                <div id="sqlCollapse12" class="accordion-collapse collapse" data-bs-parent="#mysqlSqlAccordion">
-                    <div class="accordion-body">
-                        <p>Searches for a specified pattern in a column.</p>
-                        <pre><code class="language-sql">SELECT * FROM products WHERE name LIKE 'Phone%';</code></pre>
-                        <pre><code class="language-sql">SELECT * FROM customers WHERE email LIKE '%@gmail.com';</code></pre>
-                        <pre><code class="language-sql">SELECT name FROM employees WHERE name LIKE '%son';</code></pre>
-                        <pre><code class="language-sql">SELECT * FROM orders WHERE order_notes LIKE '%urgent%';</code></pre>
-                    </div>
-                </div>
-            </div>
-            <div class="accordion-item" data-topic="Wildcards" style="--index: 13;">
-                <h2 class="accordion-header">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sqlCollapse13">
-                        Wildcards
-                    </button>
-                </h2>
-                <div id="sqlCollapse13" class="accordion-collapse collapse" data-bs-parent="#mysqlSqlAccordion">
-                    <div class="accordion-body">
-                        <p>Uses % and _ for pattern matching with LIKE.</p>
-                        <pre><code class="language-sql">SELECT * FROM customers WHERE email LIKE '%@gmail.com';</code></pre>
-                        <pre><code class="language-sql">SELECT * FROM products WHERE name LIKE 'Lapt_p';</code></pre>
-                        <pre><code class="language-sql">SELECT name FROM employees WHERE name LIKE 'J_n%';</code></pre>
-                        <pre><code class="language-sql">SELECT * FROM orders WHERE order_id LIKE '2025[0-5]%';</code></pre>
-                    </div>
-                </div>
-            </div>
-            <div class="accordion-item" data-topic="IN" style="--index: 14;">
-                <h2 class="accordion-header">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sqlCollapse14">
-                        IN
-                    </button>
-                </h2>
-                <div id="sqlCollapse14" class="accordion-collapse collapse" data-bs-parent="#mysqlSqlAccordion">
-                    <div class="accordion-body">
-                        <p>Specifies multiple values in a WHERE clause.</p>
-                        <pre><code class="language-sql">SELECT * FROM products WHERE category IN ('Electronics', 'Appliances');</code></pre>
-                        <pre><code class="language-sql">SELECT * FROM employees WHERE dept_id IN (1, 2, 3);</code></pre>
-                        <pre><code class="language-sql">SELECT name FROM users WHERE status IN ('active', 'pending');</code></pre>
-                        <pre><code class="language-sql">SELECT * FROM orders WHERE customer_id IN (101, 102, 103);</code></pre>
-                    </div>
-                </div>
-            </div>
-            <div class="accordion-item" data-topic="BETWEEN" style="--index: 15;">
-                <h2 class="accordion-header">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sqlCollapse15">
-                        BETWEEN
-                    </button>
-                </h2>
-                <div id="sqlCollapse15" class="accordion-collapse collapse" data-bs-parent="#mysqlSqlAccordion">
-                    <div class="accordion-body">
-                        <p>Selects values within a given range, inclusive.</p>
-                        <pre><code class="language-sql">SELECT * FROM employees WHERE salary BETWEEN 30000 AND 50000;</code></pre>
-                        <pre><code class="language-sql">SELECT * FROM orders WHERE order_date BETWEEN '2025-01-01' AND '2025-12-31';</code></pre>
-                        <pre><code class="language-sql">SELECT * FROM products WHERE price BETWEEN 100 AND 1000;</code></pre>
-                        <pre><code class="language-sql">SELECT name FROM users WHERE age BETWEEN 20 AND 30;</code></pre>
-                    </div>
-                </div>
-            </div>
-            <div class="accordion-item" data-topic="Aliases" style="--index: 16;">
-                <h2 class="accordion-header">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sqlCollapse16">
-                        Aliases
-                    </button>
-                </h2>
-                <div id="sqlCollapse16" class="accordion-collapse collapse" data-bs-parent="#mysqlSqlAccordion">
-                    <div class="accordion-body">
-                        <p>Renames a column or table for the query result.</p>
-                        <pre><code class="language-sql">SELECT first_name AS fname FROM customers;</code></pre>
-                        <pre><code class="language-sql">SELECT p.name AS product_name FROM products p;</code></pre>
-                        <pre><code class="language-sql">SELECT e.name AS employee_name FROM employees e;</code></pre>
-                        <pre><code class="language-sql">SELECT order_date AS o_date FROM orders o;</code></pre>
-                    </div>
-                </div>
-            </div>
-            <div class="accordion-item" data-topic="INNER JOIN" style="--index: 17;">
-                <h2 class="accordion-header">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sqlCollapse17">
-                        INNER JOIN
-                    </button>
-                </h2>
-                <div id="sqlCollapse17" class="accordion-collapse collapse" data-bs-parent="#mysqlSqlAccordion">
-                    <div class="accordion-body">
-                        <p>Combines rows from two tables where the join condition is met.</p>
-                        <pre><code class="language-sql">SELECT c.name, o.order_date FROM customers c INNER JOIN orders o ON c.id = o.customer_id;</code></pre>
-                        <pre><code class="language-sql">SELECT e.name, d.dept_name FROM employees e INNER JOIN departments d ON e.dept_id = d.id;</code></pre>
-                        <pre><code class="language-sql">SELECT p.name, i.stock FROM products p INNER JOIN inventory i ON p.id = i.product_id;</code></pre>
-                        <pre><code class="language-sql">SELECT u.name, r.role_name FROM users u INNER JOIN roles r ON u.role_id = r.id;</code></pre>
-                    </div>
-                </div>
-            </div>
-            <div class="accordion-item" data-topic="LEFT JOIN" style="--index: 18;">
-                <h2 class="accordion-header">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sqlCollapse18">
-                        LEFT JOIN
-                    </button>
-                </h2>
-                <div id="sqlCollapse18" class="accordion-collapse collapse" data-bs-parent="#mysqlSqlAccordion">
-                    <div class="accordion-body">
-                        <p>Returns all rows from the left table, with matching rows from the right table.</p>
-                        <pre><code class="language-sql">SELECT c.name, o.order_date FROM customers c LEFT JOIN orders o ON c.id = o.customer_id;</code></pre>
-                        <pre><code class="language-sql">SELECT e.name, d.dept_name FROM employees e LEFT JOIN departments d ON e.dept_id = d.id;</code></pre>
-                        <pre><code class="language-sql">SELECT p.name, i.stock FROM products p LEFT JOIN inventory i ON p.id = i.product_id;</code></pre>
-                        <pre><code class="language-sql">SELECT u.name, r.role_name FROM users u LEFT JOIN roles r ON u.role_id = r.id;</code></pre>
-                    </div>
-                </div>
-            </div>
-            <div class="accordion-item" data-topic="RIGHT JOIN" style="--index: 19;">
-                <h2 class="accordion-header">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sqlCollapse19">
-                        RIGHT JOIN
-                    </button>
-                </h2>
-                <div id="sqlCollapse19" class="accordion-collapse collapse" data-bs-parent="#mysqlSqlAccordion">
-                    <div class="accordion-body">
-                        <p>Returns all rows from the right table, with matching rows from the left table.</p>
-                        <pre><code class="language-sql">SELECT c.name, o.order_date FROM customers c RIGHT JOIN orders o ON c.id = o.customer_id;</code></pre>
-                        <pre><code class="language-sql">SELECT e.name, d.dept_name FROM employees e RIGHT JOIN departments d ON e.dept_id = d.id;</code></pre>
-                        <pre><code class="language-sql">SELECT p.name, i.stock FROM products p RIGHT JOIN inventory i ON p.id = i.product_id;</code></pre>
-                        <pre><code class="language-sql">SELECT u.name, r.role_name FROM users u RIGHT JOIN roles r ON u.role_id = r.id;</code></pre>
-                    </div>
-                </div>
-            </div>
-            <div class="accordion-item" data-topic="CROSS JOIN" style="--index: 20;">
-                <h2 class="accordion-header">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sqlCollapse20">
-                        CROSS JOIN
-                    </button>
-                </h2>
-                <div id="sqlCollapse20" class="accordion-collapse collapse" data-bs-parent="#mysqlSqlAccordion">
-                    <div class="accordion-body">
-                        <p>Produces a Cartesian product of two tables.</p>
-                        <pre><code class="language-sql">SELECT * FROM colors CROSS JOIN sizes;</code></pre>
-                        <pre><code class="language-sql">SELECT e.name, r.role_name FROM employees e CROSS JOIN roles r;</code></pre>
-                        <pre><code class="language-sql">SELECT p.name, c.category_name FROM products p CROSS JOIN categories c;</code></pre>
-                        <pre><code class="language-sql">SELECT u.name, d.dept_name FROM users u CROSS JOIN departments d;</code></pre>
-                    </div>
-                </div>
-            </div>
-            <div class="accordion-item" data-topic="Self Join" style="--index: 21;">
-                <h2 class="accordion-header">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sqlCollapse21">
-                        Self Join
-                    </button>
-                </h2>
-                <div id="sqlCollapse21" class="accordion-collapse collapse" data-bs-parent="#mysqlSqlAccordion">
-                    <div class="accordion-body">
-                        <p>Joins a table with itself.</p>
-                        <pre><code class="language-sql">SELECT e1.name, e2.name FROM employees e1 INNER JOIN employees e2 ON e1.manager_id = e2.id;</code></pre>
-                        <pre><code class="language-sql">SELECT p1.name, p2.name FROM products p1 INNER JOIN products p2 ON p1.category = p2.category WHERE p1.id < p2.id;</code></pre>
-                        <pre><code class="language-sql">SELECT c1.name, c2.name FROM customers c1 INNER JOIN customers c2 ON c1.referred_by = c2.id;</code></pre>
-                        <pre><code class="language-sql">SELECT u1.username, u2.username FROM users u1 INNER JOIN users u2 ON u1.team_id = u2.team_id WHERE u1.id != u2.id;</code></pre>
-                    </div>
-                </div>
-            </div>
-            <div class="accordion-item" data-topic="UNION" style="--index: 22;">
-                <h2 class="accordion-header">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sqlCollapse22">
-                        UNION
-                    </button>
-                </h2>
-                <div id="sqlCollapse22" class="accordion-collapse collapse" data-bs-parent="#mysqlSqlAccordion">
-                    <div class="accordion-body">
-                        <p>Combines the results of two or more SELECT queries.</p>
-                        <pre><code class="language-sql">SELECT name FROM customers UNION SELECT name FROM suppliers;</code></pre>
-                        <pre><code class="language-sql">SELECT email FROM users UNION SELECT email FROM admins;</code></pre>
-                        <pre><code class="language-sql">SELECT product_name FROM products UNION SELECT item_name FROM inventory;</code></pre>
-                        <pre><code class="language-sql">SELECT dept_name FROM departments UNION SELECT team_name FROM teams;</code></pre>
-                    </div>
-                </div>
-            </div>
-            <div class="accordion-item" data-topic="GROUP BY" style="--index: 23;">
-                <h2 class="accordion-header">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sqlCollapse23">
-                        GROUP BY
-                    </button>
-                </h2>
-                <div id="sqlCollapse23" class="accordion-collapse collapse" data-bs-parent="#mysqlSqlAccordion">
-                    <div class="accordion-body">
-                        <p>Groups rows for aggregate functions.</p>
-                        <pre><code class="language-sql">SELECT dept_id, COUNT(*) AS emp_count FROM employees GROUP BY dept_id;</code></pre>
-                        <pre><code class="language-sql">SELECT category, SUM(price) AS total_price FROM products GROUP BY category;</code></pre>
-                        <pre><code class="language-sql">SELECT customer_id, COUNT(*) AS order_count FROM orders GROUP BY customer_id;</code></pre>
-                        <pre><code class="language-sql">SELECT status, AVG(salary) AS avg_salary FROM users GROUP BY status;</code></pre>
-                    </div>
-                </div>
-            </div>
-            <div class="accordion-item" data-topic="HAVING" style="--index: 24;">
-                <h2 class="accordion-header">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sqlCollapse24">
-                        HAVING
-                    </button>
-                </h2>
-                <div id="sqlCollapse24" class="accordion-collapse collapse" data-bs-parent="#mysqlSqlAccordion">
-                    <div class="accordion-body">
-                        <p>Filters grouped results from a GROUP BY clause.</p>
-                        <pre><code class="language-sql">SELECT dept_id, COUNT(*) AS emp_count FROM employees GROUP BY dept_id HAVING COUNT(*) > 5;</code></pre>
-                        <pre><code class="language-sql">SELECT category, SUM(price) AS total FROM products GROUP BY category HAVING SUM(price) > 10000;</code></pre>
-                        <pre><code class="language-sql">SELECT customer_id, COUNT(*) AS order_count FROM orders GROUP BY customer_id HAVING COUNT(*) >= 3;</code></pre>
-                        <pre><code class="language-sql">SELECT status, AVG(salary) AS avg_salary FROM employees GROUP BY status HAVING AVG(salary) < 40000;</code></pre>
-                    </div>
-                </div>
-            </div>
-            <div class="accordion-item" data-topic="EXISTS" style="--index: 25;">
-                <h2 class="accordion-header">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sqlCollapse25">
-                        EXISTS
-                    </button>
-                </h2>
-                <div id="sqlCollapse25" class="accordion-collapse collapse" data-bs-parent="#mysqlSqlAccordion">
-                    <div class="accordion-body">
-                        <p>Tests for the existence of rows in a subquery.</p>
-                        <pre><code class="language-sql">SELECT name FROM customers WHERE EXISTS (SELECT 1 FROM orders WHERE orders.customer_id = customers.id);</code></pre>
-                        <pre><code class="language-sql">SELECT name FROM products WHERE EXISTS (SELECT 1 FROM inventory WHERE inventory.product_id = products.id);</code></pre>
-                        <pre><code class="language-sql">SELECT name FROM employees WHERE EXISTS (SELECT 1 FROM projects WHERE projects.emp_id = employees.id);</code></pre>
-                        <pre><code class="language-sql">SELECT username FROM users WHERE EXISTS (SELECT 1 FROM logs WHERE logs.user_id = users.id);</code></pre>
-                    </div>
-                </div>
-            </div>
-            <div class="accordion-item" data-topic="ANY, ALL" style="--index: 26;">
-                <h2 class="accordion-header">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sqlCollapse26">
-                        ANY, ALL
-                    </button>
-                </h2>
-                <div id="sqlCollapse26" class="accordion-collapse collapse" data-bs-parent="#mysqlSqlAccordion">
-                    <div class="accordion-body">
-                        <p>Compares a value to any or all values in a subquery.</p>
-                        <pre><code class="language-sql">SELECT name FROM products WHERE price > ALL (SELECT price FROM products WHERE category = 'Electronics');</code></pre>
-                        <pre><code class="language-sql">SELECT name FROM employees WHERE salary > ANY (SELECT salary FROM employees WHERE dept_id = 2);</code></pre>
-                        <pre><code class="language-sql">SELECT name FROM orders WHERE total > ALL (SELECT total FROM orders WHERE customer_id = 101);</code></pre>
-                        <pre><code class="language-sql">SELECT name FROM users WHERE age < ANY (SELECT age FROM users WHERE status = 'active');</code></pre>
-                    </div>
-                </div>
-            </div>
-            <div class="accordion-item" data-topic="INSERT SELECT" style="--index: 27;">
-                <h2 class="accordion-header">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sqlCollapse27">
-                        INSERT SELECT
-                    </button>
-                </h2>
-                <div id="sqlCollapse27" class="accordion-collapse collapse" data-bs-parent="#mysqlSqlAccordion">
-                    <div class="accordion-body">
-                        <p>Inserts data into a table from a SELECT query.</p>
-                        <pre><code class="language-sql">INSERT INTO archive_orders SELECT * FROM orders WHERE order_date < '2024-01-01';</code></pre>
-                        <pre><code class="language-sql">INSERT INTO backup_users SELECT * FROM users WHERE status = 'inactive';</code></pre>
-                        <pre><code class="language-sql">INSERT INTO old_products SELECT * FROM products WHERE discontinued = 1;</code></pre>
-                        <pre><code class="language-sql">INSERT INTO temp_logs SELECT * FROM logs WHERE log_date < '2025-01-01';</code></pre>
-                    </div>
-                </div>
-            </div>
-            <div class="accordion-item" data-topic="CASE" style="--index: 28;">
-                <h2 class="accordion-header">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sqlCollapse28">
-                        CASE
-                    </button>
-                </h2>
-                <div id="sqlCollapse28" class="accordion-collapse collapse" data-bs-parent="#mysqlSqlAccordion">
-                    <div class="accordion-body">
-                        <p>Provides conditional logic in a query.</p>
-                        <pre><code class="language-sql">SELECT name, CASE WHEN salary > 50000 THEN 'High' ELSE 'Low' END AS salary_level FROM employees;</code></pre>
-                        <pre><code class="language-sql">SELECT product_name, CASE WHEN stock > 0 THEN 'In Stock' ELSE 'Out of Stock' END AS availability FROM products;</code></pre>
-                        <pre><code class="language-sql">SELECT order_id, CASE WHEN total > 1000 THEN 'Large' ELSE 'Small' END AS order_size FROM orders;</code></pre>
-                        <pre><code class="language-sql">SELECT username, CASE WHEN age < 18 THEN 'Minor' ELSE 'Adult' END AS age_group FROM users;</code></pre>
-                    </div>
-                </div>
-            </div>
-            <div class="accordion-item" data-topic="Null Functions" style="--index: 29;">
-                <h2 class="accordion-header">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sqlCollapse29">
-                        Null Functions
-                    </button>
-                </h2>
-                <div id="sqlCollapse29" class="accordion-collapse collapse" data-bs-parent="#mysqlSqlAccordion">
-                    <div class="accordion-body">
-                        <p>Handles NULL values (e.g., IFNULL, COALESCE).</p>
-                        <pre><code class="language-sql">SELECT name, IFNULL(email, 'No Email') AS email FROM customers;</code></pre>
-                        <pre><code class="language-sql">SELECT name, COALESCE(phone, mobile, 'No Contact') AS contact FROM users;</code></pre>
-                        <pre><code class="language-sql">SELECT product_name, IFNULL(description, 'No Description') AS desc FROM products;</code></pre>
-                        <pre><code class="language-sql">SELECT order_id, COALESCE(shipped_date, 'Not Shipped') AS status FROM orders;</code></pre>
-                    </div>
-                </div>
-            </div>
-            <div class="accordion-item" data-topic="Comments" style="--index: 30;">
-                <h2 class="accordion-header">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sqlCollapse30">
-                        Comments
-                    </button>
-                </h2>
-                <div id="sqlCollapse30" class="accordion-collapse collapse" data-bs-parent="#mysqlSqlAccordion">
-                    <div class="accordion-body">
-                        <p>Adds comments to SQL code for documentation.</p>
-                        <pre><code class="language-sql">-- This is a single-line comment
-SELECT * FROM employees;</code></pre>
-                        <pre><code class="language-sql">SELECT * FROM products /* This is a multi-line comment */ WHERE price > 100;</code></pre>
-                        <pre><code class="language-sql">-- Fetch all active users
-SELECT * FROM users WHERE status = 'active';</code></pre>
-                        <pre><code class="language-sql">SELECT * FROM orders /* Filter by year 2025 */ WHERE order_date LIKE '2025%';</code></pre>
-                    </div>
-                </div>
-            </div>
-            <div class="accordion-item" data-topic="Operators" style="--index: 31;">
-                <h2 class="accordion-header">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sqlCollapse31">
-                        Operators
-                    </button>
-                </h2>
-                <div id="sqlCollapse31" class="accordion-collapse collapse" data-bs-parent="#mysqlSqlAccordion">
-                    <div class="accordion-body">
-                        <p>Uses operators like =, <>, >, <, etc., in queries.</p>
-                        <pre><code class="language-sql">SELECT * FROM products WHERE price > 100 AND stock <> 0;</code></pre>
-                        <pre><code class="language-sql">SELECT * FROM employees WHERE salary <= 40000 OR dept_id = 5;</code></pre>
-                        <pre><code class="language-sql">SELECT name FROM users WHERE age >= 18 AND age < 30;</code></pre>
-                        <pre><code class="language-sql">SELECT * FROM orders WHERE total != 0 AND customer_id = 101;</code></pre>
-                    </div>
-                </div>
-            </div>
-            <div class="accordion-item" data-topic="SUBQUERY" style="--index: 32;">
-                <h2 class="accordion-header">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sqlCollapse32">
-                        SUBQUERY
-                    </button>
-                </h2>
-                <div id="sqlCollapse32" class="accordion-collapse collapse" data-bs-parent="#mysqlSqlAccordion">
-                    <div class="accordion-body">
-                        <p>A query nested within another query.</p>
-                        <pre><code class="language-sql">SELECT name FROM employees WHERE dept_id = (SELECT id FROM departments WHERE name = 'Sales');</code></pre>
-                        <pre><code class="language-sql">SELECT * FROM products WHERE price > (SELECT AVG(price) FROM products);</code></pre>
-                        <pre><code class="language-sql">SELECT name FROM customers WHERE id IN (SELECT customer_id FROM orders WHERE total > 5000);</code></pre>
-                        <pre><code class="language-sql">SELECT username FROM users WHERE id = (SELECT user_id FROM logs WHERE log_date = '2025-05-24');</code></pre>
-                    </div>
-                </div>
-            </div>
-            <div class="accordion-item" data-topic="TRUNCATE TABLE" style="--index: 33;">
-                <h2 class="accordion-header">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sqlCollapse33">
-                        TRUNCATE TABLE
-                    </button>
-                </h2>
-                <div id="sqlCollapse33" class="accordion-collapse collapse" data-bs-parent="#mysqlSqlAccordion">
-                    <div class="accordion-body">
-                        <p>Removes all rows from a table but keeps the structure.</p>
-                        <pre><code class="language-sql">TRUNCATE TABLE logs;</code></pre>
-                        <pre><code class="language-sql">TRUNCATE TABLE temp_data;</code></pre>
-                        <pre><code class="language-sql">TRUNCATE TABLE old_orders;</code></pre>
-                        <pre><code class="language-sql">TRUNCATE TABLE backup_users;</code></pre>
-                    </div>
-                </div>
-            </div>
-            <div class="accordion-item" data-topic="PARTITION BY" style="--index: 34;">
-                <h2 class="accordion-header">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sqlCollapse34">
-                        PARTITION BY
-                    </button>
-                </h2>
-                <div id="sqlCollapse34" class="accordion-collapse collapse" data-bs-parent="#mysqlSqlAccordion">
-                    <div class="accordion-body">
-                        <p>Divides rows into partitions for window functions.</p>
-                        <pre><code class="language-sql">SELECT name, salary, RANK() OVER (PARTITION BY dept_id ORDER BY salary DESC) AS rank FROM employees;</code></pre>
-                        <pre><code class="language-sql">SELECT product_name, price, SUM(price) OVER (PARTITION BY category) AS total_category_price FROM products;</code></pre>
-                        <pre><code class="language-sql">SELECT order_id, total, ROW_NUMBER() OVER (PARTITION BY customer_id ORDER BY order_date) AS order_num FROM orders;</code></pre>
-                        <pre><code class="language-sql">SELECT username, age, DENSE_RANK() OVER (PARTITION BY status ORDER BY age) AS age_rank FROM users;</code></pre>
-                    </div>
-                </div>
-            </div>
-            <div class="accordion-item" data-topic="WITH (CTE)" style="--index: 35;">
-                <h2 class="accordion-header">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sqlCollapse35">
-                        WITH (CTE)
-                    </button>
-                </h2>
-                <div id="sqlCollapse35" class="accordion-collapse collapse" data-bs-parent="#mysqlSqlAccordion">
-                    <div class="accordion-body">
-                        <p>Defines a Common Table Expression for reusable subqueries.</p>
-                        <pre><code class="language-sql">WITH high_salary AS (SELECT * FROM employees WHERE salary > 50000) SELECT * FROM high_salary WHERE dept_id = 1;</code></pre>
-                        <pre><code class="language-sql">WITH recent_orders AS (SELECT * FROM orders WHERE order_date >= '2025-01-01') SELECT customer_id, COUNT(*) FROM recent_orders GROUP BY customer_id;</code></pre>
-                        <pre><code class="language-sql">WITH top_products AS (SELECT * FROM products WHERE price > 1000) SELECT * FROM top_products WHERE category = 'Electronics';</code></pre>
-                        <pre><code class="language-sql">WITH active_users AS (SELECT * FROM users WHERE status = 'active') SELECT username, age FROM active_users WHERE age > 25;</code></pre>
-                    </div>
-                </div>
-            </div>
-            <div class="accordion-item" data-topic="ON DUPLICATE KEY UPDATE" style="--index: 36;">
-                <h2 class="accordion-header">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sqlCollapse36">
-                        ON DUPLICATE KEY UPDATE
-                    </button>
-                </h2>
-                <div id="sqlCollapse36" class="accordion-collapse collapse" data-bs-parent="#mysqlSqlAccordion">
-                    <div class="accordion-body">
-                        <p>Updates a row if a duplicate key is encountered during insertion.</p>
-                        <pre><code class="language-sql">INSERT INTO users (id, name, email) VALUES (1, 'John', 'john@example.com') ON DUPLICATE KEY UPDATE email = 'john@example.com';</code></pre>
-                        <pre><code class="language-sql">INSERT INTO products (id, stock) VALUES (101, 50) ON DUPLICATE KEY UPDATE stock = stock + 50;</code></pre>
-                        <pre><code class="language-sql">INSERT INTO employees (id, salary) VALUES (5, 60000) ON DUPLICATE KEY UPDATE salary = 60000;</code></pre>
-                        <pre><code class="language-sql">INSERT INTO orders (order_id, total) VALUES (1001, 1500) ON DUPLICATE KEY UPDATE total = 1500;</code></pre>
-                    </div>
-                </div>
-            </div>
-            <div class="accordion-item" data-topic="REPLACE" style="--index: 37;">
-                <h2 class="accordion-header">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sqlCollapse37">
-                        REPLACE
-                    </button>
-                </h2>
-                <div id="sqlCollapse37" class="accordion-collapse collapse" data-bs-parent="#mysqlSqlAccordion">
-                    <div class="accordion-body">
-                        <p>Replaces a row if a duplicate key exists, or inserts a new row.</p>
-                        <pre><code class="language-sql">REPLACE INTO users (id, name, email) VALUES (1, 'John', 'john@example.com');</code></pre>
-                        <pre><code class="language-sql">REPLACE INTO products (id, name, price) VALUES (101, 'Laptop', 75000);</code></pre>
-                        <pre><code class="language-sql">REPLACE INTO employees (id, name, dept_id) VALUES (5, 'Alice', 3);</code></pre>
-                        <pre><code class="language-sql">REPLACE INTO orders (order_id, customer_id, total) VALUES (1001, 101, 2000);</code></pre>
-                    </div>
-                </div>
-            </div>
-            <div class="accordion-item" data-topic="EXPLAIN" style="--index: 38;">
-                <h2 class="accordion-header">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sqlCollapse38">
-                        EXPLAIN
-                    </button>
-                </h2>
-                <div id="sqlCollapse38" class="accordion-collapse collapse" data-bs-parent="#mysqlSqlAccordion">
-                    <div class="accordion-body">
-                        <p>Shows how MySQL executes a query.</p>
-                        <pre><code class="language-sql">EXPLAIN SELECT * FROM employees WHERE dept_id = 3;</code></pre>
-                        <pre><code class="language-sql">EXPLAIN SELECT * FROM orders WHERE customer_id = 101;</code></pre>
-                        <pre><code class="language-sql">EXPLAIN SELECT * FROM products WHERE price > 500;</code></pre>
-                        <pre><code class="language-sql">EXPLAIN SELECT * FROM users WHERE status = 'active';</code></pre>
-                    </div>
-                </div>
-            </div>
-            <div class="accordion-item" data-topic="SHOW" style="--index: 39;">
-                <h2 class="accordion-header">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sqlCollapse39">
-                        SHOW
-                    </button>
-                </h2>
-                <div id="sqlCollapse39" class="accordion-collapse collapse" data-bs-parent="#mysqlSqlAccordion">
-                    <div class="accordion-body">
-                        <p>Displays information about databases, tables, etc.</p>
-                        <pre><code class="language-sql">SHOW DATABASES;</code></pre>
-                        <pre><code class="language-sql">SHOW TABLES;</code></pre>
-                        <pre><code class="language-sql">SHOW COLUMNS FROM employees;</code></pre>
-                        <pre><code class="language-sql">SHOW INDEX FROM products;</code></pre>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- MySQL Database Category -->
-        <div class="category-header">
-            <i class="fas fa-database"></i> MySQL Database
-        </div>
-        <div class="accordion glassmorphism mb-5" id="mysqlDatabaseAccordion">
-            <div class="accordion-item" data-topic="CREATE DB" style="--index: 1;">
-                <h2 class="accordion-header">
-                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#dbCollapse1">
-                        CREATE DB
-                    </button>
-                </h2>
-                <div id="dbCollapse1" class="accordion-collapse collapse show" data-bs-parent="#mysqlDatabaseAccordion">
-                    <div class="accordion-body">
-                        <p>Creates a new database.</p>
-                        <pre><code class="language-sql">CREATE DATABASE company_db;</code></pre>
-                        <pre><code class="language-sql">CREATE DATABASE inventory_db;</code></pre>
-                        <pre><code class="language-sql">CREATE DATABASE sales_db;</code></pre>
-                        <pre><code class="language-sql">CREATE DATABASE hr_db;</code></pre>
-                    </div>
-                </div>
-            </div>
-            <div class="accordion-item" data-topic="DROP DB" style="--index: 2;">
-                <h2 class="accordion-header">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#dbCollapse2">
-                        DROP DB
-                    </button>
-                </h2>
-                <div id="dbCollapse2" class="accordion-collapse collapse" data-bs-parent="#mysqlDatabaseAccordion">
-                    <div class="accordion-body">
-                        <p>Deletes a database.</p>
-                        <pre><code class="language-sql">DROP DATABASE company_db;</code></pre>
-                        <pre><code class="language-sql">DROP DATABASE inventory_db;</code></pre>
-                        <pre><code class="language-sql">DROP DATABASE sales_db;</code></pre>
-                        <pre><code class="language-sql">DROP DATABASE hr_db;</code></pre>
-                    </div>
-                </div>
-            </div>
-            <div class="accordion-item" data-topic="CREATE TABLE" style="--index: 3;">
-                <h2 class="accordion-header">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#dbCollapse3">
-                        CREATE TABLE
-                    </button>
-                </h2>
-                <div id="dbCollapse3" class="accordion-collapse collapse" data-bs-parent="#mysqlDatabaseAccordion">
-                    <div class="accordion-body">
-                        <p>Creates a new table with specified columns.</p>
-                        <pre><code class="language-sql">CREATE TABLE students (id INT PRIMARY KEY, name VARCHAR(50), age INT);</code></pre>
-                        <pre><code class="language-sql">CREATE TABLE products (id INT, name VARCHAR(100), price DECIMAL(10,2));</code></pre>
-                        <pre><code class="language-sql">CREATE TABLE orders (order_id INT, customer_id INT, order_date DATE);</code></pre>
-                        <pre><code class="language-sql">CREATE TABLE employees (emp_id INT, name VARCHAR(50), dept_id INT);</code></pre>
-                    </div>
-                </div>
-            </div>
-            <div class="accordion-item" data-topic="DROP TABLE" style="--index: 4;">
-                <h2 class="accordion-header">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#dbCollapse4">
-                        DROP TABLE
-                    </button>
-                </h2>
-                <div id="dbCollapse4" class="accordion-collapse collapse" data-bs-parent="#mysqlDatabaseAccordion">
-                    <div class="accordion-body">
-                        <p>Deletes a table and its data permanently.</p>
-                        <pre><code class="language-sql">DROP TABLE temp_data;</code></pre>
-                        <pre><code class="language-sql">DROP TABLE old_logs;</code></pre>
-                        <pre><code class="language-sql">DROP TABLE archive_orders;</code></pre>
-                        <pre><code class="language-sql">DROP TABLE backup_users;</code></pre>
-                    </div>
-                </div>
-            </div>
-            <div class="accordion-item" data-topic="ALTER TABLE" style="--index: 5;">
-                <h2 class="accordion-header">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#dbCollapse5">
-                        ALTER TABLE
-                    </button>
-                </h2>
-                <div id="dbCollapse5" class="accordion-collapse collapse" data-bs-parent="#mysqlDatabaseAccordion">
-                    <div class="accordion-body">
-                        <p>Modifies the structure of an existing table.</p>
-                        <pre><code class="language-sql">ALTER TABLE employees ADD COLUMN email VARCHAR(100);</code></pre>
-                        <pre><code class="language-sql">ALTER TABLE products MODIFY COLUMN price DECIMAL(12,2);</code></pre>
-                        <pre><code class="language-sql">ALTER TABLE orders DROP COLUMN notes;</code></pre>
-                        <pre><code class="language-sql">ALTER TABLE users ADD COLUMN last_login DATE;</code></pre>
-                    </div>
-                </div>
-            </div>
-            <div class="accordion-item" data-topic="NOT NULL" style="--index: 6;">
-                <h2 class="accordion-header">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#dbCollapse6">
-                        NOT NULL
-                    </button>
-                </h2>
-                <div id="dbCollapse6" class="accordion-collapse collapse" data-bs-parent="#mysqlDatabaseAccordion">
-                    <div class="accordion-body">
-                        <p>Ensures a column cannot have NULL values.</p>
-                        <pre><code class="language-sql">CREATE TABLE users (id INT NOT NULL, username VARCHAR(50));</code></pre>
-                        <pre><code class="language-sql">ALTER TABLE employees MODIFY COLUMN name VARCHAR(50) NOT NULL;</code></pre>
-                        <pre><code class="language-sql">CREATE TABLE orders (order_id INT NOT NULL, customer_id INT);</code></pre>
-                        <pre><code class="language-sql">ALTER TABLE products MODIFY COLUMN name VARCHAR(100) NOT NULL;</code></pre>
-                    </div>
-                </div>
-            </div>
-            <div class="accordion-item" data-topic="UNIQUE" style="--index: 7;">
-                <h2 class="accordion-header">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#dbCollapse7">
-                        UNIQUE
-                    </button>
-                </h2>
-                <div id="dbCollapse7" class="accordion-collapse collapse" data-bs-parent="#mysqlDatabaseAccordion">
-                    <div class="accordion-body">
-                        <p>Ensures all values in a column are unique.</p>
-                        <pre><code class="language-sql">CREATE TABLE users (id INT, email VARCHAR(100) UNIQUE);</code></pre>
-                        <pre><code class="language-sql">ALTER TABLE products ADD CONSTRAINT unique_name UNIQUE (name);</code></pre>
-                        <pre><code class="language-sql">CREATE TABLE employees (emp_id INT, employee_code VARCHAR(10) UNIQUE);</code></pre>
-                        <pre><code class="language-sql">ALTER TABLE orders ADD CONSTRAINT unique_order UNIQUE (order_id);</code></pre>
-                    </div>
-                </div>
-            </div>
-            <div class="accordion-item" data-topic="PRIMARY KEY" style="--index: 8;">
-                <h2 class="accordion-header">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#dbCollapse8">
-                        PRIMARY KEY
-                    </button>
-                </h2>
-                <div id="dbCollapse8" class="accordion-collapse collapse" data-bs-parent="#mysqlDatabaseAccordion">
-                    <div class="accordion-body">
-                        <p>Uniquely identifies each row in a table.</p>
-                        <pre><code class="language-sql">CREATE TABLE orders (order_id INT PRIMARY KEY, customer_id INT);</code></pre>
-                        <pre><code class="language-sql">ALTER TABLE users ADD PRIMARY KEY (id);</code></pre>
-                        <pre><code class="language-sql">CREATE TABLE products (id INT PRIMARY KEY, name VARCHAR(100));</code></pre>
-                        <pre><code class="language-sql">ALTER TABLE employees ADD PRIMARY KEY (emp_id);</code></pre>
-                    </div>
-                </div>
-            </div>
-            <div class="accordion-item" data-topic="FOREIGN KEY" style="--index: 9;">
-                <h2 class="accordion-header">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#dbCollapse9">
-                        FOREIGN KEY
-                    </button>
-                </h2>
-                <div id="dbCollapse9" class="accordion-collapse collapse" data-bs-parent="#mysqlDatabaseAccordion">
-                    <div class="accordion-body">
-                        <p>Links two tables together.</p>
-                        <pre><code class="language-sql">CREATE TABLE orders (order_id INT, customer_id INT, FOREIGN KEY (customer_id) REFERENCES customers(id));</code></pre>
-                        <pre><code class="language-sql">ALTER TABLE employees ADD FOREIGN KEY (dept_id) REFERENCES departments(id);</code></pre>
-                        <pre><code class="language-sql">CREATE TABLE order_details (id INT, order_id INT, FOREIGN KEY (order_id) REFERENCES orders(order_id));</code></pre>
-                        <pre><code class="language-sql">ALTER TABLE products ADD FOREIGN KEY (category_id) REFERENCES categories(id);</code></pre>
-                    </div>
-                </div>
-            </div>
-            <div class="accordion-item" data-topic="CHECK" style="--index: 10;">
-                <h2 class="accordion-header">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#dbCollapse10">
-                        CHECK
-                    </button>
-                </h2>
-                <div id="dbCollapse10" class="accordion-collapse collapse" data-bs-parent="#mysqlDatabaseAccordion">
-                    <div class="accordion-body">
-                        <p>Ensures values in a column meet a specific condition.</p>
-                        <pre><code class="language-sql">CREATE TABLE employees (id INT, age INT CHECK (age >= 18));</code></pre>
-                        <pre><code class="language-sql">ALTER TABLE products ADD CONSTRAINT check_price CHECK (price > 0);</code></pre>
-                        <pre><code class="language-sql">CREATE TABLE orders (order_id INT, total DECIMAL(10,2) CHECK (total >= 0));</code></pre>
-                        <pre><code class="language-sql">ALTER TABLE users ADD CONSTRAINT check_age CHECK (age <= 100);</code></pre>
-                    </div>
-                </div>
-            </div>
-            <div class="accordion-item" data-topic="DEFAULT" style="--index: 11;">
-                <h2 class="accordion-header">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#dbCollapse11">
-                        DEFAULT
-                    </button>
-                </h2>
-                <div id="dbCollapse11" class="accordion-collapse collapse" data-bs-parent="#mysqlDatabaseAccordion">
-                    <div class="accordion-body">
-                        <p>Sets a default value for a column.</p>
-                        <pre><code class="language-sql">CREATE TABLE users (id INT, status VARCHAR(20) DEFAULT 'active');</code></pre>
-                        <pre><code class="language-sql">ALTER TABLE orders MODIFY COLUMN order_date DATE DEFAULT '2025-01-01';</code></pre>
-                        <pre><code class="language-sql">CREATE TABLE products (id INT, stock INT DEFAULT 0);</code></pre>
-                        <pre><code class="language-sql">ALTER TABLE employees MODIFY COLUMN dept_id INT DEFAULT 1;</code></pre>
-                    </div>
-                </div>
-            </div>
-            <div class="accordion-item" data-topic="CREATE INDEX" style="--index: 12;">
-                <h2 class="accordion-header">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#dbCollapse12">
-                        CREATE INDEX
-                    </button>
-                </h2>
-                <div id="dbCollapse12" class="accordion-collapse collapse" data-bs-parent="#mysqlDatabaseAccordion">
-                    <div class="accordion-body">
-                        <p>Creates an index to improve query performance.</p>
-                        <pre><code class="language-sql">CREATE INDEX idx_name ON customers (last_name);</code></pre>
-                        <pre><code class="language-sql">CREATE INDEX idx_price ON products (price);</code></pre>
-                        <pre><code class="language-sql">CREATE INDEX idx_order_date ON orders (order_date);</code></pre>
-                        <pre><code class="language-sql">CREATE INDEX idx_dept ON employees (dept_id);</code></pre>
-                    </div>
-                </div>
-            </div>
-            <div class="accordion-item" data-topic="AUTO INCREMENT" style="--index: 13;">
-                <h2 class="accordion-header">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#dbCollapse13">
-                        AUTO INCREMENT
-                    </button>
-                </h2>
-                <div id="dbCollapse13" class="accordion-collapse collapse" data-bs-parent="#mysqlDatabaseAccordion">
-                    <div class="accordion-body">
-                        <p>Automatically generates unique values for a column.</p>
-                        <pre><code class="language-sql">CREATE TABLE users (id INT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(50));</code></pre>
-                        <pre><code class="language-sql">ALTER TABLE products MODIFY COLUMN id INT AUTO_INCREMENT;</code></pre>
-                        <pre><code class="language-sql">CREATE TABLE orders (order_id INT AUTO_INCREMENT PRIMARY KEY, customer_id INT);</code></pre>
-                        <pre><code class="language-sql">ALTER TABLE employees MODIFY COLUMN emp_id INT AUTO_INCREMENT;</code></pre>
-                    </div>
-                </div>
-            </div>
-            <div class="accordion-item" data-topic="Dates" style="--index: 14;">
-                <h2 class="accordion-header">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#dbCollapse14">
-                        Dates
-                    </button>
-                </h2>
-                <div id="dbCollapse14" class="accordion-collapse collapse" data-bs-parent="#mysqlDatabaseAccordion">
-                    <div class="accordion-body">
-                        <p>Handles date and time data types.</p>
-                        <pre><code class="language-sql">SELECT * FROM events WHERE event_date = '2025-05-23';</code></pre>
-                        <pre><code class="language-sql">SELECT * FROM orders WHERE order_date >= NOW();</code></pre>
-                        <pre><code class="language-sql">SELECT * FROM users WHERE last_login < '2025-01-01';</code></pre>
-                        <pre><code class="language-sql">SELECT * FROM logs WHERE log_timestamp BETWEEN '2025-01-01' AND '2025-12-31';</code></pre>
-                    </div>
-                </div>
-            </div>
-            <div class="accordion-item" data-topic="Views" style="--index: 15;">
-                <h2 class="accordion-header">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#dbCollapse15">
-                        Views
-                    </button>
-                </h2>
-                <div id="dbCollapse15" class="accordion-collapse collapse" data-bs-parent="#mysqlDatabaseAccordion">
-                    <div class="accordion-body">
-                        <p>Creates a virtual table from a SELECT query.</p>
-                        <pre><code class="language-sql">CREATE VIEW active_users AS SELECT * FROM users WHERE status = 'active';</code></pre>
-                        <pre><code class="language-sql">CREATE VIEW high_value_orders AS SELECT * FROM orders WHERE total > 10000;</code></pre>
-                        <pre><code class="language-sql">CREATE VIEW dept_employees AS SELECT * FROM employees WHERE dept_id = 3;</code></pre>
-                        <pre><code class="language-sql">CREATE VIEW product_stock AS SELECT * FROM products WHERE stock > 0;</code></pre>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- MySQL References Category -->
-        <div class="category-header">
-            <i class="fas fa-book"></i> MySQL References
-        </div>
-        <div class="accordion glassmorphism mb-5" id="mysqlReferencesAccordion">
-           <div class="accordion-item" data-topic="Data Types" style="--index: 1;">
-                <h2 class="accordion-header">
-                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#refCollapse1">
-                        Data Types
-                    </button>
-                </h2>
-                <div id="refCollapse1" class="accordion-collapse collapse show" data-bs-parent="#mysqlReferencesAccordion">
-                    <div class="accordion-body">
-                        <p>Defines the type of data a column can hold (e.g., INT, VARCHAR, DATE).</p>
-                        <pre><code class="language-sql">CREATE TABLE products (id INT, name VARCHAR(100), price DECIMAL(10,2), created_at DATE);</code></pre>
-                        <pre><code class="language-sql">CREATE TABLE logs (id INT, message TEXT, timestamp DATETIME);</code></pre>
-                        <pre><code class="language-sql">CREATE TABLE users (id INT, username VARCHAR(50), age SMALLINT, active BOOLEAN);</code></pre>
-                        <pre><code class="language-sql">CREATE TABLE orders (order_id INT, total DECIMAL(10,2), order_date DATE, notes LONGTEXT);</code></pre>
-                    </div>
-                </div>
-            </div>
-            <div class="accordion-item" data-topic="Functions" style="--index: 2;">
-                <h2 class="accordion-header">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#refCollapse2">
-                        Functions
-                    </button>
-                </h2>
-                <div id="refCollapse2" class="accordion-collapse collapse" data-bs-parent="#mysqlReferencesAccordion">
-                    <div class="accordion-body">
-                        <p>Built-in functions for manipulating data (e.g., CONCAT, NOW).</p>
-                        <pre><code class="language-sql">SELECT CONCAT(first_name, ' ', last_name) AS full_name, NOW() AS current_time FROM users;</code></pre>
-                        <pre><code class="language-sql">SELECT UPPER(name) AS upper_name, LENGTH(description) AS desc_length FROM products;</code></pre>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Back to Top Button -->
-        <button class="back-to-top" id="backToTop" title="Back to Top">
-            <i class="fas fa-arrow-up"></i>
-        </button>
+    <!-- Toast Notification -->
+    <div x-show="showToast"
+         x-transition:enter="transition ease-out duration-300"
+         x-transition:enter-start="opacity-0 transform translate-y-full"
+         x-transition:enter-end="opacity-100 transform translate-y-0"
+         x-transition:leave="transition ease-in duration-200"
+         x-transition:leave-start="opacity-100"
+         x-transition:leave-end="opacity-0"
+         class="fixed bottom-4 left-1/2 transform -translate-x-1/2 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg z-50">
+        <i class="fas fa-check-circle mr-2"></i>
+        <span x-text="toastMessage"></span>
     </div>
-    <!-- Bootstrap JS and Popper.js -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    
     <script>
-        $(document).ready(function() {
-            // Search functionality
-            $('#searchInput').on('keyup', function() {
-                const value = $(this).val().toLowerCase();
-                $('.accordion-item').each(function() {
-                    const topic = $(this).data('topic').toLowerCase();
-                    $(this).toggle(topic.includes(value));
-                });
-            });
-
-            // Back to Top button visibility
-            $(window).scroll(function() {
-                if ($(this).scrollTop() > 300) {
-                    $('#backToTop').addClass('visible');
-                } else {
-                    $('#backToTop').removeClass('visible');
+        function mysqlExplorer() {
+            return {
+                darkMode: false,
+                searchQuery: '',
+                scrollPercentage: 0,
+                showBackToTop: false,
+                showToast: false,
+                toastMessage: '',
+                activeCategory: 'mysql-sql',
+                
+                categories: [
+                    { id: 'mysql-sql', name: 'MySQL SQL', icon: 'fas fa-code' },
+                    { id: 'mysql-database', name: 'MySQL Database', icon: 'fas fa-database' },
+                    { id: 'mysql-references', name: 'MySQL References', icon: 'fas fa-book' }
+                ],
+                
+                sqlTopics: [
+                    {
+                        topic: "SELECT",
+                        description: "Retrieves data from tables.",
+                        examples: [
+                            "SELECT first_name, last_name FROM customers WHERE city = 'Chennai';",
+                            "SELECT * FROM products WHERE price > 500;",
+                            "SELECT id, name FROM employees WHERE dept_id = 2;",
+                            "SELECT product_name, price FROM inventory WHERE stock > 0;"
+                        ],
+                        expanded: false
+                    },
+                    {
+                        topic: "WHERE",
+                        description: "Filters records based on a condition.",
+                        examples: [
+                            "SELECT * FROM employees WHERE dept_id = 3;",
+                            "SELECT * FROM orders WHERE order_date >= '2025-01-01';",
+                            "SELECT name FROM products WHERE category = 'Electronics';",
+                            "SELECT * FROM users WHERE status = 'active';"
+                        ],
+                        expanded: false
+                    },
+                    {
+                        topic: "AND, OR, NOT",
+                        description: "Combines conditions in a WHERE clause.",
+                        examples: [
+                            "SELECT * FROM products WHERE price > 100 AND category = 'Electronics' OR NOT in_stock;",
+                            "SELECT * FROM users WHERE age >= 18 AND NOT status = 'inactive';",
+                            "SELECT * FROM orders WHERE customer_id = 101 AND order_date < '2025-01-01';",
+                            "SELECT * FROM employees WHERE dept_id = 5 OR NOT salary > 50000;"
+                        ],
+                        expanded: false
+                    },
+                    {
+                        topic: "ORDER BY",
+                        description: "Sorts the result set by columns.",
+                        examples: [
+                            "SELECT * FROM products ORDER BY price DESC;",
+                            "SELECT name, age FROM users ORDER BY age ASC, name DESC;",
+                            "SELECT * FROM orders ORDER BY order_date DESC;",
+                            "SELECT name, salary FROM employees ORDER BY salary ASC;"
+                        ],
+                        expanded: false
+                    },
+                    {
+                        topic: "INSERT INTO",
+                        description: "Adds new rows to a table.",
+                        examples: [
+                            "INSERT INTO orders (customer_id, order_date) VALUES (101, '2025-05-23');",
+                            "INSERT INTO products (name, price) VALUES ('Laptop', 75000);",
+                            "INSERT INTO employees (name, dept_id) VALUES ('John', 3);",
+                            "INSERT INTO users (username, status) VALUES ('alice', 'active');"
+                        ],
+                        expanded: false
+                    },
+                    {
+                        topic: "NULL Values",
+                        description: "Handles NULL values in queries.",
+                        examples: [
+                            "SELECT * FROM employees WHERE email IS NULL;",
+                            "SELECT * FROM orders WHERE shipped_date IS NOT NULL;",
+                            "SELECT name FROM customers WHERE phone IS NULL;",
+                            "SELECT * FROM products WHERE description IS NOT NULL;"
+                        ],
+                        expanded: false
+                    },
+                    {
+                        topic: "UPDATE",
+                        description: "Modifies existing data in a table.",
+                        examples: [
+                            "UPDATE employees SET salary = salary + 5000 WHERE dept_id = 3;",
+                            "UPDATE products SET price = 600 WHERE id = 101;",
+                            "UPDATE users SET status = 'inactive' WHERE last_login < '2024-01-01';",
+                            "UPDATE orders SET shipped_date = '2025-05-24' WHERE order_id = 1001;"
+                        ],
+                        expanded: false
+                    },
+                    {
+                        topic: "DELETE",
+                        description: "Removes rows based on a condition.",
+                        examples: [
+                            "DELETE FROM orders WHERE order_date < '2024-01-01';",
+                            "DELETE FROM users WHERE status = 'inactive';",
+                            "DELETE FROM products WHERE stock = 0;",
+                            "DELETE FROM employees WHERE dept_id = 4;"
+                        ],
+                        expanded: false
+                    },
+                    {
+                        topic: "LIMIT",
+                        description: "Limits the number of rows returned.",
+                        examples: [
+                            "SELECT * FROM products LIMIT 10;",
+                            "SELECT * FROM orders ORDER BY order_date DESC LIMIT 5;",
+                            "SELECT name FROM employees LIMIT 3;",
+                            "SELECT * FROM customers ORDER BY id ASC LIMIT 20;"
+                        ],
+                        expanded: false
+                    },
+                    {
+                        topic: "MIN and MAX",
+                        description: "Finds the minimum or maximum value in a column.",
+                        examples: [
+                            "SELECT MIN(price), MAX(price) FROM products;",
+                            "SELECT MIN(order_date), MAX(order_date) FROM orders;",
+                            "SELECT MIN(salary), MAX(salary) FROM employees;",
+                            "SELECT MIN(stock), MAX(stock) FROM inventory;"
+                        ],
+                        expanded: false
+                    },
+                    {
+                        topic: "COUNT, AVG, SUM",
+                        description: "Aggregate functions for counting, averaging, and summing.",
+                        examples: [
+                            "SELECT COUNT(*), AVG(salary), SUM(salary) FROM employees;",
+                            "SELECT COUNT(id), SUM(quantity) FROM orders WHERE status = 'shipped';",
+                            "SELECT COUNT(*), AVG(price), SUM(price) FROM products;",
+                            "SELECT COUNT(id), SUM(stock) FROM inventory WHERE location = 'Warehouse';"
+                        ],
+                        expanded: false
+                    },
+                    {
+                        topic: "LIKE",
+                        description: "Searches for a specified pattern in a column.",
+                        examples: [
+                            "SELECT * FROM products WHERE name LIKE 'Phone%';",
+                            "SELECT * FROM customers WHERE email LIKE '%@gmail.com';",
+                            "SELECT name FROM employees WHERE name LIKE '%son';",
+                            "SELECT * FROM orders WHERE order_notes LIKE '%urgent%';"
+                        ],
+                        expanded: false
+                    },
+                    {
+                        topic: "Wildcards",
+                        description: "Uses % and _ for pattern matching with LIKE.",
+                        examples: [
+                            "SELECT * FROM customers WHERE email LIKE '%@gmail.com';",
+                            "SELECT * FROM products WHERE name LIKE 'Lapt_p';",
+                            "SELECT name FROM employees WHERE name LIKE 'J_n%';",
+                            "SELECT * FROM orders WHERE order_id LIKE '2025[0-5]%';"
+                        ],
+                        expanded: false
+                    },
+                    {
+                        topic: "IN",
+                        description: "Specifies multiple values in a WHERE clause.",
+                        examples: [
+                            "SELECT * FROM products WHERE category IN ('Electronics', 'Appliances');",
+                            "SELECT * FROM employees WHERE dept_id IN (1, 2, 3);",
+                            "SELECT name FROM users WHERE status IN ('active', 'pending');",
+                            "SELECT * FROM orders WHERE customer_id IN (101, 102, 103);"
+                        ],
+                        expanded: false
+                    },
+                    {
+                        topic: "BETWEEN",
+                        description: "Selects values within a given range, inclusive.",
+                        examples: [
+                            "SELECT * FROM employees WHERE salary BETWEEN 30000 AND 50000;",
+                            "SELECT * FROM orders WHERE order_date BETWEEN '2025-01-01' AND '2025-12-31';",
+                            "SELECT * FROM products WHERE price BETWEEN 100 AND 1000;",
+                            "SELECT name FROM users WHERE age BETWEEN 20 AND 30;"
+                        ],
+                        expanded: false
+                    },
+                    {
+                        topic: "Aliases",
+                        description: "Renames a column or table for the query result.",
+                        examples: [
+                            "SELECT first_name AS fname FROM customers;",
+                            "SELECT p.name AS product_name FROM products p;",
+                            "SELECT e.name AS employee_name FROM employees e;",
+                            "SELECT order_date AS o_date FROM orders o;"
+                        ],
+                        expanded: false
+                    },
+                    {
+                        topic: "INNER JOIN",
+                        description: "Combines rows from two tables where the join condition is met.",
+                        examples: [
+                            "SELECT c.name, o.order_date FROM customers c INNER JOIN orders o ON c.id = o.customer_id;",
+                            "SELECT e.name, d.dept_name FROM employees e INNER JOIN departments d ON e.dept_id = d.id;",
+                            "SELECT p.name, i.stock FROM products p INNER JOIN inventory i ON p.id = i.product_id;",
+                            "SELECT u.name, r.role_name FROM users u INNER JOIN roles r ON u.role_id = r.id;"
+                        ],
+                        expanded: false
+                    },
+                    {
+                        topic: "LEFT JOIN",
+                        description: "Returns all rows from the left table, with matching rows from the right table.",
+                        examples: [
+                            "SELECT c.name, o.order_date FROM customers c LEFT JOIN orders o ON c.id = o.customer_id;",
+                            "SELECT e.name, d.dept_name FROM employees e LEFT JOIN departments d ON e.dept_id = d.id;",
+                            "SELECT p.name, i.stock FROM products p LEFT JOIN inventory i ON p.id = i.product_id;",
+                            "SELECT u.name, r.role_name FROM users u LEFT JOIN roles r ON u.role_id = r.id;"
+                        ],
+                        expanded: false
+                    },
+                    {
+                        topic: "RIGHT JOIN",
+                        description: "Returns all rows from the right table, with matching rows from the left table.",
+                        examples: [
+                            "SELECT c.name, o.order_date FROM customers c RIGHT JOIN orders o ON c.id = o.customer_id;",
+                            "SELECT e.name, d.dept_name FROM employees e RIGHT JOIN departments d ON e.dept_id = d.id;",
+                            "SELECT p.name, i.stock FROM products p RIGHT JOIN inventory i ON p.id = i.product_id;",
+                            "SELECT u.name, r.role_name FROM users u RIGHT JOIN roles r ON u.role_id = r.id;"
+                        ],
+                        expanded: false
+                    },
+                    {
+                        topic: "CROSS JOIN",
+                        description: "Produces a Cartesian product of two tables.",
+                        examples: [
+                            "SELECT * FROM colors CROSS JOIN sizes;",
+                            "SELECT e.name, r.role_name FROM employees e CROSS JOIN roles r;",
+                            "SELECT p.name, c.category_name FROM products p CROSS JOIN categories c;",
+                            "SELECT u.name, d.dept_name FROM users u CROSS JOIN departments d;"
+                        ],
+                        expanded: false
+                    },
+                    {
+                        topic: "Self Join",
+                        description: "Joins a table with itself.",
+                        examples: [
+                            "SELECT e1.name, e2.name FROM employees e1 INNER JOIN employees e2 ON e1.manager_id = e2.id;",
+                            "SELECT p1.name, p2.name FROM products p1 INNER JOIN products p2 ON p1.category = p2.category WHERE p1.id < p2.id;",
+                            "SELECT c1.name, c2.name FROM customers c1 INNER JOIN customers c2 ON c1.referred_by = c2.id;",
+                            "SELECT u1.username, u2.username FROM users u1 INNER JOIN users u2 ON u1.team_id = u2.team_id WHERE u1.id != u2.id;"
+                        ],
+                        expanded: false
+                    },
+                    {
+                        topic: "UNION",
+                        description: "Combines the results of two or more SELECT queries.",
+                        examples: [
+                            "SELECT name FROM customers UNION SELECT name FROM suppliers;",
+                            "SELECT email FROM users UNION SELECT email FROM admins;",
+                            "SELECT product_name FROM products UNION SELECT item_name FROM inventory;",
+                            "SELECT dept_name FROM departments UNION SELECT team_name FROM teams;"
+                        ],
+                        expanded: false
+                    },
+                    {
+                        topic: "GROUP BY",
+                        description: "Groups rows for aggregate functions.",
+                        examples: [
+                            "SELECT dept_id, COUNT(*) AS emp_count FROM employees GROUP BY dept_id;",
+                            "SELECT category, SUM(price) AS total_price FROM products GROUP BY category;",
+                            "SELECT customer_id, COUNT(*) AS order_count FROM orders GROUP BY customer_id;",
+                            "SELECT status, AVG(salary) AS avg_salary FROM users GROUP BY status;"
+                        ],
+                        expanded: false
+                    },
+                    {
+                        topic: "HAVING",
+                        description: "Filters grouped results from a GROUP BY clause.",
+                        examples: [
+                            "SELECT dept_id, COUNT(*) AS emp_count FROM employees GROUP BY dept_id HAVING COUNT(*) > 5;",
+                            "SELECT category, SUM(price) AS total FROM products GROUP BY category HAVING SUM(price) > 10000;",
+                            "SELECT customer_id, COUNT(*) AS order_count FROM orders GROUP BY customer_id HAVING COUNT(*) >= 3;",
+                            "SELECT status, AVG(salary) AS avg_salary FROM employees GROUP BY status HAVING AVG(salary) < 40000;"
+                        ],
+                        expanded: false
+                    },
+                    {
+                        topic: "EXISTS",
+                        description: "Tests for the existence of rows in a subquery.",
+                        examples: [
+                            "SELECT name FROM customers WHERE EXISTS (SELECT 1 FROM orders WHERE orders.customer_id = customers.id);",
+                            "SELECT name FROM products WHERE EXISTS (SELECT 1 FROM inventory WHERE inventory.product_id = products.id);",
+                            "SELECT name FROM employees WHERE EXISTS (SELECT 1 FROM projects WHERE projects.emp_id = employees.id);",
+                            "SELECT username FROM users WHERE EXISTS (SELECT 1 FROM logs WHERE logs.user_id = users.id);"
+                        ],
+                        expanded: false
+                    },
+                    {
+                        topic: "ANY, ALL",
+                        description: "Compares a value to any or all values in a subquery.",
+                        examples: [
+                            "SELECT name FROM products WHERE price > ALL (SELECT price FROM products WHERE category = 'Electronics');",
+                            "SELECT name FROM employees WHERE salary > ANY (SELECT salary FROM employees WHERE dept_id = 2);",
+                            "SELECT name FROM orders WHERE total > ALL (SELECT total FROM orders WHERE customer_id = 101);",
+                            "SELECT name FROM users WHERE age < ANY (SELECT age FROM users WHERE status = 'active');"
+                        ],
+                        expanded: false
+                    },
+                    {
+                        topic: "INSERT SELECT",
+                        description: "Inserts data into a table from a SELECT query.",
+                        examples: [
+                            "INSERT INTO archive_orders SELECT * FROM orders WHERE order_date < '2024-01-01';",
+                            "INSERT INTO backup_users SELECT * FROM users WHERE status = 'inactive';",
+                            "INSERT INTO old_products SELECT * FROM products WHERE discontinued = 1;",
+                            "INSERT INTO temp_logs SELECT * FROM logs WHERE log_date < '2025-01-01';"
+                        ],
+                        expanded: false
+                    },
+                    {
+                        topic: "CASE",
+                        description: "Provides conditional logic in a query.",
+                        examples: [
+                            "SELECT name, CASE WHEN salary > 50000 THEN 'High' ELSE 'Low' END AS salary_level FROM employees;",
+                            "SELECT product_name, CASE WHEN stock > 0 THEN 'In Stock' ELSE 'Out of Stock' END AS availability FROM products;",
+                            "SELECT order_id, CASE WHEN total > 1000 THEN 'Large' ELSE 'Small' END AS order_size FROM orders;",
+                            "SELECT username, CASE WHEN age < 18 THEN 'Minor' ELSE 'Adult' END AS age_group FROM users;"
+                        ],
+                        expanded: false
+                    },
+                    {
+                        topic: "Null Functions",
+                        description: "Handles NULL values (e.g., IFNULL, COALESCE).",
+                        examples: [
+                            "SELECT name, IFNULL(email, 'No Email') AS email FROM customers;",
+                            "SELECT name, COALESCE(phone, mobile, 'No Contact') AS contact FROM users;",
+                            "SELECT product_name, IFNULL(description, 'No Description') AS desc FROM products;",
+                            "SELECT order_id, COALESCE(shipped_date, 'Not Shipped') AS status FROM orders;"
+                        ],
+                        expanded: false
+                    },
+                    {
+                        topic: "Comments",
+                        description: "Adds comments to SQL code for documentation.",
+                        examples: [
+                            "-- This is a single-line comment\nSELECT * FROM employees;",
+                            "SELECT * FROM products /* This is a multi-line comment */ WHERE price > 100;",
+                            "-- Fetch all active users\nSELECT * FROM users WHERE status = 'active';",
+                            "SELECT * FROM orders /* Filter by year 2025 */ WHERE order_date LIKE '2025%';"
+                        ],
+                        expanded: false
+                    },
+                    {
+                        topic: "Operators",
+                        description: "Uses operators like =, <>, >, <, etc., in queries.",
+                        examples: [
+                            "SELECT * FROM products WHERE price > 100 AND stock <> 0;",
+                            "SELECT * FROM employees WHERE salary <= 40000 OR dept_id = 5;",
+                            "SELECT name FROM users WHERE age >= 18 AND age < 30;",
+                            "SELECT * FROM orders WHERE total != 0 AND customer_id = 101;"
+                        ],
+                        expanded: false
+                    },
+                    {
+                        topic: "SUBQUERY",
+                        description: "A query nested within another query.",
+                        examples: [
+                            "SELECT name FROM employees WHERE dept_id = (SELECT id FROM departments WHERE name = 'Sales');",
+                            "SELECT * FROM products WHERE price > (SELECT AVG(price) FROM products);",
+                            "SELECT name FROM customers WHERE id IN (SELECT customer_id FROM orders WHERE total > 5000);",
+                            "SELECT username FROM users WHERE id = (SELECT user_id FROM logs WHERE log_date = '2025-05-24');"
+                        ],
+                        expanded: false
+                    },
+                    {
+                        topic: "TRUNCATE TABLE",
+                        description: "Removes all rows from a table but keeps the structure.",
+                        examples: [
+                            "TRUNCATE TABLE logs;",
+                            "TRUNCATE TABLE temp_data;",
+                            "TRUNCATE TABLE old_orders;",
+                            "TRUNCATE TABLE backup_users;"
+                        ],
+                        expanded: false
+                    },
+                    {
+                        topic: "PARTITION BY",
+                        description: "Divides rows into partitions for window functions.",
+                        examples: [
+                            "SELECT name, salary, RANK() OVER (PARTITION BY dept_id ORDER BY salary DESC) AS rank FROM employees;",
+                            "SELECT product_name, price, SUM(price) OVER (PARTITION BY category) AS total_category_price FROM products;",
+                            "SELECT order_id, total, ROW_NUMBER() OVER (PARTITION BY customer_id ORDER BY order_date) AS order_num FROM orders;",
+                            "SELECT username, age, DENSE_RANK() OVER (PARTITION BY status ORDER BY age) AS age_rank FROM users;"
+                        ],
+                        expanded: false
+                    },
+                    {
+                        topic: "WITH (CTE)",
+                        description: "Defines a Common Table Expression for reusable subqueries.",
+                        examples: [
+                            "WITH high_salary AS (SELECT * FROM employees WHERE salary > 50000) SELECT * FROM high_salary WHERE dept_id = 1;",
+                            "WITH recent_orders AS (SELECT * FROM orders WHERE order_date >= '2025-01-01') SELECT customer_id, COUNT(*) FROM recent_orders GROUP BY customer_id;",
+                            "WITH top_products AS (SELECT * FROM products WHERE price > 1000) SELECT * FROM top_products WHERE category = 'Electronics';",
+                            "WITH active_users AS (SELECT * FROM users WHERE status = 'active') SELECT username, age FROM active_users WHERE age > 25;"
+                        ],
+                        expanded: false
+                    },
+                    {
+                        topic: "ON DUPLICATE KEY UPDATE",
+                        description: "Updates a row if a duplicate key is encountered during insertion.",
+                        examples: [
+                            "INSERT INTO users (id, name, email) VALUES (1, 'John', 'john@example.com') ON DUPLICATE KEY UPDATE email = 'john@example.com';",
+                            "INSERT INTO products (id, stock) VALUES (101, 50) ON DUPLICATE KEY UPDATE stock = stock + 50;",
+                            "INSERT INTO employees (id, salary) VALUES (5, 60000) ON DUPLICATE KEY UPDATE salary = 60000;",
+                            "INSERT INTO orders (order_id, total) VALUES (1001, 1500) ON DUPLICATE KEY UPDATE total = 1500;"
+                        ],
+                        expanded: false
+                    },
+                    {
+                        topic: "REPLACE",
+                        description: "Replaces a row if a duplicate key exists, or inserts a new row.",
+                        examples: [
+                            "REPLACE INTO users (id, name, email) VALUES (1, 'John', 'john@example.com');",
+                            "REPLACE INTO products (id, name, price) VALUES (101, 'Laptop', 75000);",
+                            "REPLACE INTO employees (id, name, dept_id) VALUES (5, 'Alice', 3);",
+                            "REPLACE INTO orders (order_id, customer_id, total) VALUES (1001, 101, 2000);"
+                        ],
+                        expanded: false
+                    },
+                    {
+                        topic: "EXPLAIN",
+                        description: "Shows how MySQL executes a query.",
+                        examples: [
+                            "EXPLAIN SELECT * FROM employees WHERE dept_id = 3;",
+                            "EXPLAIN SELECT * FROM orders WHERE customer_id = 101;",
+                            "EXPLAIN SELECT * FROM products WHERE price > 500;",
+                            "EXPLAIN SELECT * FROM users WHERE status = 'active';"
+                        ],
+                        expanded: false
+                    },
+                    {
+                        topic: "SHOW",
+                        description: "Displays information about databases, tables, etc.",
+                        examples: [
+                            "SHOW DATABASES;",
+                            "SHOW TABLES;",
+                            "SHOW COLUMNS FROM employees;",
+                            "SHOW INDEX FROM products;"
+                        ],
+                        expanded: false
+                    }
+                ],
+                
+                databaseTopics: [
+                    {
+                        topic: "CREATE DB",
+                        description: "Creates a new database.",
+                        examples: [
+                            "CREATE DATABASE company_db;",
+                            "CREATE DATABASE inventory_db;",
+                            "CREATE DATABASE sales_db;",
+                            "CREATE DATABASE hr_db;"
+                        ],
+                        expanded: false
+                    },
+                    {
+                        topic: "DROP DB",
+                        description: "Deletes a database.",
+                        examples: [
+                            "DROP DATABASE company_db;",
+                            "DROP DATABASE inventory_db;",
+                            "DROP DATABASE sales_db;",
+                            "DROP DATABASE hr_db;"
+                        ],
+                        expanded: false
+                    },
+                    {
+                        topic: "CREATE TABLE",
+                        description: "Creates a new table with specified columns.",
+                        examples: [
+                            "CREATE TABLE students (id INT PRIMARY KEY, name VARCHAR(50), age INT);",
+                            "CREATE TABLE products (id INT, name VARCHAR(100), price DECIMAL(10,2));",
+                            "CREATE TABLE orders (order_id INT, customer_id INT, order_date DATE);",
+                            "CREATE TABLE employees (emp_id INT, name VARCHAR(50), dept_id INT);"
+                        ],
+                        expanded: false
+                    },
+                    {
+                        topic: "DROP TABLE",
+                        description: "Deletes a table and its data permanently.",
+                        examples: [
+                            "DROP TABLE temp_data;",
+                            "DROP TABLE old_logs;",
+                            "DROP TABLE archive_orders;",
+                            "DROP TABLE backup_users;"
+                        ],
+                        expanded: false
+                    },
+                    {
+                        topic: "ALTER TABLE",
+                        description: "Modifies the structure of an existing table.",
+                        examples: [
+                            "ALTER TABLE employees ADD COLUMN email VARCHAR(100);",
+                            "ALTER TABLE products MODIFY COLUMN price DECIMAL(12,2);",
+                            "ALTER TABLE orders DROP COLUMN notes;",
+                            "ALTER TABLE users ADD COLUMN last_login DATE;"
+                        ],
+                        expanded: false
+                    },
+                    {
+                        topic: "NOT NULL",
+                        description: "Ensures a column cannot have NULL values.",
+                        examples: [
+                            "CREATE TABLE users (id INT NOT NULL, username VARCHAR(50));",
+                            "ALTER TABLE employees MODIFY COLUMN name VARCHAR(50) NOT NULL;",
+                            "CREATE TABLE orders (order_id INT NOT NULL, customer_id INT);",
+                            "ALTER TABLE products MODIFY COLUMN name VARCHAR(100) NOT NULL;"
+                        ],
+                        expanded: false
+                    },
+                    {
+                        topic: "UNIQUE",
+                        description: "Ensures all values in a column are unique.",
+                        examples: [
+                            "CREATE TABLE users (id INT, email VARCHAR(100) UNIQUE);",
+                            "ALTER TABLE products ADD CONSTRAINT unique_name UNIQUE (name);",
+                            "CREATE TABLE employees (emp_id INT, employee_code VARCHAR(10) UNIQUE);",
+                            "ALTER TABLE orders ADD CONSTRAINT unique_order UNIQUE (order_id);"
+                        ],
+                        expanded: false
+                    },
+                    {
+                        topic: "PRIMARY KEY",
+                        description: "Uniquely identifies each row in a table.",
+                        examples: [
+                            "CREATE TABLE orders (order_id INT PRIMARY KEY, customer_id INT);",
+                            "ALTER TABLE users ADD PRIMARY KEY (id);",
+                            "CREATE TABLE products (id INT PRIMARY KEY, name VARCHAR(100));",
+                            "ALTER TABLE employees ADD PRIMARY KEY (emp_id);"
+                        ],
+                        expanded: false
+                    },
+                    {
+                        topic: "FOREIGN KEY",
+                        description: "Links two tables together.",
+                        examples: [
+                            "CREATE TABLE orders (order_id INT, customer_id INT, FOREIGN KEY (customer_id) REFERENCES customers(id));",
+                            "ALTER TABLE employees ADD FOREIGN KEY (dept_id) REFERENCES departments(id);",
+                            "CREATE TABLE order_details (id INT, order_id INT, FOREIGN KEY (order_id) REFERENCES orders(order_id));",
+                            "ALTER TABLE products ADD FOREIGN KEY (category_id) REFERENCES categories(id);"
+                        ],
+                        expanded: false
+                    },
+                    {
+                        topic: "CHECK",
+                        description: "Ensures values in a column meet a specific condition.",
+                        examples: [
+                            "CREATE TABLE employees (id INT, age INT CHECK (age >= 18));",
+                            "ALTER TABLE products ADD CONSTRAINT check_price CHECK (price > 0);",
+                            "CREATE TABLE orders (order_id INT, total DECIMAL(10,2) CHECK (total >= 0));",
+                            "ALTER TABLE users ADD CONSTRAINT check_age CHECK (age <= 100);"
+                        ],
+                        expanded: false
+                    },
+                    {
+                        topic: "DEFAULT",
+                        description: "Sets a default value for a column.",
+                        examples: [
+                            "CREATE TABLE users (id INT, status VARCHAR(20) DEFAULT 'active');",
+                            "ALTER TABLE orders MODIFY COLUMN order_date DATE DEFAULT '2025-01-01';",
+                            "CREATE TABLE products (id INT, stock INT DEFAULT 0);",
+                            "ALTER TABLE employees MODIFY COLUMN dept_id INT DEFAULT 1;"
+                        ],
+                        expanded: false
+                    },
+                    {
+                        topic: "CREATE INDEX",
+                        description: "Creates an index to improve query performance.",
+                        examples: [
+                            "CREATE INDEX idx_name ON customers (last_name);",
+                            "CREATE INDEX idx_price ON products (price);",
+                            "CREATE INDEX idx_order_date ON orders (order_date);",
+                            "CREATE INDEX idx_dept ON employees (dept_id);"
+                        ],
+                        expanded: false
+                    },
+                    {
+                        topic: "AUTO INCREMENT",
+                        description: "Automatically generates unique values for a column.",
+                        examples: [
+                            "CREATE TABLE users (id INT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(50));",
+                            "ALTER TABLE products MODIFY COLUMN id INT AUTO_INCREMENT;",
+                            "CREATE TABLE orders (order_id INT AUTO_INCREMENT PRIMARY KEY, customer_id INT);",
+                            "ALTER TABLE employees MODIFY COLUMN emp_id INT AUTO_INCREMENT;"
+                        ],
+                        expanded: false
+                    },
+                    {
+                        topic: "Dates",
+                        description: "Handles date and time data types.",
+                        examples: [
+                            "SELECT * FROM events WHERE event_date = '2025-05-23';",
+                            "SELECT * FROM orders WHERE order_date >= NOW();",
+                            "SELECT * FROM users WHERE last_login < '2025-01-01';",
+                            "SELECT * FROM logs WHERE log_timestamp BETWEEN '2025-01-01' AND '2025-12-31';"
+                        ],
+                        expanded: false
+                    },
+                    {
+                        topic: "Views",
+                        description: "Creates a virtual table from a SELECT query.",
+                        examples: [
+                            "CREATE VIEW active_users AS SELECT * FROM users WHERE status = 'active';",
+                            "CREATE VIEW high_value_orders AS SELECT * FROM orders WHERE total > 10000;",
+                            "CREATE VIEW dept_employees AS SELECT * FROM employees WHERE dept_id = 3;",
+                            "CREATE VIEW product_stock AS SELECT * FROM products WHERE stock > 0;"
+                        ],
+                        expanded: false
+                    }
+                ],
+                
+                referenceTopics: [
+                    {
+                        topic: "Data Types",
+                        description: "Defines the type of data a column can hold (e.g., INT, VARCHAR, DATE).",
+                        examples: [
+                            "CREATE TABLE products (id INT, name VARCHAR(100), price DECIMAL(10,2), created_at DATE);",
+                            "CREATE TABLE logs (id INT, message TEXT, timestamp DATETIME);",
+                            "CREATE TABLE users (id INT, username VARCHAR(50), age SMALLINT, active BOOLEAN);",
+                            "CREATE TABLE orders (order_id INT, total DECIMAL(10,2), order_date DATE, notes LONGTEXT);"
+                        ],
+                        expanded: false
+                    },
+                    {
+                        topic: "Functions",
+                        description: "Built-in functions for manipulating data (e.g., CONCAT, NOW).",
+                        examples: [
+                            "SELECT CONCAT(first_name, ' ', last_name) AS full_name, NOW() AS current_time FROM users;",
+                            "SELECT UPPER(name) AS upper_name, LENGTH(description) AS desc_length FROM products;"
+                        ],
+                        expanded: false
+                    }
+                ],
+                
+                get filteredSqlTopics() {
+                    if (!this.searchQuery) return this.sqlTopics;
+                    return this.sqlTopics.filter(topic => 
+                        topic.topic.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
+                        topic.description.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
+                        topic.examples.some(ex => ex.toLowerCase().includes(this.searchQuery.toLowerCase()))
+                    );
+                },
+                
+                get filteredDatabaseTopics() {
+                    if (!this.searchQuery) return this.databaseTopics;
+                    return this.databaseTopics.filter(topic => 
+                        topic.topic.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
+                        topic.description.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
+                        topic.examples.some(ex => ex.toLowerCase().includes(this.searchQuery.toLowerCase()))
+                    );
+                },
+                
+                get filteredReferenceTopics() {
+                    if (!this.searchQuery) return this.referenceTopics;
+                    return this.referenceTopics.filter(topic => 
+                        topic.topic.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
+                        topic.description.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
+                        topic.examples.some(ex => ex.toLowerCase().includes(this.searchQuery.toLowerCase()))
+                    );
+                },
+                
+                init() {
+                    // Check for dark mode preference
+                    this.darkMode = localStorage.getItem('darkMode') === 'true' || 
+                                   (!localStorage.getItem('darkMode') && window.matchMedia('(prefers-color-scheme: dark)').matches);
+                    this.applyTheme();
+                    
+                    // Initialize scroll listeners
+                    window.addEventListener('scroll', () => {
+                        this.updateScrollPercentage();
+                        this.updateBackToTopButton();
+                        this.updateActiveCategory();
+                    });
+                    
+                    // Initialize Prism.js
+                    setTimeout(() => Prism.highlightAll(), 100);
+                },
+                
+                toggleTheme() {
+                    this.darkMode = !this.darkMode;
+                    this.applyTheme();
+                    localStorage.setItem('darkMode', this.darkMode);
+                },
+                
+                applyTheme() {
+                    if (this.darkMode) {
+                        document.documentElement.classList.add('dark');
+                    } else {
+                        document.documentElement.classList.remove('dark');
+                    }
+                },
+                
+                updateScrollPercentage() {
+                    const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+                    const scrollPosition = window.scrollY;
+                    this.scrollPercentage = (scrollPosition / scrollHeight) * 100;
+                },
+                
+                updateBackToTopButton() {
+                    this.showBackToTop = window.scrollY > 300;
+                },
+                
+                updateActiveCategory() {
+                    const sections = ['mysql-sql', 'mysql-database', 'mysql-references'];
+                    const scrollPosition = window.scrollY + 100;
+                    
+                    for (const section of sections) {
+                        const element = document.getElementById(section);
+                        if (element) {
+                            const { offsetTop, offsetHeight } = element;
+                            if (scrollPosition >= offsetTop && scrollPosition < offsetTop + offsetHeight) {
+                                this.activeCategory = section;
+                                break;
+                            }
+                        }
+                    }
+                },
+                
+                scrollToCategory(categoryId) {
+                    const element = document.getElementById(categoryId);
+                    if (element) {
+                        element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                },
+                
+                scrollToTop() {
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                },
+                
+                copyToClipboard(text) {
+                    navigator.clipboard.writeText(text).then(() => {
+                        this.toastMessage = 'Code copied to clipboard!';
+                        this.showToast = true;
+                        setTimeout(() => {
+                            this.showToast = false;
+                        }, 3000);
+                    });
+                },
+                
+                filterTopics() {
+                    // Filter is handled by computed properties
+                    setTimeout(() => Prism.highlightAll(), 100);
                 }
-            });
-
-            // Smooth scroll to top
-            $('#backToTop').click(function() {
-                $('html, body').animate({ scrollTop: 0 }, 500);
-            });
-        });
+            }
+        }
     </script>
 </body>
 </html>
