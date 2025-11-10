@@ -56,19 +56,19 @@
         }
 
         [data-theme="light"] {
-            --bg-primary: #ffffff;
-            --bg-secondary: #f8fafc;
-            --bg-card: #ffffff;
-            --text-primary: #0f172a;
-            --text-secondary: #334155;
+            --bg-primary: linear-gradient(135deg, #faf5ff 0%, #f0f9ff 50%, #fef3c7 100%);
+            --bg-secondary: rgba(255, 255, 255, 0.95);
+            --bg-card: rgba(255, 255, 255, 0.9);
+            --text-primary: #1e293b;
+            --text-secondary: #475569;
             --text-muted: #64748b;
-            --border-color: #e2e8f0;
-            --shadow-color: rgba(0, 0, 0, 0.1);
-            --glass-bg: rgba(255, 255, 255, 0.9);
-            --nav-bg: rgba(255, 255, 255, 0.95);
-            --gradient-1: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
-            --gradient-2: linear-gradient(135deg, #8b5cf6 0%, #ec4899 100%);
-            --gradient-3: linear-gradient(135deg, #ec4899 0%, #f43f5e 100%);
+            --border-color: rgba(148, 163, 184, 0.2);
+            --shadow-color: rgba(99, 102, 241, 0.15);
+            --glass-bg: rgba(255, 255, 255, 0.85);
+            --nav-bg: rgba(255, 255, 255, 0.9);
+            --gradient-1: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --gradient-2: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --gradient-3: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
         }
 
         * {
@@ -85,6 +85,42 @@
             overflow-x: hidden;
             transition: all 0.3s ease;
             position: relative;
+            cursor: none;
+        }
+
+        /* Custom Cursor */
+        .cursor {
+            position: fixed;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--gradient-1);
+            pointer-events: none;
+            z-index: 9999;
+            transition: transform 0.1s ease, background-color 0.3s ease;
+            mix-blend-mode: difference;
+        }
+
+        .cursor-follower {
+            position: fixed;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 2px solid var(--primary-color);
+            pointer-events: none;
+            z-index: 9998;
+            transition: transform 0.2s ease, border-color 0.3s ease;
+            opacity: 0.5;
+        }
+
+        .cursor.hover {
+            transform: scale(2);
+            background: var(--accent-color);
+        }
+
+        .cursor-follower.hover {
+            transform: scale(1.5);
+            border-color: var(--accent-color);
         }
 
         /* Animated Background */
@@ -139,6 +175,7 @@
             border-bottom: 1px solid var(--border-color);
             transition: all 0.3s ease;
             padding: 1rem 0;
+            box-shadow: 0 4px 20px var(--shadow-color);
         }
 
         .navbar-brand {
@@ -208,6 +245,7 @@
             width: 250px;
             transition: all 0.3s ease;
             font-size: 0.9rem;
+            box-shadow: 0 2px 10px var(--shadow-color);
         }
 
         .search-bar:focus {
@@ -252,6 +290,7 @@
             width: 56px;
             height: 28px;
             position: relative;
+            box-shadow: 0 2px 10px var(--shadow-color);
         }
 
         .theme-toggle-slider {
@@ -298,7 +337,7 @@
             margin-bottom: 4rem;
         }
 
-        /* Project Cards - New Design with Mouse Tracking */
+        /* Project Cards - Enhanced Design */
         .project-card {
             background: var(--bg-card);
             border: 1px solid var(--border-color);
@@ -312,11 +351,30 @@
             flex-direction: column;
             transform-style: preserve-3d;
             perspective: 1000px;
+            box-shadow: 0 10px 30px var(--shadow-color);
+        }
+
+        .project-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--gradient-1);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 0;
+        }
+
+        .project-card:hover::before {
+            opacity: 0.05;
         }
 
         .project-card-header {
             padding: 2rem 2rem 1rem;
             position: relative;
+            z-index: 1;
         }
 
         .project-icon-wrapper {
@@ -330,6 +388,7 @@
             margin-bottom: 1.5rem;
             position: relative;
             overflow: hidden;
+            box-shadow: 0 10px 20px var(--shadow-color);
         }
 
         .project-icon-wrapper::before {
@@ -363,6 +422,7 @@
 
         .project-card:hover .project-title {
             color: var(--primary-color);
+            transform: translateX(5px);
         }
 
         .project-card-body {
@@ -370,6 +430,8 @@
             flex: 1;
             display: flex;
             flex-direction: column;
+            position: relative;
+            z-index: 1;
         }
 
         .project-description {
@@ -384,6 +446,8 @@
             padding: 1.5rem 2rem;
             background: var(--bg-secondary);
             border-top: 1px solid var(--border-color);
+            position: relative;
+            z-index: 1;
         }
 
         .project-btn {
@@ -417,7 +481,7 @@
 
         .project-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(99, 102, 241, 0.3);
+            box-shadow: 0 10px 20px var(--shadow-color);
         }
 
         .project-btn span {
@@ -441,6 +505,14 @@
             font-size: 0.8rem;
             font-weight: 500;
             border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+        }
+
+        .tag:hover {
+            background: var(--gradient-1);
+            color: white;
+            border-color: transparent;
+            transform: translateY(-2px);
         }
 
         /* No Results */
@@ -466,6 +538,7 @@
             border-top: 1px solid var(--border-color);
             padding: 3rem 0;
             margin-top: 5rem;
+            backdrop-filter: blur(10px);
         }
 
         .footer-content {
@@ -512,8 +585,8 @@
             color: white;
         }
 
-        /* Music Toggle */
-        .music-toggle {
+        /* Celebration Button */
+        .celebration-btn {
             position: fixed;
             bottom: 30px;
             right: 30px;
@@ -529,139 +602,18 @@
             cursor: pointer;
             transition: all 0.3s ease;
             z-index: 1000;
+            box-shadow: 0 4px 20px var(--shadow-color);
         }
 
-        .music-toggle:hover {
+        .celebration-btn:hover {
             background: var(--gradient-1);
             border-color: transparent;
-            transform: scale(1.05);
+            transform: scale(1.05) rotate(15deg);
             color: white;
         }
 
-        .music-toggle i {
+        .celebration-btn i {
             font-size: 1.3rem;
-        }
-
-        .music-toggle.playing i {
-            animation: pulse 1.5s infinite;
-        }
-
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-            100% { transform: scale(1); }
-        }
-
-        /* Clock Widget */
-        .clock-widget {
-            position: fixed;
-            bottom: 30px;
-            left: 30px;
-            background: var(--bg-card);
-            border: 2px solid var(--border-color);
-            border-radius: 16px;
-            padding: 1rem 1.5rem;
-            color: var(--text-primary);
-            font-family: 'Space Grotesk', sans-serif;
-            font-weight: 600;
-            z-index: 1000;
-        }
-
-        .clock-time {
-            font-size: 1.3rem;
-            margin-bottom: 0.25rem;
-        }
-
-        .clock-date {
-            font-size: 0.85rem;
-            color: var(--text-muted);
-        }
-
-        /* Easter Egg */
-        .easter-egg {
-            position: fixed;
-            bottom: 100px;
-            right: 30px;
-            width: 40px;
-            height: 40px;
-            opacity: 0.3;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            z-index: 999;
-        }
-
-        .easter-egg:hover {
-            opacity: 1;
-            transform: scale(1.2);
-        }
-
-        .easter-egg-modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 10000;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.3s ease;
-        }
-
-        .easter-egg-modal.active {
-            opacity: 1;
-            pointer-events: all;
-        }
-
-        .easter-egg-content {
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 20px;
-            padding: 2.5rem;
-            max-width: 500px;
-            text-align: center;
-            transform: scale(0.9);
-            transition: transform 0.3s ease;
-        }
-
-        .easter-egg-modal.active .easter-egg-content {
-            transform: scale(1);
-        }
-
-        .easter-egg-title {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 2rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-            background: var(--gradient-1);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .easter-egg-message {
-            color: var(--text-secondary);
-            margin-bottom: 2rem;
-            line-height: 1.7;
-        }
-
-        .easter-egg-close {
-            background: var(--gradient-1);
-            color: white;
-            border: none;
-            border-radius: 12px;
-            padding: 0.75rem 2rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .easter-egg-close:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(99, 102, 241, 0.3);
         }
 
         /* Loading Animation */
@@ -805,7 +757,7 @@
 
         .offline-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(99, 102, 241, 0.3);
+            box-shadow: 0 10px 20px var(--shadow-color);
         }
 
         /* Responsive Design */
@@ -841,12 +793,7 @@
                 margin-bottom: 2rem;
             }
 
-            .clock-widget {
-                bottom: 100px;
-                left: 20px;
-            }
-
-            .music-toggle {
+            .celebration-btn {
                 bottom: 100px;
                 right: 20px;
             }
@@ -906,6 +853,10 @@
     </style>
 </head>
 <body data-theme="dark">
+    <!-- Custom Cursor -->
+    <div class="cursor"></div>
+    <div class="cursor-follower"></div>
+
     <!-- Loading Screen -->
     <div class="loader" id="loader">
         <div class="loader-container">
@@ -1003,40 +954,10 @@
         </div>
     </footer>
 
-    <!-- Music Toggle -->
-    <div class="music-toggle" id="musicToggle">
-        <i class="bi bi-music-note-beamed"></i>
+    <!-- Celebration Button -->
+    <div class="celebration-btn" id="celebrationBtn">
+        <i class="bi bi-stars"></i>
     </div>
-
-    <!-- Clock Widget -->
-    <div class="clock-widget">
-        <div class="clock-time" id="clockTime">00:00:00</div>
-        <div class="clock-date" id="clockDate">Loading...</div>
-    </div>
-
-    <!-- Easter Egg -->
-    <div class="easter-egg" id="easterEgg">
-        <i class="bi bi-emoji-smile" style="font-size: 2rem; color: var(--text-muted);"></i>
-    </div>
-
-    <!-- Easter Egg Modal -->
-    <div class="easter-egg-modal" id="easterEggModal">
-        <div class="easter-egg-content">
-            <h2 class="easter-egg-title">You Found Me! 🎉</h2>
-            <p class="easter-egg-message">
-                Congratulations on discovering this hidden gem! As a reward, here's a secret: 
-                I love building creative web experiences that push the boundaries of what's possible.
-                Keep exploring and who knows what other surprises you might find!
-            </p>
-            <button class="easter-egg-close" id="easterEggClose">Close</button>
-        </div>
-    </div>
-
-    <!-- Background Music -->
-    <audio id="backgroundMusic" loop>
-        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
-        Your browser does not support the audio element.
-    </audio>
 
     <!-- Scripts -->
     <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
@@ -1224,6 +1145,35 @@
                 $('#loader').addClass('hidden');
             }, 1500);
 
+            // Custom Cursor
+            const cursor = document.querySelector('.cursor');
+            const cursorFollower = document.querySelector('.cursor-follower');
+            
+            document.addEventListener('mousemove', (e) => {
+                cursor.style.left = e.clientX + 'px';
+                cursor.style.top = e.clientY + 'px';
+                
+                setTimeout(() => {
+                    cursorFollower.style.left = e.clientX - 10 + 'px';
+                    cursorFollower.style.top = e.clientY - 10 + 'px';
+                }, 100);
+            });
+            
+            // Add hover effect to interactive elements
+            const interactiveElements = document.querySelectorAll('a, button, .project-card, .theme-toggle, .celebration-btn, .nav-link');
+            
+            interactiveElements.forEach(element => {
+                element.addEventListener('mouseenter', () => {
+                    cursor.classList.add('hover');
+                    cursorFollower.classList.add('hover');
+                });
+                
+                element.addEventListener('mouseleave', () => {
+                    cursor.classList.remove('hover');
+                    cursorFollower.classList.remove('hover');
+                });
+            });
+
             // Render projects
             function renderProjects(projectsToRender = projects) {
                 const container = $('#projectsContainer');
@@ -1255,13 +1205,13 @@
                     container.append(card);
                 });
                 
-                // Add mouse tracking effect to cards
+                // Add enhanced mouse tracking effect to cards
                 initCardMouseTracking();
             }
 
             renderProjects();
 
-            // Initialize mouse tracking for project cards
+            // Initialize enhanced mouse tracking for project cards
             function initCardMouseTracking() {
                 $('.project-card').each(function() {
                     const card = $(this);
@@ -1280,10 +1230,15 @@
                         gsap.to(this, {
                             rotationX: rotateX,
                             rotationY: rotateY,
-                            scale: 1.02,
+                            scale: 1.03,
                             ease: "power2.out",
                             duration: 0.3
                         });
+                        
+                        // Add glow effect based on mouse position
+                        const glowX = (x / rect.width) * 100;
+                        const glowY = (y / rect.height) * 100;
+                        card.css('background', `radial-gradient(circle at ${glowX}% ${glowY}%, rgba(99, 102, 241, 0.1), transparent 50%)`);
                     });
                     
                     card.on('mouseleave', function() {
@@ -1294,6 +1249,7 @@
                             ease: "power2.out",
                             duration: 0.5
                         });
+                        card.css('background', '');
                     });
                 });
             }
@@ -1386,60 +1342,80 @@
                 lastScroll = currentScroll;
             });
 
-            // Music toggle
-            const musicToggle = $('#musicToggle');
-            const backgroundMusic = $('#backgroundMusic');
-            let musicPlaying = false;
+            // Celebration Button
+            const celebrationBtn = $('#celebrationBtn');
+            
+            celebrationBtn.on('click', () => {
+                // Trigger multiple confetti bursts
+                const duration = 3 * 1000;
+                const animationEnd = Date.now() + duration;
+                const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
 
-            musicToggle.on('click', () => {
-                musicPlaying = !musicPlaying;
-                if (musicPlaying) {
-                    backgroundMusic[0].play();
-                    musicToggle.addClass('playing');
-                } else {
-                    backgroundMusic[0].pause();
-                    musicToggle.removeClass('playing');
+                function randomInRange(min, max) {
+                    return Math.random() * (max - min) + min;
                 }
-            });
 
-            // Clock widget
-            function updateClock() {
-                const now = new Date();
-                const hours = now.getHours().toString().padStart(2, '0');
-                const minutes = now.getMinutes().toString().padStart(2, '0');
-                const seconds = now.getSeconds().toString().padStart(2, '0');
-                
-                $('#clockTime').text(`${hours}:${minutes}:${seconds}`);
-                
-                const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-                $('#clockDate').text(now.toLocaleDateString('en-US', options));
-            }
+                const interval = setInterval(function() {
+                    const timeLeft = animationEnd - Date.now();
 
-            updateClock();
-            setInterval(updateClock, 1000);
+                    if (timeLeft <= 0) {
+                        return clearInterval(interval);
+                    }
 
-            // Easter egg
-            const easterEgg = $('#easterEgg');
-            const easterEggModal = $('#easterEggModal');
-            const easterEggClose = $('#easterEggClose');
+                    const particleCount = 50 * (timeLeft / duration);
+                    
+                    // Create confetti from multiple positions
+                    confetti(Object.assign({}, defaults, {
+                        particleCount,
+                        origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 }
+                    }));
+                    confetti(Object.assign({}, defaults, {
+                        particleCount,
+                        origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 }
+                    }));
+                }, 250);
 
-            easterEgg.on('click', () => {
-                easterEggModal.addClass('active');
-                confetti({
-                    particleCount: 100,
-                    spread: 70,
-                    origin: { y: 0.6 }
+                // Add celebration animation to the button
+                gsap.to(celebrationBtn, {
+                    rotation: 360,
+                    scale: 1.2,
+                    ease: "power2.inOut",
+                    duration: 0.5,
+                    yoyo: true,
+                    repeat: 1
                 });
-            });
 
-            easterEggClose.on('click', () => {
-                easterEggModal.removeClass('active');
-            });
-
-            easterEggModal.on('click', (e) => {
-                if (e.target === easterEggModal[0]) {
-                    easterEggModal.removeClass('active');
-                }
+                // Show a temporary celebration message
+                const message = $('<div class="celebration-message">🎉 Celebrating Your Success! 🎉</div>');
+                message.css({
+                    position: 'fixed',
+                    top: '50%',
+                    left: '50%',
+                    transform: 'translate(-50%, -50%)',
+                    background: 'var(--gradient-1)',
+                    color: 'white',
+                    padding: '1rem 2rem',
+                    borderRadius: '12px',
+                    fontSize: '1.2rem',
+                    fontWeight: '600',
+                    zIndex: '10000',
+                    boxShadow: '0 10px 30px rgba(0,0,0,0.3)'
+                });
+                $('body').append(message);
+                
+                gsap.fromTo(message, 
+                    { opacity: 0, scale: 0.5 },
+                    { opacity: 1, scale: 1, duration: 0.5, ease: "back.out(1.7)" }
+                );
+                
+                setTimeout(() => {
+                    gsap.to(message, {
+                        opacity: 0,
+                        scale: 0.5,
+                        duration: 0.3,
+                        onComplete: () => message.remove()
+                    });
+                }, 2000);
             });
 
             // Offline detection
@@ -1481,7 +1457,7 @@
                     installBtn.innerHTML = '<i class="bi bi-download"></i> Install App';
                     installBtn.className = 'btn-primary-custom';
                     installBtn.style.position = 'fixed';
-                    installBtn.style.bottom = '170px';
+                    installBtn.style.bottom = '100px';
                     installBtn.style.right = '30px';
                     installBtn.style.zIndex = '1000';
                     
