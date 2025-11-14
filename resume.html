@@ -3,15 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Thirupathi G | Software Engineer</title>
-    
-    <!-- Bootstrap CSS -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Font Awesome -->
+    <title>Thirupathi G | Software Engineer Portfolio</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
+    <link rel="icon" href="https://blogger.googleusercontent.com/img/a/AVvXsEgIFnXbCEgaASrlgiFnXz6MPaK-kyelPH7eTOt9s0-nWtY5YSMAIG5mN4k7dnxX6M-C0AmbO3U9jikPwhBdpp7G9848hK_1c7kXLbqxamlfCbhe_l-kEb8pe5V6mEH3fiIokyxkIyavBLAMlAzSApPTbcYA1r-P9YDwpu9GBIsL1SV4zGLvMwFulKOECQ4" type="image/x-icon">
     <style>
         * {
             margin: 0;
@@ -20,345 +14,330 @@
         }
 
         :root {
-            --primary-blue: #2563eb;
-            --secondary-blue: #1e40af;
-            --accent-purple: #7c3aed;
-            --dark-gray: #1f2937;
-            --light-gray: #f8fafc;
-            --text-gray: #4b5563;
-            --success-green: #10b981;
+            --bg-dark: #0a0e27;
+            --bg-card: #151a35;
+            --accent-blue: #00d4ff;
+            --accent-purple: #b74cff;
+            --text-white: #ffffff;
+            --text-gray: #a8b2d1;
         }
 
         body {
-            font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, var(--primary-blue), var(--accent-purple));
-            min-height: 100vh;
-            line-height: 1.6;
-            color: var(--text-gray);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-white);
+            overflow-x: hidden;
         }
 
-        .resume-wrapper {
-            padding: 2rem 1rem;
+        /* Hero Section */
+        .hero {
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-        }
-
-        .resume-container {
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 25px 50px rgba(0,0,0,0.15);
-            overflow: hidden;
-            max-width: 1000px;
-            width: 100%;
             position: relative;
-            filter: blur(8px);
-            pointer-events: none;
-            transition: all 0.3s ease;
+            background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 100%);
         }
 
-        .resume-container.unlocked {
-            filter: none;
-            pointer-events: all;
-        }
-
-        .top-accent {
-            height: 6px;
-            background: linear-gradient(90deg, var(--primary-blue), var(--accent-purple), #ec4899, #f59e0b);
-            background-size: 400% 400%;
-            animation: gradientFlow 8s ease infinite;
-        }
-
-        @keyframes gradientFlow {
-            0%, 100% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-        }
-
-        /* Header Section */
-        .header-section {
-            background: linear-gradient(135deg, var(--dark-gray), #374151);
-            color: white;
-            padding: 3rem 0;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .header-section::before {
-            content: '';
+        .bg-animation {
             position: absolute;
-            top: -50%;
-            right: -30%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 60%);
-            animation: floatBackground 8s ease-in-out infinite;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 0;
         }
 
-        @keyframes floatBackground {
-            0%, 100% { transform: translate(0, 0) rotate(0deg); }
-            50% { transform: translate(-30px, -30px) rotate(180deg); }
-        }
-
-        .profile-img {
-            width: 140px;
-            height: 140px;
+        .circle {
+            position: absolute;
             border-radius: 50%;
-            border: 4px solid rgba(255,255,255,0.2);
-            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
-            transition: transform 0.3s ease;
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+            opacity: 0.1;
+            animation: float 20s infinite ease-in-out;
+        }
+
+        .circle:nth-child(1) {
+            width: 300px;
+            height: 300px;
+            top: 10%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .circle:nth-child(2) {
+            width: 200px;
+            height: 200px;
+            top: 60%;
+            right: 15%;
+            animation-delay: 2s;
+        }
+
+        .circle:nth-child(3) {
+            width: 150px;
+            height: 150px;
+            bottom: 20%;
+            left: 50%;
+            animation-delay: 4s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-50px) scale(1.1); }
+        }
+
+        .hero-content {
+            text-align: center;
+            z-index: 1;
+            padding: 2rem;
+        }
+
+        .profile-pic {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            border: 4px solid var(--accent-blue);
+            box-shadow: 0 0 40px rgba(0, 212, 255, 0.5);
+            margin-bottom: 2rem;
             object-fit: cover;
+            transition: transform 0.3s ease;
         }
 
-        .profile-img:hover {
-            transform: scale(1.05) rotate(5deg);
+        .profile-pic:hover {
+            transform: scale(1.05);
         }
 
-        .name-title h1 {
-            font-size: 2.8rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-            background: linear-gradient(135deg, #ffffff, #e5e7eb);
+        .hero h1 {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
 
-        .designation {
-            font-size: 1.3rem;
-            color: #d1d5db;
-            font-weight: 400;
-            margin-bottom: 1.5rem;
+        .hero .tagline {
+            font-size: 1.5rem;
+            color: var(--text-gray);
+            margin-bottom: 2rem;
         }
 
-        .contact-links {
+        .social-links {
             display: flex;
-            flex-wrap: wrap;
             gap: 1.5rem;
             justify-content: center;
+            margin-bottom: 3rem;
         }
 
-        .contact-item {
+        .social-links a {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--bg-card);
             display: flex;
             align-items: center;
-            gap: 0.5rem;
-            color: #d1d5db;
+            justify-content: center;
+            color: var(--accent-blue);
             text-decoration: none;
             transition: all 0.3s ease;
-            font-size: 0.9rem;
+            border: 2px solid transparent;
         }
 
-        .contact-item:hover {
+        .social-links a:hover {
+            border-color: var(--accent-blue);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 212, 255, 0.3);
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 1rem 2.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+            border: none;
+            font-size: 1rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
             color: white;
-            transform: translateY(-2px);
         }
 
-        /* Main Content */
-        .main-content {
-            padding: 0;
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(0, 212, 255, 0.4);
         }
 
-        .sidebar {
-            background: linear-gradient(180deg, var(--light-gray), #f1f5f9);
-            padding: 2.5rem 2rem;
-            min-height: 100vh;
+        .btn-secondary {
+            background: transparent;
+            border: 2px solid var(--accent-blue);
+            color: var(--accent-blue);
         }
 
-        .content-area {
-            padding: 2.5rem;
+        .btn-secondary:hover {
+            background: var(--accent-blue);
+            color: white;
+            transform: translateY(-3px);
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(-10px); }
+        }
+
+        /* About Section */
+        .section {
+            padding: 5rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
         }
 
         .section-title {
-            font-size: 1.4rem;
-            font-weight: 600;
-            color: var(--dark-gray);
-            margin-bottom: 1.5rem;
-            padding-bottom: 0.5rem;
-            border-bottom: 3px solid var(--primary-blue);
-            position: relative;
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 3rem;
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
-        .section-title::after {
-            content: '';
-            position: absolute;
-            bottom: -3px;
-            left: 0;
-            width: 50px;
-            height: 3px;
-            background: var(--accent-purple);
+        .about-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
         }
 
-        /* Skills Section */
-        .skill-item {
-            background: rgba(37, 99, 235, 0.05);
-            border: 1px solid rgba(37, 99, 235, 0.1);
-            border-left: 4px solid var(--primary-blue);
-            border-radius: 10px;
-            padding: 0.8rem 1rem;
-            margin-bottom: 0.8rem;
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-
-        .skill-item:hover {
-            transform: translateX(8px);
-            box-shadow: 0 8px 25px rgba(37, 99, 235, 0.15);
-            background: rgba(37, 99, 235, 0.08);
-        }
-
-        .skill-name {
-            font-weight: 500;
-            color: var(--text-gray);
-            font-size: 0.9rem;
-        }
-
-        /* Education */
-        .education-card {
-            background: white;
-            border: 1px solid #e5e7eb;
-            border-radius: 12px;
-            padding: 1.2rem;
-            margin-bottom: 1rem;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-            transition: all 0.3s ease;
-        }
-
-        .education-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
-        }
-
-        .edu-degree {
-            font-weight: 600;
-            color: var(--dark-gray);
-            font-size: 1rem;
-            margin-bottom: 0.3rem;
-        }
-
-        .edu-institution {
-            color: var(--text-gray);
-            font-size: 0.85rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .edu-grade {
-            display: inline-block;
-            background: linear-gradient(135deg, var(--success-green), #059669);
-            color: white;
-            padding: 0.3rem 0.8rem;
-            border-radius: 15px;
-            font-size: 0.8rem;
-            font-weight: 500;
-        }
-
-        /* Professional Objective */
-        .objective-card {
-            background: linear-gradient(135deg, rgba(37, 99, 235, 0.05), rgba(124, 58, 237, 0.05));
-            border: 1px solid rgba(37, 99, 235, 0.1);
-            border-radius: 15px;
+        .card {
+            background: var(--bg-card);
             padding: 2rem;
-            margin-bottom: 2rem;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .objective-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 4px;
-            background: linear-gradient(90deg, var(--primary-blue), var(--accent-purple));
-        }
-
-        /* Experience & Projects */
-        .experience-card, .project-card {
-            background: white;
-            border: 1px solid rgba(37, 99, 235, 0.1);
-            border-left: 4px solid var(--primary-blue);
-            border-radius: 15px;
-            padding: 1.8rem;
-            margin-bottom: 1.5rem;
-            box-shadow: 0 6px 20px rgba(0,0,0,0.08);
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .experience-card:hover, .project-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 12px 35px rgba(37, 99, 235, 0.15);
-        }
-
-        .exp-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 1rem;
-            flex-wrap: wrap;
-            gap: 1rem;
-        }
-
-        .exp-title {
-            font-weight: 600;
-            color: var(--dark-gray);
-            font-size: 1.2rem;
-            margin-bottom: 0.3rem;
-        }
-
-        .exp-company {
-            color: var(--primary-blue);
-            font-weight: 500;
-            font-size: 1rem;
-        }
-
-        .exp-duration {
-            background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue));
-            color: white;
-            padding: 0.4rem 1rem;
             border-radius: 20px;
-            font-size: 0.85rem;
-            font-weight: 500;
-            white-space: nowrap;
+            border: 1px solid rgba(0, 212, 255, 0.1);
+            transition: all 0.3s ease;
         }
 
-        .project-title {
-            font-weight: 600;
-            color: var(--dark-gray);
-            font-size: 1.15rem;
-            margin-bottom: 0.5rem;
+        .card:hover {
+            transform: translateY(-10px);
+            border-color: var(--accent-blue);
+            box-shadow: 0 20px 60px rgba(0, 212, 255, 0.2);
         }
 
-        .project-company {
-            color: var(--primary-blue);
-            font-size: 0.9rem;
-            font-weight: 500;
+        .card-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .card h3 {
+            font-size: 1.5rem;
             margin-bottom: 1rem;
         }
 
-        .project-desc {
+        .card p {
             color: var(--text-gray);
-            margin-bottom: 1rem;
             line-height: 1.6;
         }
 
-        .achievements {
-            margin-top: 1rem;
+        /* Skills Section */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 1rem;
         }
 
-        .achievements ul {
-            padding-left: 1.2rem;
-            margin-top: 0.5rem;
+        .skill-badge {
+            background: var(--bg-card);
+            padding: 1rem;
+            border-radius: 15px;
+            text-align: center;
+            border: 1px solid rgba(0, 212, 255, 0.1);
+            transition: all 0.3s ease;
         }
 
-        .achievements li {
+        .skill-badge:hover {
+            border-color: var(--accent-blue);
+            transform: scale(1.05);
+        }
+
+        /* Experience Section */
+        .timeline {
+            position: relative;
+            padding-left: 3rem;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 2px;
+            background: linear-gradient(180deg, var(--accent-blue), var(--accent-purple));
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 3rem;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -3.5rem;
+            top: 0;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--accent-blue);
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.6);
+        }
+
+        .timeline-content {
+            background: var(--bg-card);
+            padding: 2rem;
+            border-radius: 15px;
+            border-left: 3px solid var(--accent-blue);
+        }
+
+        .timeline-content h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .timeline-content .company {
+            color: var(--accent-blue);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .timeline-content .duration {
             color: var(--text-gray);
-            margin-bottom: 0.3rem;
             font-size: 0.9rem;
+            margin-bottom: 1rem;
         }
 
-        .tech-stack {
+        .tech-tags {
             display: flex;
             flex-wrap: wrap;
             gap: 0.5rem;
@@ -366,905 +345,319 @@
         }
 
         .tech-tag {
-            background: linear-gradient(135deg, var(--primary-blue), var(--accent-purple));
-            color: white;
+            background: rgba(0, 212, 255, 0.1);
+            color: var(--accent-blue);
             padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            border: 1px solid rgba(0, 212, 255, 0.2);
+        }
+
+        /* Contact Section */
+        .contact-info {
+            text-align: center;
+        }
+
+        .contact-items {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            justify-content: center;
+            margin-top: 2rem;
+        }
+
+        .contact-item {
+            background: var(--bg-card);
+            padding: 1.5rem;
             border-radius: 15px;
-            font-size: 0.75rem;
-            font-weight: 500;
+            min-width: 250px;
+            border: 1px solid rgba(0, 212, 255, 0.1);
             transition: all 0.3s ease;
         }
 
-        .tech-tag:hover {
-            transform: scale(1.05);
-            box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3);
+        .contact-item:hover {
+            border-color: var(--accent-blue);
+            transform: translateY(-5px);
         }
 
-        /* Password Modal */
-        .password-overlay {
+        .contact-item i {
+            font-size: 2rem;
+            color: var(--accent-blue);
+            margin-bottom: 0.5rem;
+        }
+
+        .contact-item a {
+            color: var(--text-gray);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .contact-item a:hover {
+            color: var(--accent-blue);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--bg-card);
+            padding: 2rem;
+            text-align: center;
+            color: var(--text-gray);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero .tagline {
+                font-size: 1.2rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .timeline {
+                padding-left: 2rem;
+            }
+        }
+
+        /* Loading Animation */
+        .loading {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.8);
+            background: var(--bg-dark);
             display: flex;
             align-items: center;
             justify-content: center;
-            z-index: 1000;
-            backdrop-filter: blur(10px);
+            z-index: 9999;
+            transition: opacity 0.5s ease;
         }
 
-        .password-modal {
-            background: white;
-            padding: 2.5rem;
-            border-radius: 20px;
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
-            text-align: center;
-            max-width: 400px;
-            width: 90%;
-            animation: modalSlideIn 0.3s ease;
+        .loading.hide {
+            opacity: 0;
+            pointer-events: none;
         }
 
-        @keyframes modalSlideIn {
-            from { opacity: 0; transform: translateY(-50px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .password-modal h3 {
-            margin-bottom: 1.5rem;
-            color: var(--dark-gray);
-            font-weight: 600;
-            font-size: 1.4rem;
-        }
-
-        .password-input {
-            width: 100%;
-            padding: 1rem;
-            border: 2px solid #e5e7eb;
-            border-radius: 12px;
-            font-size: 1rem;
-            margin-bottom: 1.5rem;
-            transition: border-color 0.3s ease;
-            font-family: 'Poppins', sans-serif;
-        }
-
-        .password-input:focus {
-            outline: none;
-            border-color: var(--primary-blue);
-            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
-        }
-
-        .password-submit {
-            background: linear-gradient(135deg, var(--primary-blue), var(--accent-purple));
-            color: white;
-            border: none;
-            padding: 1rem 2rem;
-            border-radius: 12px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 1rem;
-            width: 100%;
-        }
-
-        .password-submit:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(37, 99, 235, 0.3);
-        }
-
-        .error-message {
-            color: #dc2626;
-            font-size: 0.9rem;
-            margin-top: 1rem;
-            display: none;
-            animation: shake 0.5s ease;
-        }
-
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            25% { transform: translateX(-10px); }
-            75% { transform: translateX(10px); }
-        }
-
-        /* Action Buttons */
-        .action-buttons {
-            position: fixed;
-            top: 30px;
-            right: 30px;
-            display: flex;
-            gap: 15px;
-            z-index: 100;
-        }
-
-        .action-btn {
-            width: 60px;
-            height: 60px;
-            border: none;
+        .loader {
+            width: 50px;
+            height: 50px;
+            border: 3px solid rgba(0, 212, 255, 0.3);
+            border-top-color: var(--accent-blue);
             border-radius: 50%;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.2rem;
-            transition: all 0.3s ease;
-            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+            animation: spin 1s linear infinite;
         }
 
-        .print-btn {
-            background: linear-gradient(135deg, var(--primary-blue), var(--accent-purple));
-            color: white;
-        }
-
-        .home-btn {
-            background: rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            color: white;
-        }
-
-        .action-btn:hover {
-            transform: translateY(-3px) scale(1.05);
-        }
-
-        .print-btn:hover {
-            box-shadow: 0 12px 35px rgba(37, 99, 235, 0.4);
-        }
-
-        .home-btn:hover {
-            background: rgba(255, 255, 255, 0.3);
-        }
-
-        /* Print Styles - Maintain Beautiful Design */
-        @media print {
-            @page {
-                size: A4;
-                margin: 0.5in;
-            }
-
-            * {
-                -webkit-print-color-adjust: exact !important;
-                print-color-adjust: exact !important;
-            }
-
-            body {
-                background: none !important;
-                padding: 0;
-                font-size: 12px;
-            }
-
-            .resume-wrapper {
-                padding: 0;
-                display: block;
-                min-height: auto;
-            }
-
-            .resume-container {
-                box-shadow: none;
-                border-radius: 15px;
-                max-width: none;
-                width: 100%;
-                margin: 0;
-                filter: none !important;
-                page-break-inside: avoid;
-                overflow: visible;
-            }
-
-            .action-buttons, .password-overlay {
-                display: none !important;
-            }
-
-            .top-accent {
-                height: 4px;
-                background: linear-gradient(90deg, var(--primary-blue), var(--accent-purple), #ec4899, #f59e0b) !important;
-                -webkit-print-color-adjust: exact !important;
-                print-color-adjust: exact !important;
-            }
-
-            .header-section {
-                padding: 1.5rem 0;
-                background: linear-gradient(135deg, var(--dark-gray), #374151) !important;
-                -webkit-print-color-adjust: exact !important;
-                print-color-adjust: exact !important;
-            }
-
-            .name-title h1 {
-                font-size: 2.2rem;
-                color: white !important;
-                -webkit-text-fill-color: white !important;
-            }
-
-            .designation {
-                font-size: 1.1rem;
-                color: #d1d5db !important;
-            }
-
-            .contact-item {
-                color: #d1d5db !important;
-                font-size: 0.8rem;
-            }
-
-            .profile-img {
-                width: 120px;
-                height: 120px;
-            }
-
-            .sidebar {
-                padding: 1.5rem 1.2rem;
-                background: linear-gradient(180deg, var(--light-gray), #f1f5f9) !important;
-                -webkit-print-color-adjust: exact !important;
-                print-color-adjust: exact !important;
-            }
-
-            .content-area {
-                padding: 1.5rem 1.8rem;
-            }
-
-            .section-title {
-                font-size: 1.2rem;
-                margin-bottom: 1rem;
-                border-bottom: 3px solid var(--primary-blue) !important;
-                -webkit-print-color-adjust: exact !important;
-                print-color-adjust: exact !important;
-            }
-
-            .section-title::after {
-                background: var(--accent-purple) !important;
-                -webkit-print-color-adjust: exact !important;
-                print-color-adjust: exact !important;
-            }
-
-            .skill-item {
-                background: rgba(37, 99, 235, 0.05) !important;
-                border: 1px solid rgba(37, 99, 235, 0.1) !important;
-                border-left: 4px solid var(--primary-blue) !important;
-                padding: 0.6rem 0.8rem;
-                margin-bottom: 0.6rem;
-                -webkit-print-color-adjust: exact !important;
-                print-color-adjust: exact !important;
-            }
-
-            .skill-name {
-                font-size: 0.8rem;
-                color: var(--text-gray) !important;
-            }
-
-            .education-card {
-                padding: 1rem;
-                margin-bottom: 0.8rem;
-                background: white !important;
-                border: 1px solid #e5e7eb !important;
-                -webkit-print-color-adjust: exact !important;
-                print-color-adjust: exact !important;
-            }
-
-            .edu-grade {
-                background: linear-gradient(135deg, var(--success-green), #059669) !important;
-                color: white !important;
-                font-size: 0.7rem;
-                padding: 0.2rem 0.6rem;
-                -webkit-print-color-adjust: exact !important;
-                print-color-adjust: exact !important;
-            }
-
-            .objective-card {
-                background: linear-gradient(135deg, rgba(37, 99, 235, 0.05), rgba(124, 58, 237, 0.05)) !important;
-                border: 1px solid rgba(37, 99, 235, 0.1) !important;
-                padding: 1.5rem;
-                margin-bottom: 1.5rem;
-                -webkit-print-color-adjust: exact !important;
-                print-color-adjust: exact !important;
-            }
-
-            .objective-card::before {
-                background: linear-gradient(90deg, var(--primary-blue), var(--accent-purple)) !important;
-                -webkit-print-color-adjust: exact !important;
-                print-color-adjust: exact !important;
-            }
-
-            .experience-card, .project-card {
-                background: white !important;
-                border: 1px solid rgba(37, 99, 235, 0.1) !important;
-                border-left: 4px solid var(--primary-blue) !important;
-                padding: 1.3rem;
-                margin-bottom: 1.2rem;
-                -webkit-print-color-adjust: exact !important;
-                print-color-adjust: exact !important;
-                break-inside: avoid;
-            }
-
-            .exp-title, .project-title {
-                font-size: 1rem;
-                color: var(--dark-gray) !important;
-            }
-
-            .exp-company, .project-company {
-                color: var(--primary-blue) !important;
-                font-size: 0.85rem;
-            }
-
-            .exp-duration {
-                background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue)) !important;
-                color: white !important;
-                font-size: 0.75rem;
-                padding: 0.3rem 0.8rem;
-                -webkit-print-color-adjust: exact !important;
-                print-color-adjust: exact !important;
-            }
-
-            .project-desc {
-                font-size: 0.85rem;
-                color: var(--text-gray) !important;
-            }
-
-            .achievements {
-                font-size: 0.8rem;
-            }
-
-            .achievements li {
-                color: var(--text-gray) !important;
-                font-size: 0.75rem;
-            }
-
-            .tech-tag {
-                background: linear-gradient(135deg, var(--primary-blue), var(--accent-purple)) !important;
-                color: white !important;
-                font-size: 0.65rem;
-                padding: 0.2rem 0.6rem;
-                -webkit-print-color-adjust: exact !important;
-                print-color-adjust: exact !important;
-            }
-
-            .main-content .row > .col-lg-4 {
-                flex: 0 0 30%;
-                max-width: 30%;
-            }
-
-            .main-content .row > .col-lg-8 {
-                flex: 0 0 70%;
-                max-width: 70%;
-            }
-        }
-
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .name-title h1 {
-                font-size: 2rem;
-            }
-
-            .contact-links {
-                justify-content: center;
-                flex-direction: column;
-                align-items: center;
-            }
-
-            .exp-header {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-
-            .action-buttons {
-                top: 15px;
-                right: 15px;
-            }
-
-            .action-btn {
-                width: 50px;
-                height: 50px;
-                font-size: 1rem;
-            }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
         }
     </style>
 </head>
 <body>
-    <!-- Password Modal -->
-    <div class="password-overlay" id="passwordOverlay">
-        <div class="password-modal">
-            <h3><i class="fas fa-lock"></i> Enter Password</h3>
-            <input type="password" class="password-input" id="passwordInput" placeholder="Enter password to view resume">
-            <button class="password-submit" onclick="checkPassword()">
-                <i class="fas fa-unlock"></i> Unlock Resume
-            </button>
-            <div class="error-message" id="errorMessage">
-                <i class="fas fa-exclamation-triangle"></i> Incorrect password. Please try again.
+    <!-- Loading Screen -->
+    <div class="loading" id="loading">
+        <div class="loader"></div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="bg-animation">
+            <div class="circle"></div>
+            <div class="circle"></div>
+            <div class="circle"></div>
+        </div>
+        
+        <div class="hero-content">
+            <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgIq9DLWlo2lcSHPjRBxSIfYyx0Ked8fpda0PQD3_xbjLoZhri7cBEdrcLd4jRqMfGlDr24fO26WiD23VRvx-OB4JQtrvpzk9X9Xa4q7CxBQEpLgCaN_iDGspauBZ7xVaptb6BAf3pRzL6e3dljPQX-2T7eNaib_WNfCbKG_y86BcobL-a0rc3PI7y3mUZt/s320/Profile.jpg" 
+                 alt="Thirupathi G" class="profile-pic">
+            <h1>Thirupathi G</h1>
+            <p class="tagline">Software Engineer | Java Developer | Problem Solver</p>
+            
+            <div class="social-links">
+                <a href="mailto:thirupathi7845@gmail.com" title="Email"><i class="fas fa-envelope"></i></a>
+                <a href="tel:+917397070203" title="Phone"><i class="fas fa-phone"></i></a>
+                <a href="https://www.linkedin.com/in/thirupathi-g/" target="_blank" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                <a href="https://github.com/thirupathimech" target="_blank" title="GitHub"><i class="fab fa-github"></i></a>
+            </div>
+
+            <div class="cta-buttons">
+                <button class="btn btn-primary" onclick="downloadResume()">
+                    <i class="fas fa-download"></i> Download Resume
+                </button>
+                <a href="#contact" class="btn btn-secondary">
+                    <i class="fas fa-paper-plane"></i> Get in Touch
+                </a>
             </div>
         </div>
-    </div>
 
-    <!-- Action Buttons -->
-    <div class="action-buttons">
-        <button class="action-btn home-btn" onclick="goHome()" title="Back to Home">
-            <i class="fas fa-home"></i>
-        </button>
-        <button class="action-btn print-btn" onclick="window.print()" title="Print Resume">
-            <i class="fas fa-print"></i>
-        </button>
-    </div>
+        <div class="scroll-indicator">
+            <i class="fas fa-chevron-down" style="color: var(--accent-blue); font-size: 2rem;"></i>
+        </div>
+    </section>
 
-    <div class="resume-wrapper">
-        <div class="resume-container" id="resumeContainer">
-            <!-- Top Accent -->
-            <div class="top-accent"></div>
+    <!-- About Section -->
+    <section class="section" id="about">
+        <h2 class="section-title">About Me</h2>
+        <div class="about-grid">
+            <div class="card">
+                <div class="card-icon"><i class="fas fa-code"></i></div>
+                <h3>Clean Code</h3>
+                <p>Passionate about writing clean, efficient, and maintainable code that solves real-world problems.</p>
+            </div>
+            <div class="card">
+                <div class="card-icon"><i class="fas fa-rocket"></i></div>
+                <h3>Performance</h3>
+                <p>Focused on optimizing applications for speed and scalability, reducing load times by up to 40%.</p>
+            </div>
+            <div class="card">
+                <div class="card-icon"><i class="fas fa-users"></i></div>
+                <h3>Team Player</h3>
+                <p>Collaborative developer with strong communication skills and experience in agile environments.</p>
+            </div>
+        </div>
+    </section>
 
-            <!-- Header Section -->
-            <section class="header-section">
-                <div class="container">
-                    <div class="row align-items-center text-center text-md-start">
-                        <div class="col-md-4 text-center mb-3 mb-md-0">
-                            <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgIq9DLWlo2lcSHPjRBxSIfYyx0Ked8fpda0PQD3_xbjLoZhri7cBEdrcLd4jRqMfGlDr24fO26WiD23VRvx-OB4JQtrvpzk9X9Xa4q7CxBQEpLgCaN_iDGspauBZ7xVaptb6BAf3pRzL6e3dljPQX-2T7eNaib_WNfCbKG_y86BcobL-a0rc3PI7y3mUZt/s320/Profile.jpg" 
-                                 alt="Thirupathi G" class="profile-img">
-                        </div>
-                        <div class="col-md-8">
-                            <div class="name-title">
-                                <h1>Thirupathi G</h1>
-                                <div class="designation">Software Engineer</div>
-                            </div>
-                            <div class="contact-links">
-                                <a href="mailto:thirupathi7845@gmail.com" class="contact-item">
-                                    <i class="fas fa-envelope"></i>
-                                    thirupathi7845@gmail.com
-                                </a>
-                                <a href="tel:+917397070203" class="contact-item">
-                                    <i class="fas fa-phone"></i>
-                                    +91 7397070203
-                                </a>
-                                <a href="https://www.linkedin.com/in/thirupathi-g/" target="_blank" class="contact-item">
-                                    <i class="fab fa-linkedin"></i>
-                                    LinkedIn Profile
-                                </a>
-                                <div class="contact-item">
-                                    <i class="fas fa-map-marker-alt"></i>
-                                    Salem, Tamil Nadu
-                                </div>
-                            </div>
-                        </div>
+    <!-- Skills Section -->
+    <section class="section" id="skills">
+        <h2 class="section-title">Technical Skills</h2>
+        <div class="skills-grid" id="skillsGrid"></div>
+    </section>
+
+    <!-- Experience Section -->
+    <section class="section" id="experience">
+        <h2 class="section-title">Experience</h2>
+        <div class="timeline">
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <h3>Software Engineer</h3>
+                    <div class="company">Ultramain Software India Pvt Ltd</div>
+                    <div class="duration">Oct 2023 – Present</div>
+                    <p>Leading development of aviation maintenance software with focus on performance optimization and user experience enhancement.</p>
+                    <div class="tech-tags">
+                        <span class="tech-tag">Sencha GXT</span>
+                        <span class="tech-tag">Google GWT</span>
+                        <span class="tech-tag">Jasper Reports</span>
+                        <span class="tech-tag">Java</span>
                     </div>
                 </div>
-            </section>
-
-            <!-- Main Content -->
-            <div class="main-content">
-                <div class="row g-0">
-                    <!-- Sidebar -->
-                    <div class="col-lg-4">
-                        <div class="sidebar">
-                            <!-- Technical Skills -->
-                            <div class="section mb-4">
-                                <h3 class="section-title">
-                                    <i class="fas fa-code me-2"></i>Technical Skills
-                                </h3>
-                                <div id="skillsContainer"></div>
-                            </div>
-
-                            <!-- Education -->
-                            <div class="section">
-                                <h3 class="section-title">
-                                    <i class="fas fa-graduation-cap me-2"></i>Education
-                                </h3>
-                                <div class="education-card">
-                                    <div class="edu-degree">B.E. Mechanical Engineering</div>
-                                    <div class="edu-institution">Dhirajlal Gandhi College of Technology</div>
-                                    <span class="edu-grade">7.58/10</span>
-                                </div>
-                                <div class="education-card">
-                                    <div class="edu-degree">Higher Secondary (HSC)</div>
-                                    <div class="edu-institution">Kalaimagal Matric Hr Sec School</div>
-                                    <span class="edu-grade">68.41%</span>
-                                </div>
-                                <div class="education-card">
-                                    <div class="edu-degree">Secondary (SSLC)</div>
-                                    <div class="edu-institution">Govt High School, Chinthamaniyur</div>
-                                    <span class="edu-grade">87.2%</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Content Area -->
-                    <div class="col-lg-8">
-                        <div class="content-area">
-                            <!-- Professional Objective -->
-                            <div class="section">
-                                <h3 class="section-title">
-                                    <i class="fas fa-bullseye me-2"></i>Professional Objective
-                                </h3>
-                                <div class="objective-card">
-                                    Dynamic Software Engineer with a proven track record of building scalable, high-performance applications. 
-                                    Committed to driving innovation through cutting-edge technologies and delivering impactful solutions that 
-                                    enhance user experience and business value.
-                                </div>
-                            </div>
-
-                            <!-- Professional Experience -->
-                            <div class="section">
-                                <h3 class="section-title">
-                                    <i class="fas fa-briefcase me-2"></i>Professional Experience
-                                </h3>
-                                
-                                <div class="experience-card">
-                                    <div class="exp-header">
-                                        <div>
-                                            <div class="exp-title">Software Engineer</div>
-                                            <div class="exp-company">Ultramain Software India Pvt Ltd</div>
-                                        </div>
-                                        <div class="exp-duration">Oct 2023 – Present</div>
-                                    </div>
-                                    <div class="exp-description">
-                                        Leading development of aviation maintenance software with focus on performance optimization 
-                                        and user experience enhancement. Specialized in creating dynamic dashboards and automated 
-                                        reporting systems for aerospace industry clients.
-                                    </div>
-                                </div>
-
-                                <div class="experience-card">
-                                    <div class="exp-header">
-                                        <div>
-                                            <div class="exp-title">Program Analyst</div>
-                                            <div class="exp-company">Effitrac Solutions</div>
-                                        </div>
-                                        <div class="exp-duration">Apr 2022 – Apr 2023</div>
-                                    </div>
-                                    <div class="exp-description">
-                                        Developed comprehensive payroll management system, reducing processing time by 40% through 
-                                        automation and optimization. Built scalable solutions using modern Java frameworks and 
-                                        ensured data integrity with optimized database schemas.
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Key Projects -->
-                            <div class="section">
-                                <h3 class="section-title">
-                                    <i class="fas fa-rocket me-2"></i>Key Projects
-                                </h3>
-                                
-                                <div class="project-card">
-                                    <div class="project-title">Aviation Maintenance Software</div>
-                                    <div class="project-company">Ultramain Software Inc</div>
-                                    <div class="project-desc">
-                                        Led development of comprehensive maintenance software for aerospace industry, enhancing 
-                                        operational efficiency through real-time dashboards and automated reporting systems.
-                                    </div>
-                                    <div class="achievements">
-                                        <strong><i class="fas fa-trophy me-1"></i>Key Achievements:</strong>
-                                        <ul>
-                                            <li>Developed dynamic dashboards using Sencha GXT and Google GWT</li>
-                                            <li>Reduced page load times by 30% through performance optimization</li>
-                                            <li>Cut report generation time by 50% with customized Jasper Reports</li>
-                                            <li>Implemented real-time data synchronization for multi-user environments</li>
-                                        </ul>
-                                    </div>
-                                    <div class="tech-stack">
-                                        <span class="tech-tag">Sencha GXT</span>
-                                        <span class="tech-tag">Google GWT</span>
-                                        <span class="tech-tag">Jasper Reports</span>
-                                        <span class="tech-tag">Java</span>
-                                        <span class="tech-tag">SQL</span>
-                                        <span class="tech-tag">REST APIs</span>
-                                    </div>
-                                </div>
-
-                                <div class="project-card">
-                                    <div class="project-title">Payroll Management System</div>
-                                    <div class="project-company">Effitrac Solutions Pvt Ltd</div>
-                                    <div class="project-desc">
-                                        Developed robust payroll management system automating employee data processing, 
-                                        salary calculations, and comprehensive reporting functionality for enterprise clients.
-                                    </div>
-                                    <div class="achievements">
-                                        <strong><i class="fas fa-trophy me-1"></i>Key Achievements:</strong>
-                                        <ul>
-                                            <li>Built scalable solution using PrimeFaces and MySQL</li>
-                                            <li>Reduced report generation time by 40%</li>
-                                            <li>Ensured data integrity with optimized database schemas</li>
-                                            <li>Implemented automated backup and recovery systems</li>
-                                        </ul>
-                                    </div>
-                                    <div class="tech-stack">
-                                        <span class="tech-tag">PrimeFaces</span>
-                                        <span class="tech-tag">MySQL</span>
-                                        <span class="tech-tag">Core Java</span>
-                                        <span class="tech-tag">JSF</span>
-                                        <span class="tech-tag">EJB</span>
-                                        <span class="tech-tag">Maven</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+            </div>
+            
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <h3>Program Analyst</h3>
+                    <div class="company">Effitrac Solutions</div>
+                    <div class="duration">Apr 2022 – Apr 2023</div>
+                    <p>Developed comprehensive payroll management system, reducing processing time by 40% through automation and optimization.</p>
+                    <div class="tech-tags">
+                        <span class="tech-tag">PrimeFaces</span>
+                        <span class="tech-tag">MySQL</span>
+                        <span class="tech-tag">Core Java</span>
+                        <span class="tech-tag">JSF</span>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+    </section>
 
-    <!-- Bootstrap JS -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
-    <!-- jQuery -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+    <!-- Contact Section -->
+    <section class="section" id="contact">
+        <h2 class="section-title">Get In Touch</h2>
+        <div class="contact-info">
+            <p style="color: var(--text-gray); max-width: 600px; margin: 0 auto 2rem;">
+                I'm always open to discussing new projects, creative ideas, or opportunities to be part of your visions.
+            </p>
+            <div class="contact-items">
+                <div class="contact-item">
+                    <i class="fas fa-envelope"></i>
+                    <p><a href="mailto:thirupathi7845@gmail.com">thirupathi7845@gmail.com</a></p>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-phone"></i>
+                    <p><a href="tel:+917397070203">+91 7397070203</a></p>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <p>Salem, Tamil Nadu, India</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2026 Thirupathi G. All rights reserved.</p>
+    </footer>
 
     <script>
-        // Technical Skills Array
-        const technicalSkills = [
-            "Java", "Spring Boot", "Hibernate", "MySQL", "PostgreSQL", 
-            "REST APIs", "PrimeFaces", "JSF", "GWT", "Sencha GXT", 
-            "Jasper Reports", "JavaScript", "HTML5/CSS3", "Selenium", 
-            "TestNG", "Maven", "Git", "WildFly Server", "GlassFish",
-            "jQuery", "Bootstrap", "Microservices"
+        // Skills Data
+        const skills = [
+            "Java", "Spring Boot", "Hibernate", "MySQL", "PostgreSQL",
+            "REST APIs", "PrimeFaces", "JSF", "GWT", "Sencha GXT",
+            "Jasper Reports", "JavaScript", "HTML/CSS", "Selenium",
+            "Maven", "Git", "Microservices"
         ];
 
-        // jQuery Document Ready
-        $(document).ready(function() {
-            // Show password modal on load
-            $('#passwordOverlay').fadeIn(300);
-            
-            // Render skills with jQuery animation
-            renderSkills();
-            
-            // Add smooth scroll effect
-            $('a[href^="#"]').on('click', function(event) {
-                var target = $(this.getAttribute('href'));
-                if( target.length ) {
-                    event.preventDefault();
-                    $('html, body').stop().animate({
-                        scrollTop: target.offset().top - 100
-                    }, 1000);
-                }
-            });
-
-            // Add typing effect to name
-            typeWriter();
+        // Render Skills
+        const skillsGrid = document.getElementById('skillsGrid');
+        skills.forEach(skill => {
+            const badge = document.createElement('div');
+            badge.className = 'skill-badge';
+            badge.textContent = skill;
+            skillsGrid.appendChild(badge);
         });
 
-        // Render Skills Function with jQuery
-        function renderSkills() {
-            const $skillsContainer = $('#skillsContainer');
-            $skillsContainer.empty();
-            
-            $.each(technicalSkills, function(index, skill) {
-                const $skillItem = $('<div>', {
-                    class: 'skill-item',
-                    style: `animation-delay: ${index * 0.1}s`
-                }).html(`<span class="skill-name"><i class="fas fa-check-circle me-2" style="color: var(--primary-blue);"></i>${skill}</span>`);
-                
-                $skillsContainer.append($skillItem);
-                
-                // Add hover effects with jQuery
-                $skillItem.hover(
-                    function() {
-                        $(this).addClass('shadow-lg');
-                    },
-                    function() {
-                        $(this).removeClass('shadow-lg');
-                    }
-                );
+        // Loading Animation
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('loading').classList.add('hide');
+            }, 1000);
+        });
+
+        // Smooth Scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
             });
+        });
+
+        // Download Resume Function
+        function downloadResume() {
+            // Machi, intha path la nee resume.pdf ah vachirukanum
+            // Same folder la HTML file irukura edathula
+            const link = document.createElement('a');
+            link.href = 'resume.pdf';  // PDF file name
+            link.download = 'Thirupathi_G_Resume.pdf';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
         }
 
-        // Password Check Function
-        function checkPassword() {
-            const password = $('#passwordInput').val();
-            const $errorMessage = $('#errorMessage');
+        // Parallax Effect for Background Circles
+        document.addEventListener('mousemove', (e) => {
+            const circles = document.querySelectorAll('.circle');
+            const mouseX = e.clientX / window.innerWidth;
+            const mouseY = e.clientY / window.innerHeight;
             
-            if (password === 'Password') {
-                $('#passwordOverlay').fadeOut(300);
-                $('#resumeContainer').addClass('unlocked');
-                
-                // Add entrance animation
-                setTimeout(() => {
-                    $('.skill-item, .education-card, .experience-card, .project-card').each(function(index) {
-                        $(this).delay(index * 100).animate({
-                            opacity: 1,
-                            transform: 'translateY(0)'
-                        }, 500);
-                    });
-                }, 300);
-                
-            } else {
-                $errorMessage.show().addClass('animate__animated animate__shake');
-                $('#passwordInput').val('').focus();
-                
-                setTimeout(() => {
-                    $errorMessage.removeClass('animate__animated animate__shake');
-                }, 500);
-            }
-        }
-
-        // Handle Enter key in password input
-        $(document).on('keypress', '#passwordInput', function(e) {
-            if (e.which === 13) {
-                checkPassword();
-            }
-        });
-
-        // Go Home Function
-        function goHome() {
-            // Add fade out effect
-            $('body').fadeOut(300, function() {
-                window.location.href = 'index.html';
-            });
-        }
-
-        // Typing Effect for Name
-        function typeWriter() {
-            const text = "Thirupathi G";
-            const $nameElement = $('.name-title h1');
-            let i = 0;
-            
-            $nameElement.text('');
-            
-            function type() {
-                if (i < text.length) {
-                    $nameElement.text($nameElement.text() + text.charAt(i));
-                    i++;
-                    setTimeout(type, 100);
-                }
-            }
-            
-            // Start typing after password is unlocked
-            setTimeout(type, 1000);
-        }
-
-        // Print handling with jQuery
-        $(window).on('beforeprint', function() {
-            $('#resumeContainer').addClass('unlocked');
-            
-            // Ensure all animations are complete before printing
-            $('.skill-item, .education-card, .experience-card, .project-card').css({
-                'animation': 'none',
-                'transition': 'none'
+            circles.forEach((circle, index) => {
+                const speed = (index + 1) * 20;
+                const x = (mouseX * speed) - (speed / 2);
+                const y = (mouseY * speed) - (speed / 2);
+                circle.style.transform = `translate(${x}px, ${y}px)`;
             });
         });
-
-        // Add scroll animations
-        $(window).scroll(function() {
-            $('.section').each(function() {
-                const elementTop = $(this).offset().top;
-                const elementBottom = elementTop + $(this).outerHeight();
-                const viewportTop = $(window).scrollTop();
-                const viewportBottom = viewportTop + $(window).height();
-                
-                if (elementBottom > viewportTop && elementTop < viewportBottom) {
-                    $(this).addClass('animate-in');
-                }
-            });
-        });
-
-        // Add some interactive effects
-        $(document).ready(function() {
-            // Tech tags hover effect with better animation
-            $(document).on('mouseenter', '.tech-tag', function() {
-                $(this).css({
-                    'transform': 'scale(1.15) rotate(2deg)',
-                    'transition': 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-                    'box-shadow': '0 6px 20px rgba(37, 99, 235, 0.4)',
-                    'z-index': '10'
-                });
-            }).on('mouseleave', '.tech-tag', function() {
-                $(this).css({
-                    'transform': 'scale(1) rotate(0deg)',
-                    'transition': 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-                    'box-shadow': 'none',
-                    'z-index': '1'
-                });
-            });
-
-            // Enhanced card hover effects
-            $('.experience-card, .project-card').hover(
-                function() {
-                    $(this).css({
-                        'transform': 'translateY(-8px) scale(1.02)',
-                        'transition': 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
-                        'box-shadow': '0 15px 40px rgba(37, 99, 235, 0.2)',
-                        'border-left': '6px solid var(--accent-purple)'
-                    });
-                    $(this).find('.tech-tag').css({
-                        'animation': 'pulse 1.5s infinite'
-                    });
-                },
-                function() {
-                    $(this).css({
-                        'transform': 'translateY(0) scale(1)',
-                        'transition': 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
-                        'box-shadow': '0 6px 20px rgba(0,0,0,0.08)',
-                        'border-left': '4px solid var(--primary-blue)'
-                    });
-                    $(this).find('.tech-tag').css({
-                        'animation': 'none'
-                    });
-                }
-            );
-
-            // Skill items enhanced hover
-            $(document).on('mouseenter', '.skill-item', function() {
-                $(this).css({
-                    'transform': 'translateX(5px) scale(1.02)',
-                    'transition': 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-                    'box-shadow': '0 8px 25px rgba(37, 99, 235, 0.25)',
-                    'background': 'rgba(37, 99, 235, 0.12)',
-                    'border-left': '4px solid var(--accent-purple)'
-                });
-            }).on('mouseleave', '.skill-item', function() {
-                $(this).css({
-                    'transform': 'translateX(0) scale(1)',
-                    'transition': 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-                    'box-shadow': 'none',
-                    'background': 'rgba(102, 126, 234, 0.05)',
-                    'border-left': '4px solid var(--primary-blue)'
-                });
-            });
-
-            // Education cards hover
-            $('.education-card').hover(
-                function() {
-                    $(this).css({
-                        'transform': 'translateY(-5px) scale(1.02)',
-                        'transition': 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-                        'box-shadow': '0 12px 30px rgba(37, 99, 235, 0.2)',
-                        'border': '1px solid var(--primary-blue)'
-                    });
-                },
-                function() {
-                    $(this).css({
-                        'transform': 'translateY(0) scale(1)',
-                        'transition': 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-                        'box-shadow': '0 4px 6px rgba(0,0,0,0.05)',
-                        'border': '1px solid #e5e7eb'
-                    });
-                }
-            );
-
-            // Profile image click effect
-            $('.profile-img').click(function() {
-                $(this).addClass('animate-bounce');
-                setTimeout(() => {
-                    $(this).removeClass('animate-bounce');
-                }, 1000);
-            });
-        });
-
-        // Add CSS animations for entrance effects
-        const style = document.createElement('style');
-        style.textContent = `
-            .skill-item, .education-card, .experience-card, .project-card {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            
-            .animate-in {
-                animation: slideInUp 0.6s ease forwards;
-            }
-            
-            @keyframes slideInUp {
-                from {
-                    opacity: 0;
-                    transform: translateY(30px);
-                }
-                to {
-                    opacity: 1;
-                    transform: translateY(0);
-                }
-            }
-            
-            .animate-pulse {
-                animation: pulse 1s infinite;
-            }
-            
-            @keyframes pulse {
-                0%, 100% { opacity: 1; }
-                50% { opacity: 0.7; }
-            }
-            
-            .animate-bounce {
-                animation: bounce 1s ease;
-            }
-            
-            @keyframes bounce {
-                0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
-                40% { transform: translateY(-10px); }
-                60% { transform: translateY(-5px); }
-            }
-        `;
-        document.head.appendChild(style);
     </script>
 </body>
 </html>
