@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Audio Trimmer - Professional Suite</title>
+    <title>Media Trimmer - Professional Suite</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
     <link rel="icon" href="https://blogger.googleusercontent.com/img/a/AVvXsEgIFnXbCEgaASrlgiFnXz6MPaK-kyelPH7eTOt9s0-nWtY5YSMAIG5mN4k7dnxX6M-C0AmbO3U9jikPwhBdpp7G9848hK_1c7kXLbqxamlfCbhe_l-kEb8pe5V6mEH3fiIokyxkIyavBLAMlAzSApPTbcYA1r-P9YDwpu9GBIsL1SV4zGLvMwFulKOECQ4" type="image/x-icon">
@@ -142,6 +142,53 @@
             letter-spacing: 0.5px;
         }
 
+        .tab-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 40px;
+            background: var(--card-bg);
+            border-radius: 50px;
+            padding: 5px;
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border-gold);
+            box-shadow: var(--shadow-premium);
+        }
+
+        .tab-button {
+            flex: 1;
+            padding: 15px 30px;
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            border-radius: 50px;
+            transition: var(--transition-smooth);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .tab-button.active {
+            background: linear-gradient(135deg, var(--primary-gold), #b8941f);
+            color: var(--dark-bg);
+            box-shadow: var(--shadow-gold);
+        }
+
+        .tab-button:hover:not(.active) {
+            color: var(--text-primary);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
         .upload-section {
             background: var(--card-bg);
             backdrop-filter: blur(20px);
@@ -241,7 +288,7 @@
             box-shadow: 0 15px 40px rgba(212, 175, 55, 0.5);
         }
 
-        .audio-editor {
+        .audio-editor, .video-editor {
             display: none;
             background: var(--card-bg);
             backdrop-filter: blur(20px);
@@ -252,7 +299,7 @@
             box-shadow: var(--shadow-premium);
         }
 
-        .waveform-container {
+        .waveform-container, .video-container {
             position: relative;
             background: linear-gradient(135deg, #0f0f0f, #1a1a1a);
             border-radius: 20px;
@@ -261,6 +308,21 @@
             overflow: hidden;
             border: 1px solid var(--border-gold);
             box-shadow: inset 0 4px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .video-container {
+            height: 400px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .video-player {
+            width: 100%;
+            height: 100%;
+            max-height: 400px;
+            object-fit: contain;
+            border-radius: 15px;
         }
 
         .waveform {
@@ -601,6 +663,42 @@
             background: linear-gradient(135deg, var(--warning-amber), #ff8800);
         }
 
+        .ffmpeg-status {
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            padding: 20px;
+            border-radius: 20px;
+            margin: 20px 0;
+            border: 1px solid var(--border-gold);
+            text-align: center;
+        }
+
+        .ffmpeg-status h4 {
+            color: var(--primary-gold);
+            margin-bottom: 10px;
+        }
+
+        .ffmpeg-status p {
+            color: var(--text-secondary);
+            margin-bottom: 15px;
+        }
+
+        .retry-btn {
+            background: linear-gradient(135deg, var(--primary-gold), #b8941f);
+            color: var(--dark-bg);
+            border: none;
+            padding: 12px 24px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: var(--transition-smooth);
+        }
+
+        .retry-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.4);
+        }
+
         @media (max-width: 768px) {
             .container {
                 padding: 20px;
@@ -612,6 +710,11 @@
             
             .header p {
                 font-size: 1.1rem;
+            }
+            
+            .tab-button {
+                padding: 12px 15px;
+                font-size: 0.9rem;
             }
             
             .controls {
@@ -650,11 +753,15 @@
                 font-size: 1.6rem;
             }
             
-            .waveform-container {
+            .waveform-container, .video-container {
                 height: 200px;
             }
 
-            .audio-editor {
+            .video-container {
+                height: 250px;
+            }
+
+            .audio-editor, .video-editor {
                 padding: 25px;
             }
 
@@ -673,90 +780,205 @@
         </div>
         
         <div class="header">
-            <h1>Audio Trimmer</h1>
-            <p>Professional audio editing suite with premium quality</p>
+            <h1>Media Trimmer</h1>
+            <p>Professional audio and video editing suite with premium quality</p>
         </div>
 
-        <div class="upload-section" id="uploadSection">
-            <h3><i class="fas fa-cloud-upload-alt"></i> Drop your audio file here</h3>
-            <p>Supports MP3, WAV, M4A, AAC and more formats</p>
-            <input type="file" id="audioFile" accept="audio/*" style="display: none;">
-            <button class="upload-btn" onclick="document.getElementById('audioFile').click()">
-                <i class="fas fa-folder-open"></i> Choose File
+        <div class="tab-container">
+            <button class="tab-button active" id="audioTab">
+                <i class="fas fa-music"></i> Audio Trimmer
+            </button>
+            <button class="tab-button" id="videoTab">
+                <i class="fas fa-video"></i> Video Trimmer
             </button>
         </div>
 
-        <div class="loading" id="loading">
-            <div class="spinner"></div>
-            <p>Processing audio file...</p>
+        <!-- Audio Trimmer Section -->
+        <div class="tab-content active" id="audioContent">
+            <div class="upload-section" id="audioUploadSection">
+                <h3><i class="fas fa-cloud-upload-alt"></i> Drop your audio file here</h3>
+                <p>Supports MP3, WAV, M4A, AAC and more formats</p>
+                <input type="file" id="audioFile" accept="audio/*" style="display: none;">
+                <button class="upload-btn" onclick="document.getElementById('audioFile').click()">
+                    <i class="fas fa-folder-open"></i> Choose File
+                </button>
+            </div>
+
+            <div class="loading" id="audioLoading">
+                <div class="spinner"></div>
+                <p>Processing audio file...</p>
+            </div>
+
+            <div class="audio-editor" id="audioEditor">
+                <div class="file-info" id="audioFileInfo"></div>
+                
+                <div class="waveform-container" id="waveformContainer">
+                    <canvas class="waveform" id="waveform"></canvas>
+                    <div class="trim-markers">
+                        <div class="trim-marker" id="audioStartMarker" style="left: 0%"></div>
+                        <div class="trim-marker" id="audioEndMarker" style="left: 100%"></div>
+                        <div class="trim-area" id="audioTrimArea"></div>
+                    </div>
+                </div>
+
+                <div class="time-display">
+                    <div class="time-info">
+                        <strong>Start:</strong> <span id="audioStartTime">00:00.00</span>
+                    </div>
+                    <div class="time-info">
+                        <strong>Duration:</strong> <span id="audioDuration">00:00.00</span>
+                    </div>
+                    <div class="time-info">
+                        <strong>End:</strong> <span id="audioEndTime">00:00.00</span>
+                    </div>
+                </div>
+
+                <div class="progress-bar" id="audioProgressBar">
+                    <div class="progress-fill" id="audioProgressFill"></div>
+                </div>
+
+                <div class="controls">
+                    <button class="control-btn" id="audioPlayPauseBtn">
+                        <i class="fas fa-play"></i> Play
+                    </button>
+                    <button class="control-btn" id="audioStopBtn">
+                        <i class="fas fa-stop"></i> Stop
+                    </button>
+                    <button class="control-btn" id="audioPreviewBtn">
+                        <i class="fas fa-eye"></i> Preview Trim
+                    </button>
+                    <button class="control-btn" id="audioResetBtn">
+                        <i class="fas fa-redo"></i> Reset
+                    </button>
+                </div>
+
+                <div class="volume-control">
+                    <span><i class="fas fa-volume-up"></i> Volume:</span>
+                    <input type="range" class="volume-slider" id="audioVolumeSlider" min="0" max="100" value="50">
+                    <span id="audioVolumeValue">50%</span>
+                </div>
+            </div>
+
+            <div class="export-section" id="audioExportSection" style="display: none;">
+                <h3><i class="fas fa-download"></i> Export Trimmed Audio</h3>
+                <div class="format-options">
+                    <button class="format-btn active" data-format="mp3">MP3</button>
+                    <button class="format-btn" data-format="wav">WAV</button>
+                    <button class="format-btn" data-format="m4a">M4A</button>
+                </div>
+                <button class="control-btn primary" id="audioExportBtn">
+                    <i class="fas fa-file-export"></i> Export Audio
+                </button>
+            </div>
         </div>
 
-        <div class="audio-editor" id="audioEditor">
-            <div class="file-info" id="fileInfo"></div>
-            
-            <div class="waveform-container" id="waveformContainer">
-                <canvas class="waveform" id="waveform"></canvas>
-                <div class="trim-markers">
-                    <div class="trim-marker" id="startMarker" style="left: 0%"></div>
-                    <div class="trim-marker" id="endMarker" style="left: 100%"></div>
-                    <div class="trim-area" id="trimArea"></div>
-                </div>
-            </div>
-
-            <div class="time-display">
-                <div class="time-info">
-                    <strong>Start:</strong> <span id="startTime">00:00.00</span>
-                </div>
-                <div class="time-info">
-                    <strong>Duration:</strong> <span id="duration">00:00.00</span>
-                </div>
-                <div class="time-info">
-                    <strong>End:</strong> <span id="endTime">00:00.00</span>
-                </div>
-            </div>
-
-            <div class="progress-bar" id="progressBar">
-                <div class="progress-fill" id="progressFill"></div>
-            </div>
-
-            <div class="controls">
-                <button class="control-btn" id="playPauseBtn">
-                    <i class="fas fa-play"></i> Play
-                </button>
-                <button class="control-btn" id="stopBtn">
-                    <i class="fas fa-stop"></i> Stop
-                </button>
-                <button class="control-btn" id="previewBtn">
-                    <i class="fas fa-eye"></i> Preview Trim
-                </button>
-                <button class="control-btn" id="resetBtn">
-                    <i class="fas fa-redo"></i> Reset
+        <!-- Video Trimmer Section -->
+        <div class="tab-content" id="videoContent">
+            <div class="ffmpeg-status" id="ffmpegStatus" style="display: none;">
+                <h4><i class="fas fa-exclamation-triangle"></i> FFmpeg Library Status</h4>
+                <p id="ffmpegStatusText">Loading video processing library...</p>
+                <button class="retry-btn" id="retryFFmpegBtn" style="display: none;">
+                    <i class="fas fa-redo"></i> Retry Loading
                 </button>
             </div>
 
-            <div class="volume-control">
-                <span><i class="fas fa-volume-up"></i> Volume:</span>
-                <input type="range" class="volume-slider" id="volumeSlider" min="0" max="100" value="50">
-                <span id="volumeValue">50%</span>
+            <div class="upload-section" id="videoUploadSection">
+                <h3><i class="fas fa-cloud-upload-alt"></i> Drop your video file here</h3>
+                <p>Supports MP4, MOV, AVI, MKV and more formats</p>
+                <input type="file" id="videoFile" accept="video/*" style="display: none;">
+                <button class="upload-btn" onclick="document.getElementById('videoFile').click()">
+                    <i class="fas fa-folder-open"></i> Choose File
+                </button>
             </div>
-        </div>
 
-        <div class="export-section" id="exportSection" style="display: none;">
-            <h3><i class="fas fa-download"></i> Export Trimmed Audio</h3>
-            <div class="format-options">
-                <button class="format-btn active" data-format="mp3">MP3</button>
-                <button class="format-btn" data-format="wav">WAV</button>
-                <button class="format-btn" data-format="m4a">M4A</button>
+            <div class="loading" id="videoLoading">
+                <div class="spinner"></div>
+                <p>Processing video file...</p>
             </div>
-            <button class="control-btn primary" id="exportBtn">
-                <i class="fas fa-file-export"></i> Export Audio
-            </button>
+
+            <div class="video-editor" id="videoEditor">
+                <div class="file-info" id="videoFileInfo"></div>
+                
+                <div class="video-container" id="videoContainer">
+                    <video class="video-player" id="videoPlayer" controls></video>
+                    <div class="trim-markers">
+                        <div class="trim-marker" id="videoStartMarker" style="left: 0%"></div>
+                        <div class="trim-marker" id="videoEndMarker" style="left: 100%"></div>
+                        <div class="trim-area" id="videoTrimArea"></div>
+                    </div>
+                </div>
+
+                <div class="time-display">
+                    <div class="time-info">
+                        <strong>Start:</strong> <span id="videoStartTime">00:00.00</span>
+                    </div>
+                    <div class="time-info">
+                        <strong>Duration:</strong> <span id="videoDuration">00:00.00</span>
+                    </div>
+                    <div class="time-info">
+                        <strong>End:</strong> <span id="videoEndTime">00:00.00</span>
+                    </div>
+                </div>
+
+                <div class="progress-bar" id="videoProgressBar">
+                    <div class="progress-fill" id="videoProgressFill"></div>
+                </div>
+
+                <div class="controls">
+                    <button class="control-btn" id="videoPlayPauseBtn">
+                        <i class="fas fa-play"></i> Play
+                    </button>
+                    <button class="control-btn" id="videoStopBtn">
+                        <i class="fas fa-stop"></i> Stop
+                    </button>
+                    <button class="control-btn" id="videoPreviewBtn">
+                        <i class="fas fa-eye"></i> Preview Trim
+                    </button>
+                    <button class="control-btn" id="videoResetBtn">
+                        <i class="fas fa-redo"></i> Reset
+                    </button>
+                </div>
+
+                <div class="volume-control">
+                    <span><i class="fas fa-volume-up"></i> Volume:</span>
+                    <input type="range" class="volume-slider" id="videoVolumeSlider" min="0" max="100" value="50">
+                    <span id="videoVolumeValue">50%</span>
+                </div>
+            </div>
+
+            <div class="export-section" id="videoExportSection" style="display: none;">
+                <h3><i class="fas fa-download"></i> Export Trimmed Video</h3>
+                <div class="format-options">
+                    <button class="format-btn active" data-format="mp4">MP4</button>
+                    <button class="format-btn" data-format="webm">WebM</button>
+                    <button class="format-btn" data-format="mov">MOV</button>
+                </div>
+                <button class="control-btn primary" id="videoExportBtn">
+                    <i class="fas fa-file-export"></i> Export Video
+                </button>
+            </div>
         </div>
     </div>
 
     <div class="notification" id="notification"></div>
 
     <script>
+        // Tab switching functionality
+        document.getElementById('audioTab').addEventListener('click', function() {
+            document.getElementById('audioTab').classList.add('active');
+            document.getElementById('videoTab').classList.remove('active');
+            document.getElementById('audioContent').classList.add('active');
+            document.getElementById('videoContent').classList.remove('active');
+        });
+
+        document.getElementById('videoTab').addEventListener('click', function() {
+            document.getElementById('videoTab').classList.add('active');
+            document.getElementById('audioTab').classList.remove('active');
+            document.getElementById('videoContent').classList.add('active');
+            document.getElementById('audioContent').classList.remove('active');
+        });
+
+        // Audio Trimmer Class
         class AudioTrimmer {
             constructor() {
                 this.audioContext = null;
@@ -794,7 +1016,7 @@
 
             initializeEventListeners() {
                 const fileInput = document.getElementById('audioFile');
-                const uploadSection = document.getElementById('uploadSection');
+                const uploadSection = document.getElementById('audioUploadSection');
                 
                 fileInput.addEventListener('change', (e) => this.handleFileSelect(e.target.files[0]));
                 
@@ -818,31 +1040,31 @@
                     }
                 });
 
-                document.getElementById('playPauseBtn').addEventListener('click', () => this.togglePlayPause());
-                document.getElementById('stopBtn').addEventListener('click', () => this.stop());
-                document.getElementById('previewBtn').addEventListener('click', () => this.previewTrim());
-                document.getElementById('resetBtn').addEventListener('click', () => this.resetTrim());
-                document.getElementById('exportBtn').addEventListener('click', () => this.exportAudio());
+                document.getElementById('audioPlayPauseBtn').addEventListener('click', () => this.togglePlayPause());
+                document.getElementById('audioStopBtn').addEventListener('click', () => this.stop());
+                document.getElementById('audioPreviewBtn').addEventListener('click', () => this.previewTrim());
+                document.getElementById('audioResetBtn').addEventListener('click', () => this.resetTrim());
+                document.getElementById('audioExportBtn').addEventListener('click', () => this.exportAudio());
 
-                const volumeSlider = document.getElementById('volumeSlider');
+                const volumeSlider = document.getElementById('audioVolumeSlider');
                 volumeSlider.addEventListener('input', (e) => {
                     const volume = e.target.value / 100;
-                    document.getElementById('volumeValue').textContent = e.target.value + '%';
+                    document.getElementById('audioVolumeValue').textContent = e.target.value + '%';
                     if (this.sound) {
                         this.sound.volume(volume);
                     }
                 });
 
-                document.getElementById('progressBar').addEventListener('click', (e) => {
+                document.getElementById('audioProgressBar').addEventListener('click', (e) => {
                     const rect = e.target.getBoundingClientRect();
                     const percent = (e.clientX - rect.left) / rect.width;
                     const seekTime = percent * this.duration;
                     this.seekTo(seekTime);
                 });
 
-                document.querySelectorAll('.format-btn').forEach(btn => {
+                document.querySelectorAll('#audioExportSection .format-btn').forEach(btn => {
                     btn.addEventListener('click', (e) => {
-                        document.querySelectorAll('.format-btn').forEach(b => b.classList.remove('active'));
+                        document.querySelectorAll('#audioExportSection .format-btn').forEach(b => b.classList.remove('active'));
                         e.target.classList.add('active');
                         this.exportFormat = e.target.dataset.format;
                     });
@@ -860,8 +1082,8 @@
             }
 
             initializeTrimMarkers() {
-                const startMarker = document.getElementById('startMarker');
-                const endMarker = document.getElementById('endMarker');
+                const startMarker = document.getElementById('audioStartMarker');
+                const endMarker = document.getElementById('audioEndMarker');
                 const container = document.getElementById('waveformContainer');
 
                 [startMarker, endMarker].forEach(marker => {
@@ -1009,7 +1231,7 @@
                     });
                     
                     setTimeout(() => {
-                        if (document.getElementById('loading').style.display !== 'none') {
+                        if (document.getElementById('audioLoading').style.display !== 'none') {
                             this.duration = 180;
                             this.endTime = this.duration;
                             this.drawSimpleWaveform();
@@ -1028,7 +1250,7 @@
             }
 
             displayFileInfo(file) {
-                const fileInfo = document.getElementById('fileInfo');
+                const fileInfo = document.getElementById('audioFileInfo');
                 const sizeInMB = (file.size / (1024 * 1024)).toFixed(2);
                 
                 fileInfo.innerHTML = `
@@ -1187,9 +1409,9 @@
             }
 
             updateTrimArea() {
-                const startMarker = document.getElementById('startMarker');
-                const endMarker = document.getElementById('endMarker');
-                const trimArea = document.getElementById('trimArea');
+                const startMarker = document.getElementById('audioStartMarker');
+                const endMarker = document.getElementById('audioEndMarker');
+                const trimArea = document.getElementById('audioTrimArea');
                 
                 const startPercent = parseFloat(startMarker.style.left);
                 const endPercent = parseFloat(endMarker.style.left);
@@ -1199,9 +1421,9 @@
             }
 
             updateTimeDisplay() {
-                document.getElementById('startTime').textContent = this.formatTime(this.startTime);
-                document.getElementById('endTime').textContent = this.formatTime(this.endTime);
-                document.getElementById('duration').textContent = this.formatTime(this.endTime - this.startTime);
+                document.getElementById('audioStartTime').textContent = this.formatTime(this.startTime);
+                document.getElementById('audioEndTime').textContent = this.formatTime(this.endTime);
+                document.getElementById('audioDuration').textContent = this.formatTime(this.endTime - this.startTime);
             }
 
             formatTime(seconds) {
@@ -1250,8 +1472,8 @@
                 this.startTime = 0;
                 this.endTime = this.duration;
                 
-                document.getElementById('startMarker').style.left = '0%';
-                document.getElementById('endMarker').style.left = '100%';
+                document.getElementById('audioStartMarker').style.left = '0%';
+                document.getElementById('audioEndMarker').style.left = '100%';
                 
                 this.updateTrimArea();
                 this.updateTimeDisplay();
@@ -1266,7 +1488,7 @@
             }
 
             updatePlayButton() {
-                const btn = document.getElementById('playPauseBtn');
+                const btn = document.getElementById('audioPlayPauseBtn');
                 if (this.isPlaying) {
                     btn.innerHTML = '<i class="fas fa-pause"></i> Pause';
                 } else {
@@ -1293,18 +1515,18 @@
             }
 
             updateProgressBar() {
-                const progressFill = document.getElementById('progressFill');
+                const progressFill = document.getElementById('audioProgressFill');
                 const percent = (this.currentTime / this.duration) * 100;
                 progressFill.style.width = percent + '%';
             }
 
             showEditor() {
                 document.getElementById('audioEditor').style.display = 'block';
-                document.getElementById('exportSection').style.display = 'block';
+                document.getElementById('audioExportSection').style.display = 'block';
             }
 
             showLoading(show) {
-                document.getElementById('loading').style.display = show ? 'block' : 'none';
+                document.getElementById('audioLoading').style.display = show ? 'block' : 'none';
             }
 
             showNotification(message, type = 'success') {
@@ -1401,8 +1623,549 @@
             }
         }
 
+        // Video Trimmer Class
+        class VideoTrimmer {
+            constructor() {
+                this.videoPlayer = document.getElementById('videoPlayer');
+                this.videoFile = null;
+                this.startTime = 0;
+                this.endTime = 0;
+                this.duration = 0;
+                this.isPlaying = false;
+                this.currentTime = 0;
+                this.exportFormat = 'mp4';
+                this.isDragging = false;
+                this.dragTarget = null;
+                this.progressInterval = null;
+                this.ffmpeg = null;
+                this.ffmpegLoaded = false;
+                this.ffmpegLoading = false;
+                
+                this.initializeEventListeners();
+                this.initFFmpegStatus();
+            }
+
+            initFFmpegStatus() {
+                const ffmpegStatus = document.getElementById('ffmpegStatus');
+                const ffmpegStatusText = document.getElementById('ffmpegStatusText');
+                const retryBtn = document.getElementById('retryFFmpegBtn');
+                
+                ffmpegStatus.style.display = 'block';
+                ffmpegStatusText.textContent = 'Checking video processing capabilities...';
+                
+                // Check if we can use MediaRecorder API as fallback
+                if (MediaRecorder.isTypeSupported('video/webm')) {
+                    ffmpegStatusText.textContent = 'Video processing available using browser capabilities';
+                    ffmpegStatus.style.display = 'none';
+                } else {
+                    ffmpegStatusText.textContent = 'Limited video processing capabilities. Export may not work on all browsers.';
+                    retryBtn.style.display = 'inline-block';
+                    retryBtn.addEventListener('click', () => {
+                        this.loadFFmpeg();
+                    });
+                }
+            }
+
+            async loadFFmpeg() {
+                if (this.ffmpegLoading || this.ffmpegLoaded) return;
+                
+                this.ffmpegLoading = true;
+                const ffmpegStatus = document.getElementById('ffmpegStatus');
+                const ffmpegStatusText = document.getElementById('ffmpegStatusText');
+                const retryBtn = document.getElementById('retryFFmpegBtn');
+                
+                ffmpegStatusText.textContent = 'Loading advanced video processing library...';
+                retryBtn.style.display = 'none';
+                
+                try {
+                    // Try to load FFmpeg from multiple sources
+                    const script = document.createElement('script');
+                    script.src = 'https://unpkg.com/@ffmpeg/ffmpeg@0.11.6/dist/ffmpeg.min.js';
+                    script.onload = async () => {
+                        try {
+                            if (typeof FFmpeg !== 'undefined') {
+                                this.ffmpeg = new FFmpeg();
+                                await this.ffmpeg.load({
+                                    coreURL: 'https://unpkg.com/@ffmpeg/core@0.11.0/dist/ffmpeg-core.js',
+                                });
+                                this.ffmpegLoaded = true;
+                                ffmpegStatusText.textContent = 'Advanced video processing loaded successfully';
+                                setTimeout(() => {
+                                    ffmpegStatus.style.display = 'none';
+                                }, 2000);
+                                this.showNotification('Advanced video processing enabled', 'success');
+                            }
+                        } catch (error) {
+                            console.error('FFmpeg initialization error:', error);
+                            ffmpegStatusText.textContent = 'Using basic video processing capabilities';
+                            retryBtn.style.display = 'inline-block';
+                        }
+                        this.ffmpegLoading = false;
+                    };
+                    script.onerror = () => {
+                        console.error('Failed to load FFmpeg script');
+                        ffmpegStatusText.textContent = 'Using basic video processing capabilities';
+                        retryBtn.style.display = 'inline-block';
+                        this.ffmpegLoading = false;
+                    };
+                    document.head.appendChild(script);
+                } catch (error) {
+                    console.error('Error loading FFmpeg:', error);
+                    ffmpegStatusText.textContent = 'Using basic video processing capabilities';
+                    retryBtn.style.display = 'inline-block';
+                    this.ffmpegLoading = false;
+                }
+            }
+
+            initializeEventListeners() {
+                const fileInput = document.getElementById('videoFile');
+                const uploadSection = document.getElementById('videoUploadSection');
+                
+                fileInput.addEventListener('change', (e) => this.handleFileSelect(e.target.files[0]));
+                
+                uploadSection.addEventListener('dragover', (e) => {
+                    e.preventDefault();
+                    uploadSection.classList.add('dragover');
+                });
+                
+                uploadSection.addEventListener('dragleave', () => {
+                    uploadSection.classList.remove('dragover');
+                });
+                
+                uploadSection.addEventListener('drop', (e) => {
+                    e.preventDefault();
+                    uploadSection.classList.remove('dragover');
+                    const file = e.dataTransfer.files[0];
+                    if (file && file.type.startsWith('video/')) {
+                        this.handleFileSelect(file);
+                    } else {
+                        this.showNotification('Please drop a valid video file', 'error');
+                    }
+                });
+
+                this.videoPlayer.addEventListener('loadedmetadata', () => {
+                    this.duration = this.videoPlayer.duration;
+                    this.endTime = this.duration;
+                    this.updateTimeDisplay();
+                });
+
+                this.videoPlayer.addEventListener('timeupdate', () => {
+                    this.currentTime = this.videoPlayer.currentTime;
+                    this.updateProgressBar();
+                });
+
+                this.videoPlayer.addEventListener('play', () => {
+                    this.isPlaying = true;
+                    this.updatePlayButton();
+                    this.startProgressUpdate();
+                });
+
+                this.videoPlayer.addEventListener('pause', () => {
+                    this.isPlaying = false;
+                    this.updatePlayButton();
+                    this.stopProgressUpdate();
+                });
+
+                document.getElementById('videoPlayPauseBtn').addEventListener('click', () => this.togglePlayPause());
+                document.getElementById('videoStopBtn').addEventListener('click', () => this.stop());
+                document.getElementById('videoPreviewBtn').addEventListener('click', () => this.previewTrim());
+                document.getElementById('videoResetBtn').addEventListener('click', () => this.resetTrim());
+                document.getElementById('videoExportBtn').addEventListener('click', () => this.exportVideo());
+
+                const volumeSlider = document.getElementById('videoVolumeSlider');
+                volumeSlider.addEventListener('input', (e) => {
+                    const volume = e.target.value / 100;
+                    document.getElementById('videoVolumeValue').textContent = e.target.value + '%';
+                    this.videoPlayer.volume = volume;
+                });
+
+                document.getElementById('videoProgressBar').addEventListener('click', (e) => {
+                    const rect = e.target.getBoundingClientRect();
+                    const percent = (e.clientX - rect.left) / rect.width;
+                    const seekTime = percent * this.duration;
+                    this.seekTo(seekTime);
+                });
+
+                document.querySelectorAll('#videoExportSection .format-btn').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        document.querySelectorAll('#videoExportSection .format-btn').forEach(b => b.classList.remove('active'));
+                        e.target.classList.add('active');
+                        this.exportFormat = e.target.dataset.format;
+                    });
+                });
+
+                this.initializeTrimMarkers();
+            }
+
+            initializeTrimMarkers() {
+                const startMarker = document.getElementById('videoStartMarker');
+                const endMarker = document.getElementById('videoEndMarker');
+                const container = document.getElementById('videoContainer');
+
+                [startMarker, endMarker].forEach(marker => {
+                    marker.addEventListener('mousedown', (e) => {
+                        this.isDragging = true;
+                        this.dragTarget = marker;
+                        e.preventDefault();
+                    });
+                });
+
+                document.addEventListener('mousemove', (e) => {
+                    if (!this.isDragging || !this.dragTarget) return;
+
+                    const rect = container.getBoundingClientRect();
+                    const percent = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
+                    
+                    if (this.dragTarget === startMarker) {
+                        const endPercent = parseFloat(endMarker.style.left) / 100;
+                        if (percent < endPercent) {
+                            this.dragTarget.style.left = (percent * 100) + '%';
+                            this.startTime = percent * this.duration;
+                        }
+                    } else {
+                        const startPercent = parseFloat(startMarker.style.left) / 100;
+                        if (percent > startPercent) {
+                            this.dragTarget.style.left = (percent * 100) + '%';
+                            this.endTime = percent * this.duration;
+                        }
+                    }
+                    
+                    this.updateTrimArea();
+                    this.updateTimeDisplay();
+                });
+
+                document.addEventListener('mouseup', () => {
+                    this.isDragging = false;
+                    this.dragTarget = null;
+                });
+
+                [startMarker, endMarker].forEach(marker => {
+                    marker.addEventListener('touchstart', (e) => {
+                        this.isDragging = true;
+                        this.dragTarget = marker;
+                        e.preventDefault();
+                    });
+                });
+
+                document.addEventListener('touchmove', (e) => {
+                    if (!this.isDragging || !this.dragTarget) return;
+
+                    const touch = e.touches[0];
+                    const rect = container.getBoundingClientRect();
+                    const percent = Math.max(0, Math.min(1, (touch.clientX - rect.left) / rect.width));
+                    
+                    if (this.dragTarget === startMarker) {
+                        const endPercent = parseFloat(endMarker.style.left) / 100;
+                        if (percent < endPercent) {
+                            this.dragTarget.style.left = (percent * 100) + '%';
+                            this.startTime = percent * this.duration;
+                        }
+                    } else {
+                        const startPercent = parseFloat(startMarker.style.left) / 100;
+                        if (percent > startPercent) {
+                            this.dragTarget.style.left = (percent * 100) + '%';
+                            this.endTime = percent * this.duration;
+                        }
+                    }
+                    
+                    this.updateTrimArea();
+                    this.updateTimeDisplay();
+                });
+
+                document.addEventListener('touchend', () => {
+                    this.isDragging = false;
+                    this.dragTarget = null;
+                });
+            }
+
+            async handleFileSelect(file) {
+                if (!file || !file.type.startsWith('video/')) {
+                    this.showNotification('Please select a valid video file', 'error');
+                    return;
+                }
+
+                this.showLoading(true);
+                this.videoFile = file;
+                
+                try {
+                    this.displayFileInfo(file);
+                    
+                    const url = URL.createObjectURL(file);
+                    this.videoPlayer.src = url;
+                    
+                    this.videoPlayer.addEventListener('loadeddata', () => {
+                        this.showEditor();
+                        this.updateTimeDisplay();
+                        this.showLoading(false);
+                        this.showNotification('Video file loaded successfully', 'success');
+                    }, { once: true });
+                    
+                    this.videoPlayer.addEventListener('error', () => {
+                        this.showLoading(false);
+                        this.showNotification('Error loading video file', 'error');
+                    }, { once: true });
+                    
+                } catch (error) {
+                    console.error('File processing error:', error);
+                    this.showNotification('Error processing video file: ' + error.message, 'error');
+                    this.showLoading(false);
+                }
+            }
+
+            displayFileInfo(file) {
+                const fileInfo = document.getElementById('videoFileInfo');
+                const sizeInMB = (file.size / (1024 * 1024)).toFixed(2);
+                
+                fileInfo.innerHTML = `
+                    <h3><i class="fas fa-file-video"></i> ${file.name}</h3>
+                    <p><strong>Size:</strong> ${sizeInMB} MB</p>
+                    <p><strong>Type:</strong> ${file.type}</p>
+                    <p><strong>Last Modified:</strong> ${new Date(file.lastModified).toLocaleDateString()}</p>
+                `;
+            }
+
+            updateTrimArea() {
+                const startMarker = document.getElementById('videoStartMarker');
+                const endMarker = document.getElementById('videoEndMarker');
+                const trimArea = document.getElementById('videoTrimArea');
+                
+                const startPercent = parseFloat(startMarker.style.left);
+                const endPercent = parseFloat(endMarker.style.left);
+                
+                trimArea.style.left = startPercent + '%';
+                trimArea.style.width = (endPercent - startPercent) + '%';
+            }
+
+            updateTimeDisplay() {
+                document.getElementById('videoStartTime').textContent = this.formatTime(this.startTime);
+                document.getElementById('videoEndTime').textContent = this.formatTime(this.endTime);
+                document.getElementById('videoDuration').textContent = this.formatTime(this.endTime - this.startTime);
+            }
+
+            formatTime(seconds) {
+                const mins = Math.floor(seconds / 60);
+                const secs = (seconds % 60).toFixed(2);
+                return `${mins.toString().padStart(2, '0')}:${secs.padStart(5, '0')}`;
+            }
+
+            togglePlayPause() {
+                if (!this.videoPlayer.src) {
+                    this.showNotification('No video loaded', 'warning');
+                    return;
+                }
+                
+                if (this.isPlaying) {
+                    this.videoPlayer.pause();
+                } else {
+                    this.videoPlayer.play();
+                }
+            }
+
+            stop() {
+                if (this.videoPlayer.src) {
+                    this.videoPlayer.pause();
+                    this.videoPlayer.currentTime = 0;
+                }
+            }
+
+            previewTrim() {
+                if (!this.videoPlayer.src) {
+                    this.showNotification('No video loaded', 'warning');
+                    return;
+                }
+                
+                this.videoPlayer.currentTime = this.startTime;
+                this.videoPlayer.play();
+                
+                setTimeout(() => {
+                    if (this.isPlaying) {
+                        this.videoPlayer.pause();
+                    }
+                }, (this.endTime - this.startTime) * 1000);
+            }
+
+            resetTrim() {
+                this.startTime = 0;
+                this.endTime = this.duration;
+                
+                document.getElementById('videoStartMarker').style.left = '0%';
+                document.getElementById('videoEndMarker').style.left = '100%';
+                
+                this.updateTrimArea();
+                this.updateTimeDisplay();
+            }
+
+            seekTo(time) {
+                if (this.videoPlayer.src) {
+                    this.videoPlayer.currentTime = time;
+                    this.currentTime = time;
+                    this.updateProgressBar();
+                }
+            }
+
+            updatePlayButton() {
+                const btn = document.getElementById('videoPlayPauseBtn');
+                if (this.isPlaying) {
+                    btn.innerHTML = '<i class="fas fa-pause"></i> Pause';
+                } else {
+                    btn.innerHTML = '<i class="fas fa-play"></i> Play';
+                }
+            }
+
+            startProgressUpdate() {
+                this.stopProgressUpdate();
+                
+                this.progressInterval = setInterval(() => {
+                    if (this.isPlaying && this.videoPlayer.src) {
+                        this.currentTime = this.videoPlayer.currentTime;
+                        this.updateProgressBar();
+                    }
+                }, 100);
+            }
+
+            stopProgressUpdate() {
+                if (this.progressInterval) {
+                    clearInterval(this.progressInterval);
+                    this.progressInterval = null;
+                }
+            }
+
+            updateProgressBar() {
+                const progressFill = document.getElementById('videoProgressFill');
+                const percent = (this.currentTime / this.duration) * 100;
+                progressFill.style.width = percent + '%';
+            }
+
+            showEditor() {
+                document.getElementById('videoEditor').style.display = 'block';
+                document.getElementById('videoExportSection').style.display = 'block';
+            }
+
+            showLoading(show) {
+                document.getElementById('videoLoading').style.display = show ? 'block' : 'none';
+            }
+
+            showNotification(message, type = 'success') {
+                const notification = document.getElementById('notification');
+                notification.textContent = message;
+                notification.className = 'notification ' + type;
+                notification.classList.add('show');
+                
+                setTimeout(() => {
+                    notification.classList.remove('show');
+                }, 4000);
+            }
+
+            async exportVideo() {
+                if (!this.videoFile) {
+                    this.showNotification('No video loaded', 'error');
+                    return;
+                }
+
+                this.showLoading(true);
+                
+                try {
+                    if (this.ffmpegLoaded) {
+                        await this.exportWithFFmpeg();
+                    } else {
+                        await this.exportWithMediaRecorder();
+                    }
+                } catch (error) {
+                    console.error('Export error:', error);
+                    this.showNotification('Error exporting video: ' + error.message, 'error');
+                }
+                
+                this.showLoading(false);
+            }
+
+            async exportWithFFmpeg() {
+                this.showNotification('Processing video with FFmpeg...', 'warning');
+                
+                const inputFileName = `input_${Date.now()}.${this.videoFile.name.split('.').pop()}`;
+                const outputFileName = `trimmed_video_${Date.now()}.${this.exportFormat}`;
+                
+                await this.ffmpeg.writeFile(inputFileName, await fetchFile(this.videoFile));
+                
+                await this.ffmpeg.exec([
+                    '-i', inputFileName,
+                    '-ss', this.startTime.toString(),
+                    '-t', (this.endTime - this.startTime).toString(),
+                    '-c', 'copy',
+                    outputFileName
+                ]);
+                
+                const data = await this.ffmpeg.readFile(outputFileName);
+                const blob = new Blob([data.buffer], { type: `video/${this.exportFormat}` });
+                
+                saveAs(blob, outputFileName);
+                
+                await this.ffmpeg.deleteFile(inputFileName);
+                await this.ffmpeg.deleteFile(outputFileName);
+                
+                this.showNotification('Video exported successfully!', 'success');
+            }
+
+            async exportWithMediaRecorder() {
+                this.showNotification('Processing video with browser capabilities...', 'warning');
+                
+                // Create a canvas to capture video frames
+                const canvas = document.createElement('canvas');
+                const ctx = canvas.getContext('2d');
+                canvas.width = this.videoPlayer.videoWidth;
+                canvas.height = this.videoPlayer.videoHeight;
+                
+                // Set up MediaRecorder
+                const stream = canvas.captureStream(30);
+                const mediaRecorder = new MediaRecorder(stream, {
+                    mimeType: 'video/webm;codecs=vp9',
+                    videoBitsPerSecond: 2500000
+                });
+                
+                const chunks = [];
+                mediaRecorder.ondataavailable = (e) => {
+                    if (e.data.size > 0) {
+                        chunks.push(e.data);
+                    }
+                };
+                
+                mediaRecorder.onstop = () => {
+                    const blob = new Blob(chunks, { type: 'video/webm' });
+                    const filename = `trimmed_video_${Date.now()}.webm`;
+                    saveAs(blob, filename);
+                    this.showNotification('Video exported successfully as WebM format!', 'success');
+                };
+                
+                // Start recording
+                mediaRecorder.start();
+                
+                // Play and capture the trimmed portion
+                this.videoPlayer.currentTime = this.startTime;
+                
+                const captureFrame = () => {
+                    if (this.videoPlayer.currentTime >= this.endTime || this.videoPlayer.paused) {
+                        mediaRecorder.stop();
+                        return;
+                    }
+                    
+                    ctx.drawImage(this.videoPlayer, 0, 0, canvas.width, canvas.height);
+                    requestAnimationFrame(captureFrame);
+                };
+                
+                this.videoPlayer.play();
+                captureFrame();
+            }
+        }
+
+        // Helper function to fetch file data
+        async function fetchFile(file) {
+            const arrayBuffer = await file.arrayBuffer();
+            return new Uint8Array(arrayBuffer);
+        }
+
+        // Initialize both trimmers when the page loads
         document.addEventListener('DOMContentLoaded', () => {
-            new AudioTrimmer();
+            const audioTrimmer = new AudioTrimmer();
+            const videoTrimmer = new VideoTrimmer();
         });
     </script>
 </body>
