@@ -12,6 +12,7 @@
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding-bottom: 80px;
         }
         
         .main-container {
@@ -29,6 +30,20 @@
             color: white;
             padding: 30px;
             text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .header-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path d="M0,0 L100,0 L100,100 Z" fill="rgba(255,255,255,0.1)"/></svg>');
+            background-size: cover;
+            opacity: 0.3;
         }
         
         .drop-zone {
@@ -41,6 +56,11 @@
             cursor: pointer;
             position: relative;
             overflow: hidden;
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
         }
         
         .drop-zone:hover,
@@ -54,6 +74,13 @@
         .drop-zone.processing {
             border-color: #feca57;
             background: linear-gradient(135deg, #fff8e1 0%, #fef7cd 100%);
+            animation: pulse 1.5s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+            100% { transform: scale(1); }
         }
         
         .file-input {
@@ -64,6 +91,7 @@
             height: 100%;
             opacity: 0;
             cursor: pointer;
+            z-index: 10;
         }
         
         .image-preview {
@@ -72,6 +100,11 @@
             border-radius: 10px;
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
             margin: 20px 0;
+            transition: transform 0.3s ease;
+        }
+        
+        .image-preview:hover {
+            transform: scale(1.02);
         }
         
         .result-card {
@@ -95,6 +128,7 @@
             border: 2px solid #e3e8ff;
             border-radius: 10px;
             transition: all 0.3s ease;
+            min-height: 120px;
         }
         
         .base64-textarea:focus {
@@ -109,6 +143,8 @@
             font-weight: 600;
             transition: all 0.3s ease;
             border: none;
+            position: relative;
+            overflow: hidden;
         }
         
         .copy-btn {
@@ -120,6 +156,24 @@
             transform: translateY(-2px);
             box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
             color: white;
+        }
+        
+        .copy-btn::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+        
+        .copy-btn:active::after {
+            width: 300px;
+            height: 300px;
         }
         
         .download-btn {
@@ -153,6 +207,12 @@
             font-weight: 600;
             display: inline-block;
             margin: 5px;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
         
         .decode-section {
@@ -172,6 +232,20 @@
             font-weight: 600;
             transition: all 0.3s ease;
             margin: 0 10px 20px 0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .tab-button::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 100%;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            transition: width 0.3s ease;
+            z-index: -1;
         }
         
         .tab-button.active,
@@ -182,14 +256,8 @@
             box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
         }
         
-        .pulse-animation {
-            animation: pulse 1.5s infinite;
-        }
-        
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
+        .tab-button.active::after {
+            width: 100%;
         }
         
         .progress-bar {
@@ -215,6 +283,9 @@
             transition: all 0.3s ease;
             z-index: 1000;
             cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         
         .home-button:hover {
@@ -225,6 +296,80 @@
         
         .home-button:active {
             transform: translateY(-1px) scale(1.05);
+        }
+        
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 9999;
+            max-width: 300px;
+            border-radius: 10px;
+            animation: slideIn 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        
+        @keyframes slideOut {
+            from { transform: translateX(0); opacity: 1; }
+            to { transform: translateX(100%); opacity: 0; }
+        }
+        
+        .usage-examples {
+            margin-top: 30px;
+            padding: 20px;
+            background: #f8f9ff;
+            border-radius: 15px;
+            border: 2px solid #e3e8ff;
+        }
+        
+        .example-card {
+            background: white;
+            border-radius: 10px;
+            padding: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            height: 100%;
+        }
+        
+        .example-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+        }
+        
+        .example-card code {
+            background: #f1f3f9;
+            padding: 8px 12px;
+            border-radius: 5px;
+            font-size: 0.9rem;
+            display: block;
+            white-space: pre-wrap;
+            word-break: break-all;
+        }
+        
+        .stats-badge {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin: 5px;
+            display: inline-block;
+        }
+        
+        .keyboard-shortcut {
+            background: #e8f4f8;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-family: monospace;
+            font-size: 0.8rem;
+            color: #667eea;
+            border: 1px solid #d1e7f0;
         }
         
         @media (max-width: 768px) {
@@ -239,11 +384,13 @@
             
             .drop-zone {
                 padding: 30px 15px;
+                min-height: 150px;
             }
             
             .tab-button {
                 margin: 0 5px 10px 0;
                 padding: 8px 15px;
+                font-size: 0.9rem;
             }
             
             .home-button {
@@ -251,6 +398,26 @@
                 height: 45px;
                 font-size: 1rem;
             }
+            
+            .usage-examples {
+                padding: 15px;
+            }
+        }
+        
+        .loading-spinner {
+            display: none;
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-top: 4px solid white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
     </style>
 </head>
@@ -297,7 +464,9 @@
                                 <span class="info-badge">GIF</span>
                                 <span class="info-badge">WebP</span>
                                 <span class="info-badge">SVG</span>
+                                <span class="info-badge">BMP</span>
                             </div>
+                            <div class="loading-spinner" id="loadingSpinner"></div>
                         </div>
                     </div>
                     
@@ -373,32 +542,41 @@
                 </div>
                 
                 <!-- Usage Examples -->
-                <div class="mt-5">
+                <div class="usage-examples">
+                    <h5 class="mb-3">
+                        <i class="fas fa-lightbulb me-2"></i>Usage Examples
+                    </h5>
                     <div class="row">
                         <div class="col-md-4 mb-3">
-                            <div class="result-card p-3 h-100">
+                            <div class="example-card">
                                 <h6 class="text-primary">
                                     <i class="fas fa-code me-2"></i>HTML Usage
                                 </h6>
-                                <code class="small">&lt;img src="data:image/png;base64,..."&gt;</code>
+                                <code>&lt;img src="data:image/png;base64,<span class="stats-badge">BASE64_STRING</span>"&gt;</code>
                             </div>
                         </div>
                         <div class="col-md-4 mb-3">
-                            <div class="result-card p-3 h-100">
+                            <div class="example-card">
                                 <h6 class="text-success">
                                     <i class="fas fa-palette me-2"></i>CSS Usage
                                 </h6>
-                                <code class="small">background-image: url(data:image/png;base64,...);</code>
+                                <code>background-image: url(data:image/png;base64,<span class="stats-badge">BASE64_STRING</span>);</code>
                             </div>
                         </div>
                         <div class="col-md-4 mb-3">
-                            <div class="result-card p-3 h-100">
+                            <div class="example-card">
                                 <h6 class="text-info">
                                     <i class="fab fa-js me-2"></i>JavaScript Usage
                                 </h6>
-                                <code class="small">const img = 'data:image/png;base64,...';</code>
+                                <code>const img = 'data:image/png;base64,<span class="stats-badge">BASE64_STRING</span>';</code>
                             </div>
                         </div>
+                    </div>
+                    <div class="text-center mt-3">
+                        <small class="text-muted">
+                            <i class="fas fa-keyboard me-1"></i>
+                            Keyboard shortcut: <span class="keyboard-shortcut">Ctrl+V</span> to paste, <span class="keyboard-shortcut">Ctrl+C</span> to copy
+                        </small>
                     </div>
                 </div>
             </div>
@@ -410,11 +588,17 @@
         class ImageBase64Converter {
             constructor() {
                 this.currentMode = 'encode';
+                this.currentBase64 = '';
+                this.currentDataUri = '';
+                this.decodedDataUri = '';
+                this.fileSizeLimit = 10 * 1024 * 1024; // 10MB limit
+                this.isProcessing = false;
                 this.init();
             }
             
             init() {
                 this.bindEvents();
+                this.setupKeyboardShortcuts();
             }
             
             bindEvents() {
@@ -422,16 +606,33 @@
                 document.getElementById('encodeTab').addEventListener('click', () => this.switchMode('encode'));
                 document.getElementById('decodeTab').addEventListener('click', () => this.switchMode('decode'));
                 
-                // File handling
+                // File handling - using a single click handler to prevent double triggering
                 const dropZone = document.getElementById('dropZone');
                 const fileInput = document.getElementById('fileInput');
                 
+                // Use a flag to prevent multiple clicks
+                let clickInProgress = false;
+                
+                dropZone.addEventListener('click', (e) => {
+                    if (!clickInProgress && !this.isProcessing) {
+                        clickInProgress = true;
+                        fileInput.click();
+                        setTimeout(() => {
+                            clickInProgress = false;
+                        }, 100);
+                    }
+                });
+                
+                fileInput.addEventListener('change', (e) => {
+                    if (!this.isProcessing) {
+                        this.handleFileSelect(e);
+                    }
+                });
+                
+                // Drag and drop events
                 dropZone.addEventListener('dragover', this.handleDragOver.bind(this));
                 dropZone.addEventListener('dragleave', this.handleDragLeave.bind(this));
                 dropZone.addEventListener('drop', this.handleDrop.bind(this));
-                dropZone.addEventListener('click', () => fileInput.click());
-                
-                fileInput.addEventListener('change', this.handleFileSelect.bind(this));
                 
                 // Button events
                 document.getElementById('copyBtn').addEventListener('click', () => this.copyToClipboard('base64'));
@@ -440,6 +641,26 @@
                 document.getElementById('clearBtn').addEventListener('click', this.clearResults.bind(this));
                 document.getElementById('decodeBtn').addEventListener('click', this.decodeBase64.bind(this));
                 document.getElementById('downloadBtn').addEventListener('click', this.downloadDecodedImage.bind(this));
+            }
+            
+            setupKeyboardShortcuts() {
+                document.addEventListener('keydown', (e) => {
+                    // Ctrl+V for paste
+                    if (e.ctrlKey && e.key === 'v' && this.currentMode === 'decode') {
+                        const base64Input = document.getElementById('base64Input');
+                        if (document.activeElement === base64Input) {
+                            setTimeout(() => this.decodeBase64(), 100);
+                        }
+                    }
+                    
+                    // Ctrl+C for copy
+                    if (e.ctrlKey && e.key === 'c' && this.currentMode === 'encode') {
+                        const base64Output = document.getElementById('base64Output');
+                        if (document.activeElement === base64Output) {
+                            this.copyToClipboard('base64');
+                        }
+                    }
+                });
             }
             
             switchMode(mode) {
@@ -482,25 +703,45 @@
             handleFileSelect(e) {
                 const file = e.target.files[0];
                 if (file && file.type.startsWith('image/')) {
+                    if (file.size > this.fileSizeLimit) {
+                        this.showNotification(`File size exceeds limit of ${this.fileSizeLimit / (1024 * 1024)}MB!`, 'error');
+                        return;
+                    }
                     this.processFile(file);
                 } else {
                     this.showNotification('Please select a valid image file!', 'error');
                 }
+                
+                // Clear the file input to allow selecting the same file again
+                e.target.value = '';
             }
             
             processFile(file) {
+                // Prevent multiple file processing
+                if (this.isProcessing) {
+                    this.showNotification('Please wait while processing the current file...', 'info');
+                    return;
+                }
+                
+                this.isProcessing = true;
+                
                 // Show processing state
                 document.getElementById('dropZone').classList.add('processing');
+                document.getElementById('loadingSpinner').style.display = 'block';
                 
                 const reader = new FileReader();
                 reader.onload = (e) => {
                     const base64String = e.target.result;
                     this.displayResults(file, base64String);
                     document.getElementById('dropZone').classList.remove('processing');
+                    document.getElementById('loadingSpinner').style.display = 'none';
+                    this.isProcessing = false;
                 };
                 reader.onerror = () => {
                     this.showNotification('Error reading file!', 'error');
                     document.getElementById('dropZone').classList.remove('processing');
+                    document.getElementById('loadingSpinner').style.display = 'none';
+                    this.isProcessing = false;
                 };
                 reader.readAsDataURL(file);
             }
@@ -569,13 +810,19 @@
                         break;
                 }
                 
-                navigator.clipboard.writeText(textToCopy).then(() => {
-                    this.showNotification(message, 'success');
-                }).catch(() => {
+                // Try modern clipboard API first
+                if (navigator.clipboard && navigator.clipboard.writeText) {
+                    navigator.clipboard.writeText(textToCopy).then(() => {
+                        this.showNotification(message, 'success');
+                    }).catch(() => {
+                        this.fallbackCopyToClipboard(textToCopy);
+                        this.showNotification(message, 'success');
+                    });
+                } else {
                     // Fallback for older browsers
                     this.fallbackCopyToClipboard(textToCopy);
                     this.showNotification(message, 'success');
-                });
+                }
             }
             
             fallbackCopyToClipboard(text) {
@@ -583,7 +830,18 @@
                 textArea.value = text;
                 document.body.appendChild(textArea);
                 textArea.select();
-                document.execCommand('copy');
+                textArea.setSelectionRange(0, 99999); // For mobile devices
+                
+                try {
+                    const successful = document.execCommand('copy');
+                    if (!successful) {
+                        throw new Error('Copy command failed');
+                    }
+                } catch (err) {
+                    console.error('Fallback copy failed:', err);
+                    this.showNotification('Copy failed. Please select and copy manually.', 'error');
+                }
+                
                 document.body.removeChild(textArea);
             }
             
@@ -600,8 +858,23 @@
                     
                     // If it's just base64 without data URI prefix, try to detect format
                     if (!base64Input.startsWith('data:')) {
-                        // Default to PNG if no format specified
-                        dataUri = `data:image/png;base64,${base64Input}`;
+                        // Try to detect format from the base64 string
+                        const base64Header = base64Input.substring(0, 20);
+                        let detectedType = 'image/png';
+                        
+                        if (base64Header.includes('iVBORw0KGgo')) {
+                            detectedType = 'image/png';
+                        } else if (base64Header.includes('/9j/')) {
+                            detectedType = 'image/jpeg';
+                        } else if (base64Header.includes('R0lGOD')) {
+                            detectedType = 'image/gif';
+                        } else if (base64Header.includes('UklGR')) {
+                            detectedType = 'image/webp';
+                        } else if (base64Header.includes('PHN2ZyB4')) {
+                            detectedType = 'image/svg+xml';
+                        }
+                        
+                        dataUri = `data:${detectedType};base64,${base64Input}`;
                     }
                     
                     // Create image to test if base64 is valid
@@ -643,6 +916,7 @@
                     
                 } catch (error) {
                     this.showNotification('Error decoding Base64 string!', 'error');
+                    console.error('Decode error:', error);
                 }
             }
             
@@ -651,7 +925,9 @@
                 
                 // Create download link
                 const link = document.createElement('a');
-                link.download = `decoded_image_${Date.now()}.png`;
+                const mimeType = this.extractMimeType(this.decodedDataUri);
+                const extension = mimeType.split('/')[1] || 'png';
+                link.download = `decoded_image_${Date.now()}.${extension}`;
                 link.href = this.decodedDataUri;
                 document.body.appendChild(link);
                 link.click();
@@ -678,6 +954,7 @@
                 
                 // Reset drop zone
                 document.getElementById('dropZone').classList.remove('processing', 'dragover');
+                document.getElementById('loadingSpinner').style.display = 'none';
                 
                 // Clear stored data
                 this.currentBase64 = '';
@@ -688,9 +965,20 @@
             }
             
             showNotification(message, type) {
+                // Remove existing notifications
+                const existingNotifications = document.querySelectorAll('.notification');
+                existingNotifications.forEach(notification => {
+                    notification.style.animation = 'slideOut 0.3s ease';
+                    setTimeout(() => {
+                        if (notification.parentNode) {
+                            notification.parentNode.removeChild(notification);
+                        }
+                    }, 300);
+                });
+                
                 // Create notification element
                 const notification = document.createElement('div');
-                notification.className = `alert alert-${type === 'success' ? 'success' : type === 'error' ? 'danger' : 'info'} position-fixed`;
+                notification.className = `notification alert alert-${type === 'success' ? 'success' : type === 'error' ? 'danger' : 'info'}`;
                 notification.style.cssText = 'top: 20px; right: 20px; z-index: 9999; max-width: 300px; border-radius: 10px;';
                 notification.innerHTML = `
                     <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : 'info-circle'} me-2"></i>
@@ -701,7 +989,7 @@
                 
                 // Auto remove after 3 seconds
                 setTimeout(() => {
-                    notification.style.opacity = '0';
+                    notification.style.animation = 'slideOut 0.3s ease';
                     setTimeout(() => {
                         if (notification.parentNode) {
                             notification.parentNode.removeChild(notification);
