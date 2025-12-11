@@ -1,0 +1,529 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Java Block Comment Remover</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #6366f1;
+      --primary-dark: #4f46e5;
+      --success: #10b981;
+      --danger: #ef4444;
+      --dark: #1e293b;
+      --light: #f8fafc;
+      --border: #e2e8f0;
+    }
+    
+    body {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 2rem 0;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    }
+    
+    .container {
+      max-width: 1400px;
+    }
+    
+    .main-card {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    
+    .header-section {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+      color: white;
+      padding: 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .header-section::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+      animation: pulse 15s ease-in-out infinite;
+    }
+    
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+    }
+    
+    .header-content {
+      position: relative;
+      z-index: 1;
+    }
+    
+    .home-btn {
+      position: absolute;
+      top: 1rem;
+      left: 1rem;
+      background: rgba(255, 255, 255, 0.2);
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      color: white;
+      padding: 0.5rem 1rem;
+      border-radius: 10px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    
+    .home-btn:hover {
+      background: rgba(255, 255, 255, 0.3);
+      border-color: rgba(255, 255, 255, 0.5);
+      color: white;
+      transform: translateX(-3px);
+    }
+    
+    .home-btn::before {
+      content: '←';
+      font-size: 1.2rem;
+    }
+    
+    .title-main {
+      font-size: 2.5rem;
+      font-weight: 800;
+      margin-bottom: 0.5rem;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+    }
+    
+    .subtitle {
+      opacity: 0.95;
+      font-size: 1rem;
+    }
+    
+    .content-section {
+      padding: 2rem;
+    }
+    
+    .options-card, .output-card, .info-card {
+      background: white;
+      border-radius: 15px;
+      padding: 1.5rem;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+      border: 1px solid var(--border);
+      height: 100%;
+    }
+    
+    .card-title-custom {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--dark);
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    
+    .card-title-custom::before {
+      content: '';
+      width: 4px;
+      height: 24px;
+      background: var(--primary);
+      border-radius: 2px;
+    }
+    
+    .custom-checkbox {
+      background: var(--light);
+      padding: 1rem;
+      border-radius: 10px;
+      margin-bottom: 0.75rem;
+      transition: all 0.3s ease;
+      border: 2px solid transparent;
+    }
+    
+    .custom-checkbox:hover {
+      background: #f1f5f9;
+      border-color: var(--primary);
+    }
+    
+    .form-check-input:checked {
+      background-color: var(--primary);
+      border-color: var(--primary);
+    }
+    
+    .code-box {
+      font-family: 'Fira Code', Consolas, Monaco, 'Courier New', monospace;
+      font-size: 0.9rem;
+      white-space: pre;
+      overflow: auto;
+      height: 60vh;
+      background: #0f172a;
+      color: #e2e8f0;
+      border-radius: 10px;
+      padding: 1.5rem;
+      border: none;
+      line-height: 1.6;
+    }
+    
+    .code-box:focus {
+      outline: 2px solid var(--primary);
+      outline-offset: 2px;
+    }
+    
+    .btn-custom {
+      padding: 0.75rem 1.5rem;
+      border-radius: 10px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      border: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    
+    .btn-primary-custom {
+      background: var(--primary);
+      color: white;
+    }
+    
+    .btn-primary-custom:hover {
+      background: var(--primary-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+    }
+    
+    .btn-success-custom {
+      background: var(--success);
+      color: white;
+    }
+    
+    .btn-success-custom:hover {
+      background: #059669;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
+    }
+    
+    .btn-secondary-custom {
+      background: #64748b;
+      color: white;
+    }
+    
+    .btn-secondary-custom:hover {
+      background: #475569;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(100, 116, 139, 0.4);
+    }
+    
+    .btn-danger-custom {
+      background: var(--danger);
+      color: white;
+    }
+    
+    .btn-danger-custom:hover {
+      background: #dc2626;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4);
+    }
+    
+    .btn-outline-custom {
+      background: transparent;
+      color: var(--dark);
+      border: 2px solid var(--border);
+    }
+    
+    .btn-outline-custom:hover {
+      background: var(--light);
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+    
+    .file-input-wrapper {
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .file-input-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1.5rem;
+      background: var(--primary);
+      color: white;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+    
+    .file-input-label:hover {
+      background: var(--primary-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+    }
+    
+    .info-badge {
+      background: var(--light);
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      color: var(--dark);
+      border-left: 4px solid var(--primary);
+    }
+    
+    .action-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-top: 1.5rem;
+    }
+    
+    footer {
+      margin-top: 2rem;
+      text-align: center;
+      color: white;
+      opacity: 0.9;
+      font-size: 0.9rem;
+    }
+    
+    @media (max-width: 768px) {
+      .title-main {
+        font-size: 1.75rem;
+      }
+      
+      .home-btn {
+        position: static;
+        margin-bottom: 1rem;
+        width: fit-content;
+      }
+      
+      .code-box {
+        height: 40vh;
+      }
+      
+      .header-section {
+        padding: 1.5rem;
+      }
+      
+      .content-section {
+        padding: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="main-card">
+      <div class="header-section">
+        <a href="index.html" class="home-btn">Home</a>
+        <div class="header-content">
+          <h1 class="title-main">Java Block Comment Remover</h1>
+          <p class="subtitle">Easily remove <code>/* ... */</code> style block comments from your Java code. Mobile responsive and feature-rich.</p>
+        </div>
+      </div>
+      
+      <div class="content-section">
+        <div class="row g-4">
+          <!-- Options Panel -->
+          <div class="col-12 col-lg-4">
+            <div class="options-card">
+              <h5 class="card-title-custom">Options</h5>
+              
+              <div class="custom-checkbox">
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" id="removeBlock" checked>
+                  <label class="form-check-label" for="removeBlock">
+                    <strong>Remove <code>/* ... */</code> block comments</strong>
+                  </label>
+                </div>
+              </div>
+              
+              <div class="custom-checkbox">
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" id="removeLine">
+                  <label class="form-check-label" for="removeLine">
+                    <strong>Also remove <code>//</code> line comments</strong>
+                  </label>
+                </div>
+              </div>
+              
+              <div class="custom-checkbox">
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" id="trimEmpty">
+                  <label class="form-check-label" for="trimEmpty">
+                    <strong>Remove empty lines</strong>
+                  </label>
+                </div>
+              </div>
+              
+              <hr style="margin: 1.5rem 0; border-color: var(--border);">
+              
+              <div class="file-input-wrapper">
+                <label class="file-input-label" for="fileInput">
+                  📁 Choose Java File
+                </label>
+                <input type="file" id="fileInput" accept=".java" style="display:none">
+              </div>
+              
+              <button id="manualBtn" class="btn-custom btn-outline-custom mt-3 w-100">
+                ✏️ Manual Paste/Process
+              </button>
+            </div>
+            
+            <div class="info-card mt-4 d-none" id="fileInfoCard">
+              <h6 class="card-title-custom">File Info</h6>
+              <div class="info-badge">
+                <div id="fileName" style="font-weight: 600;">No file selected</div>
+                <div id="fileSize" style="font-size: 0.85rem; margin-top: 0.25rem;"></div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Output Panel -->
+          <div class="col-12 col-lg-8">
+            <div class="output-card">
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                <h5 class="card-title-custom mb-0">Cleaned Code</h5>
+                <small style="color: #64748b;">Editable</small>
+              </div>
+              
+              <div id="output" class="code-box" contenteditable="true" spellcheck="false">// Your cleaned code will appear here...</div>
+              
+              <div class="action-buttons">
+                <button id="copyBtn" class="btn-custom btn-success-custom">
+                  📋 Copy
+                </button>
+                <button id="downloadBtn" class="btn-custom btn-secondary-custom">
+                  💾 Download
+                </button>
+                <button id="formatBtn" class="btn-custom btn-outline-custom">
+                  ✨ Format
+                </button>
+                <button id="clearBtn" class="btn-custom btn-danger-custom">
+                  🗑️ Clear
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <footer>
+      Made with jQuery + Bootstrap | Copy the cleaned code and paste into your editor
+    </footer>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+    function removeBlockComments(text){
+      return text.replace(/\/\*[\s\S]*?\*\//g, '');
+    }
+
+    function removeLineComments(text){
+      return text.replace(/(^|[^:\\])\/\/.*$/gm, '$1');
+    }
+
+    function trimEmptyLines(text){
+      return text.replace(/^[ \t]*\r?\n/gm, '');
+    }
+
+    function readFileAsText(file){
+      return new Promise((res, rej) => {
+        const r = new FileReader();
+        r.onload = e => res(e.target.result);
+        r.onerror = e => rej(e);
+        r.readAsText(file, 'utf-8');
+      });
+    }
+
+    function setOutput(text){
+      $('#output').text(text || '// Your cleaned code will appear here...');
+    }
+
+    $(function(){
+      const $fileInput = $('#fileInput');
+      const $fileInfo = $('#fileInfoCard');
+
+      $fileInput.on('change', async function(e){
+        const file = this.files[0];
+        if(!file) return;
+        $('#fileName').text(file.name);
+        $('#fileSize').text((file.size/1024).toFixed(2) + ' KB');
+        $fileInfo.removeClass('d-none');
+
+        try{
+          let txt = await readFileAsText(file);
+          processAndShow(txt);
+        }catch(err){
+          alert('Failed to read file: ' + err);
+        }
+      });
+
+      $('#manualBtn').on('click', function(){
+        const userText = prompt('Paste Java code here (it will be processed).');
+        if(userText === null) return;
+        processAndShow(userText);
+      });
+
+      $('#copyBtn').on('click', function(){
+        const text = $('#output').text();
+        if(!text || text.includes('Your cleaned code will appear here')) return;
+        navigator.clipboard.writeText(text).then(()=>{
+          const $btn = $(this);
+          const orig = $btn.html();
+          $btn.html('✓ Copied!');
+          setTimeout(()=> $btn.html(orig), 1500);
+        }).catch(()=> alert('Copy failed.')); 
+      });
+
+      $('#downloadBtn').on('click', function(){
+        const text = $('#output').text();
+        if(!text || text.includes('Your cleaned code will appear here')) { 
+          alert('Nothing to download'); 
+          return; 
+        }
+        const blob = new Blob([text], {type: 'text/plain'});
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = 'cleaned.java';
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+      });
+
+      $('#clearBtn').on('click', function(){ 
+        setOutput(''); 
+      });
+
+      $('#formatBtn').on('click', function(){
+        let t = $('#output').text();
+        if(t.includes('Your cleaned code will appear here')) return;
+        t = t.replace(/\t/g, '    ');
+        t = t.split('\n').map(line => line.replace(/[ \t]+$/,'')).join('\n');
+        $('#output').text(t);
+      });
+
+      function processAndShow(orig){
+        let result = orig;
+        if($('#removeBlock').is(':checked')){
+          result = removeBlockComments(result);
+        }
+        if($('#removeLine').is(':checked')){
+          result = removeLineComments(result);
+        }
+        if($('#trimEmpty').is(':checked')){
+          result = trimEmptyLines(result);
+        }
+        setOutput(result);
+      }
+    });
+  </script>
+</body>
+</html>
