@@ -29,7 +29,7 @@
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.1);
-            max-width: 900px;
+            max-width: 1000px;
         }
         .textarea-container {
             position: relative;
@@ -37,7 +37,7 @@
         }
         #inputText {
             width: 100%;
-            min-height: 200px;
+            min-height: 250px;
             padding: 15px;
             font-family: 'Courier New', Courier, monospace;
             resize: vertical;
@@ -47,6 +47,7 @@
             color: #e0e0e0;
             transition: border-color 0.3s ease, box-shadow 0.3s ease;
             line-height: 1.5;
+            font-size: 0.95rem;
         }
         #inputText:focus {
             border-color: #64ffda;
@@ -57,22 +58,28 @@
             color: rgba(255, 255, 255, 0.5);
         }
         .btn-custom {
-            margin: 5px;
             transition: transform 0.2s ease, background 0.3s ease, box-shadow 0.3s ease;
             border: 1px solid rgba(255, 255, 255, 0.2);
             color: #fff;
             backdrop-filter: blur(10px);
+            padding: 10px 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            width: 100%;
         }
         .btn-custom:hover {
-            transform: scale(1.05);
+            transform: translateY(-2px);
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+        .btn-custom:active {
+            transform: translateY(0);
         }
         .btn-custom:disabled {
             opacity: 0.5;
             transform: none;
         }
         .btn-custom i {
-            margin-right: 5px;
+            margin-right: 8px;
         }
         .btn-whitespace { 
             background: linear-gradient(45deg, #1e3a8a, #3b82f6);
@@ -122,12 +129,6 @@
         .btn-redo:hover { 
             background: linear-gradient(45deg, #22c55e, #4ade80);
         }
-        .btn-copy { 
-            background: linear-gradient(45deg, #1e40af, #6366f1);
-        }
-        .btn-copy:hover { 
-            background: linear-gradient(45deg, #6366f1, #8b5cf6);
-        }
         .btn-trim { 
             background: linear-gradient(45deg, #92400e, #f59e0b);
         }
@@ -140,15 +141,75 @@
         .btn-single-space:hover { 
             background: linear-gradient(45deg, #a855f7, #c084fc);
         }
+        .btn-clear { 
+            background: linear-gradient(45deg, #991b1b, #dc2626);
+        }
+        .btn-clear:hover { 
+            background: linear-gradient(45deg, #dc2626, #ef4444);
+        }
         .stats {
-            font-size: 0.9rem;
+            font-size: 0.95rem;
             color: #64ffda;
             background: rgba(20, 20, 35, 0.8);
-            padding: 15px;
+            padding: 15px 20px;
             border-radius: 8px;
             border: 1px solid rgba(100, 255, 218, 0.2);
             text-align: center;
             font-weight: 500;
+            margin-bottom: 25px;
+        }
+        .button-section {
+            margin-bottom: 20px;
+        }
+        .section-title {
+            color: #64ffda;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            padding-left: 5px;
+            border-left: 3px solid #64ffda;
+            padding-left: 10px;
+        }
+        .button-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 10px;
+        }
+        .copy-section {
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .btn-copy-special {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-size: 1.1rem;
+            padding: 15px;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+            width: 100%;
+        }
+        .btn-copy-special:hover {
+            background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+            transform: translateY(-3px);
+        }
+        .btn-clear-special {
+            background: linear-gradient(135deg, #dc2626 0%, #991b1b 100%);
+            font-size: 1.1rem;
+            padding: 15px;
+            box-shadow: 0 4px 15px rgba(220, 38, 38, 0.4);
+            width: 100%;
+        }
+        .btn-clear-special:hover {
+            background: linear-gradient(135deg, #991b1b 0%, #dc2626 100%);
+            box-shadow: 0 6px 20px rgba(220, 38, 38, 0.6);
+            transform: translateY(-3px);
+        }
+        .action-buttons-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
         }
         .home-icon {
             position: fixed;
@@ -181,14 +242,25 @@
             -webkit-text-fill-color: transparent;
             background-clip: text;
             text-shadow: none;
+            margin-bottom: 30px;
+        }
+        @media (max-width: 768px) {
+            .button-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .action-buttons-row {
+                grid-template-columns: 1fr;
+            }
         }
         @media (max-width: 576px) {
             .container {
                 padding: 15px;
             }
-            .btn-custom {
-                width: 100%;
-                margin: 5px 0;
+            .button-grid {
+                grid-template-columns: 1fr;
+            }
+            .action-buttons-row {
+                grid-template-columns: 1fr;
             }
             .home-icon {
                 top: 10px;
@@ -200,23 +272,77 @@
 <body>
     <a href="index.html" class="home-icon animate__animated animate__fadeIn"><i class="fas fa-home"></i></a>
     <div class="container animate__animated animate__fadeInUp">
-        <h2 class="text-center mb-4 animate__animated animate__pulse">Text Processor</h2>
+        <h2 class="text-center animate__animated animate__pulse">Text Processor</h2>
+        
         <div class="textarea-container">
             <textarea id="inputText" class="form-control animate__animated animate__fadeIn" placeholder="Enter your text here..." oninput="updateStatsAndLines()"></textarea>
         </div>
-        <div class="stats mb-3 animate__animated animate__fadeIn" id="stats">Characters: 0 | Words: 0 | New Lines: 0</div>
-        <div class="d-flex flex-wrap justify-content-center">
-            <button class="btn btn-custom btn-whitespace animate__animated animate__bounceIn" onclick="removeWhitespace()"><i class="fas fa-compress-arrows-alt"></i> Remove Whitespace</button>
-            <button class="btn btn-custom btn-uppercase animate__animated animate__bounceIn" onclick="toUpperCase()"><i class="fas fa-arrow-up"></i> Upper Case</button>
-            <button class="btn btn-custom btn-lowercase animate__animated animate__bounceIn" onclick="toLowerCase()"><i class="fas fa-arrow-down"></i> Lower Case</button>
-            <button class="btn btn-custom btn-capitalize animate__animated animate__bounceIn" onclick="capitalize()"><i class="fas fa-text-height"></i> Capitalize</button>
-            <button class="btn btn-custom btn-special animate__animated animate__bounceIn" onclick="removeSpecialChars()"><i class="fas fa-filter"></i> Remove Special Chars</button>
-            <button class="btn btn-custom btn-newlines animate__animated animate__bounceIn" onclick="removeNewLines()"><i class="fas fa-align-left"></i> Remove New Lines</button>
-            <button class="btn btn-custom btn-trim animate__animated animate__bounceIn" onclick="trimWhitespace()"><i class="fas fa-cut"></i> Trim Whitespace</button>
-            <button class="btn btn-custom btn-single-space animate__animated animate__bounceIn" onclick="singleSpace()"><i class="fas fa-compress"></i> Single Space</button>
-            <button class="btn btn-custom btn-copy animate__animated animate__bounceIn" onclick="copyToClipboard()"><i class="fas fa-copy"></i> Copy to Clipboard</button>
-            <button id="undoBtn" class="btn btn-custom btn-undo animate__animated animate__bounceIn" onclick="undo()" disabled><i class="fas fa-undo"></i> Undo</button>
-            <button id="redoBtn" class="btn btn-custom btn-redo animate__animated animate__bounceIn" onclick="redo()" disabled><i class="fas fa-redo"></i> Redo</button>
+        
+        <div class="stats animate__animated animate__fadeIn" id="stats">
+            Characters: 0 | Words: 0 | New Lines: 0
+        </div>
+
+        <!-- Text Case Section -->
+        <div class="button-section">
+            <div class="section-title">Text Case Transformations</div>
+            <div class="button-grid">
+                <button class="btn btn-custom btn-uppercase animate__animated animate__bounceIn" onclick="toUpperCase()">
+                    <i class="fas fa-arrow-up"></i> Upper Case
+                </button>
+                <button class="btn btn-custom btn-lowercase animate__animated animate__bounceIn" onclick="toLowerCase()">
+                    <i class="fas fa-arrow-down"></i> Lower Case
+                </button>
+                <button class="btn btn-custom btn-capitalize animate__animated animate__bounceIn" onclick="capitalize()">
+                    <i class="fas fa-text-height"></i> Capitalize
+                </button>
+            </div>
+        </div>
+
+        <!-- Whitespace & Formatting Section -->
+        <div class="button-section">
+            <div class="section-title">Whitespace & Formatting</div>
+            <div class="button-grid">
+                <button class="btn btn-custom btn-whitespace animate__animated animate__bounceIn" onclick="removeWhitespace()">
+                    <i class="fas fa-compress-arrows-alt"></i> Remove Whitespace
+                </button>
+                <button class="btn btn-custom btn-trim animate__animated animate__bounceIn" onclick="trimWhitespace()">
+                    <i class="fas fa-cut"></i> Trim Whitespace
+                </button>
+                <button class="btn btn-custom btn-single-space animate__animated animate__bounceIn" onclick="singleSpace()">
+                    <i class="fas fa-compress"></i> Single Space
+                </button>
+                <button class="btn btn-custom btn-newlines animate__animated animate__bounceIn" onclick="removeNewLines()">
+                    <i class="fas fa-align-left"></i> Remove New Lines
+                </button>
+            </div>
+        </div>
+
+        <!-- Special Operations Section -->
+        <div class="button-section">
+            <div class="section-title">Special Operations</div>
+            <div class="button-grid">
+                <button class="btn btn-custom btn-special animate__animated animate__bounceIn" onclick="removeSpecialChars()">
+                    <i class="fas fa-filter"></i> Remove Special Chars
+                </button>
+                <button id="undoBtn" class="btn btn-custom btn-undo animate__animated animate__bounceIn" onclick="undo()" disabled>
+                    <i class="fas fa-undo"></i> Undo
+                </button>
+                <button id="redoBtn" class="btn btn-custom btn-redo animate__animated animate__bounceIn" onclick="redo()" disabled>
+                    <i class="fas fa-redo"></i> Redo
+                </button>
+            </div>
+        </div>
+
+        <!-- Action Buttons Section -->
+        <div class="copy-section">
+            <div class="action-buttons-row">
+                <button class="btn btn-custom btn-copy-special animate__animated animate__bounceIn animate__delay-1s" onclick="copyToClipboard()">
+                    <i class="fas fa-copy"></i> Copy to Clipboard
+                </button>
+                <button class="btn btn-custom btn-clear-special animate__animated animate__bounceIn animate__delay-1s" onclick="clearText()">
+                    <i class="fas fa-trash-alt"></i> Clear All Text
+                </button>
+            </div>
         </div>
     </div>
 
@@ -331,6 +457,11 @@
             textarea.select();
             document.execCommand('copy');
             showToast('Text copied to clipboard!');
+        }
+
+        function clearText() {
+            const newText = '';
+            updateText(newText, 'Text cleared');
         }
 
         function undo() {
