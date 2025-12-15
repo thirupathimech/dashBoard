@@ -125,6 +125,12 @@
       margin-bottom: 1.5rem;
     }
     
+    .btn-check:checked + label {
+      background: var(--primary) !important;
+      color: white !important;
+      border-color: var(--primary) !important;
+    }
+    
     .section-card {
       background: white;
       border-radius: 15px;
@@ -365,28 +371,55 @@
         <a href="index.html" class="home-btn">Home</a>
         <div class="header-content">
           <h1 class="title-main">Java Unused Variable Finder</h1>
-          <p class="subtitle">Detect unused variables in your Java code including annotated fields (like <code>@EJB</code>), modifiers, and local declarations. Fully browser-based analysis.</p>
+          <p class="subtitle">Detect unused variables in your Java code including annotated fields (like <code>@EJB</code>), modifiers, and local declarations. Upload a file or paste code directly.</p>
         </div>
       </div>
       
       <div class="content-section">
         <div class="control-panel">
-          <div class="row g-3 align-items-center">
-            <div class="col-md-6">
-              <input id="fileInput" class="form-control file-input-custom" type="file" accept=".java,text/plain">
+          <div class="mb-3">
+            <div class="btn-group w-100" role="group">
+              <input type="radio" class="btn-check" name="inputMode" id="fileMode" checked>
+              <label class="btn btn-outline-primary" for="fileMode">📁 Upload File</label>
+              
+              <input type="radio" class="btn-check" name="inputMode" id="pasteMode">
+              <label class="btn btn-outline-primary" for="pasteMode">📋 Paste Code</label>
             </div>
-            <div class="col-md-6">
-              <div class="d-flex gap-2 flex-wrap">
-                <button id="analyzeBtn" class="btn-custom btn-primary-custom flex-grow-1">
-                  🔍 Analyze
-                </button>
-                <button id="clearBtn" class="btn-custom btn-outline-custom">
-                  🗑️ Clear
-                </button>
-                <button id="exampleBtn" class="btn-custom btn-outline-custom">
-                  📝 Example
-                </button>
+          </div>
+
+          <div id="fileModePanel">
+            <div class="row g-3 align-items-center">
+              <div class="col-md-6">
+                <input id="fileInput" class="form-control file-input-custom" type="file" accept=".java,text/plain">
               </div>
+              <div class="col-md-6">
+                <div class="d-flex gap-2 flex-wrap">
+                  <button id="analyzeBtn" class="btn-custom btn-primary-custom flex-grow-1">
+                    🔍 Analyze
+                  </button>
+                  <button id="clearBtn" class="btn-custom btn-outline-custom">
+                    🗑️ Clear
+                  </button>
+                  <button id="exampleBtn" class="btn-custom btn-outline-custom">
+                    📝 Example
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div id="pasteModePanel" style="display: none;">
+            <textarea id="codeTextarea" class="form-control" rows="8" placeholder="Paste your Java code here..." style="font-family: 'Fira Code', monospace; font-size: 0.9rem; border: 2px dashed var(--border); border-radius: 10px; resize: vertical;"></textarea>
+            <div class="d-flex gap-2 mt-3 flex-wrap">
+              <button id="analyzePasteBtn" class="btn-custom btn-primary-custom flex-grow-1">
+                🔍 Analyze
+              </button>
+              <button id="clearPasteBtn" class="btn-custom btn-outline-custom">
+                🗑️ Clear
+              </button>
+              <button id="examplePasteBtn" class="btn-custom btn-outline-custom">
+                📝 Example
+              </button>
             </div>
           </div>
         </div>
@@ -394,8 +427,8 @@
         <div class="row g-4">
           <div class="col-lg-6">
             <div class="section-card">
-              <h5 class="card-title-custom">File Preview</h5>
-              <pre id="codePreview" class="code-preview"><small style="color: #64748b;">No file loaded. Choose a Java file to get started.</small></pre>
+              <h5 class="card-title-custom">Code Preview</h5>
+              <pre id="codePreview" class="code-preview"><small style="color: #64748b;">No code loaded. Upload a file or paste code to get started.</small></pre>
             </div>
           </div>
 
@@ -406,7 +439,7 @@
                 <div id="resultsEmpty" class="no-results">
                   <div class="no-results-icon">📊</div>
                   <strong>No results yet</strong>
-                  <p class="mb-0 mt-2">Load a Java file and click <strong>Analyze</strong> to detect unused variables.</p>
+                  <p class="mb-0 mt-2">Load Java code and click <strong>Analyze</strong> to detect unused variables.</p>
                 </div>
 
                 <div id="resultsContent" style="display:none;">
@@ -465,6 +498,19 @@
   }
 
   let currentCode = "";
+
+  // Mode switching
+  $('input[name="inputMode"]').on('change', function() {
+    if ($('#fileMode').is(':checked')) {
+      $('#fileModePanel').show();
+      $('#pasteModePanel').hide();
+    } else {
+      $('#fileModePanel').hide();
+      $('#pasteModePanel').show();
+    }
+  });
+
+  // File upload
   $('#fileInput').on('change', function(e){
     const f = e.target.files && e.target.files[0];
     if(!f) return;
@@ -479,6 +525,21 @@
     };
     reader.readAsText(f, 'utf-8');
   });
+
+  // Paste mode - load code from textarea
+  function loadPastedCode() {
+    currentCode = $('#codeTextarea').val();
+    if (!currentCode.trim()) {
+      alert('Please paste some Java code first.');
+      return false;
+    }
+    currentCode = currentCode.replace(/\r\n/g, '\n');
+    const safe = currentCode.replace(/&/g,'&amp;').replace(/</g,'&lt;');
+    $('#codePreview').html('<code>' + safe + '</code>');
+    $('#resultsEmpty').show();
+    $('#resultsContent').hide();
+    return true;
+  }
 
   function analyzeJava(code) {
     const annotatedFieldRegex = /(?:^\s*@[\w.]+(?:\([^)]*\))?\s*\r?\n\s*)*(?:^\s*(?:private|public|protected)\s+(?:static\s+|final\s+|transient\s+|volatile\s+)*([A-Za-z_$][A-Za-z0-9_<>\[\]\s?,.?$]*?)\s+([A-Za-z_$][A-Za-z0-9_$]*)\s*(?:=[^;]*)?;)/mg;
@@ -609,6 +670,7 @@
     return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
   }
 
+  // File mode analyze
   $('#analyzeBtn').on('click', function(){
     if(!currentCode) {
       alert('Please select a Java file first.');
@@ -618,10 +680,29 @@
     renderResults(res);
   });
 
+  // Paste mode analyze
+  $('#analyzePasteBtn').on('click', function(){
+    if (loadPastedCode()) {
+      const res = analyzeJava(currentCode);
+      renderResults(res);
+    }
+  });
+
+  // File mode clear
   $('#clearBtn').on('click', function(){
     $('#fileInput').val('');
     currentCode = '';
-    $('#codePreview').html('<small style="color: #64748b;">No file loaded. Choose a Java file to get started.</small>');
+    $('#codePreview').html('<small style="color: #64748b;">No code loaded. Upload a file or paste code to get started.</small>');
+    $('#resultsEmpty').show();
+    $('#resultsContent').hide();
+    $('#allDeclsContainer').hide();
+  });
+
+  // Paste mode clear
+  $('#clearPasteBtn').on('click', function(){
+    $('#codeTextarea').val('');
+    currentCode = '';
+    $('#codePreview').html('<small style="color: #64748b;">No code loaded. Upload a file or paste code to get started.</small>');
     $('#resultsEmpty').show();
     $('#resultsContent').hide();
     $('#allDeclsContainer').hide();
@@ -698,6 +779,7 @@
     document.body.removeChild(ta);
   }
 
+  // File mode example
   $('#exampleBtn').on('click', function(e){
     e.preventDefault();
     const example = `package com.example;\n\nimport javax.ejb.EJB;\n\npublic class Demo {\n\n    @EJB\n    @IgnoreDependency\n    private IFamilyStoreServices services;\n\n    private int usedCount = 0;\n    private String unusedString;\n\n    public void doIt() {\n        int x = 5; // local used\n        int y = 10; // local unused\n        System.out.println(x);\n        services.someCall();\n    }\n}\n`;
@@ -705,6 +787,13 @@
     $('#codePreview').html('<code>' + escapeHtml(example) + '</code>');
     $('#resultsEmpty').show();
     $('#resultsContent').hide();
+  });
+
+  // Paste mode example
+  $('#examplePasteBtn').on('click', function(e){
+    e.preventDefault();
+    const example = `package com.example;\n\nimport javax.ejb.EJB;\n\npublic class Demo {\n\n    @EJB\n    @IgnoreDependency\n    private IFamilyStoreServices services;\n\n    private int usedCount = 0;\n    private String unusedString;\n\n    public void doIt() {\n        int x = 5; // local used\n        int y = 10; // local unused\n        System.out.println(x);\n        services.someCall();\n    }\n}\n`;
+    $('#codeTextarea').val(example);
   });
 
   $('#resultsContent').hide();
