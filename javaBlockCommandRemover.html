@@ -67,9 +67,6 @@
     }
     
     .home-btn {
-      position: absolute;
-      top: 1rem;
-      left: 1rem;
       background: rgba(255, 255, 255, 0.2);
       border: 2px solid rgba(255, 255, 255, 0.3);
       color: white;
@@ -78,9 +75,12 @@
       text-decoration: none;
       font-weight: 600;
       transition: all 0.3s ease;
-      display: flex;
+      display: inline-flex;
       align-items: center;
       gap: 0.5rem;
+      z-index: 10;
+      cursor: pointer;
+      margin-bottom: 1rem;
     }
     
     .home-btn:hover {
@@ -88,6 +88,7 @@
       border-color: rgba(255, 255, 255, 0.5);
       color: white;
       transform: translateX(-3px);
+      cursor: pointer;
     }
     
     .home-btn::before {
@@ -296,12 +297,6 @@
         font-size: 1.75rem;
       }
       
-      .home-btn {
-        position: static;
-        margin-bottom: 1rem;
-        width: fit-content;
-      }
-      
       .code-box {
         height: 40vh;
       }
@@ -320,8 +315,8 @@
   <div class="container">
     <div class="main-card">
       <div class="header-section">
-        <a href="index.html" class="home-btn">Home</a>
         <div class="header-content">
+          <a href="index.html" class="home-btn">Home</a>
           <h1 class="title-main">Java Block Comment Remover</h1>
           <p class="subtitle">Easily remove <code>/* ... */</code> style block comments from your Java code. Mobile responsive and feature-rich.</p>
         </div>
