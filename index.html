@@ -943,12 +943,12 @@
     <footer>
         <div class="container">
             <div class="footer-content">
-                <p class="footer-text">© 2025 <span>Thirupathi G</span> Developments</p>
+                <p class="footer-text">© 2026 <span>Thirupathi G</span> Developments</p>
                 <div class="social-links">
-                    <a href="#" class="social-link"><i class="bi bi-github"></i></a>
-                    <a href="#" class="social-link"><i class="bi bi-linkedin"></i></a>
-                    <a href="#" class="social-link"><i class="bi bi-twitter"></i></a>
-                    <a href="#" class="social-link"><i class="bi bi-envelope"></i></a>
+                    <a href="https://github.com/thirupathimech" class="social-link"><i class="bi bi-github"></i></a>
+                    <a href="https://www.linkedin.com/in/thirupathi-g/" class="social-link"><i class="bi bi-linkedin"></i></a>
+                    <a href="tel:+917397070203" class="social-link"><i class="bi bi-phone"></i></a>
+                    <a href="mailto:thirupathi7845@gmail.com" class="social-link"><i class="bi bi-envelope"></i></a>
                 </div>
             </div>
         </div>
@@ -1369,7 +1369,7 @@
             
             celebrationBtn.on('click', () => {
                 // Trigger multiple confetti bursts
-                const duration = 3 * 1000;
+                const duration = 5 * 1000;
                 const animationEnd = Date.now() + duration;
                 const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
 
@@ -1407,37 +1407,6 @@
                     repeat: 1
                 });
 
-                // Show a temporary celebration message
-                const message = $('<div class="celebration-message">🎉 Celebrating Your Success! 🎉</div>');
-                message.css({
-                    position: 'fixed',
-                    top: '50%',
-                    left: '50%',
-                    transform: 'translate(-50%, -50%)',
-                    background: 'var(--gradient-1)',
-                    color: 'white',
-                    padding: '1rem 2rem',
-                    borderRadius: '12px',
-                    fontSize: '1.2rem',
-                    fontWeight: '600',
-                    zIndex: '10000',
-                    boxShadow: '0 10px 30px rgba(0,0,0,0.3)'
-                });
-                $('body').append(message);
-                
-                gsap.fromTo(message, 
-                    { opacity: 0, scale: 0.5 },
-                    { opacity: 1, scale: 1, duration: 0.5, ease: "back.out(1.7)" }
-                );
-                
-                setTimeout(() => {
-                    gsap.to(message, {
-                        opacity: 0,
-                        scale: 0.5,
-                        duration: 0.3,
-                        onComplete: () => message.remove()
-                    });
-                }, 2000);
             });
 
             // Offline detection
@@ -1503,3 +1472,4 @@
     </script>
 </body>
 </html>
+
