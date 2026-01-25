@@ -4,7 +4,64 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Premium Landing Page Showcase</title>
+    
+    <!-- --- SEO: Basic Meta Tags --- -->
+    <title>Premium Landing Page Templates | Photographers, Saree Boutiques & Artists</title>
+    <meta name="description" content="Discover professionally designed, high-converting landing page templates for wedding photographers, saree boutiques, and mehandi artists. Showcase your portfolio with style.">
+    <meta name="keywords" content="landing page templates, photography portfolio, saree boutique website, mehandi artist portfolio, ecommerce website design, creative portfolio">
+    <meta name="author" content="DesignShowcase">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://thirupathimech.github.io/dashBoard/landingPageShowcase.html"> <!-- Replace with actual URL -->
+
+    <!-- --- SEO: Open Graph (Facebook/LinkedIn) --- -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Premium Landing Page Templates for Creatives">
+    <meta property="og:description" content="Browse our curated collection of premium website templates designed specifically for photographers, boutiques, and artists.">
+    <meta property="og:image" content="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80">
+    <meta property="og:url" content="https://thirupathimech.github.io/dashBoard/landingPageShowcase.html">
+
+    <!-- --- SEO: Twitter Card Data --- -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Premium Landing Page Templates">
+    <meta name="twitter:description" content="Explore high-converting templates for photographers and creative businesses.">
+    <meta name="twitter:image" content="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80">
+
+    <!-- --- SEO: Structured Data (JSON-LD) --- -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "CollectionPage",
+      "name": "Premium Landing Page Showcase",
+      "description": "A curated collection of landing page templates for photographers, saree sellers, and mehandi artists.",
+      "url": "https://www.yourwebsite.com/showcase",
+      "provider": {
+        "@type": "Organization",
+        "name": "DesignShowcase",
+        "logo": "https://via.placeholder.com/150"
+      },
+      "hasPart": [
+        {
+          "@type": "WebPage",
+          "name": "Lumina Lens",
+          "description": "Dark cinematic theme for wedding photographers",
+          "url": "https://www.yourwebsite.com/templates/lumina-lens"
+        },
+        {
+          "@type": "WebPage",
+          "name": "Royal Drapes",
+          "description": "Luxury silk saree boutique template",
+          "url": "https://www.yourwebsite.com/templates/royal-drapes"
+        },
+        {
+          "@type": "WebPage",
+          "name": "Bridal Bliss",
+          "description": "Bridal mehandi artist portfolio",
+          "url": "https://www.yourwebsite.com/templates/bridal-bliss"
+        }
+      ]
+    }
+    </script>
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
     <link rel="icon" href="favicon.ico">
@@ -42,15 +99,8 @@
 
         /* --- Animations --- */
         @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         /* --- Mobile First Styles --- */
@@ -161,17 +211,9 @@
             color: #0f172a;
         }
 
-        .photo-icon {
-            background: var(--color-photo);
-        }
-
-        .saree-icon {
-            background: var(--color-saree);
-        }
-
-        .mehandi-icon {
-            background: var(--color-mehandi);
-        }
+        .photo-icon { background: var(--color-photo); }
+        .saree-icon { background: var(--color-saree); }
+        .mehandi-icon { background: var(--color-mehandi); }
 
         .category-title {
             font-family: 'Playfair Display', serif;
@@ -246,20 +288,9 @@
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
         }
 
-        .badge-hot {
-            background: #ef4444;
-            color: white;
-        }
-
-        .badge-new {
-            background: #3b82f6;
-            color: white;
-        }
-
-        .badge-sale {
-            background: #eab308;
-            color: #0f172a;
-        }
+        .badge-hot { background: #ef4444; color: white; }
+        .badge-new { background: #3b82f6; color: white; }
+        .badge-sale { background: #eab308; color: #0f172a; }
 
         .card-content {
             padding: 20px;
@@ -274,17 +305,9 @@
             display: block;
         }
 
-        .photo-text {
-            color: var(--color-photo);
-        }
-
-        .saree-text {
-            color: var(--color-saree);
-        }
-
-        .mehandi-text {
-            color: var(--color-mehandi);
-        }
+        .photo-text { color: var(--color-photo); }
+        .saree-text { color: var(--color-saree); }
+        .mehandi-text { color: var(--color-mehandi); }
 
         .card-title {
             font-family: 'Playfair Display', serif;
@@ -483,87 +506,34 @@
 
         /* --- Tablet Styles (768px and up) --- */
         @media (min-width: 768px) {
-            .container {
-                padding: 0 30px;
-            }
-
-            header {
-                padding: 120px 20px 60px;
-            }
-
-            h1 {
-                font-size: 3rem;
-            }
-
-            .subtitle {
-                font-size: 1.1rem;
-                max-width: 700px;
-                margin: 0 auto;
-            }
-
-            .category-title {
-                font-size: 2.2rem;
-            }
-
-            .category-icon {
-                width: 50px;
-                height: 50px;
-                font-size: 1.5rem;
-            }
-
-            .cards-grid {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 30px;
-                padding: 0;
-            }
-
-            .section-title {
-                font-size: 2.5rem;
-            }
-
-            .modal-box {
-                height: 80vh;
-            }
-
-            .nav-btn {
-                width: 50px;
-                height: 50px;
-                font-size: 1.2rem;
-            }
+            .container { padding: 0 30px; }
+            header { padding: 120px 20px 60px; }
+            h1 { font-size: 3rem; }
+            .subtitle { font-size: 1.1rem; max-width: 700px; margin: 0 auto; }
+            .category-title { font-size: 2.2rem; }
+            .category-icon { width: 50px; height: 50px; font-size: 1.5rem; }
+            .cards-grid { grid-template-columns: repeat(2, 1fr); gap: 30px; padding: 0; }
+            .section-title { font-size: 2.5rem; }
+            .modal-box { height: 80vh; }
+            .nav-btn { width: 50px; height: 50px; font-size: 1.2rem; }
         }
 
         /* --- Desktop Styles (1024px and up) --- */
         @media (min-width: 1024px) {
-            .cards-grid {
-                grid-template-columns: repeat(3, 1fr);
-            }
-
-            h1 {
-                font-size: 3.5rem;
-            }
-
-            .modal-box {
-                width: 95%;
-            }
+            .cards-grid { grid-template-columns: repeat(3, 1fr); }
+            h1 { font-size: 3.5rem; }
+            .modal-box { width: 95%; }
         }
 
         /* --- Large Desktop (1400px and up) --- */
         @media (min-width: 1400px) {
-            .cards-grid {
-                grid-template-columns: repeat(4, 1fr);
-            }
+            .cards-grid { grid-template-columns: repeat(4, 1fr); }
         }
 
         /* --- Touch Device Optimizations --- */
         @media (hover: none) {
-            .card:hover {
-                transform: none;
-            }
-
-            .nav-btn:hover {
-                background: rgba(255, 255, 255, 0.1);
-                color: white;
-            }
+            .card:hover { transform: none; }
+            .nav-btn:hover { background: rgba(255, 255, 255, 0.1); color: white; }
         }
     </style>
 </head>
@@ -571,7 +541,7 @@
 <body>
     <!-- Home Navigation -->
     <div class="home-nav">
-        <a href="index.html" class="home-button">
+        <a href="index.html" class="home-button" aria-label="Back to Home Page">
             <i class="fas fa-arrow-left"></i>
             <span>Back Home</span>
         </a>
@@ -584,26 +554,26 @@
         </header>
 
         <!-- PHOTOGRAPHER STUDIO SECTION -->
-        <section class="category-section">
+        <section class="category-section" aria-labelledby="heading-photo">
             <div class="section-header">
-                <h2 class="section-title">For Photographers</h2>
+                <h2 id="heading-photo" class="section-title">For Photographers</h2>
                 <p class="section-description">Showcase your portfolio with elegant designs that highlight your best work and convert visitors into clients.</p>
             </div>
 
             <div class="category-header">
-                <div class="category-icon photo-icon">
+                <div class="category-icon photo-icon" aria-hidden="true">
                     <i class="fas fa-camera-retro"></i>
                 </div>
                 <h2 class="category-title">Photographer Studios</h2>
             </div>
 
-            <div class="cards-grid" id="grid-photo">
+            <div class="cards-grid" id="grid-photo" role="list">
                 <!-- Card 1 -->
-                <article class="card">
+                <article class="card" role="listitem">
                     <div class="card-image-container">
                         <span class="badge badge-hot">Best Seller</span>
                         <div class="card-overlay"></div>
-                        <img src="landingPage/images/wedding001.jpg" alt="Lumina Lens" class="card-image" onerror="this.src='https://images.unsplash.com/photo-1511285560929-80b456fea0bc?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80'">
+                        <img src="landingPage/images/wedding001.jpg" alt="Lumina Lens dark wedding photography theme" class="card-image" onerror="this.src='https://images.unsplash.com/photo-1511285560929-80b456fea0bc?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80'" loading="lazy">
                     </div>
                     <div class="card-content">
                         <span class="card-category photo-text">Wedding Specialist</span>
@@ -622,11 +592,11 @@
                 </article>
 
                 <!-- Card 2 -->
-                <article class="card">
+                <article class="card" role="listitem">
                     <div class="card-image-container">
                         <span class="badge badge-new">New</span>
                         <div class="card-overlay"></div>
-                        <img src="landingPage/images/wedding002.jpg" alt="Shutter Pro" class="card-image" onerror="this.src='https://images.unsplash.com/photo-1554048612-b6a482bc67e5?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80'">
+                        <img src="landingPage/images/wedding002.jpg" alt="Shutter Pro minimalist portfolio template" class="card-image" onerror="this.src='https://images.unsplash.com/photo-1554048612-b6a482bc67e5?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80'" loading="lazy">
                     </div>
                     <div class="card-content">
                         <span class="card-category photo-text">Portfolio</span>
@@ -645,10 +615,10 @@
                 </article>
 
                 <!-- Card 3 -->
-                <article class="card">
+                <article class="card" role="listitem">
                     <div class="card-image-container">
                         <div class="card-overlay"></div>
-                        <img src="landingPage/images/wedding003.jpg" alt="ViewPoint" class="card-image" onerror="this.src='https://images.unsplash.com/photo-1506744038136-46273834b3fb?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80'">
+                        <img src="landingPage/images/wedding005.avif" alt="ViewPoint travel photography website layout" class="card-image" onerror="this.src='https://images.unsplash.com/photo-1506744038136-46273834b3fb?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80'" loading="lazy">
                     </div>
                     <div class="card-content">
                         <span class="card-category photo-text">Travel/Outdoor</span>
@@ -667,10 +637,10 @@
                     </article>
 
                     <!-- Card 4 -->
-                    <article class="card">
+                    <article class="card" role="listitem">
                         <div class="card-image-container">
                             <div class="card-overlay"></div>
-                            <img src="landingPage/images/wedding004.jpg" alt="Studio Frame" class="card-image" onerror="this.src='https://images.unsplash.com/photo-1512790182412-b19e6d62bc39?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80'">
+                            <img src="landingPage/images/wedding004.jpg" alt="Studio Frame commercial product photography design" class="card-image" onerror="this.src='https://images.unsplash.com/photo-1512790182412-b19e6d62bc39?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80'" loading="lazy">
                         </div>
                         <div class="card-content">
                             <span class="card-category photo-text">Commercial</span>
@@ -690,36 +660,36 @@
                 </div>
 
                 <div class="nav-buttons">
-                    <button class="nav-btn prev-btn" onclick="navigateCategory('photo', -1)">
+                    <button class="nav-btn prev-btn" onclick="navigateCategory('photo', -1)" aria-label="Previous Photography Templates">
                         <i class="fas fa-chevron-left"></i>
                     </button>
-                    <button class="nav-btn next-btn" onclick="navigateCategory('photo', 1)">
+                    <button class="nav-btn next-btn" onclick="navigateCategory('photo', 1)" aria-label="Next Photography Templates">
                         <i class="fas fa-chevron-right"></i>
                     </button>
                 </div>
             </section>
 
             <!-- SAREE SELLERS SECTION -->
-            <section class="category-section">
+            <section class="category-section" aria-labelledby="heading-saree">
                 <div class="section-header">
-                    <h2 class="section-title">For Saree Boutiques</h2>
+                    <h2 id="heading-saree" class="section-title">For Saree Boutiques</h2>
                     <p class="section-description">Elegant e-commerce designs to showcase your saree collections with style and functionality.</p>
                 </div>
 
                 <div class="category-header">
-                    <div class="category-icon saree-icon">
+                    <div class="category-icon saree-icon" aria-hidden="true">
                         <i class="fas fa-fabric"></i>
                     </div>
                     <h2 class="category-title">Saree & Boutiques</h2>
                 </div>
 
-                <div class="cards-grid" id="grid-saree">
+                <div class="cards-grid" id="grid-saree" role="list">
                     <!-- Card 1 -->
-                    <article class="card">
+                    <article class="card" role="listitem">
                         <div class="card-image-container">
                             <span class="badge badge-hot">Premium</span>
                             <div class="card-overlay"></div>
-                            <img src="landingPage/images/saree001.jpg" alt="Royal Silk" class="card-image" onerror="this.src='https://images.unsplash.com/photo-1585487000160-6eb9ce6b5a74?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80'">
+                            <img src="landingPage/images/saree001.jpg" alt="Royal Drapes luxury silk saree website" class="card-image" onerror="this.src='https://images.unsplash.com/photo-1585487000160-6eb9ce6b5a74?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80'" loading="lazy">
                         </div>
                         <div class="card-content">
                             <span class="card-category saree-text">Luxury Silk</span>
@@ -738,10 +708,10 @@
                     </article>
 
                     <!-- Card 2 -->
-                    <article class="card">
+                    <article class="card" role="listitem">
                         <div class="card-image-container">
                             <div class="card-overlay"></div>
-                            <img src="landingPage/images/saree002.jpg" alt="Handloom Hub" class="card-image" onerror="this.src='https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80'">
+                            <img src="landingPage/images/saree002.jpg" alt="Handloom Heritage organic cotton saree design" class="card-image" onerror="this.src='https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80'" loading="lazy">
                         </div>
                         <div class="card-content">
                             <span class="card-category saree-text">Handloom/Cotton</span>
@@ -760,11 +730,11 @@
                     </article>
 
                     <!-- Card 3 -->
-                    <article class="card">
+                    <article class="card" role="listitem">
                         <div class="card-image-container">
                             <span class="badge badge-sale">Sale</span>
                             <div class="card-overlay"></div>
-                            <img src="landingPage/images/saree003.jpg" alt="Festive Glam" class="card-image" onerror="this.src='https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80'">
+                            <img src="landingPage/images/saree003.jpg" alt="Festive Glam colorful designer saree layout" class="card-image" onerror="this.src='https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80'" loading="lazy">
                         </div>
                         <div class="card-content">
                             <span class="card-category saree-text">Designer Party Wear</span>
@@ -783,10 +753,10 @@
                     </article>
 
                     <!-- Card 4 -->
-                    <article class="card">
+                    <article class="card" role="listitem">
                         <div class="card-image-container">
                             <div class="card-overlay"></div>
-                            <img src="landingPage/images/saree001.jpg" alt="Modern Saree" class="card-image" onerror="this.src='https://images.unsplash.com/photo-1585487000160-6eb9ce6b5a74?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80'">
+                            <img src="landingPage/images/saree001.jpg" alt="Modern Drapes contemporary saree shop" class="card-image" onerror="this.src='https://images.unsplash.com/photo-1585487000160-6eb9ce6b5a74?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80'" loading="lazy">
                         </div>
                         <div class="card-content">
                             <span class="card-category saree-text">Contemporary</span>
@@ -806,35 +776,35 @@
                 </div>
 
                 <div class="nav-buttons">
-                    <button class="nav-btn prev-btn" onclick="navigateCategory('saree', -1)">
+                    <button class="nav-btn prev-btn" onclick="navigateCategory('saree', -1)" aria-label="Previous Saree Templates">
                         <i class="fas fa-chevron-left"></i>
                     </button>
-                    <button class="nav-btn next-btn" onclick="navigateCategory('saree', 1)">
+                    <button class="nav-btn next-btn" onclick="navigateCategory('saree', 1)" aria-label="Next Saree Templates">
                         <i class="fas fa-chevron-right"></i>
                     </button>
                 </div>
             </section>
 
             <!-- MEHANDI ARTISTS SECTION -->
-            <section class="category-section">
+            <section class="category-section" aria-labelledby="heading-mehandi">
                 <div class="section-header">
-                    <h2 class="section-title">For Mehandi Artists</h2>
+                    <h2 id="heading-mehandi" class="section-title">For Mehandi Artists</h2>
                     <p class="section-description">Beautiful portfolio designs to showcase your intricate art and attract more clients.</p>
                 </div>
 
                 <div class="category-header">
-                    <div class="category-icon mehandi-icon">
+                    <div class="category-icon mehandi-icon" aria-hidden="true">
                         <i class="fas fa-paint-brush"></i>
                     </div>
                     <h2 class="category-title">Mehandi Artists</h2>
                 </div>
 
-                <div class="cards-grid" id="grid-mehandi">
+                <div class="cards-grid" id="grid-mehandi" role="list">
                     <!-- Card 1 -->
-                    <article class="card">
+                    <article class="card" role="listitem">
                         <div class="card-image-container">
                             <div class="card-overlay"></div>
-                            <img src="landingPage/images/mehandi001.jpg" alt="Bridal Glow" class="card-image" onerror="this.src='https://images.unsplash.com/photo-1584820927498-cfe5211fd8bf?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80'">
+                            <img src="landingPage/images/mehandi001.jpg" alt="Bridal Bliss mehandi artist portfolio" class="card-image" onerror="this.src='https://images.unsplash.com/photo-1584820927498-cfe5211fd8bf?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80'" loading="lazy">
                         </div>
                         <div class="card-content">
                             <span class="card-category mehandi-text">Bridal Specialist</span>
@@ -853,11 +823,11 @@
                     </article>
 
                     <!-- Card 2 -->
-                    <article class="card">
+                    <article class="card" role="listitem">
                         <div class="card-image-container">
                             <span class="badge badge-new">Trending</span>
                             <div class="card-overlay"></div>
-                            <img src="landingPage/images/mehandi002.jpg" alt="Arabic Flair" class="card-image" onerror="this.src='https://images.unsplash.com/photo-1584824486509-112e4181ff6b?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80'">
+                            <img src="landingPage/images/mehandi002.jpg" alt="Arabic Flair modern mehandi design" class="card-image" onerror="this.src='https://images.unsplash.com/photo-1584824486509-112e4181ff6b?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80'" loading="lazy">
                         </div>
                         <div class="card-content">
                             <span class="card-category mehandi-text">Arabic Style</span>
@@ -876,10 +846,10 @@
                     </article>
 
                     <!-- Card 3 -->
-                    <article class="card">
+                    <article class="card" role="listitem">
                         <div class="card-image-container">
                             <div class="card-overlay"></div>
-                            <img src="landingPage/images/mehandi003.jpg" alt="Festival Magic" class="card-image" onerror="this.src='https://images.unsplash.com/photo-1584820927498-cfe5211fd8bf?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80'">
+                            <img src="landingPage/images/mehandi003.jpg" alt="Party Magic festival mehandi template" class="card-image" onerror="this.src='https://images.unsplash.com/photo-1584820927498-cfe5211fd8bf?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80'" loading="lazy">
                         </div>
                         <div class="card-content">
                             <span class="card-category mehandi-text">Express/Party</span>
@@ -898,10 +868,10 @@
                     </article>
 
                     <!-- Card 4 -->
-                    <article class="card">
+                    <article class="card" role="listitem">
                         <div class="card-image-container">
                             <div class="card-overlay"></div>
-                            <img src="landingPage/images/mehandi002.jpg" alt="Traditional Art" class="card-image" onerror="this.src='https://images.unsplash.com/photo-1584824486509-112e4181ff6b?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80'">
+                            <img src="landingPage/images/mehandi002.jpg" alt="Heritage Patterns traditional indian art" class="card-image" onerror="this.src='https://images.unsplash.com/photo-1584824486509-112e4181ff6b?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80'" loading="lazy">
                         </div>
                         <div class="card-content">
                             <span class="card-category mehandi-text">Traditional</span>
@@ -921,10 +891,10 @@
                 </div>
 
                 <div class="nav-buttons">
-                    <button class="nav-btn prev-btn" onclick="navigateCategory('mehandi', -1)">
+                    <button class="nav-btn prev-btn" onclick="navigateCategory('mehandi', -1)" aria-label="Previous Mehandi Templates">
                         <i class="fas fa-chevron-left"></i>
                     </button>
-                    <button class="nav-btn next-btn" onclick="navigateCategory('mehandi', 1)">
+                    <button class="nav-btn next-btn" onclick="navigateCategory('mehandi', 1)" aria-label="Next Mehandi Templates">
                         <i class="fas fa-chevron-right"></i>
                     </button>
                 </div>
@@ -938,11 +908,11 @@
         </div>
 
         <!-- Details Modal -->
-        <div class="modal" id="detailsModal">
+        <div class="modal" id="detailsModal" aria-modal="true" role="dialog">
             <div class="modal-box">
                 <div class="modal-head">
                     <h4 id="detailsTitle">Template Details</h4>
-                    <button onclick="closeDetails()">&times;</button>
+                    <button onclick="closeDetails()" aria-label="Close Details Modal">&times;</button>
                 </div>
                 <div class="modal-body" id="detailsContent" style="padding: 20px; overflow-y: auto;">
                     <!-- Details will be inserted here -->
@@ -955,14 +925,14 @@
         </div>
 
         <!-- Live Demo Modal -->
-        <div class="modal" id="demoModal">
+        <div class="modal" id="demoModal" aria-modal="true" role="dialog">
             <div class="modal-box">
                 <div class="modal-head">
                     <h4 id="demoTitle">Live Demo</h4>
-                    <button onclick="closeDemo()">&times;</button>
+                    <button onclick="closeDemo()" aria-label="Close Demo Modal">&times;</button>
                 </div>
                 <div class="modal-body">
-                    <iframe id="demoFrame"></iframe>
+                    <iframe id="demoFrame" title="Template Live Preview"></iframe>
                 </div>
                 <div class="modal-foot">
                     <button class="btn btn-glass" onclick="closeDemo()">Close</button>
@@ -1144,14 +1114,15 @@
                     externalBtn.style.display = 'block';
                     externalBtn.onclick = () => window.open(url, '_blank');
                 } else {
-                    frame.innerHTML = `
-                        <div style="display: flex; align-items: center; justify-content: center; height: 100%; background: #1e293b;">
-                            <div style="text-align: center; padding: 40px; max-width: 400px;">
-                                <i class="fas fa-cogs" style="font-size: 48px; color: #64748b; margin-bottom: 20px;"></i>
-                                <h3 style="color: white; margin-bottom: 10px;">Demo Coming Soon</h3>
-                                <p style="color: #94a3b8;">This template is currently in development. The live demo will be available soon.</p>
+                    // Fallback content if no URL is provided
+                    frame.srcdoc = `
+                        <body style="margin:0;display:flex;align-items:center;justify-content:center;height:100vh;background:#1e293b;font-family:sans-serif;color:white;text-align:center;">
+                            <div>
+                                <i class="fas fa-cogs" style="font-size:48px;color:#64748b;margin-bottom:20px;"></i>
+                                <h3 style="margin:0 0 10px;">Demo Coming Soon</h3>
+                                <p style="color:#94a3b8;">This template is currently in development.</p>
                             </div>
-                        </div>
+                        </body>
                     `;
                     externalBtn.style.display = 'none';
                 }
@@ -1165,7 +1136,8 @@
                 const frame = document.getElementById('demoFrame');
                 
                 modal.classList.remove('active');
-                frame.src = '';
+                frame.src = 'about:blank'; // Clear src to stop video/audio
+                frame.srcdoc = ''; // Clear srcdoc fallback
                 document.body.style.overflow = 'auto';
             }
 
