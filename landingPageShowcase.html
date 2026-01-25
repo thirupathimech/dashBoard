@@ -1,0 +1,857 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Premium Landing Page Showcase</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #0f172a;
+            --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            --glass-bg: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.36);
+            
+            /* Category Colors */
+            --color-photo: #38bdf8; /* Sky Blue */
+            --color-saree: #f472b6; /* Pink/Rose */
+            --color-mehandi: #4ade80; /* Fresh Green */
+            
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: var(--bg-gradient);
+            color: var(--text-main);
+            min-height: 100vh;
+            padding-bottom: 80px;
+            overflow-x: hidden;
+        }
+
+        /* --- Animations --- */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(255, 255, 255, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0); }
+        }
+
+        /* --- UI Components --- */
+        .home-nav {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1000;
+        }
+
+        .home-button {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 30px;
+            font-weight: 500;
+            border: 1px solid var(--glass-border);
+            transition: all 0.3s ease;
+        }
+
+        .home-button:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+            position: relative;
+        }
+
+        header {
+            text-align: center;
+            padding: 100px 20px 60px;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5rem;
+            background: linear-gradient(to right, #fff, #94a3b8);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 15px;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        /* --- Section Styling --- */
+        .category-section {
+            margin-bottom: 80px;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        .category-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .category-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: #0f172a;
+        }
+
+        .photo-icon { background: var(--color-photo); }
+        .saree-icon { background: var(--color-saree); }
+        .mehandi-icon { background: var(--color-mehandi); }
+
+        .category-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+        }
+
+        /* --- Carousel & Cards --- */
+        .carousel-wrapper {
+            position: relative;
+            padding: 10px 0;
+        }
+
+        .carousel-track {
+            display: flex;
+            gap: 30px;
+            transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+            padding: 10px 5px; /* Space for hover shadow */
+        }
+
+        .card {
+            flex: 0 0 380px;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            overflow: hidden;
+            backdrop-filter: blur(12px);
+            transition: all 0.4s ease;
+            position: relative;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+            border-color: rgba(255,255,255,0.2);
+        }
+
+        .card-image-container {
+            position: relative;
+            height: 240px;
+            overflow: hidden;
+        }
+
+        .card-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+
+        .card:hover .card-image {
+            transform: scale(1.08);
+        }
+
+        .card-overlay {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(to top, rgba(15,23,42,0.9), transparent);
+            opacity: 0.6;
+        }
+
+        .badge {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            z-index: 2;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        }
+
+        .badge-hot { background: #ef4444; color: white; }
+        .badge-new { background: #3b82f6; color: white; }
+        .badge-sale { background: #eab308; color: #0f172a; }
+
+        .card-content {
+            padding: 25px;
+        }
+
+        .card-category {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .photo-text { color: var(--color-photo); }
+        .saree-text { color: var(--color-saree); }
+        .mehandi-text { color: var(--color-mehandi); }
+
+        .card-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.6rem;
+            margin-bottom: 10px;
+            color: white;
+        }
+
+        .card-desc {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            line-height: 1.5;
+            margin-bottom: 20px;
+            min-height: 45px;
+        }
+
+        .features {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+
+        .feature-tag {
+            font-size: 0.75rem;
+            padding: 4px 10px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 6px;
+            border: 1px solid rgba(255,255,255,0.1);
+            color: var(--text-muted);
+        }
+
+        .card-actions {
+            display: flex;
+            gap: 15px;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 12px;
+            border-radius: 8px;
+            text-align: center;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-primary {
+            background: white;
+            color: #0f172a;
+        }
+        
+        .btn-primary:hover {
+            background: #e2e8f0;
+            transform: translateY(-2px);
+        }
+
+        .btn-glass {
+            background: rgba(255,255,255,0.1);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .btn-glass:hover {
+            background: rgba(255,255,255,0.2);
+        }
+
+        /* --- Carousel Controls --- */
+        .nav-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: white;
+            cursor: pointer;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+
+        .nav-btn:hover {
+            background: white;
+            color: #0f172a;
+        }
+
+        .prev-btn { left: -25px; }
+        .next-btn { right: -25px; }
+
+        /* --- Modal --- */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(5px);
+            z-index: 2000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            background: #1e293b;
+            width: 90%;
+            max-width: 900px;
+            border-radius: 20px;
+            border: 1px solid rgba(255,255,255,0.1);
+            position: relative;
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .modal-overlay.active .modal-content {
+            transform: scale(1);
+        }
+
+        .modal-header {
+            padding: 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .modal-body {
+            height: 500px;
+            background: #0f172a;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            text-align: center;
+            padding: 40px;
+        }
+
+        .loader {
+            width: 60px;
+            height: 60px;
+            border: 4px solid rgba(255,255,255,0.1);
+            border-left-color: var(--color-photo);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+        }
+
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+
+        .modal-footer {
+            padding: 20px;
+            display: flex;
+            justify-content: flex-end;
+            gap: 15px;
+            background: rgba(0,0,0,0.2);
+        }
+
+        /* --- Footer --- */
+        footer {
+            text-align: center;
+            padding: 40px;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            border-top: 1px solid var(--glass-border);
+            margin-top: 50px;
+        }
+
+        /* --- Responsive --- */
+        @media (max-width: 1200px) {
+            .card { flex: 0 0 340px; }
+            .prev-btn { left: 0; }
+            .next-btn { right: 0; }
+        }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 2.5rem; }
+            .card { flex: 0 0 300px; }
+            .carousel-wrapper { padding: 20px 0; }
+            .card-actions { flex-direction: column; }
+            .nav-btn { display: none; } /* Hide arrows on mobile, use swipe */
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Home Navigation -->
+    <div class="home-nav">
+        <a href="index.html" class="home-button">
+            <i class="fas fa-arrow-left"></i>
+            <span>Back Home</span>
+        </a>
+    </div>
+
+    <div class="container">
+        <header>
+            <h1>Curated Landing Pages</h1>
+            <p class="subtitle">Choose the perfect digital identity for your profession. Explore high-converting designs specifically crafted for Photographers, Boutiques, and Artists.</p>
+        </header>
+
+        <!-- 1. PHOTOGRAPHER STUDIO SECTION -->
+        <section class="category-section">
+            <div class="category-header">
+                <div class="category-icon photo-icon">
+                    <i class="fas fa-camera-retro"></i>
+                </div>
+                <h2 class="category-title">Photographer Studios</h2>
+            </div>
+
+            <div class="carousel-wrapper">
+                <button class="nav-btn prev-btn" data-target="photo"><i class="fas fa-chevron-left"></i></button>
+                <button class="nav-btn next-btn" data-target="photo"><i class="fas fa-chevron-right"></i></button>
+
+                <div class="carousel-track" id="track-photo">
+                    <!-- Card 1 -->
+                    <article class="card">
+                        <div class="card-image-container">
+                            <span class="badge badge-hot">Best Seller</span>
+                            <div class="card-overlay"></div>
+                            <img src="https://picsum.photos/seed/wedding/600/400" alt="Lumina Lens" class="card-image">
+                        </div>
+                        <div class="card-content">
+                            <span class="card-category photo-text">Wedding Specialist</span>
+                            <h3 class="card-title">Lumina Lens</h3>
+                            <p class="card-desc">A dark, cinematic theme perfect for wedding and event photographers featuring fullscreen galleries.</p>
+                            <div class="features">
+                                <span class="feature-tag">Gallery Grid</span>
+                                <span class="feature-tag">Booking Form</span>
+                                <span class="feature-tag">Password Protected</span>
+                            </div>
+                            <div class="card-actions">
+                                <button class="btn btn-glass" onclick="openModal('Lumina Lens')">Details</button>
+                                <button class="btn btn-primary" onclick="openModal('Lumina Lens')">Live Demo</button>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Card 2 -->
+                    <article class="card">
+                        <div class="card-image-container">
+                            <span class="badge badge-new">New</span>
+                            <div class="card-overlay"></div>
+                            <img src="https://picsum.photos/seed/fashion/600/400" alt="Shutter Pro" class="card-image">
+                        </div>
+                        <div class="card-content">
+                            <span class="card-category photo-text">Portfolio</span>
+                            <h3 class="card-title">Shutter Pro</h3>
+                            <p class="card-desc">Minimalist masonry layout designed for fashion and portrait photographers to showcase high-res shots.</p>
+                            <div class="features">
+                                <span class="feature-tag">Masonry Layout</span>
+                                <span class="feature-tag">Minimalist</span>
+                                <span class="feature-tag">Fast Loading</span>
+                            </div>
+                            <div class="card-actions">
+                                <button class="btn btn-glass" onclick="openModal('Shutter Pro')">Details</button>
+                                <button class="btn btn-primary" onclick="openModal('Shutter Pro')">Live Demo</button>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Card 3 -->
+                    <article class="card">
+                        <div class="card-image-container">
+                            <div class="card-overlay"></div>
+                            <img src="https://picsum.photos/seed/nature/600/400" alt="ViewPoint" class="card-image">
+                        </div>
+                        <div class="card-content">
+                            <span class="card-category photo-text">Travel/Outdoor</span>
+                            <h3 class="card-title">ViewPoint</h3>
+                            <p class="card-desc">Vibrant and adventurous layout tailored for travel bloggers and wildlife photographers.</p>
+                            <div class="features">
+                                <span class="feature-tag">Map Integration</span>
+                                <span class="feature-tag">Blog Section</span>
+                                <span class="feature-tag">Print Shop</span>
+                            </div>
+                            <div class="card-actions">
+                                <button class="btn btn-glass" onclick="openModal('ViewPoint')">Details</button>
+                                <button class="btn btn-primary" onclick="openModal('ViewPoint')">Live Demo</button>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Card 4 -->
+                    <article class="card">
+                        <div class="card-image-container">
+                            <div class="card-overlay"></div>
+                            <img src="https://picsum.photos/seed/studio/600/400" alt="Studio Frame" class="card-image">
+                        </div>
+                        <div class="card-content">
+                            <span class="card-category photo-text">Commercial</span>
+                            <h3 class="card-title">Studio Frame</h3>
+                            <p class="card-desc">Corporate and professional look for product photography and commercial studios.</p>
+                            <div class="features">
+                                <span class="feature-tag">Client Login</span>
+                                <span class="feature-tag">Pricing Tables</span>
+                                <span class="feature-tag">Service List</span>
+                            </div>
+                            <div class="card-actions">
+                                <button class="btn btn-glass" onclick="openModal('Studio Frame')">Details</button>
+                                <button class="btn btn-primary" onclick="openModal('Studio Frame')">Live Demo</button>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. SAREE SELLERS SECTION -->
+        <section class="category-section">
+            <div class="category-header">
+                <div class="category-icon saree-icon">
+                    <i class="fas fa-fabric"></i>
+                </div>
+                <h2 class="category-title">Saree & Boutiques</h2>
+            </div>
+
+            <div class="carousel-wrapper">
+                <button class="nav-btn prev-btn" data-target="saree"><i class="fas fa-chevron-left"></i></button>
+                <button class="nav-btn next-btn" data-target="saree"><i class="fas fa-chevron-right"></i></button>
+
+                <div class="carousel-track" id="track-saree">
+                    <!-- Card 1 -->
+                    <article class="card">
+                        <div class="card-image-container">
+                            <span class="badge badge-hot">Premium</span>
+                            <div class="card-overlay"></div>
+                            <img src="https://picsum.photos/seed/silk/600/400" alt="Royal Silk" class="card-image">
+                        </div>
+                        <div class="card-content">
+                            <span class="card-category saree-text">Luxury Silk</span>
+                            <h3 class="card-title">Royal Drapes</h3>
+                            <p class="card-desc">Exquisite design with gold accents, highlighting Banarasi and Kanchipuram collections.</p>
+                            <div class="features">
+                                <span class="feature-tag">WooCommerce</span>
+                                <span class="feature-tag">Zoom Feature</span>
+                                <span class="feature-tag">Gold Esthetic</span>
+                            </div>
+                            <div class="card-actions">
+                                <button class="btn btn-glass" onclick="openModal('Royal Drapes')">Details</button>
+                                <button class="btn btn-primary" onclick="openModal('Royal Drapes')">Live Demo</button>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Card 2 -->
+                    <article class="card">
+                        <div class="card-image-container">
+                            <div class="card-overlay"></div>
+                            <img src="https://picsum.photos/seed/cotton/600/400" alt="Handloom Hub" class="card-image">
+                        </div>
+                        <div class="card-content">
+                            <span class="card-category saree-text">Handloom/Cotton</span>
+                            <h3 class="card-title">Handloom Heritage</h3>
+                            <p class="card-desc">Earthy tones and organic textures. Perfect for artisans selling authentic handwoven sarees.</p>
+                            <div class="features">
+                                <span class="feature-tag">Story Telling</span>
+                                <span class="feature-tag">Weaver Profiles</span>
+                                <span class="feature-tag">Clean UI</span>
+                            </div>
+                            <div class="card-actions">
+                                <button class="btn btn-glass" onclick="openModal('Handloom Heritage')">Details</button>
+                                <button class="btn btn-primary" onclick="openModal('Handloom Heritage')">Live Demo</button>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Card 3 -->
+                    <article class="card">
+                        <div class="card-image-container">
+                            <span class="badge badge-sale">Sale</span>
+                            <div class="card-overlay"></div>
+                            <img src="https://picsum.photos/seed/party/600/400" alt="Festive Glam" class="card-image">
+                        </div>
+                        <div class="card-content">
+                            <span class="card-category saree-text">Designer Party Wear</span>
+                            <h3 class="card-title">Festive Glam</h3>
+                            <p class="card-desc">Vibrant, colorful layout for party wear and designer georgette/chiffon sarees.</p>
+                            <div class="features">
+                                <span class="feature-tag">Color Filters</span>
+                                <span class="feature-tag">Instagram Feed</span>
+                                <span class="feature-tag">WhatsApp Order</span>
+                            </div>
+                            <div class="card-actions">
+                                <button class="btn btn-glass" onclick="openModal('Festive Glam')">Details</button>
+                                <button class="btn btn-primary" onclick="openModal('Festive Glam')">Live Demo</button>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. MEHANDI ARTISTS SECTION -->
+        <section class="category-section">
+            <div class="category-header">
+                <div class="category-icon mehandi-icon">
+                    <i class="fas fa-paint-brush"></i>
+                </div>
+                <h2 class="category-title">Mehandi Artists</h2>
+            </div>
+
+            <div class="carousel-wrapper">
+                <button class="nav-btn prev-btn" data-target="mehandi"><i class="fas fa-chevron-left"></i></button>
+                <button class="nav-btn next-btn" data-target="mehandi"><i class="fas fa-chevron-right"></i></button>
+
+                <div class="carousel-track" id="track-mehandi">
+                    <!-- Card 1 -->
+                    <article class="card">
+                        <div class="card-image-container">
+                            <div class="card-overlay"></div>
+                            <img src="https://picsum.photos/seed/henna1/600/400" alt="Bridal Glow" class="card-image">
+                        </div>
+                        <div class="card-content">
+                            <span class="card-category mehandi-text">Bridal Specialist</span>
+                            <h3 class="card-title">Bridal Bliss</h3>
+                            <p class="card-desc">Intricate, elegant design focused on bridal packages. Includes consultation booking forms.</p>
+                            <div class="features">
+                                <span class="feature-tag">Gallery Pro</span>
+                                <span class="feature-tag">Pricing Plans</span>
+                                <span class="feature-tag">Testimonials</span>
+                            </div>
+                            <div class="card-actions">
+                                <button class="btn btn-glass" onclick="openModal('Bridal Bliss')">Details</button>
+                                <button class="btn btn-primary" onclick="openModal('Bridal Bliss')">Live Demo</button>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Card 2 -->
+                    <article class="card">
+                        <div class="card-image-container">
+                            <span class="badge badge-new">Trending</span>
+                            <div class="card-overlay"></div>
+                            <img src="https://picsum.photos/seed/henna2/600/400" alt="Arabic Flair" class="card-image">
+                        </div>
+                        <div class="card-content">
+                            <span class="card-category mehandi-text">Arabic Style</span>
+                            <h3 class="card-title">Arabic Flair</h3>
+                            <p class="card-desc">Modern and flowy layout highlighting bold, artistic Arabic patterns and mandala art.</p>
+                            <div class="features">
+                                <span class="feature-tag">Video Background</span>
+                                <span class="feature-tag">Social Links</span>
+                                <span class="feature-tag">TikTok Integration</span>
+                            </div>
+                            <div class="card-actions">
+                                <button class="btn btn-glass" onclick="openModal('Arabic Flair')">Details</button>
+                                <button class="btn btn-primary" onclick="openModal('Arabic Flair')">Live Demo</button>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Card 3 -->
+                    <article class="card">
+                        <div class="card-image-container">
+                            <div class="card-overlay"></div>
+                            <img src="https://picsum.photos/seed/henna3/600/400" alt="Festival Magic" class="card-image">
+                        </div>
+                        <div class="card-content">
+                            <span class="card-category mehandi-text">Express/Party</span>
+                            <h3 class="card-title">Party Magic</h3>
+                            <p class="card-desc">Fun, colorful design for karwa chauth, teej, and small party gigs. Quick to navigate.</p>
+                            <div class="features">
+                                <span class="feature-tag">One Page</span>
+                                <span class="feature-tag">Contact Widget</span>
+                                <span class="feature-tag">Map</span>
+                            </div>
+                            <div class="card-actions">
+                                <button class="btn btn-glass" onclick="openModal('Party Magic')">Details</button>
+                                <button class="btn btn-primary" onclick="openModal('Party Magic')">Live Demo</button>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+       <footer>
+        <p>&copy; <span id="year"></span> DesignShowcase. Crafted for Creative Professionals.</p>
+      </footer>
+
+    </div>
+
+    <!-- Simulation Modal -->
+    <div class="modal-overlay" id="demoModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle">Template Preview</h3>
+                <button class="modal-close" onclick="closeModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="loader"></div>
+                <h3>Loading Demo Environment...</h3>
+                <p id="modalSub">You are viewing a live preview of <span id="templateName" style="color:white; font-weight:bold;"></span></p>
+                <p style="font-size: 0.9rem; margin-top: 10px; opacity: 0.7;">(This is a simulation. In a real deployment, this would load the live URL in an iframe or new tab).</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-glass" onclick="closeModal()">Close</button>
+                <button class="btn btn-primary" onclick="closeModal()">Visit Full Site <i class="fas fa-external-link-alt"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Carousel Logic
+            const categories = ['photo', 'saree', 'mehandi'];
+            
+            categories.forEach(cat => {
+                const track = document.getElementById(`track-${cat}`);
+                const prevBtn = document.querySelector(`.prev-btn[data-target="${cat}"]`);
+                const nextBtn = document.querySelector(`.next-btn[data-target="${cat}"]`);
+                
+                if(!track) return;
+
+                let scrollAmount = 0;
+                const cardWidth = 380 + 30; // Card width + gap
+                const maxScroll = track.scrollWidth - track.clientWidth;
+
+                // Determine scroll distance based on viewport
+                const getScrollDistance = () => window.innerWidth < 768 ? 320 : cardWidth * 1.5;
+
+                nextBtn.addEventListener('click', () => {
+                    scrollAmount += getScrollDistance();
+                    if (scrollAmount > track.scrollWidth - track.clientWidth) {
+                        scrollAmount = track.scrollWidth - track.clientWidth;
+                    }
+                    updateTrack();
+                });
+
+                prevBtn.addEventListener('click', () => {
+                    scrollAmount -= getScrollDistance();
+                    if (scrollAmount < 0) scrollAmount = 0;
+                    updateTrack();
+                });
+
+                function updateTrack() {
+                    track.style.transform = `translateX(-${scrollAmount}px)`;
+                }
+
+                // Auto-play with Pause on Hover
+                let autoPlay = setInterval(() => {
+                    if (scrollAmount < track.scrollWidth - track.clientWidth) {
+                        scrollAmount += getScrollDistance();
+                    } else {
+                        scrollAmount = 0; // Loop back
+                    }
+                    updateTrack();
+                }, 4000);
+
+                track.parentElement.addEventListener('mouseenter', () => clearInterval(autoPlay));
+                track.parentElement.addEventListener('mouseleave', () => {
+                    autoPlay = setInterval(() => {
+                        if (scrollAmount < track.scrollWidth - track.clientWidth) {
+                            scrollAmount += getScrollDistance();
+                        } else {
+                            scrollAmount = 0;
+                        }
+                        updateTrack();
+                    }, 4000);
+                });
+            });
+
+            // Keyboard Nav
+            document.addEventListener('keydown', (e) => {
+                if(e.key === 'Escape') closeModal();
+            });
+        });
+
+        // Modal Functions
+        const modal = document.getElementById('demoModal');
+        const templateNameSpan = document.getElementById('templateName');
+
+        function openModal(name) {
+            templateNameSpan.textContent = name;
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden'; // Prevent background scrolling
+        }
+
+        function closeModal() {
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        // Close modal if clicking outside content
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                closeModal();
+            }
+        });
+
+        // year update
+        document.getElementById("year").textContent = new Date().getFullYear();
+    </script>
+</body>
+</html>
