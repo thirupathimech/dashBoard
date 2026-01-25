@@ -18,11 +18,8 @@
 
             /* Category Colors */
             --color-photo: #38bdf8;
-            /* Sky Blue */
             --color-saree: #f472b6;
-            /* Pink/Rose */
             --color-mehandi: #4ade80;
-            /* Fresh Green */
 
             --text-main: #f8fafc;
             --text-muted: #94a3b8;
@@ -56,29 +53,14 @@
             }
         }
 
-        @keyframes pulse {
-            0% {
-                box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.4);
-            }
-
-            70% {
-                box-shadow: 0 0 0 10px rgba(255, 255, 255, 0);
-            }
-
-            100% {
-                box-shadow: 0 0 0 0 rgba(255, 255, 255, 0);
-            }
-        }
-
-        /* --- Mobile First Responsive Design --- */
+        /* --- Mobile First Styles --- */
         .container {
             max-width: 1400px;
             margin: 0 auto;
             padding: 0 15px;
-            position: relative;
         }
 
-        /* Home Navigation for Mobile */
+        /* Home Navigation */
         .home-nav {
             position: fixed;
             top: 15px;
@@ -102,7 +84,12 @@
             font-size: 0.95rem;
         }
 
-        /* Mobile Header */
+        .home-button:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        /* Header */
         header {
             text-align: center;
             padding: 90px 15px 40px;
@@ -127,15 +114,36 @@
             padding: 0 10px;
         }
 
-        /* Category Header Mobile */
+        /* Category Section */
         .category-section {
             margin-bottom: 60px;
             animation: fadeIn 0.8s ease-out;
         }
 
+        .section-header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 0 15px;
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            color: white;
+            margin-bottom: 10px;
+        }
+
+        .section-description {
+            color: var(--text-muted);
+            font-size: 1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
         .category-header {
             display: flex;
             align-items: center;
+            justify-content: center;
             gap: 12px;
             margin-bottom: 25px;
             padding-bottom: 15px;
@@ -151,34 +159,36 @@
             justify-content: center;
             font-size: 1.3rem;
             color: #0f172a;
-            flex-shrink: 0;
+        }
+
+        .photo-icon {
+            background: var(--color-photo);
+        }
+
+        .saree-icon {
+            background: var(--color-saree);
+        }
+
+        .mehandi-icon {
+            background: var(--color-mehandi);
         }
 
         .category-title {
             font-family: 'Playfair Display', serif;
             font-size: 1.8rem;
             font-weight: 700;
+            text-align: center;
         }
 
-        /* Carousel for Mobile */
-        .carousel-wrapper {
-            position: relative;
-            padding: 5px 0;
-            overflow: hidden;
+        /* Cards Grid Layout */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 25px;
+            padding: 0 10px;
         }
 
-        .carousel-track {
-            display: flex;
-            gap: 20px;
-            transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
-            padding: 5px;
-            touch-action: pan-y;
-        }
-
-        /* Mobile Cards */
         .card {
-            flex: 0 0 calc(100vw - 60px);
-            max-width: 380px;
             background: var(--glass-bg);
             border: 1px solid var(--glass-border);
             border-radius: 18px;
@@ -187,226 +197,18 @@
             transition: all 0.4s ease;
             position: relative;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            margin: 0 auto;
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+            border-color: rgba(255, 255, 255, 0.2);
         }
 
         .card-image-container {
             position: relative;
             height: 200px;
             overflow: hidden;
-        }
-
-        .card-content {
-            padding: 20px;
-        }
-
-        .card-title {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.4rem;
-            margin-bottom: 10px;
-            color: white;
-        }
-
-        .card-desc {
-            font-size: 0.9rem;
-            color: var(--text-muted);
-            line-height: 1.5;
-            margin-bottom: 15px;
-        }
-
-        .features {
-            display: flex;
-            gap: 6px;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-        }
-
-        .feature-tag {
-            font-size: 0.7rem;
-            padding: 4px 8px;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 5px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            color: var(--text-muted);
-        }
-
-        .card-actions {
-            display: flex;
-            gap: 12px;
-        }
-
-        .btn {
-            flex: 1;
-            padding: 10px;
-            border-radius: 8px;
-            text-align: center;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 0.85rem;
-            transition: all 0.3s ease;
-            cursor: pointer;
-            border: none;
-        }
-
-        /* Mobile Carousel Controls */
-        .nav-btn {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(5px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            color: white;
-            cursor: pointer;
-            z-index: 10;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s;
-            display: none; /* Hidden on mobile by default */
-        }
-
-        .nav-btn:hover {
-            background: white;
-            color: #0f172a;
-        }
-
-        .prev-btn {
-            left: 10px;
-        }
-
-        .next-btn {
-            right: 10px;
-        }
-
-        /* Mobile Modal */
-        .modal-box {
-            width: 95%;
-            height: 85vh;
-            border-radius: 12px;
-        }
-
-        .modal-head {
-            padding: 12px 15px;
-        }
-
-        /* Footer */
-        footer {
-            text-align: center;
-            padding: 30px 15px;
-            color: var(--text-muted);
-            font-size: 0.9rem;
-        }
-
-        /* --- Tablet Styles (768px and up) --- */
-        @media (min-width: 768px) {
-            header {
-                padding: 120px 20px 60px;
-            }
-
-            h1 {
-                font-size: 3rem;
-            }
-
-            .subtitle {
-                font-size: 1.1rem;
-                max-width: 700px;
-                margin: 0 auto;
-            }
-
-            .category-title {
-                font-size: 2.2rem;
-            }
-
-            .category-icon {
-                width: 50px;
-                height: 50px;
-                font-size: 1.5rem;
-            }
-
-            .card {
-                flex: 0 0 calc(50vw - 45px);
-            }
-
-            .nav-btn {
-                display: flex;
-            }
-
-            .prev-btn {
-                left: -20px;
-            }
-
-            .next-btn {
-                right: -20px;
-            }
-        }
-
-        /* --- Desktop Styles (1024px and up) --- */
-        @media (min-width: 1024px) {
-            .container {
-                padding: 0 20px;
-            }
-
-            h1 {
-                font-size: 3.5rem;
-            }
-
-            .card {
-                flex: 0 0 380px;
-            }
-
-            .carousel-track {
-                gap: 30px;
-            }
-
-            .modal-box {
-                width: 90%;
-                max-width: 1000px;
-                height: 80vh;
-            }
-        }
-
-        /* --- Large Desktop (1400px and up) --- */
-        @media (min-width: 1400px) {
-            .nav-btn {
-                width: 50px;
-                height: 50px;
-            }
-
-            .prev-btn {
-                left: -25px;
-            }
-
-            .next-btn {
-                right: -25px;
-            }
-        }
-
-        /* --- Touch Device Optimizations --- */
-        @media (hover: none) {
-            .card:hover {
-                transform: none;
-            }
-
-            .nav-btn:hover {
-                background: rgba(255, 255, 255, 0.1);
-                color: white;
-            }
-        }
-
-        /* --- Common Styles (Keep from original) --- */
-        .home-button:hover {
-            background: rgba(255, 255, 255, 0.2);
-            transform: translateY(-2px);
-        }
-
-        .card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
-            border-color: rgba(255, 255, 255, 0.2);
         }
 
         .card-image {
@@ -459,6 +261,10 @@
             color: #0f172a;
         }
 
+        .card-content {
+            padding: 20px;
+        }
+
         .card-category {
             font-size: 0.8rem;
             text-transform: uppercase;
@@ -478,6 +284,54 @@
 
         .mehandi-text {
             color: var(--color-mehandi);
+        }
+
+        .card-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.4rem;
+            margin-bottom: 10px;
+            color: white;
+        }
+
+        .card-desc {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            line-height: 1.5;
+            margin-bottom: 15px;
+        }
+
+        .features {
+            display: flex;
+            gap: 6px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .feature-tag {
+            font-size: 0.7rem;
+            padding: 4px 8px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 5px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-muted);
+        }
+
+        .card-actions {
+            display: flex;
+            gap: 12px;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 10px;
+            border-radius: 8px;
+            text-align: center;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.85rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: none;
         }
 
         .btn-primary {
@@ -500,35 +354,101 @@
             background: rgba(255, 255, 255, 0.2);
         }
 
-        /* Modal */
+        /* Manual Navigation Buttons */
+        .nav-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+        .nav-btn {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+            font-size: 1.1rem;
+        }
+
+        .nav-btn:hover {
+            background: white;
+            color: #0f172a;
+        }
+
+        /* Modal Fixed */
         .modal {
             position: fixed;
             inset: 0;
-            background: rgba(0, 0, 0, .85);
+            background: rgba(0, 0, 0, .95);
             display: none;
             align-items: center;
             justify-content: center;
             z-index: 9999;
+            padding: 20px;
         }
 
         .modal.active {
             display: flex;
         }
 
+        .modal-box {
+            width: 100%;
+            max-width: 1200px;
+            height: 85vh;
+            background: #0f172a;
+            border-radius: 16px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .modal-head {
+            padding: 20px;
+            background: #020617;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
         .modal-head h4 {
             font-weight: 600;
+            font-size: 1.2rem;
         }
 
         .modal-head button {
             background: none;
             border: none;
             color: #fff;
-            font-size: 1.4rem;
+            font-size: 1.8rem;
             cursor: pointer;
+            line-height: 1;
+            padding: 0;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: all 0.3s;
+        }
+
+        .modal-head button:hover {
+            background: rgba(255, 255, 255, 0.1);
         }
 
         .modal-body {
             flex: 1;
+            overflow: hidden;
         }
 
         .modal-body iframe {
@@ -538,11 +458,112 @@
         }
 
         .modal-foot {
-            padding: 15px;
+            padding: 15px 20px;
             background: #020617;
             display: flex;
-            justify-content: flex-end;
-            gap: 10px;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .modal-foot .btn {
+            padding: 10px 20px;
+            min-width: 120px;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 40px 15px;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-top: 40px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* --- Tablet Styles (768px and up) --- */
+        @media (min-width: 768px) {
+            .container {
+                padding: 0 30px;
+            }
+
+            header {
+                padding: 120px 20px 60px;
+            }
+
+            h1 {
+                font-size: 3rem;
+            }
+
+            .subtitle {
+                font-size: 1.1rem;
+                max-width: 700px;
+                margin: 0 auto;
+            }
+
+            .category-title {
+                font-size: 2.2rem;
+            }
+
+            .category-icon {
+                width: 50px;
+                height: 50px;
+                font-size: 1.5rem;
+            }
+
+            .cards-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 30px;
+                padding: 0;
+            }
+
+            .section-title {
+                font-size: 2.5rem;
+            }
+
+            .modal-box {
+                height: 80vh;
+            }
+
+            .nav-btn {
+                width: 50px;
+                height: 50px;
+                font-size: 1.2rem;
+            }
+        }
+
+        /* --- Desktop Styles (1024px and up) --- */
+        @media (min-width: 1024px) {
+            .cards-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            h1 {
+                font-size: 3.5rem;
+            }
+
+            .modal-box {
+                width: 95%;
+            }
+        }
+
+        /* --- Large Desktop (1400px and up) --- */
+        @media (min-width: 1400px) {
+            .cards-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
+        /* --- Touch Device Optimizations --- */
+        @media (hover: none) {
+            .card:hover {
+                transform: none;
+            }
+
+            .nav-btn:hover {
+                background: rgba(255, 255, 255, 0.1);
+                color: white;
+            }
         }
     </style>
 </head>
@@ -558,12 +579,17 @@
 
     <div class="container">
         <header>
-            <h1>Curated Landing Pages</h1>
-            <p class="subtitle">Choose the perfect digital identity for your profession. Explore high-converting designs specifically crafted for Photographers, Boutiques, and Artists.</p>
+            <h1>Premium Landing Pages</h1>
+            <p class="subtitle">Discover professionally designed templates tailored for creative businesses. Each template is built for high conversion and stunning presentation.</p>
         </header>
 
-        <!-- 1. PHOTOGRAPHER STUDIO SECTION -->
+        <!-- PHOTOGRAPHER STUDIO SECTION -->
         <section class="category-section">
+            <div class="section-header">
+                <h2 class="section-title">For Photographers</h2>
+                <p class="section-description">Showcase your portfolio with elegant designs that highlight your best work and convert visitors into clients.</p>
+            </div>
+
             <div class="category-header">
                 <div class="category-icon photo-icon">
                     <i class="fas fa-camera-retro"></i>
@@ -571,65 +597,61 @@
                 <h2 class="category-title">Photographer Studios</h2>
             </div>
 
-            <div class="carousel-wrapper">
-                <button class="nav-btn prev-btn" data-target="photo"><i class="fas fa-chevron-left"></i></button>
-                <button class="nav-btn next-btn" data-target="photo"><i class="fas fa-chevron-right"></i></button>
+            <div class="cards-grid" id="grid-photo">
+                <!-- Card 1 -->
+                <article class="card">
+                    <div class="card-image-container">
+                        <span class="badge badge-hot">Best Seller</span>
+                        <div class="card-overlay"></div>
+                        <img src="landingPage/images/wedding001.jpg" alt="Lumina Lens" class="card-image" onerror="this.src='https://images.unsplash.com/photo-1511285560929-80b456fea0bc?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80'">
+                    </div>
+                    <div class="card-content">
+                        <span class="card-category photo-text">Wedding Specialist</span>
+                        <h3 class="card-title">Lumina Lens</h3>
+                        <p class="card-desc">A dark, cinematic theme perfect for wedding and event photographers featuring fullscreen galleries.</p>
+                        <div class="features">
+                            <span class="feature-tag">Gallery Grid</span>
+                            <span class="feature-tag">Booking Form</span>
+                            <span class="feature-tag">Password Protected</span>
+                        </div>
+                        <div class="card-actions">
+                            <button class="btn btn-glass" onclick="showDetails('Lumina Lens', 'Wedding photography portfolio with dark theme', 'Photographer Studios', ['Fullscreen Gallery', 'Client Booking', 'Album Previews'], 'landingPage/lensCraft.html')">Details</button>
+                            <button class="btn btn-primary" onclick="openDemo('Lumina Lens', 'landingPage/lensCraft.html')">Live Demo</button>
+                        </div>
+                    </div>
+                </article>
 
-                <div class="carousel-track" id="track-photo">
-                    <!-- Card 1 -->
-                    <article class="card">
-                        <div class="card-image-container">
-                            <span class="badge badge-hot">Best Seller</span>
-                            <div class="card-overlay"></div>
-                            <img src="landingPage/images/wedding001.jpg" alt="Lumina Lens" class="card-image">
+                <!-- Card 2 -->
+                <article class="card">
+                    <div class="card-image-container">
+                        <span class="badge badge-new">New</span>
+                        <div class="card-overlay"></div>
+                        <img src="landingPage/images/wedding002.jpg" alt="Shutter Pro" class="card-image" onerror="this.src='https://images.unsplash.com/photo-1554048612-b6a482bc67e5?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80'">
+                    </div>
+                    <div class="card-content">
+                        <span class="card-category photo-text">Portfolio</span>
+                        <h3 class="card-title">Shutter Pro</h3>
+                        <p class="card-desc">Minimalist masonry layout designed for fashion and portrait photographers to showcase high-res shots.</p>
+                        <div class="features">
+                            <span class="feature-tag">Masonry Layout</span>
+                            <span class="feature-tag">Minimalist</span>
+                            <span class="feature-tag">Fast Loading</span>
                         </div>
-                        <div class="card-content">
-                            <span class="card-category photo-text">Wedding Specialist</span>
-                            <h3 class="card-title">Lumina Lens</h3>
-                            <p class="card-desc">A dark, cinematic theme perfect for wedding and event photographers featuring fullscreen galleries.</p>
-                            <div class="features">
-                                <span class="feature-tag">Gallery Grid</span>
-                                <span class="feature-tag">Booking Form</span>
-                                <span class="feature-tag">Password Protected</span>
-                            </div>
-                            <div class="card-actions">
-                                <button class="btn btn-glass" onclick="openDemo('Lumina Lens','landingPage/lensCraft.html')">Details</button>
-                                <button class="btn btn-primary" onclick="openDemo('Lumina Lens','landingPage/lensCraft.html')">Live Demo</button>
-                            </div>
+                        <div class="card-actions">
+                            <button class="btn btn-glass" onclick="showDetails('Shutter Pro', 'Minimalist portfolio for fashion and portrait photography', 'Photographer Studios', ['Responsive Grid', 'Image Zoom', 'Lightbox Gallery'], 'landingPage/lensCraft.html')">Details</button>
+                            <button class="btn btn-primary" onclick="openDemo('Shutter Pro', 'landingPage/lensCraft.html')">Live Demo</button>
                         </div>
-                    </article>
+                    </div>
+                </article>
 
-                    <!-- Card 2 -->
-                    <article class="card">
-                        <div class="card-image-container">
-                            <span class="badge badge-new">New</span>
-                            <div class="card-overlay"></div>
-                            <img src="landingPage/images/wedding002.jpg" alt="Shutter Pro" class="card-image">
-                        </div>
-                        <div class="card-content">
-                            <span class="card-category photo-text">Portfolio</span>
-                            <h3 class="card-title">Shutter Pro</h3>
-                            <p class="card-desc">Minimalist masonry layout designed for fashion and portrait photographers to showcase high-res shots.</p>
-                            <div class="features">
-                                <span class="feature-tag">Masonry Layout</span>
-                                <span class="feature-tag">Minimalist</span>
-                                <span class="feature-tag">Fast Loading</span>
-                            </div>
-                            <div class="card-actions">
-                                <button class="btn btn-glass" onclick="openDemo('Lumina Lens','landingPage/lensCraft.html')">Details</button>
-                                <button class="btn btn-primary" onclick="openDemo('Lumina Lens','landingPage/lensCraft.html')">Live Demo</button>
-                            </div>
-                        </div>
-                    </article>
-
-                    <!-- Card 3 -->
-                    <article class="card">
-                        <div class="card-image-container">
-                            <div class="card-overlay"></div>
-                            <img src="landingPage/images/wedding003.jpg" alt="ViewPoint" class="card-image">
-                        </div>
-                        <div class="card-content">
-                            <span class="card-category photo-text">Travel/Outdoor</span>
+                <!-- Card 3 -->
+                <article class="card">
+                    <div class="card-image-container">
+                        <div class="card-overlay"></div>
+                        <img src="landingPage/images/wedding003.jpg" alt="ViewPoint" class="card-image" onerror="this.src='https://images.unsplash.com/photo-1506744038136-46273834b3fb?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80'">
+                    </div>
+                    <div class="card-content">
+                        <span class="card-category photo-text">Travel/Outdoor</span>
                             <h3 class="card-title">ViewPoint</h3>
                             <p class="card-desc">Vibrant and adventurous layout tailored for travel bloggers and wildlife photographers.</p>
                             <div class="features">
@@ -638,8 +660,8 @@
                                 <span class="feature-tag">Print Shop</span>
                             </div>
                             <div class="card-actions">
-                                <button class="btn btn-glass" onclick="openDemo('ViewPoint','landingPage/lensCraft.html')">Details</button>
-                                <button class="btn btn-primary" onclick="openDemo('ViewPoint','landingPage/lensCraft.html')">Live Demo</button>
+                                <button class="btn btn-glass" onclick="showDetails('ViewPoint', 'Travel and wildlife photography portfolio', 'Photographer Studios', ['Location Maps', 'Blog Integration', 'Print Sales'], 'landingPage/lensCraft.html')">Details</button>
+                                <button class="btn btn-primary" onclick="openDemo('ViewPoint', 'landingPage/lensCraft.html')">Live Demo</button>
                             </div>
                         </div>
                     </article>
@@ -648,7 +670,7 @@
                     <article class="card">
                         <div class="card-image-container">
                             <div class="card-overlay"></div>
-                            <img src="landingPage/images/wedding004.jpg" alt="Studio Frame" class="card-image">
+                            <img src="landingPage/images/wedding004.jpg" alt="Studio Frame" class="card-image" onerror="this.src='https://images.unsplash.com/photo-1512790182412-b19e6d62bc39?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80'">
                         </div>
                         <div class="card-content">
                             <span class="card-category photo-text">Commercial</span>
@@ -660,35 +682,44 @@
                                 <span class="feature-tag">Service List</span>
                             </div>
                             <div class="card-actions">
-                                <button class="btn btn-glass" onclick="openDemo('Studio Frame','landingPage/lensCraft.html')">Details</button>
-                                <button class="btn btn-primary" onclick="openDemo('Studio Frame','landingPage/lensCraft.html')">Live Demo</button>
+                                <button class="btn btn-glass" onclick="showDetails('Studio Frame', 'Commercial photography studio template', 'Photographer Studios', ['Client Portal', 'Service Packages', 'Project Management'], 'landingPage/lensCraft.html')">Details</button>
+                                <button class="btn btn-primary" onclick="openDemo('Studio Frame', 'landingPage/lensCraft.html')">Live Demo</button>
                             </div>
                         </div>
                     </article>
                 </div>
-            </div>
-        </section>
 
-        <!-- 2. SAREE SELLERS SECTION -->
-        <section class="category-section">
-            <div class="category-header">
-                <div class="category-icon saree-icon">
-                    <i class="fas fa-fabric"></i>
+                <div class="nav-buttons">
+                    <button class="nav-btn prev-btn" onclick="navigateCategory('photo', -1)">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <button class="nav-btn next-btn" onclick="navigateCategory('photo', 1)">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
                 </div>
-                <h2 class="category-title">Saree & Boutiques</h2>
-            </div>
+            </section>
 
-            <div class="carousel-wrapper">
-                <button class="nav-btn prev-btn" data-target="saree"><i class="fas fa-chevron-left"></i></button>
-                <button class="nav-btn next-btn" data-target="saree"><i class="fas fa-chevron-right"></i></button>
+            <!-- SAREE SELLERS SECTION -->
+            <section class="category-section">
+                <div class="section-header">
+                    <h2 class="section-title">For Saree Boutiques</h2>
+                    <p class="section-description">Elegant e-commerce designs to showcase your saree collections with style and functionality.</p>
+                </div>
 
-                <div class="carousel-track" id="track-saree">
+                <div class="category-header">
+                    <div class="category-icon saree-icon">
+                        <i class="fas fa-fabric"></i>
+                    </div>
+                    <h2 class="category-title">Saree & Boutiques</h2>
+                </div>
+
+                <div class="cards-grid" id="grid-saree">
                     <!-- Card 1 -->
                     <article class="card">
                         <div class="card-image-container">
                             <span class="badge badge-hot">Premium</span>
                             <div class="card-overlay"></div>
-                            <img src="landingPage/images/saree001.jpg" alt="Royal Silk" class="card-image">
+                            <img src="landingPage/images/saree001.jpg" alt="Royal Silk" class="card-image" onerror="this.src='https://images.unsplash.com/photo-1585487000160-6eb9ce6b5a74?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80'">
                         </div>
                         <div class="card-content">
                             <span class="card-category saree-text">Luxury Silk</span>
@@ -700,8 +731,8 @@
                                 <span class="feature-tag">Gold Esthetic</span>
                             </div>
                             <div class="card-actions">
-                                <button class="btn btn-glass" onclick="openModal('Royal Drapes')">Details</button>
-                                <button class="btn btn-primary" onclick="openModal('Royal Drapes')">Live Demo</button>
+                                <button class="btn btn-glass" onclick="showDetails('Royal Drapes', 'Premium silk saree boutique template', 'Saree Boutiques', ['E-commerce Ready', 'Product Zoom', 'Color Swatches'], '#')">Details</button>
+                                <button class="btn btn-primary" onclick="openDemo('Royal Drapes', '#')">Live Demo</button>
                             </div>
                         </div>
                     </article>
@@ -710,7 +741,7 @@
                     <article class="card">
                         <div class="card-image-container">
                             <div class="card-overlay"></div>
-                            <img src="landingPage/images/saree002.jpg" alt="Handloom Hub" class="card-image">
+                            <img src="landingPage/images/saree002.jpg" alt="Handloom Hub" class="card-image" onerror="this.src='https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80'">
                         </div>
                         <div class="card-content">
                             <span class="card-category saree-text">Handloom/Cotton</span>
@@ -722,8 +753,8 @@
                                 <span class="feature-tag">Clean UI</span>
                             </div>
                             <div class="card-actions">
-                                <button class="btn btn-glass" onclick="openModal('Handloom Heritage')">Details</button>
-                                <button class="btn btn-primary" onclick="openModal('Handloom Heritage')">Live Demo</button>
+                                <button class="btn btn-glass" onclick="showDetails('Handloom Heritage', 'Handloom saree showcase template', 'Saree Boutiques', ['Artisan Stories', 'Product Stories', 'Eco-friendly Focus'], '#')">Details</button>
+                                <button class="btn btn-primary" onclick="openDemo('Handloom Heritage', '#')">Live Demo</button>
                             </div>
                         </div>
                     </article>
@@ -733,7 +764,7 @@
                         <div class="card-image-container">
                             <span class="badge badge-sale">Sale</span>
                             <div class="card-overlay"></div>
-                            <img src="landingPage/images/saree003.jpg" alt="Festive Glam" class="card-image">
+                            <img src="landingPage/images/saree003.jpg" alt="Festive Glam" class="card-image" onerror="this.src='https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80'">
                         </div>
                         <div class="card-content">
                             <span class="card-category saree-text">Designer Party Wear</span>
@@ -745,34 +776,65 @@
                                 <span class="feature-tag">WhatsApp Order</span>
                             </div>
                             <div class="card-actions">
-                                <button class="btn btn-glass" onclick="openModal('Festive Glam')">Details</button>
-                                <button class="btn btn-primary" onclick="openModal('Festive Glam')">Live Demo</button>
+                                <button class="btn btn-glass" onclick="showDetails('Festive Glam', 'Designer party wear saree template', 'Saree Boutiques', ['Festival Ready', 'Social Integration', 'Quick Order'], '#')">Details</button>
+                                <button class="btn btn-primary" onclick="openDemo('Festive Glam', '#')">Live Demo</button>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Card 4 -->
+                    <article class="card">
+                        <div class="card-image-container">
+                            <div class="card-overlay"></div>
+                            <img src="landingPage/images/saree001.jpg" alt="Modern Saree" class="card-image" onerror="this.src='https://images.unsplash.com/photo-1585487000160-6eb9ce6b5a74?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80'">
+                        </div>
+                        <div class="card-content">
+                            <span class="card-category saree-text">Contemporary</span>
+                            <h3 class="card-title">Modern Drapes</h3>
+                            <p class="card-desc">Clean, modern design for contemporary saree collections with minimalist aesthetics.</p>
+                            <div class="features">
+                                <span class="feature-tag">Modern UI</span>
+                                <span class="feature-tag">Video Lookbook</span>
+                                <span class="feature-tag">Size Guide</span>
+                            </div>
+                            <div class="card-actions">
+                                <button class="btn btn-glass" onclick="showDetails('Modern Drapes', 'Contemporary saree boutique template', 'Saree Boutiques', ['Modern Design', 'Video Content', 'Size Guides'], '#')">Details</button>
+                                <button class="btn btn-primary" onclick="openDemo('Modern Drapes', '#')">Live Demo</button>
                             </div>
                         </div>
                     </article>
                 </div>
-            </div>
-        </section>
 
-        <!-- 3. MEHANDI ARTISTS SECTION -->
-        <section class="category-section">
-            <div class="category-header">
-                <div class="category-icon mehandi-icon">
-                    <i class="fas fa-paint-brush"></i>
+                <div class="nav-buttons">
+                    <button class="nav-btn prev-btn" onclick="navigateCategory('saree', -1)">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <button class="nav-btn next-btn" onclick="navigateCategory('saree', 1)">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
                 </div>
-                <h2 class="category-title">Mehandi Artists</h2>
-            </div>
+            </section>
 
-            <div class="carousel-wrapper">
-                <button class="nav-btn prev-btn" data-target="mehandi"><i class="fas fa-chevron-left"></i></button>
-                <button class="nav-btn next-btn" data-target="mehandi"><i class="fas fa-chevron-right"></i></button>
+            <!-- MEHANDI ARTISTS SECTION -->
+            <section class="category-section">
+                <div class="section-header">
+                    <h2 class="section-title">For Mehandi Artists</h2>
+                    <p class="section-description">Beautiful portfolio designs to showcase your intricate art and attract more clients.</p>
+                </div>
 
-                <div class="carousel-track" id="track-mehandi">
+                <div class="category-header">
+                    <div class="category-icon mehandi-icon">
+                        <i class="fas fa-paint-brush"></i>
+                    </div>
+                    <h2 class="category-title">Mehandi Artists</h2>
+                </div>
+
+                <div class="cards-grid" id="grid-mehandi">
                     <!-- Card 1 -->
                     <article class="card">
                         <div class="card-image-container">
                             <div class="card-overlay"></div>
-                            <img src="landingPage/images/mehandi001.jpg" alt="Bridal Glow" class="card-image">
+                            <img src="landingPage/images/mehandi001.jpg" alt="Bridal Glow" class="card-image" onerror="this.src='https://images.unsplash.com/photo-1584820927498-cfe5211fd8bf?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80'">
                         </div>
                         <div class="card-content">
                             <span class="card-category mehandi-text">Bridal Specialist</span>
@@ -784,8 +846,8 @@
                                 <span class="feature-tag">Testimonials</span>
                             </div>
                             <div class="card-actions">
-                                <button class="btn btn-glass" onclick="openDemo('Lumina Lens','landingPage/lensCraft.html')">Details</button>
-                                <button class="btn btn-primary" onclick="openDemo('Lumina Lens','landingPage/lensCraft.html')">Live Demo</button>
+                                <button class="btn btn-glass" onclick="showDetails('Bridal Bliss', 'Bridal mehandi artist portfolio', 'Mehandi Artists', ['Bridal Packages', 'Booking System', 'Client Testimonials'], '#')">Details</button>
+                                <button class="btn btn-primary" onclick="openDemo('Bridal Bliss', '#')">Live Demo</button>
                             </div>
                         </div>
                     </article>
@@ -795,7 +857,7 @@
                         <div class="card-image-container">
                             <span class="badge badge-new">Trending</span>
                             <div class="card-overlay"></div>
-                            <img src="landingPage/images/mehandi002.jpg" alt="Arabic Flair" class="card-image">
+                            <img src="landingPage/images/mehandi002.jpg" alt="Arabic Flair" class="card-image" onerror="this.src='https://images.unsplash.com/photo-1584824486509-112e4181ff6b?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80'">
                         </div>
                         <div class="card-content">
                             <span class="card-category mehandi-text">Arabic Style</span>
@@ -807,8 +869,8 @@
                                 <span class="feature-tag">TikTok Integration</span>
                             </div>
                             <div class="card-actions">
-                                <button class="btn btn-glass" onclick="openModal('Arabic Flair')">Details</button>
-                                <button class="btn btn-primary" onclick="openModal('Arabic Flair')">Live Demo</button>
+                                <button class="btn btn-glass" onclick="showDetails('Arabic Flair', 'Arabic style mehandi portfolio', 'Mehandi Artists', ['Video Showcase', 'Social Media', 'Pattern Library'], '#')">Details</button>
+                                <button class="btn btn-primary" onclick="openDemo('Arabic Flair', '#')">Live Demo</button>
                             </div>
                         </div>
                     </article>
@@ -817,7 +879,7 @@
                     <article class="card">
                         <div class="card-image-container">
                             <div class="card-overlay"></div>
-                            <img src="landingPage/images/mehandi003.jpg" alt="Festival Magic" class="card-image">
+                            <img src="landingPage/images/mehandi003.jpg" alt="Festival Magic" class="card-image" onerror="this.src='https://images.unsplash.com/photo-1584820927498-cfe5211fd8bf?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80'">
                         </div>
                         <div class="card-content">
                             <span class="card-category mehandi-text">Express/Party</span>
@@ -829,195 +891,307 @@
                                 <span class="feature-tag">Map</span>
                             </div>
                             <div class="card-actions">
-                                <button class="btn btn-glass" onclick="openDemo('Lumina Lens','landingPage/lensCraft.html')">Details</button>
-                                <button class="btn btn-primary" onclick="openDemo('Lumina Lens','landingPage/lensCraft.html')">Live Demo</button>
+                                <button class="btn btn-glass" onclick="showDetails('Party Magic', 'Festival and party mehandi template', 'Mehandi Artists', ['Quick Booking', 'Festival Specials', 'Location Map'], '#')">Details</button>
+                                <button class="btn btn-primary" onclick="openDemo('Party Magic', '#')">Live Demo</button>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Card 4 -->
+                    <article class="card">
+                        <div class="card-image-container">
+                            <div class="card-overlay"></div>
+                            <img src="landingPage/images/mehandi002.jpg" alt="Traditional Art" class="card-image" onerror="this.src='https://images.unsplash.com/photo-1584824486509-112e4181ff6b?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80'">
+                        </div>
+                        <div class="card-content">
+                            <span class="card-category mehandi-text">Traditional</span>
+                            <h3 class="card-title">Heritage Patterns</h3>
+                            <p class="card-desc">Classic design focusing on traditional Indian patterns and cultural heritage.</p>
+                            <div class="features">
+                                <span class="feature-tag">Pattern Library</span>
+                                <span class="feature-tag">Cultural Context</span>
+                                <span class="feature-tag">Workshop Booking</span>
+                            </div>
+                            <div class="card-actions">
+                                <button class="btn btn-glass" onclick="showDetails('Heritage Patterns', 'Traditional mehandi art portfolio', 'Mehandi Artists', ['Pattern Catalog', 'Cultural Stories', 'Workshop Management'], '#')">Details</button>
+                                <button class="btn btn-primary" onclick="openDemo('Heritage Patterns', '#')">Live Demo</button>
                             </div>
                         </div>
                     </article>
                 </div>
-            </div>
-        </section>
 
-        <footer>
-            <p>&copy; <span id="year"></span> DesignShowcase. Crafted for Creative Professionals.</p>
-        </footer>
+                <div class="nav-buttons">
+                    <button class="nav-btn prev-btn" onclick="navigateCategory('mehandi', -1)">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <button class="nav-btn next-btn" onclick="navigateCategory('mehandi', 1)">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+            </section>
 
-    </div>
+            <footer>
+                <p>&copy; <span id="year"></span> DesignShowcase. All rights reserved. Crafted for Creative Professionals.</p>
+                <p style="margin-top: 10px; font-size: 0.8rem; opacity: 0.7;">Premium landing page templates for photographers, boutiques, and artists.</p>
+            </footer>
 
-    <div class="modal" id="demoModal">
-        <div class="modal-box">
-            <div class="modal-head">
-                <h4 id="demoTitle"></h4>
-                <button onclick="closeDemo()">&times;</button>
-            </div>
-            <div class="modal-body">
-                <iframe id="demoFrame"></iframe>
-            </div>
-            <div class="modal-foot">
-                <button class="btn glass" onclick="closeDemo()">Close</button>
-                <button class="btn primary" onclick="openExternal()">Visit Full Site</button>
+        </div>
+
+        <!-- Details Modal -->
+        <div class="modal" id="detailsModal">
+            <div class="modal-box">
+                <div class="modal-head">
+                    <h4 id="detailsTitle">Template Details</h4>
+                    <button onclick="closeDetails()">&times;</button>
+                </div>
+                <div class="modal-body" id="detailsContent" style="padding: 20px; overflow-y: auto;">
+                    <!-- Details will be inserted here -->
+                </div>
+                <div class="modal-foot">
+                    <button class="btn btn-glass" onclick="closeDetails()">Close</button>
+                    <button class="btn btn-primary" id="demoBtn" onclick="openDemoFromDetails()">View Live Demo</button>
+                </div>
             </div>
         </div>
-    </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Carousel Logic with Mobile Touch Support
-            const categories = ['photo', 'saree', 'mehandi'];
+        <!-- Live Demo Modal -->
+        <div class="modal" id="demoModal">
+            <div class="modal-box">
+                <div class="modal-head">
+                    <h4 id="demoTitle">Live Demo</h4>
+                    <button onclick="closeDemo()">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <iframe id="demoFrame"></iframe>
+                </div>
+                <div class="modal-foot">
+                    <button class="btn btn-glass" onclick="closeDemo()">Close</button>
+                    <button class="btn btn-primary" id="externalBtn" onclick="openExternal()">Visit Full Site</button>
+                </div>
+            </div>
+        </div>
 
-            categories.forEach(cat => {
-                const track = document.getElementById(`track-${cat}`);
-                const prevBtn = document.querySelector(`.prev-btn[data-target="${cat}"]`);
-                const nextBtn = document.querySelector(`.next-btn[data-target="${cat}"]`);
-
-                if (!track) return;
-
-                let scrollAmount = 0;
-                let isDragging = false;
-                let startX, scrollLeft;
-
-                // Calculate card width dynamically for responsive
-                const getCardWidth = () => {
-                    const card = track.querySelector('.card');
-                    if (!card) return 300;
-                    const style = window.getComputedStyle(card);
-                    const width = card.offsetWidth;
-                    const marginRight = parseInt(style.marginRight) || 0;
-                    return width + marginRight;
-                };
-
-                // Mobile touch events
-                track.addEventListener('touchstart', (e) => {
-                    isDragging = true;
-                    startX = e.touches[0].pageX - track.offsetLeft;
-                    scrollLeft = scrollAmount;
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                // Set current year
+                document.getElementById("year").textContent = new Date().getFullYear();
+                
+                // Initialize category states
+                const categories = ['photo', 'saree', 'mehandi'];
+                categories.forEach(category => {
+                    const grid = document.getElementById(`grid-${category}`);
+                    const cards = grid.querySelectorAll('.card');
+                    let currentIndex = 0;
+                    const totalCards = cards.length;
+                    
+                    // Store in data attributes
+                    grid.setAttribute('data-current', currentIndex);
+                    grid.setAttribute('data-total', totalCards);
+                    
+                    // Show first 4 cards (or all on mobile)
+                    updateCardVisibility(category);
                 });
 
-                track.addEventListener('touchmove', (e) => {
-                    if (!isDragging) return;
-                    e.preventDefault();
-                    const x = e.touches[0].pageX - track.offsetLeft;
-                    const walk = (x - startX) * 2;
-                    track.style.transform = `translateX(-${scrollLeft - walk}px)`;
-                });
-
-                track.addEventListener('touchend', () => {
-                    isDragging = false;
-                    // Snap to nearest card
-                    const cardWidth = getCardWidth();
-                    const cardsScrolled = Math.round(scrollAmount / cardWidth);
-                    scrollAmount = cardsScrolled * cardWidth;
-                    updateTrack();
-                });
-
-                // Desktop click events
-                const getScrollDistance = () => {
-                    if (window.innerWidth < 768) {
-                        return getCardWidth(); // Scroll one card on mobile
-                    } else if (window.innerWidth < 1024) {
-                        return getCardWidth() * 1.5; // Scroll 1.5 cards on tablet
-                    } else {
-                        return getCardWidth() * 2; // Scroll 2 cards on desktop
+                // Keyboard navigation
+                document.addEventListener('keydown', (e) => {
+                    if (e.key === 'Escape') {
+                        closeDetails();
+                        closeDemo();
                     }
-                };
+                });
 
-                if (nextBtn) {
-                    nextBtn.addEventListener('click', () => {
-                        scrollAmount += getScrollDistance();
-                        if (scrollAmount > track.scrollWidth - track.clientWidth) {
-                            scrollAmount = track.scrollWidth - track.clientWidth;
-                        }
-                        updateTrack();
-                    });
-                }
+                // Close modals on outside click
+                document.getElementById('detailsModal').addEventListener('click', function(e) {
+                    if (e.target === this) {
+                        closeDetails();
+                    }
+                });
 
-                if (prevBtn) {
-                    prevBtn.addEventListener('click', () => {
-                        scrollAmount -= getScrollDistance();
-                        if (scrollAmount < 0) scrollAmount = 0;
-                        updateTrack();
-                    });
-                }
-
-                function updateTrack() {
-                    track.style.transform = `translateX(-${scrollAmount}px)`;
-                }
-
-                // Auto-play only on larger screens
-                if (window.innerWidth > 768) {
-                    let autoPlay = setInterval(() => {
-                        if (scrollAmount < track.scrollWidth - track.clientWidth) {
-                            scrollAmount += getScrollDistance();
-                        } else {
-                            scrollAmount = 0; // Loop back
-                        }
-                        updateTrack();
-                    }, 4000);
-
-                    track.parentElement.addEventListener('mouseenter', () => clearInterval(autoPlay));
-                    track.parentElement.addEventListener('mouseleave', () => {
-                        autoPlay = setInterval(() => {
-                            if (scrollAmount < track.scrollWidth - track.clientWidth) {
-                                scrollAmount += getScrollDistance();
-                            } else {
-                                scrollAmount = 0;
-                            }
-                            updateTrack();
-                        }, 4000);
-                    });
-                }
-
-                // Window resize handler
-                let resizeTimer;
-                window.addEventListener('resize', () => {
-                    clearTimeout(resizeTimer);
-                    resizeTimer = setTimeout(() => {
-                        scrollAmount = 0;
-                        updateTrack();
-                    }, 250);
+                document.getElementById('demoModal').addEventListener('click', function(e) {
+                    if (e.target === this) {
+                        closeDemo();
+                    }
                 });
             });
 
-            // Keyboard Nav
-            document.addEventListener('keydown', (e) => {
-                if (e.key === 'Escape') closeModal();
-            });
+            // Category navigation
+            function navigateCategory(category, direction) {
+                const grid = document.getElementById(`grid-${category}`);
+                let currentIndex = parseInt(grid.getAttribute('data-current'));
+                const totalCards = parseInt(grid.getAttribute('data-total'));
+                
+                // Calculate items per view based on screen width
+                let itemsPerView = 1;
+                if (window.innerWidth >= 1400) itemsPerView = 4;
+                else if (window.innerWidth >= 1024) itemsPerView = 3;
+                else if (window.innerWidth >= 768) itemsPerView = 2;
+                
+                // Calculate max index
+                const maxIndex = Math.max(0, totalCards - itemsPerView);
+                
+                // Update index
+                currentIndex += direction;
+                if (currentIndex < 0) currentIndex = 0;
+                if (currentIndex > maxIndex) currentIndex = maxIndex;
+                
+                grid.setAttribute('data-current', currentIndex);
+                updateCardVisibility(category);
+            }
 
-            // Close modal on outside click
-            document.getElementById('demoModal').addEventListener('click', function(e) {
-                if (e.target === this) {
-                    closeDemo();
+            function updateCardVisibility(category) {
+                const grid = document.getElementById(`grid-${category}`);
+                const cards = grid.querySelectorAll('.card');
+                const currentIndex = parseInt(grid.getAttribute('data-current'));
+                
+                // Calculate items per view
+                let itemsPerView = 1;
+                if (window.innerWidth >= 1400) itemsPerView = 4;
+                else if (window.innerWidth >= 1024) itemsPerView = 3;
+                else if (window.innerWidth >= 768) itemsPerView = 2;
+                
+                cards.forEach((card, index) => {
+                    if (index >= currentIndex && index < currentIndex + itemsPerView) {
+                        card.style.display = 'block';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            }
+
+            // Details Modal
+            let currentTemplate = {
+                name: '',
+                url: ''
+            };
+
+            function showDetails(name, description, category, features, demoUrl) {
+                currentTemplate = {
+                    name: name,
+                    url: demoUrl
+                };
+
+                const modal = document.getElementById('detailsModal');
+                const content = document.getElementById('detailsContent');
+                const demoBtn = document.getElementById('demoBtn');
+
+                // Build details HTML
+                let featuresHTML = '';
+                features.forEach(feature => {
+                    featuresHTML += `<div class="feature-tag" style="margin: 5px;">${feature}</div>`;
+                });
+
+                content.innerHTML = `
+                    <div style="margin-bottom: 20px;">
+                        <h3 style="color: white; margin-bottom: 10px;">${name}</h3>
+                        <p style="color: var(--text-muted); line-height: 1.6;">${description}</p>
+                    </div>
+                    
+                    <div style="margin-bottom: 20px;">
+                        <h4 style="color: white; margin-bottom: 10px;">Category</h4>
+                        <p style="color: var(--text-muted);">${category}</p>
+                    </div>
+                    
+                    <div style="margin-bottom: 20px;">
+                        <h4 style="color: white; margin-bottom: 10px;">Features</h4>
+                        <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+                            ${featuresHTML}
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <h4 style="color: white; margin-bottom: 10px;">Technical Details</h4>
+                        <ul style="color: var(--text-muted); padding-left: 20px; line-height: 1.6;">
+                            <li>Fully Responsive Design</li>
+                            <li>Mobile-First Approach</li>
+                            <li>SEO Optimized</li>
+                            <li>Fast Loading Performance</li>
+                            <li>Easy to Customize</li>
+                        </ul>
+                    </div>
+                `;
+
+                // Update demo button
+                demoBtn.onclick = function() {
+                    closeDetails();
+                    setTimeout(() => openDemo(name, demoUrl), 300);
+                };
+
+                modal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+
+            function closeDetails() {
+                document.getElementById('detailsModal').classList.remove('active');
+                document.body.style.overflow = 'auto';
+            }
+
+            // Demo Modal
+            function openDemo(name, url) {
+                currentTemplate = {
+                    name: name,
+                    url: url
+                };
+
+                const modal = document.getElementById('demoModal');
+                const frame = document.getElementById('demoFrame');
+                const title = document.getElementById('demoTitle');
+                const externalBtn = document.getElementById('externalBtn');
+
+                title.textContent = `${name} – Live Preview`;
+                
+                if (url && url !== '#') {
+                    frame.src = url;
+                    externalBtn.style.display = 'block';
+                    externalBtn.onclick = () => window.open(url, '_blank');
+                } else {
+                    frame.innerHTML = `
+                        <div style="display: flex; align-items: center; justify-content: center; height: 100%; background: #1e293b;">
+                            <div style="text-align: center; padding: 40px; max-width: 400px;">
+                                <i class="fas fa-cogs" style="font-size: 48px; color: #64748b; margin-bottom: 20px;"></i>
+                                <h3 style="color: white; margin-bottom: 10px;">Demo Coming Soon</h3>
+                                <p style="color: #94a3b8;">This template is currently in development. The live demo will be available soon.</p>
+                            </div>
+                        </div>
+                    `;
+                    externalBtn.style.display = 'none';
                 }
+
+                modal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+
+            function closeDemo() {
+                const modal = document.getElementById('demoModal');
+                const frame = document.getElementById('demoFrame');
+                
+                modal.classList.remove('active');
+                frame.src = '';
+                document.body.style.overflow = 'auto';
+            }
+
+            function openDemoFromDetails() {
+                if (currentTemplate.url) {
+                    openDemo(currentTemplate.name, currentTemplate.url);
+                }
+            }
+
+            function openExternal() {
+                if (currentTemplate.url && currentTemplate.url !== '#') {
+                    window.open(currentTemplate.url, '_blank');
+                }
+            }
+
+            // Window resize handler
+            let resizeTimer;
+            window.addEventListener('resize', () => {
+                clearTimeout(resizeTimer);
+                resizeTimer = setTimeout(() => {
+                    ['photo', 'saree', 'mehandi'].forEach(category => {
+                        updateCardVisibility(category);
+                    });
+                }, 250);
             });
-        });
-
-        // Modal Functions
-        const modal = document.getElementById('demoModal');
-        const frame = document.getElementById('demoFrame');
-        const title = document.getElementById('demoTitle');
-        let currentUrl = '';
-
-        function openDemo(name, url) {
-            title.textContent = name + ' – Live Preview';
-            frame.src = url;
-            currentUrl = url;
-            modal.classList.add('active');
-            document.body.style.overflow = 'hidden';
-        }
-
-        function closeDemo() {
-            modal.classList.remove('active');
-            frame.src = '';
-            document.body.style.overflow = 'auto';
-        }
-
-        function openExternal() {
-            if (currentUrl) window.open(currentUrl, '_blank');
-        }
-
-        // year update
-        document.getElementById("year").textContent = new Date().getFullYear();
-    </script>
-</body>
+        </script>
+    </body>
 
 </html>
