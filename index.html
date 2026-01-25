@@ -551,7 +551,7 @@
             margin-bottom: 1.5rem;
         }
 
-        .footer-text span {
+        .footer-text .name {
             background: var(--gradient-1);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -943,7 +943,7 @@
     <footer>
         <div class="container">
             <div class="footer-content">
-                <p class="footer-text">© 2026 <span>Thirupathi G</span> Developments</p>
+                <p class="footer-text">© <span id="year"></span> <span class="name">Thirupathi G</span> Developments</p>
                 <div class="social-links">
                     <a href="https://github.com/thirupathimech" class="social-link"><i class="bi bi-github"></i></a>
                     <a href="https://www.linkedin.com/in/thirupathi-g/" class="social-link"><i class="bi bi-linkedin"></i></a>
@@ -1476,8 +1476,12 @@
                 }, 3000);
             });
         });
+
+        //year update
+        document.getElementById("year").textContent = new Date().getFullYear();
     </script>
 </body>
 </html>
+
 
 
