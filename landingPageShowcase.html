@@ -70,11 +70,19 @@
             }
         }
 
-        /* --- UI Components --- */
+        /* --- Mobile First Responsive Design --- */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 15px;
+            position: relative;
+        }
+
+        /* Home Navigation for Mobile */
         .home-nav {
             position: fixed;
-            top: 20px;
-            left: 20px;
+            top: 15px;
+            left: 15px;
             z-index: 1000;
         }
 
@@ -86,129 +94,319 @@
             backdrop-filter: blur(10px);
             color: white;
             text-decoration: none;
-            padding: 10px 20px;
+            padding: 10px 18px;
             border-radius: 30px;
             font-weight: 500;
             border: 1px solid var(--glass-border);
             transition: all 0.3s ease;
+            font-size: 0.95rem;
         }
 
-        .home-button:hover {
-            background: rgba(255, 255, 255, 0.2);
-            transform: translateY(-2px);
-        }
-
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 0 20px;
-            position: relative;
-        }
-
+        /* Mobile Header */
         header {
             text-align: center;
-            padding: 100px 20px 60px;
+            padding: 90px 15px 40px;
             animation: fadeIn 0.8s ease-out;
         }
 
         h1 {
             font-family: 'Playfair Display', serif;
-            font-size: 3.5rem;
+            font-size: 2.2rem;
             background: linear-gradient(to right, #fff, #94a3b8);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
             margin-bottom: 15px;
+            line-height: 1.2;
         }
 
         .subtitle {
-            font-size: 1.2rem;
+            font-size: 1rem;
             color: var(--text-muted);
-            max-width: 700px;
-            margin: 0 auto;
             line-height: 1.6;
+            padding: 0 10px;
         }
 
-        /* --- Section Styling --- */
+        /* Category Header Mobile */
         .category-section {
-            margin-bottom: 80px;
+            margin-bottom: 60px;
             animation: fadeIn 0.8s ease-out;
         }
 
         .category-header {
             display: flex;
             align-items: center;
-            gap: 15px;
-            margin-bottom: 30px;
+            gap: 12px;
+            margin-bottom: 25px;
             padding-bottom: 15px;
             border-bottom: 1px solid var(--glass-border);
         }
 
         .category-icon {
-            width: 50px;
-            height: 50px;
-            border-radius: 12px;
+            width: 45px;
+            height: 45px;
+            border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.5rem;
+            font-size: 1.3rem;
             color: #0f172a;
-        }
-
-        .photo-icon {
-            background: var(--color-photo);
-        }
-
-        .saree-icon {
-            background: var(--color-saree);
-        }
-
-        .mehandi-icon {
-            background: var(--color-mehandi);
+            flex-shrink: 0;
         }
 
         .category-title {
             font-family: 'Playfair Display', serif;
-            font-size: 2.5rem;
+            font-size: 1.8rem;
             font-weight: 700;
         }
 
-        /* --- Carousel & Cards --- */
+        /* Carousel for Mobile */
         .carousel-wrapper {
             position: relative;
-            padding: 10px 0;
+            padding: 5px 0;
+            overflow: hidden;
         }
 
         .carousel-track {
             display: flex;
-            gap: 30px;
-            transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
-            padding: 10px 5px;
-            /* Space for hover shadow */
+            gap: 20px;
+            transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+            padding: 5px;
+            touch-action: pan-y;
         }
 
+        /* Mobile Cards */
         .card {
-            flex: 0 0 380px;
+            flex: 0 0 calc(100vw - 60px);
+            max-width: 380px;
             background: var(--glass-bg);
             border: 1px solid var(--glass-border);
-            border-radius: 20px;
+            border-radius: 18px;
             overflow: hidden;
             backdrop-filter: blur(12px);
             transition: all 0.4s ease;
             position: relative;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin: 0 auto;
+        }
+
+        .card-image-container {
+            position: relative;
+            height: 200px;
+            overflow: hidden;
+        }
+
+        .card-content {
+            padding: 20px;
+        }
+
+        .card-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.4rem;
+            margin-bottom: 10px;
+            color: white;
+        }
+
+        .card-desc {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            line-height: 1.5;
+            margin-bottom: 15px;
+        }
+
+        .features {
+            display: flex;
+            gap: 6px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .feature-tag {
+            font-size: 0.7rem;
+            padding: 4px 8px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 5px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-muted);
+        }
+
+        .card-actions {
+            display: flex;
+            gap: 12px;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 10px;
+            border-radius: 8px;
+            text-align: center;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.85rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: none;
+        }
+
+        /* Mobile Carousel Controls */
+        .nav-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: white;
+            cursor: pointer;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+            display: none; /* Hidden on mobile by default */
+        }
+
+        .nav-btn:hover {
+            background: white;
+            color: #0f172a;
+        }
+
+        .prev-btn {
+            left: 10px;
+        }
+
+        .next-btn {
+            right: 10px;
+        }
+
+        /* Mobile Modal */
+        .modal-box {
+            width: 95%;
+            height: 85vh;
+            border-radius: 12px;
+        }
+
+        .modal-head {
+            padding: 12px 15px;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 30px 15px;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* --- Tablet Styles (768px and up) --- */
+        @media (min-width: 768px) {
+            header {
+                padding: 120px 20px 60px;
+            }
+
+            h1 {
+                font-size: 3rem;
+            }
+
+            .subtitle {
+                font-size: 1.1rem;
+                max-width: 700px;
+                margin: 0 auto;
+            }
+
+            .category-title {
+                font-size: 2.2rem;
+            }
+
+            .category-icon {
+                width: 50px;
+                height: 50px;
+                font-size: 1.5rem;
+            }
+
+            .card {
+                flex: 0 0 calc(50vw - 45px);
+            }
+
+            .nav-btn {
+                display: flex;
+            }
+
+            .prev-btn {
+                left: -20px;
+            }
+
+            .next-btn {
+                right: -20px;
+            }
+        }
+
+        /* --- Desktop Styles (1024px and up) --- */
+        @media (min-width: 1024px) {
+            .container {
+                padding: 0 20px;
+            }
+
+            h1 {
+                font-size: 3.5rem;
+            }
+
+            .card {
+                flex: 0 0 380px;
+            }
+
+            .carousel-track {
+                gap: 30px;
+            }
+
+            .modal-box {
+                width: 90%;
+                max-width: 1000px;
+                height: 80vh;
+            }
+        }
+
+        /* --- Large Desktop (1400px and up) --- */
+        @media (min-width: 1400px) {
+            .nav-btn {
+                width: 50px;
+                height: 50px;
+            }
+
+            .prev-btn {
+                left: -25px;
+            }
+
+            .next-btn {
+                right: -25px;
+            }
+        }
+
+        /* --- Touch Device Optimizations --- */
+        @media (hover: none) {
+            .card:hover {
+                transform: none;
+            }
+
+            .nav-btn:hover {
+                background: rgba(255, 255, 255, 0.1);
+                color: white;
+            }
+        }
+
+        /* --- Common Styles (Keep from original) --- */
+        .home-button:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
         }
 
         .card:hover {
             transform: translateY(-10px);
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
             border-color: rgba(255, 255, 255, 0.2);
-        }
-
-        .card-image-container {
-            position: relative;
-            height: 240px;
-            overflow: hidden;
         }
 
         .card-image {
@@ -261,10 +459,6 @@
             color: #0f172a;
         }
 
-        .card-content {
-            padding: 25px;
-        }
-
         .card-category {
             font-size: 0.8rem;
             text-transform: uppercase;
@@ -284,55 +478,6 @@
 
         .mehandi-text {
             color: var(--color-mehandi);
-        }
-
-        .card-title {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.6rem;
-            margin-bottom: 10px;
-            color: white;
-        }
-
-        .card-desc {
-            font-size: 0.95rem;
-            color: var(--text-muted);
-            line-height: 1.5;
-            margin-bottom: 20px;
-            min-height: 45px;
-        }
-
-        .features {
-            display: flex;
-            gap: 8px;
-            margin-bottom: 25px;
-            flex-wrap: wrap;
-        }
-
-        .feature-tag {
-            font-size: 0.75rem;
-            padding: 4px 10px;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 6px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            color: var(--text-muted);
-        }
-
-        .card-actions {
-            display: flex;
-            gap: 15px;
-        }
-
-        .btn {
-            flex: 1;
-            padding: 12px;
-            border-radius: 8px;
-            text-align: center;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 0.9rem;
-            transition: all 0.3s ease;
-            cursor: pointer;
-            border: none;
         }
 
         .btn-primary {
@@ -355,40 +500,7 @@
             background: rgba(255, 255, 255, 0.2);
         }
 
-        /* --- Carousel Controls --- */
-        .nav-btn {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(5px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            color: white;
-            cursor: pointer;
-            z-index: 10;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s;
-        }
-
-        .nav-btn:hover {
-            background: white;
-            color: #0f172a;
-        }
-
-        .prev-btn {
-            left: -25px;
-        }
-
-        .next-btn {
-            right: -25px;
-        }
-
-        /* --- Modal --- */
+        /* Modal */
         .modal {
             position: fixed;
             inset: 0;
@@ -400,30 +512,11 @@
         }
 
         .modal.active {
-            display: flex
-        }
-
-        .modal-box {
-            width: 90%;
-            max-width: 1000px;
-            height: 80vh;
-            background: #0f172a;
-            border-radius: 16px;
-            overflow: hidden;
             display: flex;
-            flex-direction: column;
-        }
-
-        .modal-head {
-            padding: 15px 20px;
-            background: #020617;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
         }
 
         .modal-head h4 {
-            font-weight: 600
+            font-weight: 600;
         }
 
         .modal-head button {
@@ -431,11 +524,11 @@
             border: none;
             color: #fff;
             font-size: 1.4rem;
-            cursor: pointer
+            cursor: pointer;
         }
 
         .modal-body {
-            flex: 1
+            flex: 1;
         }
 
         .modal-body iframe {
@@ -455,7 +548,6 @@
 </head>
 
 <body>
-
     <!-- Home Navigation -->
     <div class="home-nav">
         <a href="index.html" class="home-button">
@@ -770,7 +862,7 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Carousel Logic
+            // Carousel Logic with Mobile Touch Support
             const categories = ['photo', 'saree', 'mehandi'];
 
             categories.forEach(cat => {
@@ -781,56 +873,121 @@
                 if (!track) return;
 
                 let scrollAmount = 0;
-                const cardWidth = 380 + 30; // Card width + gap
-                const maxScroll = track.scrollWidth - track.clientWidth;
+                let isDragging = false;
+                let startX, scrollLeft;
 
-                // Determine scroll distance based on viewport
-                const getScrollDistance = () => window.innerWidth < 768 ? 320 : cardWidth * 1.5;
+                // Calculate card width dynamically for responsive
+                const getCardWidth = () => {
+                    const card = track.querySelector('.card');
+                    if (!card) return 300;
+                    const style = window.getComputedStyle(card);
+                    const width = card.offsetWidth;
+                    const marginRight = parseInt(style.marginRight) || 0;
+                    return width + marginRight;
+                };
 
-                nextBtn.addEventListener('click', () => {
-                    scrollAmount += getScrollDistance();
-                    if (scrollAmount > track.scrollWidth - track.clientWidth) {
-                        scrollAmount = track.scrollWidth - track.clientWidth;
+                // Mobile touch events
+                track.addEventListener('touchstart', (e) => {
+                    isDragging = true;
+                    startX = e.touches[0].pageX - track.offsetLeft;
+                    scrollLeft = scrollAmount;
+                });
+
+                track.addEventListener('touchmove', (e) => {
+                    if (!isDragging) return;
+                    e.preventDefault();
+                    const x = e.touches[0].pageX - track.offsetLeft;
+                    const walk = (x - startX) * 2;
+                    track.style.transform = `translateX(-${scrollLeft - walk}px)`;
+                });
+
+                track.addEventListener('touchend', () => {
+                    isDragging = false;
+                    // Snap to nearest card
+                    const cardWidth = getCardWidth();
+                    const cardsScrolled = Math.round(scrollAmount / cardWidth);
+                    scrollAmount = cardsScrolled * cardWidth;
+                    updateTrack();
+                });
+
+                // Desktop click events
+                const getScrollDistance = () => {
+                    if (window.innerWidth < 768) {
+                        return getCardWidth(); // Scroll one card on mobile
+                    } else if (window.innerWidth < 1024) {
+                        return getCardWidth() * 1.5; // Scroll 1.5 cards on tablet
+                    } else {
+                        return getCardWidth() * 2; // Scroll 2 cards on desktop
                     }
-                    updateTrack();
-                });
+                };
 
-                prevBtn.addEventListener('click', () => {
-                    scrollAmount -= getScrollDistance();
-                    if (scrollAmount < 0) scrollAmount = 0;
-                    updateTrack();
-                });
+                if (nextBtn) {
+                    nextBtn.addEventListener('click', () => {
+                        scrollAmount += getScrollDistance();
+                        if (scrollAmount > track.scrollWidth - track.clientWidth) {
+                            scrollAmount = track.scrollWidth - track.clientWidth;
+                        }
+                        updateTrack();
+                    });
+                }
+
+                if (prevBtn) {
+                    prevBtn.addEventListener('click', () => {
+                        scrollAmount -= getScrollDistance();
+                        if (scrollAmount < 0) scrollAmount = 0;
+                        updateTrack();
+                    });
+                }
 
                 function updateTrack() {
                     track.style.transform = `translateX(-${scrollAmount}px)`;
                 }
 
-                // Auto-play with Pause on Hover
-                let autoPlay = setInterval(() => {
-                    if (scrollAmount < track.scrollWidth - track.clientWidth) {
-                        scrollAmount += getScrollDistance();
-                    } else {
-                        scrollAmount = 0; // Loop back
-                    }
-                    updateTrack();
-                }, 4000);
-
-                track.parentElement.addEventListener('mouseenter', () => clearInterval(autoPlay));
-                track.parentElement.addEventListener('mouseleave', () => {
-                    autoPlay = setInterval(() => {
+                // Auto-play only on larger screens
+                if (window.innerWidth > 768) {
+                    let autoPlay = setInterval(() => {
                         if (scrollAmount < track.scrollWidth - track.clientWidth) {
                             scrollAmount += getScrollDistance();
                         } else {
-                            scrollAmount = 0;
+                            scrollAmount = 0; // Loop back
                         }
                         updateTrack();
                     }, 4000);
+
+                    track.parentElement.addEventListener('mouseenter', () => clearInterval(autoPlay));
+                    track.parentElement.addEventListener('mouseleave', () => {
+                        autoPlay = setInterval(() => {
+                            if (scrollAmount < track.scrollWidth - track.clientWidth) {
+                                scrollAmount += getScrollDistance();
+                            } else {
+                                scrollAmount = 0;
+                            }
+                            updateTrack();
+                        }, 4000);
+                    });
+                }
+
+                // Window resize handler
+                let resizeTimer;
+                window.addEventListener('resize', () => {
+                    clearTimeout(resizeTimer);
+                    resizeTimer = setTimeout(() => {
+                        scrollAmount = 0;
+                        updateTrack();
+                    }, 250);
                 });
             });
 
             // Keyboard Nav
             document.addEventListener('keydown', (e) => {
                 if (e.key === 'Escape') closeModal();
+            });
+
+            // Close modal on outside click
+            document.getElementById('demoModal').addEventListener('click', function(e) {
+                if (e.target === this) {
+                    closeDemo();
+                }
             });
         });
 
