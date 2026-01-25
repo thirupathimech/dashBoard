@@ -594,7 +594,7 @@
 
     <!-- Footer -->
     <footer>
-        <p>&copy; 2026 Thirupathi G. All rights reserved.</p>
+        <p>&copy; <span id="year"></span> Thirupathi G. All rights reserved.</p>
     </footer>
 
     <script>
@@ -658,8 +658,10 @@
                 circle.style.transform = `translate(${x}px, ${y}px)`;
             });
         });
+        document.getElementById("year").textContent = new Date().getFullYear();
     </script>
 </body>
 </html>
+
 
 
