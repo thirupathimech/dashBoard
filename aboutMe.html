@@ -1,587 +1,1019 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Thirupathi G - About</title>
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-    <!-- Font Awesome -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <!-- Favicon -->
+    <title>Thirupathi G | Software Engineer</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- TailwindCSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- AOS -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    
+    <!-- Typed.js -->
+    <script src="https://unpkg.com/typed.js@2.1.0/dist/typed.umd.js"></script>
+    
+    <!-- Vanilla Tilt -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.1/vanilla-tilt.min.js"></script>
+    
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Devicon -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css">
     <link rel="icon" href="favicon.ico">
     
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        bg: '#0a0f1a',
+                        'bg-secondary': '#111827',
+                        fg: '#f1f5f9',
+                        muted: '#64748b',
+                        accent: '#14b8a6',
+                        'accent-light': '#2dd4bf',
+                        card: 'rgba(17, 24, 39, 0.7)',
+                        border: 'rgba(100, 116, 139, 0.2)'
+                    },
+                    fontFamily: {
+                        display: ['Space Grotesk', 'sans-serif'],
+                        body: ['DM Sans', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    
     <style>
+        :root {
+            --bg: #0a0f1a;
+            --bg-secondary: #111827;
+            --fg: #f1f5f9;
+            --muted: #64748b;
+            --accent: #14b8a6;
+            --accent-light: #2dd4bf;
+            --card: rgba(17, 24, 39, 0.7);
+            --border: rgba(100, 116, 139, 0.2);
+        }
+        
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-
+        
+        html {
+            scroll-behavior: smooth;
+        }
+        
         body {
-            background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
-            font-family: 'Inter', sans-serif;
-            min-height: 100vh;
-            color: #e0e6ed;
+            font-family: 'DM Sans', sans-serif;
+            background-color: var(--bg);
+            color: var(--fg);
             overflow-x: hidden;
         }
-
-        /* Animated background particles */
-        .particles {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
         }
-
-        .particle {
+        
+        ::-webkit-scrollbar-track {
+            background: var(--bg);
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: var(--accent);
+            border-radius: 4px;
+        }
+        
+        /* Background Grid Pattern */
+        .bg-grid {
+            background-image: 
+                linear-gradient(rgba(20, 184, 166, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(20, 184, 166, 0.03) 1px, transparent 1px);
+            background-size: 60px 60px;
+        }
+        
+        /* Gradient Orbs */
+        .gradient-orb {
             position: absolute;
-            background: rgba(100, 255, 218, 0.1);
             border-radius: 50%;
-            animation: float 6s ease-in-out infinite;
+            filter: blur(100px);
+            opacity: 0.4;
+            pointer-events: none;
         }
-
+        
+        .orb-1 {
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(20, 184, 166, 0.3) 0%, transparent 70%);
+            top: -200px;
+            right: -200px;
+            animation: float 20s ease-in-out infinite;
+        }
+        
+        .orb-2 {
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(6, 182, 212, 0.25) 0%, transparent 70%);
+            bottom: 20%;
+            left: -100px;
+            animation: float 15s ease-in-out infinite reverse;
+        }
+        
+        .orb-3 {
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(20, 184, 166, 0.2) 0%, transparent 70%);
+            top: 60%;
+            right: -150px;
+            animation: float 18s ease-in-out infinite;
+        }
+        
         @keyframes float {
-            0%, 100% { transform: translateY(0px) rotate(0deg); }
-            50% { transform: translateY(-20px) rotate(180deg); }
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(30px, -30px) scale(1.05); }
+            66% { transform: translate(-20px, 20px) scale(0.95); }
         }
-
-        /* Navigation */
-        .navbar {
-            background: rgba(15, 15, 35, 0.9);
+        
+        /* Glassmorphism */
+        .glass {
+            background: rgba(17, 24, 39, 0.6);
             backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(100, 255, 218, 0.1);
-            padding: 1rem 0;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(100, 116, 139, 0.15);
         }
-
-        .navbar-brand {
-            font-weight: 800;
-            font-size: 1.8rem;
-            background: linear-gradient(135deg, #64ffda, #bb86fc);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+        
+        .glass-strong {
+            background: rgba(17, 24, 39, 0.8);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            border: 1px solid rgba(100, 116, 139, 0.2);
         }
-
-        .nav-link {
-            color: #e0e6ed !important;
-            font-weight: 500;
+        
+        /* Animated Gradient Border */
+        .gradient-border {
             position: relative;
-            transition: all 0.3s ease;
+            background: var(--bg-secondary);
+            border-radius: 16px;
         }
-
-        .nav-link::after {
+        
+        .gradient-border::before {
             content: '';
             position: absolute;
-            bottom: -5px;
-            left: 50%;
-            width: 0;
-            height: 2px;
-            background: linear-gradient(135deg, #64ffda, #bb86fc);
-            transition: all 0.3s ease;
-            transform: translateX(-50%);
+            inset: -2px;
+            border-radius: 18px;
+            background: linear-gradient(135deg, var(--accent), #06b6d4, var(--accent-light), var(--accent));
+            background-size: 300% 300%;
+            animation: gradientMove 4s ease infinite;
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.4s ease;
         }
-
-        .nav-link:hover::after {
-            width: 100%;
+        
+        .gradient-border:hover::before {
+            opacity: 1;
         }
-
-        .nav-link:hover {
-            color: #64ffda !important;
+        
+        @keyframes gradientMove {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
-
-        /* Hero Section */
-        .hero-section {
-            padding: 100px 0;
-            text-align: center;
+        
+        /* Tech Card Styles */
+        .tech-card {
             position: relative;
+            border-radius: 16px;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transform-style: preserve-3d;
         }
-
-        .profile-container {
-            position: relative;
-            display: inline-block;
-            margin-bottom: 2rem;
+        
+        .tech-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(20, 184, 166, 0.1), rgba(6, 182, 212, 0.05));
+            opacity: 0;
+            transition: opacity 0.3s ease;
         }
-
-        .profile-image {
-            width: 200px;
-            height: 200px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #64ffda, #bb86fc);
+        
+        .tech-card:hover::before {
+            opacity: 1;
+        }
+        
+        .tech-card:hover {
+            transform: translateY(-8px);
+        }
+        
+        .tech-logo-bg {
+            position: absolute;
+            inset: 0;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 4rem;
-            color: #0f0f23;
-            font-weight: 800;
-            box-shadow: 0 20px 40px rgba(100, 255, 218, 0.3);
-            animation: pulse 2s infinite;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            font-size: 120px;
+            color: rgba(20, 184, 166, 0.08);
         }
-
-        @keyframes pulse {
-            0% { box-shadow: 0 20px 40px rgba(100, 255, 218, 0.3); }
-            50% { box-shadow: 0 25px 50px rgba(100, 255, 218, 0.5); }
-            100% { box-shadow: 0 20px 40px rgba(100, 255, 218, 0.3); }
+        
+        .tech-card:hover .tech-logo-bg {
+            opacity: 1;
         }
-
-        .hero-title {
-            font-size: 3.5rem;
-            font-weight: 800;
-            background: linear-gradient(135deg, #64ffda, #bb86fc);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 1rem;
-            animation: slideInUp 1s ease-out;
+        
+        /* Typing Cursor */
+        .typed-cursor {
+            color: var(--accent);
+            font-weight: 300;
+            animation: blink 1s step-end infinite;
         }
-
-        .hero-subtitle {
-            font-size: 1.4rem;
-            color: #a0aec0;
-            margin-bottom: 2rem;
-            animation: slideInUp 1s ease-out 0.2s both;
+        
+        @keyframes blink {
+            50% { opacity: 0; }
         }
-
-        @keyframes slideInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* About Content */
-        .about-section {
-            padding: 80px 0;
-        }
-
-        .glass-card {
-            background: rgba(30, 30, 45, 0.8);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(100, 255, 218, 0.1);
-            border-radius: 20px;
-            padding: 3rem;
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
-            transition: all 0.3s ease;
+        
+        /* Navigation */
+        .nav-link {
             position: relative;
-            overflow: hidden;
+            color: var(--muted);
+            transition: color 0.3s ease;
         }
-
-        .glass-card::before {
+        
+        .nav-link::after {
             content: '';
             position: absolute;
-            top: 0;
+            bottom: -4px;
             left: 0;
-            right: 0;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, #64ffda, transparent);
+            width: 0;
+            height: 2px;
+            background: var(--accent);
+            transition: width 0.3s ease;
         }
-
-        .glass-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 35px 70px rgba(100, 255, 218, 0.2);
+        
+        .nav-link:hover {
+            color: var(--fg);
         }
-
-        .section-title {
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: #64ffda;
-            margin-bottom: 2rem;
+        
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        
+        /* Button Styles */
+        .btn-primary {
             position: relative;
+            background: linear-gradient(135deg, var(--accent), #0d9488);
+            color: var(--bg);
+            font-weight: 600;
+            padding: 14px 32px;
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.3s ease;
         }
-
+        
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, var(--accent-light), var(--accent));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 40px rgba(20, 184, 166, 0.3);
+        }
+        
+        .btn-primary:hover::before {
+            opacity: 1;
+        }
+        
+        .btn-primary span {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .btn-secondary {
+            position: relative;
+            background: transparent;
+            color: var(--fg);
+            font-weight: 500;
+            padding: 14px 32px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            transition: all 0.3s ease;
+        }
+        
+        .btn-secondary:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+            transform: translateY(-2px);
+        }
+        
+        /* Section Title */
+        .section-title {
+            position: relative;
+            display: inline-block;
+        }
+        
         .section-title::after {
             content: '';
             position: absolute;
-            bottom: -10px;
+            bottom: -8px;
             left: 0;
             width: 60px;
             height: 3px;
-            background: linear-gradient(135deg, #64ffda, #bb86fc);
+            background: linear-gradient(90deg, var(--accent), transparent);
             border-radius: 2px;
         }
-
-        .about-text {
-            font-size: 1.1rem;
-            line-height: 1.8;
-            color: #cbd5e0;
-            margin-bottom: 1.5rem;
-        }
-
-        /* Skills Section */
-        .skills-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-            margin-top: 3rem;
-        }
-
-        .skill-card {
-            background: rgba(20, 20, 35, 0.6);
-            border: 1px solid rgba(100, 255, 218, 0.1);
-            border-radius: 15px;
-            padding: 2rem;
-            text-align: center;
-            transition: all 0.3s ease;
+        
+        /* Timeline */
+        .timeline-item {
             position: relative;
+            padding-left: 32px;
         }
-
-        .skill-card:hover {
-            transform: translateY(-5px);
-            border-color: rgba(100, 255, 218, 0.3);
-            box-shadow: 0 15px 30px rgba(100, 255, 218, 0.1);
+        
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 8px;
+            width: 12px;
+            height: 12px;
+            background: var(--accent);
+            border-radius: 50%;
+            box-shadow: 0 0 20px rgba(20, 184, 166, 0.5);
         }
-
-        .skill-icon {
-            font-size: 2.5rem;
-            color: #64ffda;
-            margin-bottom: 1rem;
+        
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            left: 5px;
+            top: 24px;
+            width: 2px;
+            height: calc(100% - 16px);
+            background: linear-gradient(180deg, var(--accent), transparent);
         }
-
-        .skill-title {
-            font-size: 1.2rem;
-            font-weight: 600;
-            color: #e0e6ed;
-            margin-bottom: 0.5rem;
+        
+        .timeline-item:last-child::after {
+            display: none;
         }
-
-        .skill-description {
-            font-size: 0.9rem;
-            color: #a0aec0;
-            line-height: 1.6;
+        
+        /* Social Links */
+        .social-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            background: rgba(100, 116, 139, 0.1);
+            border: 1px solid var(--border);
+            color: var(--muted);
+            transition: all 0.3s ease;
         }
-
-        /* Stats Section */
-        .stats-section {
-            padding: 60px 0;
-            background: rgba(15, 15, 35, 0.5);
-            margin: 4rem 0;
-            border-radius: 20px;
-            border: 1px solid rgba(100, 255, 218, 0.1);
+        
+        .social-link:hover {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: var(--bg);
+            transform: translateY(-4px);
+            box-shadow: 0 10px 30px rgba(20, 184, 166, 0.3);
         }
-
-        .stat-item {
-            text-align: center;
-            padding: 1rem;
-        }
-
+        
+        /* Stats */
         .stat-number {
-            font-size: 3rem;
-            font-weight: 800;
-            background: linear-gradient(135deg, #64ffda, #bb86fc);
+            background: linear-gradient(135deg, var(--fg), var(--accent-light));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            font-family: 'JetBrains Mono', monospace;
         }
-
-        .stat-label {
-            font-size: 1.1rem;
-            color: #a0aec0;
-            font-weight: 500;
-        }
-
-        /* Footer */
-        .footer {
-            background: rgba(15, 15, 35, 0.9);
-            border-top: 1px solid rgba(100, 255, 218, 0.1);
-            padding: 2rem 0;
-            text-align: center;
-            margin-top: 4rem;
-        }
-
-        .social-links {
-            margin-bottom: 1rem;
-        }
-
-        .social-link {
-            display: inline-block;
-            margin: 0 1rem;
-            width: 50px;
-            height: 50px;
-            background: rgba(100, 255, 218, 0.1);
-            border: 1px solid rgba(100, 255, 218, 0.2);
-            border-radius: 50%;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            color: #64ffda;
-            font-size: 1.2rem;
+        
+        /* Contact Form */
+        .form-input {
+            background: rgba(100, 116, 139, 0.1);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 16px 20px;
+            color: var(--fg);
             transition: all 0.3s ease;
-            text-decoration: none;
+            width: 100%;
         }
-
-        .social-link:hover {
-            background: rgba(100, 255, 218, 0.2);
-            transform: translateY(-3px);
-            box-shadow: 0 10px 20px rgba(100, 255, 218, 0.2);
-            color: #64ffda;
+        
+        .form-input:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 4px rgba(20, 184, 166, 0.1);
         }
-
-        /* Responsive Design */
+        
+        .form-input::placeholder {
+            color: var(--muted);
+        }
+        
+        /* Floating particles */
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: var(--accent);
+            border-radius: 50%;
+            opacity: 0.3;
+            animation: particleFloat 10s ease-in-out infinite;
+        }
+        
+        @keyframes particleFloat {
+            0%, 100% { transform: translateY(0) translateX(0); }
+            25% { transform: translateY(-20px) translateX(10px); }
+            50% { transform: translateY(-10px) translateX(-10px); }
+            75% { transform: translateY(-30px) translateX(5px); }
+        }
+        
+        /* Reduce Motion */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+        
+        /* Mobile Responsive */
         @media (max-width: 768px) {
-            .hero-title {
-                font-size: 2.5rem;
-            }
-            
-            .hero-subtitle {
-                font-size: 1.2rem;
-            }
-            
-            .profile-image {
-                width: 150px;
-                height: 150px;
-                font-size: 3rem;
-            }
-            
-            .glass-card {
-                padding: 2rem;
-            }
-            
-            .section-title {
-                font-size: 2rem;
-            }
-            
-            .stat-number {
-                font-size: 2rem;
+            .orb-1, .orb-2, .orb-3 {
+                opacity: 0.2;
             }
         }
-
-        @media (max-width: 576px) {
-            .navbar-brand {
-                font-size: 1.5rem;
-            }
-            
-            .hero-title {
-                font-size: 2rem;
-            }
-            
-            .glass-card {
-                padding: 1.5rem;
-            }
-            
-            .skills-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        /* Animation delays */
-        .delay-1 { animation-delay: 0.1s; }
-        .delay-2 { animation-delay: 0.2s; }
-        .delay-3 { animation-delay: 0.3s; }
-        .delay-4 { animation-delay: 0.4s; }
     </style>
 </head>
-
-<body>
-    <!-- Animated Background Particles -->
-    <div class="particles" id="particles"></div>
-
-    <!-- Navigation Bar -->
-    <nav class="navbar navbar-expand-lg">
-        <div class="container">
-            <a class="navbar-brand" href="index.html">
-                <i class="fas fa-code"></i> Thirupathi G
-            </a>
-            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link px-3" href="index.html">
-                            <i class="fas fa-home me-1"></i> Home
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link px-3" href="aboutMe.html">
-                            <i class="fas fa-user me-1"></i> About
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link px-3" href="#contact">
-                            <i class="fas fa-envelope me-1"></i> Contact
-                        </a>
-                    </li>
-                </ul>
+<body class="bg-grid">
+    <!-- Background Orbs -->
+    <div class="gradient-orb orb-1"></div>
+    <div class="gradient-orb orb-2"></div>
+    <div class="gradient-orb orb-3"></div>
+    
+    <!-- Floating Particles -->
+    <div id="particles" class="fixed inset-0 pointer-events-none overflow-hidden"></div>
+    
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 right-0 z-50 glass-strong">
+        <div class="max-w-6xl mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <a href="#" class="font-display font-bold text-2xl text-accent">TG</a>
+                
+                <div class="hidden md:flex items-center gap-8">
+                    <a href="#about" class="nav-link font-body text-sm">About</a>
+                    <a href="#skills" class="nav-link font-body text-sm">Skills</a>
+                    <a href="#experience" class="nav-link font-body text-sm">Experience</a>
+                    <a href="#contact" class="nav-link font-body text-sm">Contact</a>
+                </div>
+                
+                <a href="#contact" class="btn-primary text-sm">
+                    <span>Hire Me</span>
+                </a>
             </div>
         </div>
     </nav>
-
+    
     <!-- Hero Section -->
-    <section class="hero-section">
-        <div class="container">
-            <div class="profile-container">
-                <div class="profile-image">TG</div>
+    <section id="hero" class="min-h-screen flex items-center justify-center relative pt-20">
+        <div class="max-w-6xl mx-auto px-6 py-20">
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <div data-aos="fade-right" data-aos-duration="1000">
+                    <p class="font-body text-accent font-medium mb-4 tracking-wider uppercase text-sm">Software Engineer</p>
+                    <h1 class="font-display text-5xl md:text-7xl font-bold mb-6 leading-tight">
+                        Hi, I'm <span class="text-accent">Thirupathi</span>
+                    </h1>
+                    <div class="font-display text-2xl md:text-3xl text-muted mb-8 h-12">
+                        <span id="typed"></span>
+                    </div>
+                    <p class="font-body text-muted text-lg mb-10 max-w-lg leading-relaxed">
+                        Building robust enterprise applications with clean code and scalable architecture. Focused on aviation maintenance software and backend development.
+                    </p>
+                    <div class="flex flex-wrap gap-4">
+                        <a href="#contact" class="btn-primary">
+                            <span>Get In Touch</span>
+                        </a>
+                        <a href="https://github.com/thirupathimech" target="_blank" class="btn-secondary">
+                            <i class="fab fa-github mr-2"></i> View GitHub
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="relative" data-aos="fade-left" data-aos-duration="1000" data-aos-delay="200">
+                    <div class="glass rounded-3xl p-8 relative overflow-hidden">
+                        <div class="absolute top-4 right-4 flex gap-2">
+                            <span class="w-3 h-3 rounded-full bg-red-500"></span>
+                            <span class="w-3 h-3 rounded-full bg-yellow-500"></span>
+                            <span class="w-3 h-3 rounded-full bg-green-500"></span>
+                        </div>
+                        <pre class="font-mono text-sm text-muted overflow-x-auto"><code class="text-accent-light">class</code> <code class="text-fg">SoftwareEngineer</code> {
+  <code class="text-accent-light">private</code> String name = <code class="text-green-400">"Thirupathi G"</code>;
+  <code class="text-accent-light">private</code> String role = <code class="text-green-400">"Backend Developer"</code>;
+  <code class="text-accent-light">private</code> String[] skills = {
+    <code class="text-green-400">"Java"</code>, <code class="text-green-400">"Spring Boot"</code>,
+    <code class="text-green-400">"React"</code>, <code class="text-green-400">"MySQL"</code>
+  };
+  
+  <code class="text-accent-light">public</code> String <code class="text-yellow-400">getGreeting</code>() {
+    <code class="text-accent-light">return</code> <code class="text-green-400">"Welcome to my portfolio!"</code>;
+  }
+}</pre>
+                    </div>
+                    
+                    <!-- Decorative Elements -->
+                    <div class="absolute -bottom-6 -right-6 w-24 h-24 border-2 border-accent rounded-2xl opacity-20"></div>
+                    <div class="absolute -top-6 -left-6 w-16 h-16 border-2 border-accent-light rounded-xl opacity-20"></div>
+                </div>
             </div>
-            <h1 class="hero-title">Thirupathi G</h1>
-            <p class="hero-subtitle">Full Stack Developer & Problem Solver</p>
+            
+            <!-- Stats -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mt-20" data-aos="fade-up" data-aos-duration="800" data-aos-delay="400">
+                <div class="glass rounded-2xl p-6 text-center">
+                    <div class="stat-number font-display text-4xl font-bold">1.5+</div>
+                    <p class="text-muted text-sm mt-2">Years Experience</p>
+                </div>
+                <div class="glass rounded-2xl p-6 text-center">
+                    <div class="stat-number font-display text-4xl font-bold">12+</div>
+                    <p class="text-muted text-sm mt-2">Technologies</p>
+                </div>
+                <div class="glass rounded-2xl p-6 text-center">
+                    <div class="stat-number font-display text-4xl font-bold">5+</div>
+                    <p class="text-muted text-sm mt-2">Projects Delivered</p>
+                </div>
+                <div class="glass rounded-2xl p-6 text-center">
+                    <div class="stat-number font-display text-4xl font-bold">100%</div>
+                    <p class="text-muted text-sm mt-2">Client Satisfaction</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Scroll Indicator -->
+        <div class="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
+            <a href="#about" class="text-muted hover:text-accent transition-colors">
+                <i class="fas fa-chevron-down text-2xl"></i>
+            </a>
         </div>
     </section>
-
+    
     <!-- About Section -->
-    <section class="about-section">
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-lg-10">
-                    <div class="glass-card">
-                        <h2 class="section-title">About Me</h2>
-                        <p class="about-text">
-                            Hi there! 👋 I'm Thirupathi G, a passionate full-stack developer who loves crafting digital solutions that make a difference. With expertise in modern web technologies, I specialize in building responsive, user-friendly applications that solve real-world problems.
+    <section id="about" class="py-32 relative">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="grid lg:grid-cols-2 gap-16 items-center">
+                <div data-aos="fade-right" data-aos-duration="800">
+                    <div class="relative">
+                        <div class="glass rounded-3xl p-2">
+                            <div class="aspect-square rounded-2xl bg-gradient-to-br from-accent/20 to-cyan-500/20 flex items-center justify-center overflow-hidden">
+                                <div class="text-9xl text-accent/30 font-display font-bold">TG</div>
+                            </div>
+                        </div>
+                        <div class="absolute -bottom-4 -right-4 glass rounded-2xl px-6 py-4">
+                            <p class="text-accent font-display font-semibold">Based in Salem, India</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div data-aos="fade-left" data-aos-duration="800" data-aos-delay="200">
+                    <h2 class="section-title font-display text-4xl md:text-5xl font-bold mb-8">About Me</h2>
+                    <div class="space-y-6 text-muted leading-relaxed">
+                        <p>
+                            I'm a passionate Software Engineer with strong experience in Java-based enterprise applications. My expertise lies in backend development, UI frameworks, REST APIs, and performance optimization.
                         </p>
-                        <p class="about-text">
-                            My journey in development has led me to master technologies like <strong>Java</strong>, <strong>PrimeFaces</strong>, <strong>Bootstrap</strong>, and <strong>jQuery</strong>. I'm particularly passionate about creating tools that enhance productivity and streamline workflows - from database management systems to interactive web applications.
+                        <p>
+                            Currently working on aviation maintenance software at Ultramain, I focus on building scalable architecture, writing clean code, and ensuring system stability. I believe in continuous learning and staying updated with the latest technologies.
                         </p>
-                        <p class="about-text">
-                            When I'm not coding, you'll find me exploring new technologies, contributing to open-source projects, or helping fellow developers solve challenging problems. I believe in writing clean, efficient code that not only works but is also maintainable and scalable.
+                        <p>
+                            When I'm not coding, you'll find me exploring new frameworks, contributing to open-source projects, or working on personal projects to sharpen my skills.
                         </p>
                     </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Skills Section -->
-    <section class="skills-section">
-        <div class="container">
-            <h2 class="section-title text-center mb-5">Technical Skills</h2>
-            <div class="skills-grid">
-                <div class="skill-card delay-1">
-                    <div class="skill-icon">
-                        <i class="fab fa-java"></i>
-                    </div>
-                    <h3 class="skill-title">Java Development</h3>
-                    <p class="skill-description">Backend development with Spring Boot, Hibernate, and enterprise-level applications</p>
-                </div>
-                <div class="skill-card delay-2">
-                    <div class="skill-icon">
-                        <i class="fas fa-laptop-code"></i>
-                    </div>
-                    <h3 class="skill-title">Frontend Technologies</h3>
-                    <p class="skill-description">Modern web development with PrimeFaces, Bootstrap, jQuery, and responsive design</p>
-                </div>
-                <div class="skill-card delay-3">
-                    <div class="skill-icon">
-                        <i class="fas fa-database"></i>
-                    </div>
-                    <h3 class="skill-title">Database Management</h3>
-                    <p class="skill-description">MySQL, database design, optimization, and data analysis tools</p>
-                </div>
-                <div class="skill-card delay-4">
-                    <div class="skill-icon">
-                        <i class="fas fa-tools"></i>
-                    </div>
-                    <h3 class="skill-title">Development Tools</h3>
-                    <p class="skill-description">Version control, CI/CD, testing frameworks, and modern development workflows</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Stats Section -->
-    <section class="stats-section">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-3 col-6">
-                    <div class="stat-item">
-                        <div class="stat-number">50+</div>
-                        <div class="stat-label">Projects Completed</div>
-                    </div>
-                </div>
-                <div class="col-md-3 col-6">
-                    <div class="stat-item">
-                        <div class="stat-number">3+</div>
-                        <div class="stat-label">Years Experience</div>
-                    </div>
-                </div>
-                <div class="col-md-3 col-6">
-                    <div class="stat-item">
-                        <div class="stat-number">100+</div>
-                        <div class="stat-label">Happy Users</div>
-                    </div>
-                </div>
-                <div class="col-md-3 col-6">
-                    <div class="stat-item">
-                        <div class="stat-number">24/7</div>
-                        <div class="stat-label">Code Enthusiast</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Contact Section -->
-    <section id="contact" class="about-section">
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-lg-8">
-                    <div class="glass-card text-center">
-                        <h2 class="section-title">Let's Connect</h2>
-                        <p class="about-text">
-                            Ready to collaborate on your next project? I'm always excited to work on innovative solutions and help bring your ideas to life. Let's build something amazing together!
-                        </p>
-                        <div class="social-links">
-                            <a href="https://github.com/thirupathimech" target=""_blank" class="social-link">
-                                <i class="fab fa-github"></i>
-                            </a>
-                            <a href="https://www.linkedin.com/in/thirupathi-g/" target=""_blank"  class="social-link">
-                                <i class="fab fa-linkedin"></i>
-                            </a>                           
+                    
+                    <div class="grid grid-cols-2 gap-4 mt-10">
+                        <div class="glass rounded-xl p-4">
+                            <p class="text-xs text-muted mb-1">Email</p>
+                            <p class="text-sm text-fg">thirupathi7845@gmail.com</p>
+                        </div>
+                        <div class="glass rounded-xl p-4">
+                            <p class="text-xs text-muted mb-1">Phone</p>
+                            <p class="text-sm text-fg">+91-7397070203</p>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
-
+    
+    <!-- Tech Stack Section -->
+    <section id="skills" class="py-32 relative">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <h2 class="section-title font-display text-4xl md:text-5xl font-bold mb-6 mx-auto">Tech Stack</h2>
+                <p class="text-muted max-w-2xl mx-auto">Technologies I work with to build robust and scalable applications</p>
+            </div>
+            
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                <!-- Java -->
+                <div class="tech-card glass gradient-border p-6 cursor-pointer" data-tilt data-aos="fade-up" data-aos-delay="0">
+                    <div class="tech-logo-bg">
+                        <i class="devicon-java-plain"></i>
+                    </div>
+                    <div class="relative z-10">
+                        <i class="devicon-java-plain text-4xl text-accent mb-4 block"></i>
+                        <h3 class="font-display font-semibold text-lg mb-2">Java</h3>
+                        <p class="text-muted text-sm">Enterprise-grade backend development with strong OOP principles</p>
+                    </div>
+                </div>
+                
+                <!-- Spring Boot -->
+                <div class="tech-card glass gradient-border p-6 cursor-pointer" data-tilt data-aos="fade-up" data-aos-delay="50">
+                    <div class="tech-logo-bg">
+                        <i class="devicon-spring-original"></i>
+                    </div>
+                    <div class="relative z-10">
+                        <i class="devicon-spring-original text-4xl text-green-500 mb-4 block"></i>
+                        <h3 class="font-display font-semibold text-lg mb-2">Spring Boot</h3>
+                        <p class="text-muted text-sm">Building microservices and RESTful APIs at scale</p>
+                    </div>
+                </div>
+                
+                <!-- Hibernate -->
+                <div class="tech-card glass gradient-border p-6 cursor-pointer" data-tilt data-aos="fade-up" data-aos-delay="100">
+                    <div class="tech-logo-bg">
+                        <i class="devicon-hibernate-plain"></i>
+                    </div>
+                    <div class="relative z-10">
+                        <i class="devicon-hibernate-plain text-4xl text-amber-600 mb-4 block"></i>
+                        <h3 class="font-display font-semibold text-lg mb-2">Hibernate</h3>
+                        <p class="text-muted text-sm">ORM framework for efficient database operations</p>
+                    </div>
+                </div>
+                
+                <!-- REST APIs -->
+                <div class="tech-card glass gradient-border p-6 cursor-pointer" data-tilt data-aos="fade-up" data-aos-delay="150">
+                    <div class="tech-logo-bg">
+                        <i class="fas fa-plug"></i>
+                    </div>
+                    <div class="relative z-10">
+                        <i class="fas fa-plug text-4xl text-blue-400 mb-4 block"></i>
+                        <h3 class="font-display font-semibold text-lg mb-2">REST APIs</h3>
+                        <p class="text-muted text-sm">Designing and consuming scalable API endpoints</p>
+                    </div>
+                </div>
+                
+                <!-- React -->
+                <div class="tech-card glass gradient-border p-6 cursor-pointer" data-tilt data-aos="fade-up" data-aos-delay="200">
+                    <div class="tech-logo-bg">
+                        <i class="devicon-react-original"></i>
+                    </div>
+                    <div class="relative z-10">
+                        <i class="devicon-react-original text-4xl text-cyan-400 mb-4 block"></i>
+                        <h3 class="font-display font-semibold text-lg mb-2">React</h3>
+                        <p class="text-muted text-sm">Building interactive UIs with component architecture</p>
+                    </div>
+                </div>
+                
+                <!-- JavaScript -->
+                <div class="tech-card glass gradient-border p-6 cursor-pointer" data-tilt data-aos="fade-up" data-aos-delay="250">
+                    <div class="tech-logo-bg">
+                        <i class="devicon-javascript-plain"></i>
+                    </div>
+                    <div class="relative z-10">
+                        <i class="devicon-javascript-plain text-4xl text-yellow-400 mb-4 block"></i>
+                        <h3 class="font-display font-semibold text-lg mb-2">JavaScript</h3>
+                        <p class="text-muted text-sm">Dynamic frontend development and DOM manipulation</p>
+                    </div>
+                </div>
+                
+                <!-- MySQL -->
+                <div class="tech-card glass gradient-border p-6 cursor-pointer" data-tilt data-aos="fade-up" data-aos-delay="300">
+                    <div class="tech-logo-bg">
+                        <i class="devicon-mysql-plain"></i>
+                    </div>
+                    <div class="relative z-10">
+                        <i class="devicon-mysql-plain text-4xl text-blue-500 mb-4 block"></i>
+                        <h3 class="font-display font-semibold text-lg mb-2">MySQL</h3>
+                        <p class="text-muted text-sm">Relational database design and query optimization</p>
+                    </div>
+                </div>
+                
+                <!-- PostgreSQL -->
+                <div class="tech-card glass gradient-border p-6 cursor-pointer" data-tilt data-aos="fade-up" data-aos-delay="350">
+                    <div class="tech-logo-bg">
+                        <i class="devicon-postgresql-plain"></i>
+                    </div>
+                    <div class="relative z-10">
+                        <i class="devicon-postgresql-plain text-4xl text-blue-300 mb-4 block"></i>
+                        <h3 class="font-display font-semibold text-lg mb-2">PostgreSQL</h3>
+                        <p class="text-muted text-sm">Advanced SQL features for enterprise applications</p>
+                    </div>
+                </div>
+                
+                <!-- Git -->
+                <div class="tech-card glass gradient-border p-6 cursor-pointer" data-tilt data-aos="fade-up" data-aos-delay="400">
+                    <div class="tech-logo-bg">
+                        <i class="devicon-git-plain"></i>
+                    </div>
+                    <div class="relative z-10">
+                        <i class="devicon-git-plain text-4xl text-orange-500 mb-4 block"></i>
+                        <h3 class="font-display font-semibold text-lg mb-2">Git</h3>
+                        <p class="text-muted text-sm">Version control and collaborative development</p>
+                    </div>
+                </div>
+                
+                <!-- Maven -->
+                <div class="tech-card glass gradient-border p-6 cursor-pointer" data-tilt data-aos="fade-up" data-aos-delay="450">
+                    <div class="tech-logo-bg">
+                        <i class="devicon-apache-plain"></i>
+                    </div>
+                    <div class="relative z-10">
+                        <i class="devicon-apache-plain text-4xl text-red-500 mb-4 block"></i>
+                        <h3 class="font-display font-semibold text-lg mb-2">Maven</h3>
+                        <p class="text-muted text-sm">Build automation and dependency management</p>
+                    </div>
+                </div>
+                
+                <!-- WildFly -->
+                <div class="tech-card glass gradient-border p-6 cursor-pointer" data-tilt data-aos="fade-up" data-aos-delay="500">
+                    <div class="tech-logo-bg">
+                        <i class="fas fa-server"></i>
+                    </div>
+                    <div class="relative z-10">
+                        <i class="fas fa-server text-4xl text-amber-500 mb-4 block"></i>
+                        <h3 class="font-display font-semibold text-lg mb-2">WildFly</h3>
+                        <p class="text-muted text-sm">Enterprise Java application server deployment</p>
+                    </div>
+                </div>
+                
+                <!-- Selenium -->
+                <div class="tech-card glass gradient-border p-6 cursor-pointer" data-tilt data-aos="fade-up" data-aos-delay="550">
+                    <div class="tech-logo-bg">
+                        <i class="fas fa-vial"></i>
+                    </div>
+                    <div class="relative z-10">
+                        <i class="fas fa-vial text-4xl text-green-400 mb-4 block"></i>
+                        <h3 class="font-display font-semibold text-lg mb-2">Selenium</h3>
+                        <p class="text-muted text-sm">Automated testing for web applications</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Experience Section -->
+    <section id="experience" class="py-32 relative">
+        <div class="max-w-4xl mx-auto px-6">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <h2 class="section-title font-display text-4xl md:text-5xl font-bold mb-6 mx-auto">Experience</h2>
+                <p class="text-muted max-w-2xl mx-auto">My professional journey in software development</p>
+            </div>
+            
+            <div class="space-y-8">
+                <!-- Current Position -->
+                <div class="timeline-item" data-aos="fade-right" data-aos-duration="800">
+                    <div class="glass rounded-2xl p-8 gradient-border">
+                        <div class="flex flex-wrap items-start justify-between gap-4 mb-4">
+                            <div>
+                                <h3 class="font-display text-xl font-semibold text-accent">Software Engineer</h3>
+                                <p class="text-fg font-medium">Ultramain Software India Pvt Ltd</p>
+                            </div>
+                            <span class="glass px-4 py-2 rounded-full text-sm text-accent">Oct 2023 - Present</span>
+                        </div>
+                        <ul class="space-y-3 text-muted">
+                            <li class="flex items-start gap-3">
+                                <i class="fas fa-chevron-right text-accent text-sm mt-1"></i>
+                                <span>Developed and maintained enterprise aviation maintenance applications using Java technologies</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <i class="fas fa-chevron-right text-accent text-sm mt-1"></i>
+                                <span>Designed and enhanced UI components using GWT and Sencha GXT with focus on performance and usability</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <i class="fas fa-chevron-right text-accent text-sm mt-1"></i>
+                                <span>Optimized backend logic and SQL queries to improve application response time</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <i class="fas fa-chevron-right text-accent text-sm mt-1"></i>
+                                <span>Built and consumed REST APIs for internal system integrations</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <i class="fas fa-chevron-right text-accent text-sm mt-1"></i>
+                                <span>Created operational and business reports using Jasper Reports</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <i class="fas fa-chevron-right text-accent text-sm mt-1"></i>
+                                <span>Debugged and resolved production issues in large-scale codebases</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- Education -->
+                <div class="timeline-item" data-aos="fade-right" data-aos-duration="800" data-aos-delay="200">
+                    <div class="glass rounded-2xl p-8 gradient-border">
+                        <div class="flex flex-wrap items-start justify-between gap-4 mb-4">
+                            <div>
+                                <h3 class="font-display text-xl font-semibold text-accent">BE - Mechanical Engineering</h3>
+                                <p class="text-fg font-medium">Dhirajlal Gandhi College of Technology</p>
+                            </div>
+                            <span class="glass px-4 py-2 rounded-full text-sm text-accent">2018 - 2022</span>
+                        </div>
+                        <p class="text-muted">Built a strong foundation in engineering principles, problem-solving, and analytical thinking that translates into structured software development approach.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Contact Section -->
+    <section id="contact" class="py-32 relative">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <h2 class="section-title font-display text-4xl md:text-5xl font-bold mb-6 mx-auto">Get In Touch</h2>
+                <p class="text-muted max-w-2xl mx-auto">Have a project in mind? Let's work together to build something amazing.</p>
+            </div>
+            
+            <div class="grid lg:grid-cols-2 gap-12">
+                <div data-aos="fade-right" data-aos-duration="800">
+                    <div class="glass rounded-3xl p-8 h-full">
+                        <h3 class="font-display text-2xl font-semibold mb-6">Contact Information</h3>
+                        
+                        <div class="space-y-6">
+                            <a href="mailto:thirupathi7845@gmail.com" class="flex items-center gap-4 p-4 rounded-xl bg-bg/50 hover:bg-accent/10 transition-colors group">
+                                <div class="w-12 h-12 rounded-xl bg-accent/10 flex items-center justify-center group-hover:bg-accent/20 transition-colors">
+                                    <i class="fas fa-envelope text-accent text-xl"></i>
+                                </div>
+                                <div>
+                                    <p class="text-xs text-muted mb-1">Email</p>
+                                    <p class="text-fg">thirupathi7845@gmail.com</p>
+                                </div>
+                            </a>
+                            
+                            <a href="tel:+917397070203" class="flex items-center gap-4 p-4 rounded-xl bg-bg/50 hover:bg-accent/10 transition-colors group">
+                                <div class="w-12 h-12 rounded-xl bg-accent/10 flex items-center justify-center group-hover:bg-accent/20 transition-colors">
+                                    <i class="fas fa-phone text-accent text-xl"></i>
+                                </div>
+                                <div>
+                                    <p class="text-xs text-muted mb-1">Phone</p>
+                                    <p class="text-fg">+91-7397070203</p>
+                                </div>
+                            </a>
+                            
+                            <div class="flex items-center gap-4 p-4 rounded-xl bg-bg/50">
+                                <div class="w-12 h-12 rounded-xl bg-accent/10 flex items-center justify-center">
+                                    <i class="fas fa-map-marker-alt text-accent text-xl"></i>
+                                </div>
+                                <div>
+                                    <p class="text-xs text-muted mb-1">Location</p>
+                                    <p class="text-fg">Salem, Tamil Nadu, India</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-8 pt-8 border-t border-border">
+                            <p class="text-sm text-muted mb-4">Connect with me</p>
+                            <div class="flex gap-4">
+                                <a href="https://linkedin.com/in/thirupathi-g" target="_blank" class="social-link">
+                                    <i class="fab fa-linkedin-in text-lg"></i>
+                                </a>
+                                <a href="https://github.com/thirupathimech" target="_blank" class="social-link">
+                                    <i class="fab fa-github text-lg"></i>
+                                </a>
+                                <a href="https://thirupathimech.github.io/dashBoard" target="_blank" class="social-link">
+                                    <i class="fas fa-globe text-lg"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div data-aos="fade-left" data-aos-duration="800" data-aos-delay="200">
+                    <form class="glass rounded-3xl p-8" id="contactForm">
+                        <div class="space-y-6">
+                            <div>
+                                <label class="block text-sm text-muted mb-2">Your Name</label>
+                                <input type="text" class="form-input" placeholder="John Doe" required>
+                            </div>
+                            <div>
+                                <label class="block text-sm text-muted mb-2">Email Address</label>
+                                <input type="email" class="form-input" placeholder="john@example.com" required>
+                            </div>
+                            <div>
+                                <label class="block text-sm text-muted mb-2">Subject</label>
+                                <input type="text" class="form-input" placeholder="Project Inquiry" required>
+                            </div>
+                            <div>
+                                <label class="block text-sm text-muted mb-2">Message</label>
+                                <textarea class="form-input min-h-[150px] resize-none" placeholder="Tell me about your project..." required></textarea>
+                            </div>
+                            <button type="submit" class="btn-primary w-full">
+                                <span>Send Message</span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+    
     <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <p class="mb-0" style="color: #a0aec0;">
-                © 2025 Thirupathi G. Built with ❤️ and lots of ☕
-            </p>
+    <footer class="py-12 border-t border-border">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+                <div class="flex items-center gap-4">
+                    <span class="font-display font-bold text-2xl text-accent">TG</span>
+                    <span class="text-muted">|</span>
+                    <span class="text-muted text-sm">Software Engineer</span>
+                </div>
+                
+                <div class="flex items-center gap-6">
+                    <a href="#hero" class="text-muted hover:text-accent transition-colors text-sm">Home</a>
+                    <a href="#about" class="text-muted hover:text-accent transition-colors text-sm">About</a>
+                    <a href="#skills" class="text-muted hover:text-accent transition-colors text-sm">Skills</a>
+                    <a href="#contact" class="text-muted hover:text-accent transition-colors text-sm">Contact</a>
+                </div>
+                
+                <p class="text-muted text-sm">
+                    © 2026 Thirupathi G. All rights reserved.
+                </p>
+            </div>
         </div>
     </footer>
-
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     
     <script>
-        // Create floating particles
+        // Initialize AOS
+        AOS.init({
+            duration: 800,
+            once: true,
+            offset: 100
+        });
+        
+        // Initialize Typed.js
+        document.addEventListener('DOMContentLoaded', function() {
+            const typedElement = document.getElementById('typed');
+            if (typedElement) {
+                new Typed('#typed', {
+                    strings: [
+                        'Java Developer',
+                        'Backend Engineer',
+                        'Problem Solver',
+                        'Clean Code Advocate'
+                    ],
+                    typeSpeed: 60,
+                    backSpeed: 40,
+                    backDelay: 2000,
+                    loop: true,
+                    cursorChar: '|'
+                });
+            }
+        });
+        
+        // Initialize Vanilla Tilt
+        document.addEventListener('DOMContentLoaded', function() {
+            const tiltElements = document.querySelectorAll('[data-tilt]');
+            if (tiltElements.length > 0) {
+                VanillaTilt.init(tiltElements, {
+                    max: 15,
+                    speed: 400,
+                    glare: true,
+                    'max-glare': 0.2,
+                    scale: 1.02
+                });
+            }
+        });
+        
+        // Create Floating Particles
         function createParticles() {
-            const particlesContainer = document.getElementById('particles');
-            const particleCount = 50;
-
+            const container = document.getElementById('particles');
+            if (!container) return;
+            
+            const particleCount = 20;
+            
             for (let i = 0; i < particleCount; i++) {
                 const particle = document.createElement('div');
                 particle.className = 'particle';
-                
-                const size = Math.random() * 4 + 2;
-                particle.style.width = `${size}px`;
-                particle.style.height = `${size}px`;
-                particle.style.left = `${Math.random() * 100}%`;
-                particle.style.top = `${Math.random() * 100}%`;
-                particle.style.animationDelay = `${Math.random() * 6}s`;
-                particle.style.animationDuration = `${6 + Math.random() * 4}s`;
-                
-                particlesContainer.appendChild(particle);
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 10 + 's';
+                particle.style.animationDuration = (Math.random() * 10 + 10) + 's';
+                container.appendChild(particle);
             }
         }
-
-        // Smooth scrolling for navigation links
+        
+        createParticles();
+        
+        // Smooth Scroll for Navigation
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
+            anchor.addEventListener('click', function(e) {
                 e.preventDefault();
                 const target = document.querySelector(this.getAttribute('href'));
                 if (target) {
@@ -592,49 +1024,75 @@
                 }
             });
         });
-
-        // Intersection Observer for animations
+        
+        // Form Submission Handler
+        const contactForm = document.getElementById('contactForm');
+        if (contactForm) {
+            contactForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const btn = this.querySelector('button[type="submit"]');
+                const originalText = btn.innerHTML;
+                btn.innerHTML = '<span>Sending...</span>';
+                btn.disabled = true;
+                
+                setTimeout(() => {
+                    btn.innerHTML = '<span>Message Sent!</span>';
+                    btn.style.background = 'linear-gradient(135deg, #10b981, #059669)';
+                    
+                    setTimeout(() => {
+                        btn.innerHTML = originalText;
+                        btn.style.background = '';
+                        btn.disabled = false;
+                        contactForm.reset();
+                    }, 2000);
+                }, 1500);
+            });
+        }
+        
+        // Navbar Background on Scroll
+        const nav = document.querySelector('nav');
+        if (nav) {
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    nav.style.background = 'rgba(10, 15, 26, 0.95)';
+                } else {
+                    nav.style.background = 'rgba(17, 24, 39, 0.8)';
+                }
+            });
+        }
+        
+        // Intersection Observer for Active Nav Links
+        const sections = document.querySelectorAll('section[id]');
+        const navLinks = document.querySelectorAll('.nav-link');
+        
         const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
+            root: null,
+            rootMargin: '-50% 0px -50% 0px',
+            threshold: 0
         };
-
+        
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
+                    navLinks.forEach(link => {
+                        link.classList.remove('text-accent');
+                        if (link.getAttribute('href') === '#' + entry.target.id) {
+                            link.classList.add('text-accent');
+                        }
+                    });
                 }
             });
         }, observerOptions);
-
-        // Observe all skill cards
-        document.querySelectorAll('.skill-card').forEach(card => {
-            card.style.opacity = '0';
-            card.style.transform = 'translateY(30px)';
-            card.style.transition = 'all 0.6s ease';
-            observer.observe(card);
-        });
-
-        // Initialize particles
-        createParticles();
-
-        // Add typing effect to hero subtitle
-        const subtitle = document.querySelector('.hero-subtitle');
-        const text = subtitle.textContent;
-        subtitle.textContent = '';
         
-        let i = 0;
-        const typeWriter = () => {
-            if (i < text.length) {
-                subtitle.textContent += text.charAt(i);
-                i++;
-                setTimeout(typeWriter, 50);
-            }
-        };
+        sections.forEach(section => observer.observe(section));
         
-        setTimeout(typeWriter, 1000);
+        // Respect Reduced Motion
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            document.querySelectorAll('.gradient-orb, .particle').forEach(el => {
+                el.style.animation = 'none';
+            });
+        }
     </script>
 </body>
-
 </html>
