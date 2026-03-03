@@ -4,514 +4,169 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Thirupathi G | Software Engineer</title>
-    
-    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
-    
-    <!-- TailwindCSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- AOS -->
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    
-    <!-- Typed.js -->
     <script src="https://unpkg.com/typed.js@2.1.0/dist/typed.umd.js"></script>
-    
-    <!-- Vanilla Tilt -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.1/vanilla-tilt.min.js"></script>
-    
-    <!-- FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    
-    <!-- Devicon -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css">
-    <link rel="icon" href="favicon.ico">
-    
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
-                        bg: '#0a0f1a',
-                        'bg-secondary': '#111827',
-                        fg: '#f1f5f9',
-                        muted: '#64748b',
-                        accent: '#14b8a6',
-                        'accent-light': '#2dd4bf',
-                        card: 'rgba(17, 24, 39, 0.7)',
-                        border: 'rgba(100, 116, 139, 0.2)'
+                        bg: '#0a0f1a', 'bg-secondary': '#111827', fg: '#f1f5f9',
+                        muted: '#64748b', accent: '#14b8a6', 'accent-light': '#2dd4bf',
                     },
-                    fontFamily: {
-                        display: ['Space Grotesk', 'sans-serif'],
-                        body: ['DM Sans', 'sans-serif']
-                    }
+                    fontFamily: { display: ['Space Grotesk','sans-serif'], body: ['DM Sans','sans-serif'] }
                 }
             }
         }
     </script>
-    
     <style>
-        :root {
-            --bg: #0a0f1a;
-            --bg-secondary: #111827;
-            --fg: #f1f5f9;
-            --muted: #64748b;
-            --accent: #14b8a6;
-            --accent-light: #2dd4bf;
-            --card: rgba(17, 24, 39, 0.7);
-            --border: rgba(100, 116, 139, 0.2);
-        }
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        html {
-            scroll-behavior: smooth;
-        }
-        
-        body {
-            font-family: 'DM Sans', sans-serif;
-            background-color: var(--bg);
-            color: var(--fg);
-            overflow-x: hidden;
-        }
-        
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-        
-        ::-webkit-scrollbar-track {
-            background: var(--bg);
-        }
-        
-        ::-webkit-scrollbar-thumb {
-            background: var(--accent);
-            border-radius: 4px;
-        }
-        
-        /* Background Grid Pattern */
-        .bg-grid {
-            background-image: 
-                linear-gradient(rgba(20, 184, 166, 0.03) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(20, 184, 166, 0.03) 1px, transparent 1px);
-            background-size: 60px 60px;
-        }
-        
-        /* Gradient Orbs */
-        .gradient-orb {
-            position: absolute;
-            border-radius: 50%;
-            filter: blur(100px);
-            opacity: 0.4;
-            pointer-events: none;
-        }
-        
-        .orb-1 {
-            width: 600px;
-            height: 600px;
-            background: radial-gradient(circle, rgba(20, 184, 166, 0.3) 0%, transparent 70%);
-            top: -200px;
-            right: -200px;
-            animation: float 20s ease-in-out infinite;
-        }
-        
-        .orb-2 {
-            width: 400px;
-            height: 400px;
-            background: radial-gradient(circle, rgba(6, 182, 212, 0.25) 0%, transparent 70%);
-            bottom: 20%;
-            left: -100px;
-            animation: float 15s ease-in-out infinite reverse;
-        }
-        
-        .orb-3 {
-            width: 500px;
-            height: 500px;
-            background: radial-gradient(circle, rgba(20, 184, 166, 0.2) 0%, transparent 70%);
-            top: 60%;
-            right: -150px;
-            animation: float 18s ease-in-out infinite;
-        }
-        
-        @keyframes float {
-            0%, 100% { transform: translate(0, 0) scale(1); }
-            33% { transform: translate(30px, -30px) scale(1.05); }
-            66% { transform: translate(-20px, 20px) scale(0.95); }
-        }
-        
-        /* Glassmorphism */
-        .glass {
-            background: rgba(17, 24, 39, 0.6);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(100, 116, 139, 0.15);
-        }
-        
-        .glass-strong {
-            background: rgba(17, 24, 39, 0.8);
-            backdrop-filter: blur(30px);
-            -webkit-backdrop-filter: blur(30px);
-            border: 1px solid rgba(100, 116, 139, 0.2);
-        }
-        
-        /* Animated Gradient Border */
-        .gradient-border {
-            position: relative;
-            background: var(--bg-secondary);
-            border-radius: 16px;
-        }
-        
-        .gradient-border::before {
-            content: '';
-            position: absolute;
-            inset: -2px;
-            border-radius: 18px;
-            background: linear-gradient(135deg, var(--accent), #06b6d4, var(--accent-light), var(--accent));
-            background-size: 300% 300%;
-            animation: gradientMove 4s ease infinite;
-            z-index: -1;
-            opacity: 0;
-            transition: opacity 0.4s ease;
-        }
-        
-        .gradient-border:hover::before {
-            opacity: 1;
-        }
-        
-        @keyframes gradientMove {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-        
-        /* Tech Card Styles */
-        .tech-card {
-            position: relative;
-            border-radius: 16px;
-            overflow: hidden;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            transform-style: preserve-3d;
-        }
-        
-        .tech-card::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(135deg, rgba(20, 184, 166, 0.1), rgba(6, 182, 212, 0.05));
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-        
-        .tech-card:hover::before {
-            opacity: 1;
-        }
-        
-        .tech-card:hover {
-            transform: translateY(-8px);
-        }
-        
-        .tech-logo-bg {
-            position: absolute;
-            inset: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            transition: opacity 0.4s ease;
-            font-size: 120px;
-            color: rgba(20, 184, 166, 0.08);
-        }
-        
-        .tech-card:hover .tech-logo-bg {
-            opacity: 1;
-        }
-        
-        /* Typing Cursor */
-        .typed-cursor {
-            color: var(--accent);
-            font-weight: 300;
-            animation: blink 1s step-end infinite;
-        }
-        
-        @keyframes blink {
-            50% { opacity: 0; }
-        }
-        
-        /* Navigation */
-        .nav-link {
-            position: relative;
-            color: var(--muted);
-            transition: color 0.3s ease;
-        }
-        
-        .nav-link::after {
-            content: '';
-            position: absolute;
-            bottom: -4px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: var(--accent);
-            transition: width 0.3s ease;
-        }
-        
-        .nav-link:hover {
-            color: var(--fg);
-        }
-        
-        .nav-link:hover::after {
-            width: 100%;
-        }
-        
-        /* Button Styles */
-        .btn-primary {
-            position: relative;
-            background: linear-gradient(135deg, var(--accent), #0d9488);
-            color: var(--bg);
-            font-weight: 600;
-            padding: 14px 32px;
-            border-radius: 12px;
-            overflow: hidden;
-            transition: all 0.3s ease;
-        }
-        
-        .btn-primary::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(135deg, var(--accent-light), var(--accent));
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-        
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 40px rgba(20, 184, 166, 0.3);
-        }
-        
-        .btn-primary:hover::before {
-            opacity: 1;
-        }
-        
-        .btn-primary span {
-            position: relative;
-            z-index: 1;
-        }
-        
-        .btn-secondary {
-            position: relative;
-            background: transparent;
-            color: var(--fg);
-            font-weight: 500;
-            padding: 14px 32px;
-            border-radius: 12px;
-            border: 1px solid var(--border);
-            transition: all 0.3s ease;
-        }
-        
-        .btn-secondary:hover {
-            border-color: var(--accent);
-            color: var(--accent);
-            transform: translateY(-2px);
-        }
-        
-        /* Section Title */
-        .section-title {
-            position: relative;
-            display: inline-block;
-        }
-        
-        .section-title::after {
-            content: '';
-            position: absolute;
-            bottom: -8px;
-            left: 0;
-            width: 60px;
-            height: 3px;
-            background: linear-gradient(90deg, var(--accent), transparent);
-            border-radius: 2px;
-        }
-        
+        :root{--bg:#0a0f1a;--bg2:#111827;--fg:#f1f5f9;--muted:#64748b;--accent:#14b8a6;--alight:#2dd4bf;--border:rgba(100,116,139,.2)}
+        *{margin:0;padding:0;box-sizing:border-box}
+        html{scroll-behavior:smooth}
+        body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--fg);overflow-x:hidden}
+        ::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:var(--accent);border-radius:4px}
+        .bg-grid{background-image:linear-gradient(rgba(20,184,166,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(20,184,166,.03) 1px,transparent 1px);background-size:60px 60px}
+        /* Orbs - desktop only */
+        .orb{position:absolute;border-radius:50%;filter:blur(100px);opacity:.4;pointer-events:none;will-change:transform}
+        @media(max-width:768px){.orb{display:none}}
+        .orb1{width:500px;height:500px;background:radial-gradient(circle,rgba(20,184,166,.3) 0%,transparent 70%);top:-150px;right:-150px;animation:float 20s ease-in-out infinite}
+        .orb2{width:350px;height:350px;background:radial-gradient(circle,rgba(6,182,212,.25) 0%,transparent 70%);bottom:20%;left:-80px;animation:float 15s ease-in-out infinite reverse}
+        .orb3{width:400px;height:400px;background:radial-gradient(circle,rgba(20,184,166,.2) 0%,transparent 70%);top:60%;right:-100px;animation:float 18s ease-in-out infinite}
+        @keyframes float{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(25px,-25px) scale(1.04)}66%{transform:translate(-15px,15px) scale(.96)}}
+        .glass{background:rgba(17,24,39,.6);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid rgba(100,116,139,.15)}
+        .glass-strong{background:rgba(10,15,26,.93);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border:1px solid var(--border)}
+        /* Gradient border */
+        .gb{position:relative;background:var(--bg2);border-radius:16px}
+        .gb::before{content:'';position:absolute;inset:-2px;border-radius:18px;background:linear-gradient(135deg,var(--accent),#06b6d4,var(--alight),var(--accent));background-size:300% 300%;animation:gm 4s ease infinite;z-index:-1;opacity:0;transition:opacity .4s}
+        .gb:hover::before{opacity:1}
+        @keyframes gm{0%{background-position:0 50%}50%{background-position:100% 50%}100%{background-position:0 50%}}
+        /* Tech card */
+        .tc{position:relative;border-radius:16px;overflow:hidden;transition:all .4s cubic-bezier(.175,.885,.32,1.275)}
+        .tc::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(20,184,166,.1),rgba(6,182,212,.05));opacity:0;transition:opacity .3s}
+        .tc:hover::before{opacity:1}.tc:hover{transform:translateY(-6px)}
+        .tlbg{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .4s;font-size:100px;color:rgba(20,184,166,.08)}
+        .tc:hover .tlbg{opacity:1}
+        /* Nav */
+        .nl{position:relative;color:var(--muted);transition:color .3s;text-decoration:none}
+        .nl::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:2px;background:var(--accent);transition:width .3s}
+        .nl:hover{color:var(--fg)}.nl:hover::after{width:100%}
+        /* Mobile menu */
+        .mob-menu{display:none;position:fixed;inset:0;background:rgba(10,15,26,.98);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);z-index:200;flex-direction:column;align-items:center;justify-content:center;gap:2rem}
+        .mob-menu.open{display:flex}
+        .mob-menu a{font-family:'Space Grotesk',sans-serif;font-size:2rem;font-weight:600;color:var(--muted);text-decoration:none;transition:color .2s}
+        .mob-menu a:hover,.mob-menu a:active{color:var(--accent)}
+        .mob-close{position:absolute;top:1.5rem;right:1.5rem;background:none;border:none;color:var(--muted);font-size:1.5rem;cursor:pointer;padding:8px;transition:color .2s}
+        .mob-close:hover{color:var(--accent)}
+        /* Hamburger */
+        .hbg{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:6px;background:none;border:none}
+        .hbg span{display:block;width:22px;height:2px;background:var(--fg);border-radius:2px;transition:all .3s}
+        .hbg.active span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+        .hbg.active span:nth-child(2){opacity:0}
+        .hbg.active span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+        @media(max-width:767px){.hbg{display:flex}.desk-nav{display:none !important}.desk-hire{display:none !important}}
+        /* Buttons */
+        .bp{position:relative;background:linear-gradient(135deg,var(--accent),#0d9488);color:var(--bg);font-weight:600;padding:12px 28px;border-radius:12px;overflow:hidden;transition:all .3s;display:inline-block;text-decoration:none;white-space:nowrap;font-family:'DM Sans',sans-serif;font-size:inherit}
+        .bp::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,var(--alight),var(--accent));opacity:0;transition:opacity .3s}
+        .bp:hover{transform:translateY(-2px);box-shadow:0 10px 40px rgba(20,184,166,.3)}.bp:hover::before{opacity:1}
+        .bp span{position:relative;z-index:1}
+        .bs{background:transparent;color:var(--fg);font-weight:500;padding:12px 28px;border-radius:12px;border:1px solid var(--border);transition:all .3s;display:inline-block;text-decoration:none;white-space:nowrap}
+        .bs:hover{border-color:var(--accent);color:var(--accent);transform:translateY(-2px)}
+        .mob-cta{padding:14px 44px !important;font-size:1.1rem !important}
+        /* Section title */
+        .st{position:relative;display:inline-block}
+        .st::after{content:'';position:absolute;bottom:-8px;left:0;width:60px;height:3px;background:linear-gradient(90deg,var(--accent),transparent);border-radius:2px}
         /* Timeline */
-        .timeline-item {
-            position: relative;
-            padding-left: 32px;
+        .tli{position:relative;padding-left:32px}
+        .tli::before{content:'';position:absolute;left:0;top:8px;width:12px;height:12px;background:var(--accent);border-radius:50%;box-shadow:0 0 20px rgba(20,184,166,.5)}
+        .tli::after{content:'';position:absolute;left:5px;top:24px;width:2px;height:calc(100% - 16px);background:linear-gradient(180deg,var(--accent),transparent)}
+        .tli:last-child::after{display:none}
+        /* Social */
+        .sl{display:flex;align-items:center;justify-content:center;width:48px;height:48px;border-radius:12px;background:rgba(100,116,139,.1);border:1px solid var(--border);color:var(--muted);transition:all .3s;text-decoration:none}
+        .sl:hover{background:var(--accent);border-color:var(--accent);color:var(--bg);transform:translateY(-4px);box-shadow:0 10px 30px rgba(20,184,166,.3)}
+        /* Stat */
+        .sn{background:linear-gradient(135deg,var(--fg),var(--alight));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+        /* Form */
+        .fi{background:rgba(100,116,139,.1);border:1px solid var(--border);border-radius:12px;padding:14px 18px;color:var(--fg);transition:all .3s;width:100%;font-family:'DM Sans',sans-serif;font-size:1rem}
+        .fi:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 4px rgba(20,184,166,.1)}
+        .fi::placeholder{color:var(--muted)}
+        /* Particles - desktop only */
+        .pt{position:absolute;width:4px;height:4px;background:var(--accent);border-radius:50%;opacity:.3;animation:pf 10s ease-in-out infinite}
+        @media(max-width:768px){.pt{display:none}}
+        @keyframes pf{0%,100%{transform:translateY(0) translateX(0)}25%{transform:translateY(-20px) translateX(10px)}50%{transform:translateY(-10px) translateX(-10px)}75%{transform:translateY(-30px) translateX(5px)}}
+        .typed-cursor{color:var(--accent);font-weight:300}
+        /* Mobile adjustments */
+        @media(max-width:768px){
+            section{padding-top:4.5rem !important;padding-bottom:4.5rem !important}
+            .hero-btns{flex-direction:column;gap:12px}
+            .hero-btns a{text-align:center;width:100%}
         }
-        
-        .timeline-item::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 8px;
-            width: 12px;
-            height: 12px;
-            background: var(--accent);
-            border-radius: 50%;
-            box-shadow: 0 0 20px rgba(20, 184, 166, 0.5);
-        }
-        
-        .timeline-item::after {
-            content: '';
-            position: absolute;
-            left: 5px;
-            top: 24px;
-            width: 2px;
-            height: calc(100% - 16px);
-            background: linear-gradient(180deg, var(--accent), transparent);
-        }
-        
-        .timeline-item:last-child::after {
-            display: none;
-        }
-        
-        /* Social Links */
-        .social-link {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 48px;
-            height: 48px;
-            border-radius: 12px;
-            background: rgba(100, 116, 139, 0.1);
-            border: 1px solid var(--border);
-            color: var(--muted);
-            transition: all 0.3s ease;
-        }
-        
-        .social-link:hover {
-            background: var(--accent);
-            border-color: var(--accent);
-            color: var(--bg);
-            transform: translateY(-4px);
-            box-shadow: 0 10px 30px rgba(20, 184, 166, 0.3);
-        }
-        
-        /* Stats */
-        .stat-number {
-            background: linear-gradient(135deg, var(--fg), var(--accent-light));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        
-        /* Contact Form */
-        .form-input {
-            background: rgba(100, 116, 139, 0.1);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 16px 20px;
-            color: var(--fg);
-            transition: all 0.3s ease;
-            width: 100%;
-        }
-        
-        .form-input:focus {
-            outline: none;
-            border-color: var(--accent);
-            box-shadow: 0 0 0 4px rgba(20, 184, 166, 0.1);
-        }
-        
-        .form-input::placeholder {
-            color: var(--muted);
-        }
-        
-        /* Floating particles */
-        .particle {
-            position: absolute;
-            width: 4px;
-            height: 4px;
-            background: var(--accent);
-            border-radius: 50%;
-            opacity: 0.3;
-            animation: particleFloat 10s ease-in-out infinite;
-        }
-        
-        @keyframes particleFloat {
-            0%, 100% { transform: translateY(0) translateX(0); }
-            25% { transform: translateY(-20px) translateX(10px); }
-            50% { transform: translateY(-10px) translateX(-10px); }
-            75% { transform: translateY(-30px) translateX(5px); }
-        }
-        
-        /* Reduce Motion */
-        @media (prefers-reduced-motion: reduce) {
-            *, *::before, *::after {
-                animation-duration: 0.01ms !important;
-                animation-iteration-count: 1 !important;
-                transition-duration: 0.01ms !important;
-            }
-        }
-        
-        /* Mobile Responsive */
-        @media (max-width: 768px) {
-            .orb-1, .orb-2, .orb-3 {
-                opacity: 0.2;
-            }
-        }
+        @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.01ms !important}}
     </style>
 </head>
 <body class="bg-grid">
-    <!-- Background Orbs -->
-    <div class="gradient-orb orb-1"></div>
-    <div class="gradient-orb orb-2"></div>
-    <div class="gradient-orb orb-3"></div>
-    
-    <!-- Floating Particles -->
+    <div class="orb orb1"></div>
+    <div class="orb orb2"></div>
+    <div class="orb orb3"></div>
     <div id="particles" class="fixed inset-0 pointer-events-none overflow-hidden"></div>
-    
-    <!-- Navigation -->
+
+    <!-- Mobile Menu -->
+    <div class="mob-menu" id="mobMenu">
+        <button class="mob-close" id="mobClose"><i class="fas fa-times"></i></button>
+        <a href="#about" class="mlink">About</a>
+        <a href="#skills" class="mlink">Skills</a>
+        <a href="#experience" class="mlink">Experience</a>
+        <a href="#contact" class="mlink">Contact</a>
+        <a href="#contact" class="bp mob-cta mlink"><span>Hire Me</span></a>
+    </div>
+
+    <!-- Nav -->
     <nav class="fixed top-0 left-0 right-0 z-50 glass-strong">
-        <div class="max-w-6xl mx-auto px-6 py-4">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 py-4">
             <div class="flex items-center justify-between">
                 <a href="#" class="font-display font-bold text-2xl text-accent">TG</a>
-                
-                <div class="hidden md:flex items-center gap-8">
-                    <a href="#about" class="nav-link font-body text-sm">About</a>
-                    <a href="#skills" class="nav-link font-body text-sm">Skills</a>
-                    <a href="#experience" class="nav-link font-body text-sm">Experience</a>
-                    <a href="#contact" class="nav-link font-body text-sm">Contact</a>
+                <div class="desk-nav hidden md:flex items-center gap-8">
+                    <a href="#about" class="nl font-body text-sm">About</a>
+                    <a href="#skills" class="nl font-body text-sm">Skills</a>
+                    <a href="#experience" class="nl font-body text-sm">Experience</a>
+                    <a href="#contact" class="nl font-body text-sm">Contact</a>
                 </div>
-                
-                <a href="#contact" class="btn-primary text-sm">
-                    <span>Hire Me</span>
-                </a>
+                <a href="#contact" class="bp desk-hire text-sm hidden md:inline-block"><span>Hire Me</span></a>
+                <button class="hbg" id="hbg" aria-label="Open menu" aria-expanded="false">
+                    <span></span><span></span><span></span>
+                </button>
             </div>
         </div>
     </nav>
-    
-    <!-- Hero Section -->
+
+    <!-- Hero -->
     <section id="hero" class="min-h-screen flex items-center justify-center relative pt-20">
-        <div class="max-w-6xl mx-auto px-6 py-20">
-            <div class="grid lg:grid-cols-2 gap-12 items-center">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 py-16 md:py-20 w-full">
+            <div class="grid lg:grid-cols-2 gap-10 items-center">
                 <div data-aos="fade-right" data-aos-duration="1000">
                     <p class="font-body text-accent font-medium mb-4 tracking-wider uppercase text-sm">Software Engineer</p>
-                    <h1 class="font-display text-5xl md:text-7xl font-bold mb-6 leading-tight">
+                    <h1 class="font-display font-bold mb-6 leading-tight" style="font-size:clamp(2.4rem,8vw,4.5rem)">
                         Hi, I'm <span class="text-accent">Thirupathi</span>
                     </h1>
-                    <div class="font-display text-2xl md:text-3xl text-muted mb-8 h-12">
+                    <div class="font-display text-muted mb-8 h-10" style="font-size:clamp(1.2rem,4vw,1.75rem)">
                         <span id="typed"></span>
                     </div>
-                    <p class="font-body text-muted text-lg mb-10 max-w-lg leading-relaxed">
+                    <p class="font-body text-muted mb-10 max-w-lg leading-relaxed" style="font-size:clamp(.95rem,2.5vw,1.1rem)">
                         Building robust enterprise applications with clean code and scalable architecture. Focused on aviation maintenance software and backend development.
                     </p>
-                    <div class="flex flex-wrap gap-4">
-                        <a href="#contact" class="btn-primary">
-                            <span>Get In Touch</span>
-                        </a>
-                        <a href="https://github.com/thirupathimech" target="_blank" class="btn-secondary">
-                            <i class="fab fa-github mr-2"></i> View GitHub
-                        </a>
+                    <div class="hero-btns flex flex-wrap gap-4">
+                        <a href="#contact" class="bp"><span>Get In Touch</span></a>
+                        <a href="https://github.com/thirupathimech" target="_blank" class="bs"><i class="fab fa-github mr-2"></i>View GitHub</a>
                     </div>
                 </div>
-                
-                <div class="relative" data-aos="fade-left" data-aos-duration="1000" data-aos-delay="200">
+                <!-- Code block desktop only -->
+                <div class="relative hidden lg:block" data-aos="fade-left" data-aos-duration="1000" data-aos-delay="200">
                     <div class="glass rounded-3xl p-8 relative overflow-hidden">
                         <div class="absolute top-4 right-4 flex gap-2">
                             <span class="w-3 h-3 rounded-full bg-red-500"></span>
@@ -525,579 +180,274 @@
     <code class="text-green-400">"Java"</code>, <code class="text-green-400">"Spring Boot"</code>,
     <code class="text-green-400">"React"</code>, <code class="text-green-400">"MySQL"</code>
   };
-  
+
   <code class="text-accent-light">public</code> String <code class="text-yellow-400">getGreeting</code>() {
     <code class="text-accent-light">return</code> <code class="text-green-400">"Welcome to my portfolio!"</code>;
   }
 }</pre>
                     </div>
-                    
-                    <!-- Decorative Elements -->
                     <div class="absolute -bottom-6 -right-6 w-24 h-24 border-2 border-accent rounded-2xl opacity-20"></div>
                     <div class="absolute -top-6 -left-6 w-16 h-16 border-2 border-accent-light rounded-xl opacity-20"></div>
                 </div>
             </div>
-            
             <!-- Stats -->
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mt-20" data-aos="fade-up" data-aos-duration="800" data-aos-delay="400">
-                <div class="glass rounded-2xl p-6 text-center">
-                    <div class="stat-number font-display text-4xl font-bold">1.5+</div>
-                    <p class="text-muted text-sm mt-2">Years Experience</p>
-                </div>
-                <div class="glass rounded-2xl p-6 text-center">
-                    <div class="stat-number font-display text-4xl font-bold">12+</div>
-                    <p class="text-muted text-sm mt-2">Technologies</p>
-                </div>
-                <div class="glass rounded-2xl p-6 text-center">
-                    <div class="stat-number font-display text-4xl font-bold">5+</div>
-                    <p class="text-muted text-sm mt-2">Projects Delivered</p>
-                </div>
-                <div class="glass rounded-2xl p-6 text-center">
-                    <div class="stat-number font-display text-4xl font-bold">100%</div>
-                    <p class="text-muted text-sm mt-2">Client Satisfaction</p>
-                </div>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 mt-16 md:mt-20" data-aos="fade-up" data-aos-delay="400">
+                <div class="glass rounded-2xl p-5 md:p-6 text-center"><div class="sn font-display text-3xl md:text-4xl font-bold">1.5+</div><p class="text-muted text-xs md:text-sm mt-2">Years Experience</p></div>
+                <div class="glass rounded-2xl p-5 md:p-6 text-center"><div class="sn font-display text-3xl md:text-4xl font-bold">12+</div><p class="text-muted text-xs md:text-sm mt-2">Technologies</p></div>
+                <div class="glass rounded-2xl p-5 md:p-6 text-center"><div class="sn font-display text-3xl md:text-4xl font-bold">5+</div><p class="text-muted text-xs md:text-sm mt-2">Projects Delivered</p></div>
+                <div class="glass rounded-2xl p-5 md:p-6 text-center"><div class="sn font-display text-3xl md:text-4xl font-bold">100%</div><p class="text-muted text-xs md:text-sm mt-2">Client Satisfaction</p></div>
             </div>
         </div>
-        
-        <!-- Scroll Indicator -->
-        <div class="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
-            <a href="#about" class="text-muted hover:text-accent transition-colors">
-                <i class="fas fa-chevron-down text-2xl"></i>
-            </a>
+        <div class="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce hidden md:block">
+            <a href="#about" class="text-muted hover:text-accent transition-colors"><i class="fas fa-chevron-down text-2xl"></i></a>
         </div>
     </section>
-    
-    <!-- About Section -->
-    <section id="about" class="py-32 relative">
-        <div class="max-w-6xl mx-auto px-6">
-            <div class="grid lg:grid-cols-2 gap-16 items-center">
+
+    <!-- About -->
+    <section id="about" class="py-28 relative">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6">
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
                 <div data-aos="fade-right" data-aos-duration="800">
-                    <div class="relative">
+                    <div class="relative max-w-sm mx-auto lg:max-w-none">
                         <div class="glass rounded-3xl p-2">
                             <div class="aspect-square rounded-2xl overflow-hidden relative group">
-                                <img src="Profile_Pic.jpg" 
-                                     alt="Thirupathi G" 
-                                     class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
-                                
-                                <!-- Optional subtle overlay -->
+                                <img src="Profile_Pic.jpg" alt="Thirupathi G" loading="lazy" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
                                 <div class="absolute inset-0 bg-gradient-to-t from-bg/60 to-transparent"></div>
                             </div>
                         </div>
-                        <div class="absolute -bottom-4 -right-4 glass rounded-2xl px-6 py-4">
-                            <p class="text-accent font-display font-semibold">Based in Salem, India</p>
+                        <div class="absolute -bottom-4 -right-4 glass rounded-2xl px-5 py-3">
+                            <p class="text-accent font-display font-semibold text-sm">Based in Salem, India</p>
                         </div>
                     </div>
                 </div>
-                
                 <div data-aos="fade-left" data-aos-duration="800" data-aos-delay="200">
-                    <h2 class="section-title font-display text-4xl md:text-5xl font-bold mb-8">About Me</h2>
-                    <div class="space-y-6 text-muted leading-relaxed">
-                        <p>
-                            I'm a passionate Software Engineer with strong experience in Java-based enterprise applications. My expertise lies in backend development, UI frameworks, REST APIs, and performance optimization.
-                        </p>
-                        <p>
-                            Currently working on aviation maintenance software at Ultramain, I focus on building scalable architecture, writing clean code, and ensuring system stability. I believe in continuous learning and staying updated with the latest technologies.
-                        </p>
-                        <p>
-                            When I'm not coding, you'll find me exploring new frameworks, contributing to open-source projects, or working on personal projects to sharpen my skills.
-                        </p>
+                    <h2 class="st font-display text-3xl md:text-5xl font-bold mb-8">About Me</h2>
+                    <div class="space-y-5 text-muted leading-relaxed text-sm md:text-base">
+                        <p>I'm a passionate Software Engineer with strong experience in Java-based enterprise applications. My expertise lies in backend development, UI frameworks, REST APIs, and performance optimization.</p>
+                        <p>Currently working on aviation maintenance software at Ultramain, I focus on building scalable architecture, writing clean code, and ensuring system stability. I believe in continuous learning and staying updated with the latest technologies.</p>
+                        <p>When I'm not coding, you'll find me exploring new frameworks, contributing to open-source projects, or working on personal projects to sharpen my skills.</p>
                     </div>
-                    
-                    <div class="grid grid-cols-2 gap-4 mt-10">
-                        <div class="glass rounded-xl p-4">
-                            <p class="text-xs text-muted mb-1">Email</p>
-                            <p class="text-sm text-fg">thirupathi7845@gmail.com</p>
-                        </div>
-                        <div class="glass rounded-xl p-4">
-                            <p class="text-xs text-muted mb-1">Phone</p>
-                            <p class="text-sm text-fg">+91-7397070203</p>
-                        </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-8">
+                        <div class="glass rounded-xl p-4"><p class="text-xs text-muted mb-1">Email</p><p class="text-sm text-fg break-all">thirupathi7845@gmail.com</p></div>
+                        <div class="glass rounded-xl p-4"><p class="text-xs text-muted mb-1">Phone</p><p class="text-sm text-fg">+91-7397070203</p></div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
-    
-    <!-- Tech Stack Section -->
-    <section id="skills" class="py-32 relative">
-        <div class="max-w-6xl mx-auto px-6">
-            <div class="text-center mb-16" data-aos="fade-up">
-                <h2 class="section-title font-display text-4xl md:text-5xl font-bold mb-6 mx-auto">Tech Stack</h2>
-                <p class="text-muted max-w-2xl mx-auto">Technologies I work with to build robust and scalable applications</p>
+
+    <!-- Skills -->
+    <section id="skills" class="py-28 relative">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6">
+            <div class="text-center mb-12 md:mb-16" data-aos="fade-up">
+                <h2 class="st font-display text-3xl md:text-5xl font-bold mb-6 mx-auto">Tech Stack</h2>
+                <p class="text-muted max-w-2xl mx-auto text-sm md:text-base">Technologies I work with to build robust and scalable applications</p>
             </div>
-            
-            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                <!-- Java -->
-                <div class="tech-card glass gradient-border p-6 cursor-pointer" data-tilt data-aos="fade-up" data-aos-delay="0">
-                    <div class="tech-logo-bg">
-                        <i class="devicon-java-plain"></i>
-                    </div>
-                    <div class="relative z-10">
-                        <i class="devicon-java-plain text-4xl text-accent mb-4 block"></i>
-                        <h3 class="font-display font-semibold text-lg mb-2">Java</h3>
-                        <p class="text-muted text-sm">Enterprise-grade backend development with strong OOP principles</p>
-                    </div>
-                </div>
-                
-                <!-- Spring Boot -->
-                <div class="tech-card glass gradient-border p-6 cursor-pointer" data-tilt data-aos="fade-up" data-aos-delay="50">
-                    <div class="tech-logo-bg">
-                        <i class="devicon-spring-original"></i>
-                    </div>
-                    <div class="relative z-10">
-                        <i class="devicon-spring-original text-4xl text-green-500 mb-4 block"></i>
-                        <h3 class="font-display font-semibold text-lg mb-2">Spring Boot</h3>
-                        <p class="text-muted text-sm">Building microservices and RESTful APIs at scale</p>
-                    </div>
-                </div>
-                
-                <!-- Hibernate -->
-                <div class="tech-card glass gradient-border p-6 cursor-pointer" data-tilt data-aos="fade-up" data-aos-delay="100">
-                    <div class="tech-logo-bg">
-                        <i class="devicon-hibernate-plain"></i>
-                    </div>
-                    <div class="relative z-10">
-                        <i class="devicon-hibernate-plain text-4xl text-amber-600 mb-4 block"></i>
-                        <h3 class="font-display font-semibold text-lg mb-2">Hibernate</h3>
-                        <p class="text-muted text-sm">ORM framework for efficient database operations</p>
-                    </div>
-                </div>
-                
-                <!-- REST APIs -->
-                <div class="tech-card glass gradient-border p-6 cursor-pointer" data-tilt data-aos="fade-up" data-aos-delay="150">
-                    <div class="tech-logo-bg">
-                        <i class="fas fa-plug"></i>
-                    </div>
-                    <div class="relative z-10">
-                        <i class="fas fa-plug text-4xl text-blue-400 mb-4 block"></i>
-                        <h3 class="font-display font-semibold text-lg mb-2">REST APIs</h3>
-                        <p class="text-muted text-sm">Designing and consuming scalable API endpoints</p>
-                    </div>
-                </div>
-                
-                <!-- React -->
-                <div class="tech-card glass gradient-border p-6 cursor-pointer" data-tilt data-aos="fade-up" data-aos-delay="200">
-                    <div class="tech-logo-bg">
-                        <i class="devicon-react-original"></i>
-                    </div>
-                    <div class="relative z-10">
-                        <i class="devicon-react-original text-4xl text-cyan-400 mb-4 block"></i>
-                        <h3 class="font-display font-semibold text-lg mb-2">React</h3>
-                        <p class="text-muted text-sm">Building interactive UIs with component architecture</p>
-                    </div>
-                </div>
-                
-                <!-- JavaScript -->
-                <div class="tech-card glass gradient-border p-6 cursor-pointer" data-tilt data-aos="fade-up" data-aos-delay="250">
-                    <div class="tech-logo-bg">
-                        <i class="devicon-javascript-plain"></i>
-                    </div>
-                    <div class="relative z-10">
-                        <i class="devicon-javascript-plain text-4xl text-yellow-400 mb-4 block"></i>
-                        <h3 class="font-display font-semibold text-lg mb-2">JavaScript</h3>
-                        <p class="text-muted text-sm">Dynamic frontend development and DOM manipulation</p>
-                    </div>
-                </div>
-                
-                <!-- MySQL -->
-                <div class="tech-card glass gradient-border p-6 cursor-pointer" data-tilt data-aos="fade-up" data-aos-delay="300">
-                    <div class="tech-logo-bg">
-                        <i class="devicon-mysql-plain"></i>
-                    </div>
-                    <div class="relative z-10">
-                        <i class="devicon-mysql-plain text-4xl text-blue-500 mb-4 block"></i>
-                        <h3 class="font-display font-semibold text-lg mb-2">MySQL</h3>
-                        <p class="text-muted text-sm">Relational database design and query optimization</p>
-                    </div>
-                </div>
-                
-                <!-- PostgreSQL -->
-                <div class="tech-card glass gradient-border p-6 cursor-pointer" data-tilt data-aos="fade-up" data-aos-delay="350">
-                    <div class="tech-logo-bg">
-                        <i class="devicon-postgresql-plain"></i>
-                    </div>
-                    <div class="relative z-10">
-                        <i class="devicon-postgresql-plain text-4xl text-blue-300 mb-4 block"></i>
-                        <h3 class="font-display font-semibold text-lg mb-2">PostgreSQL</h3>
-                        <p class="text-muted text-sm">Advanced SQL features for enterprise applications</p>
-                    </div>
-                </div>
-                
-                <!-- Git -->
-                <div class="tech-card glass gradient-border p-6 cursor-pointer" data-tilt data-aos="fade-up" data-aos-delay="400">
-                    <div class="tech-logo-bg">
-                        <i class="devicon-git-plain"></i>
-                    </div>
-                    <div class="relative z-10">
-                        <i class="devicon-git-plain text-4xl text-orange-500 mb-4 block"></i>
-                        <h3 class="font-display font-semibold text-lg mb-2">Git</h3>
-                        <p class="text-muted text-sm">Version control and collaborative development</p>
-                    </div>
-                </div>
-                
-                <!-- Maven -->
-                <div class="tech-card glass gradient-border p-6 cursor-pointer" data-tilt data-aos="fade-up" data-aos-delay="450">
-                    <div class="tech-logo-bg">
-                        <i class="devicon-apache-plain"></i>
-                    </div>
-                    <div class="relative z-10">
-                        <i class="devicon-apache-plain text-4xl text-red-500 mb-4 block"></i>
-                        <h3 class="font-display font-semibold text-lg mb-2">Maven</h3>
-                        <p class="text-muted text-sm">Build automation and dependency management</p>
-                    </div>
-                </div>
-                
-                <!-- WildFly -->
-                <div class="tech-card glass gradient-border p-6 cursor-pointer" data-tilt data-aos="fade-up" data-aos-delay="500">
-                    <div class="tech-logo-bg">
-                        <i class="fas fa-server"></i>
-                    </div>
-                    <div class="relative z-10">
-                        <i class="fas fa-server text-4xl text-amber-500 mb-4 block"></i>
-                        <h3 class="font-display font-semibold text-lg mb-2">WildFly</h3>
-                        <p class="text-muted text-sm">Enterprise Java application server deployment</p>
-                    </div>
-                </div>
-                
-                <!-- Selenium -->
-                <div class="tech-card glass gradient-border p-6 cursor-pointer" data-tilt data-aos="fade-up" data-aos-delay="550">
-                    <div class="tech-logo-bg">
-                        <i class="fas fa-vial"></i>
-                    </div>
-                    <div class="relative z-10">
-                        <i class="fas fa-vial text-4xl text-green-400 mb-4 block"></i>
-                        <h3 class="font-display font-semibold text-lg mb-2">Selenium</h3>
-                        <p class="text-muted text-sm">Automated testing for web applications</p>
-                    </div>
-                </div>
+            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
+                <div class="tc glass gb p-5 md:p-6" data-tilt data-aos="fade-up" data-aos-delay="0"><div class="tlbg"><i class="devicon-java-plain"></i></div><div class="relative z-10"><i class="devicon-java-plain text-3xl md:text-4xl text-accent mb-3 block"></i><h3 class="font-display font-semibold text-base md:text-lg mb-1">Java</h3><p class="text-muted text-xs md:text-sm hidden sm:block">Enterprise-grade backend development with strong OOP principles</p></div></div>
+                <div class="tc glass gb p-5 md:p-6" data-tilt data-aos="fade-up" data-aos-delay="50"><div class="tlbg"><i class="devicon-spring-original"></i></div><div class="relative z-10"><i class="devicon-spring-original text-3xl md:text-4xl text-green-500 mb-3 block"></i><h3 class="font-display font-semibold text-base md:text-lg mb-1">Spring Boot</h3><p class="text-muted text-xs md:text-sm hidden sm:block">Building microservices and RESTful APIs at scale</p></div></div>
+                <div class="tc glass gb p-5 md:p-6" data-tilt data-aos="fade-up" data-aos-delay="100"><div class="tlbg"><i class="devicon-hibernate-plain"></i></div><div class="relative z-10"><i class="devicon-hibernate-plain text-3xl md:text-4xl text-amber-600 mb-3 block"></i><h3 class="font-display font-semibold text-base md:text-lg mb-1">Hibernate</h3><p class="text-muted text-xs md:text-sm hidden sm:block">ORM framework for efficient database operations</p></div></div>
+                <div class="tc glass gb p-5 md:p-6" data-tilt data-aos="fade-up" data-aos-delay="150"><div class="tlbg"><i class="fas fa-plug"></i></div><div class="relative z-10"><i class="fas fa-plug text-3xl md:text-4xl text-blue-400 mb-3 block"></i><h3 class="font-display font-semibold text-base md:text-lg mb-1">REST APIs</h3><p class="text-muted text-xs md:text-sm hidden sm:block">Designing and consuming scalable API endpoints</p></div></div>
+                <div class="tc glass gb p-5 md:p-6" data-tilt data-aos="fade-up" data-aos-delay="200"><div class="tlbg"><i class="devicon-react-original"></i></div><div class="relative z-10"><i class="devicon-react-original text-3xl md:text-4xl text-cyan-400 mb-3 block"></i><h3 class="font-display font-semibold text-base md:text-lg mb-1">React</h3><p class="text-muted text-xs md:text-sm hidden sm:block">Building interactive UIs with component architecture</p></div></div>
+                <div class="tc glass gb p-5 md:p-6" data-tilt data-aos="fade-up" data-aos-delay="250"><div class="tlbg"><i class="devicon-javascript-plain"></i></div><div class="relative z-10"><i class="devicon-javascript-plain text-3xl md:text-4xl text-yellow-400 mb-3 block"></i><h3 class="font-display font-semibold text-base md:text-lg mb-1">JavaScript</h3><p class="text-muted text-xs md:text-sm hidden sm:block">Dynamic frontend development and DOM manipulation</p></div></div>
+                <div class="tc glass gb p-5 md:p-6" data-tilt data-aos="fade-up" data-aos-delay="300"><div class="tlbg"><i class="devicon-mysql-plain"></i></div><div class="relative z-10"><i class="devicon-mysql-plain text-3xl md:text-4xl text-blue-500 mb-3 block"></i><h3 class="font-display font-semibold text-base md:text-lg mb-1">MySQL</h3><p class="text-muted text-xs md:text-sm hidden sm:block">Relational database design and query optimization</p></div></div>
+                <div class="tc glass gb p-5 md:p-6" data-tilt data-aos="fade-up" data-aos-delay="350"><div class="tlbg"><i class="devicon-postgresql-plain"></i></div><div class="relative z-10"><i class="devicon-postgresql-plain text-3xl md:text-4xl text-blue-300 mb-3 block"></i><h3 class="font-display font-semibold text-base md:text-lg mb-1">PostgreSQL</h3><p class="text-muted text-xs md:text-sm hidden sm:block">Advanced SQL features for enterprise applications</p></div></div>
+                <div class="tc glass gb p-5 md:p-6" data-tilt data-aos="fade-up" data-aos-delay="400"><div class="tlbg"><i class="devicon-git-plain"></i></div><div class="relative z-10"><i class="devicon-git-plain text-3xl md:text-4xl text-orange-500 mb-3 block"></i><h3 class="font-display font-semibold text-base md:text-lg mb-1">Git</h3><p class="text-muted text-xs md:text-sm hidden sm:block">Version control and collaborative development</p></div></div>
+                <div class="tc glass gb p-5 md:p-6" data-tilt data-aos="fade-up" data-aos-delay="450"><div class="tlbg"><i class="devicon-apache-plain"></i></div><div class="relative z-10"><i class="devicon-apache-plain text-3xl md:text-4xl text-red-500 mb-3 block"></i><h3 class="font-display font-semibold text-base md:text-lg mb-1">Maven</h3><p class="text-muted text-xs md:text-sm hidden sm:block">Build automation and dependency management</p></div></div>
+                <div class="tc glass gb p-5 md:p-6" data-tilt data-aos="fade-up" data-aos-delay="500"><div class="tlbg"><i class="fas fa-server"></i></div><div class="relative z-10"><i class="fas fa-server text-3xl md:text-4xl text-amber-500 mb-3 block"></i><h3 class="font-display font-semibold text-base md:text-lg mb-1">WildFly</h3><p class="text-muted text-xs md:text-sm hidden sm:block">Enterprise Java application server deployment</p></div></div>
+                <div class="tc glass gb p-5 md:p-6" data-tilt data-aos="fade-up" data-aos-delay="550"><div class="tlbg"><i class="fas fa-vial"></i></div><div class="relative z-10"><i class="fas fa-vial text-3xl md:text-4xl text-green-400 mb-3 block"></i><h3 class="font-display font-semibold text-base md:text-lg mb-1">Selenium</h3><p class="text-muted text-xs md:text-sm hidden sm:block">Automated testing for web applications</p></div></div>
             </div>
         </div>
     </section>
-    
-    <!-- Experience Section -->
-    <section id="experience" class="py-32 relative">
-        <div class="max-w-4xl mx-auto px-6">
-            <div class="text-center mb-16" data-aos="fade-up">
-                <h2 class="section-title font-display text-4xl md:text-5xl font-bold mb-6 mx-auto">Experience</h2>
-                <p class="text-muted max-w-2xl mx-auto">My professional journey in software development</p>
+
+    <!-- Experience -->
+    <section id="experience" class="py-28 relative">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6">
+            <div class="text-center mb-12 md:mb-16" data-aos="fade-up">
+                <h2 class="st font-display text-3xl md:text-5xl font-bold mb-6 mx-auto">Experience</h2>
+                <p class="text-muted max-w-2xl mx-auto text-sm md:text-base">My professional journey in software development</p>
             </div>
-            
             <div class="space-y-8">
-                <!-- Current Position -->
-                <div class="timeline-item" data-aos="fade-right" data-aos-duration="800">
-                    <div class="glass rounded-2xl p-8 gradient-border">
-                        <div class="flex flex-wrap items-start justify-between gap-4 mb-4">
-                            <div>
-                                <h3 class="font-display text-xl font-semibold text-accent">Software Engineer</h3>
-                                <p class="text-fg font-medium">Ultramain Software India Pvt Ltd</p>
-                            </div>
-                            <span class="glass px-4 py-2 rounded-full text-sm text-accent">Oct 2023 - Present</span>
+                <div class="tli" data-aos="fade-right" data-aos-duration="800">
+                    <div class="glass rounded-2xl p-6 md:p-8 gb">
+                        <div class="flex flex-col sm:flex-row sm:items-start justify-between gap-3 mb-4">
+                            <div><h3 class="font-display text-lg md:text-xl font-semibold text-accent">Software Engineer</h3><p class="text-fg font-medium text-sm md:text-base">Ultramain Software India Pvt Ltd</p></div>
+                            <span class="glass px-4 py-2 rounded-full text-xs md:text-sm text-accent self-start whitespace-nowrap">Oct 2023 - Present</span>
                         </div>
-                        <ul class="space-y-3 text-muted">
-                            <li class="flex items-start gap-3">
-                                <i class="fas fa-chevron-right text-accent text-sm mt-1"></i>
-                                <span>Developed and maintained enterprise aviation maintenance applications using Java technologies</span>
-                            </li>
-                            <li class="flex items-start gap-3">
-                                <i class="fas fa-chevron-right text-accent text-sm mt-1"></i>
-                                <span>Designed and enhanced UI components using GWT and Sencha GXT with focus on performance and usability</span>
-                            </li>
-                            <li class="flex items-start gap-3">
-                                <i class="fas fa-chevron-right text-accent text-sm mt-1"></i>
-                                <span>Optimized backend logic and SQL queries to improve application response time</span>
-                            </li>
-                            <li class="flex items-start gap-3">
-                                <i class="fas fa-chevron-right text-accent text-sm mt-1"></i>
-                                <span>Built and consumed REST APIs for internal system integrations</span>
-                            </li>
-                            <li class="flex items-start gap-3">
-                                <i class="fas fa-chevron-right text-accent text-sm mt-1"></i>
-                                <span>Created operational and business reports using Jasper Reports</span>
-                            </li>
-                            <li class="flex items-start gap-3">
-                                <i class="fas fa-chevron-right text-accent text-sm mt-1"></i>
-                                <span>Debugged and resolved production issues in large-scale codebases</span>
-                            </li>
+                        <ul class="space-y-3 text-muted text-sm md:text-base">
+                            <li class="flex items-start gap-3"><i class="fas fa-chevron-right text-accent text-xs mt-1.5 shrink-0"></i><span>Developed and maintained enterprise aviation maintenance applications using Java technologies</span></li>
+                            <li class="flex items-start gap-3"><i class="fas fa-chevron-right text-accent text-xs mt-1.5 shrink-0"></i><span>Designed and enhanced UI components using GWT and Sencha GXT with focus on performance and usability</span></li>
+                            <li class="flex items-start gap-3"><i class="fas fa-chevron-right text-accent text-xs mt-1.5 shrink-0"></i><span>Optimized backend logic and SQL queries to improve application response time</span></li>
+                            <li class="flex items-start gap-3"><i class="fas fa-chevron-right text-accent text-xs mt-1.5 shrink-0"></i><span>Built and consumed REST APIs for internal system integrations</span></li>
+                            <li class="flex items-start gap-3"><i class="fas fa-chevron-right text-accent text-xs mt-1.5 shrink-0"></i><span>Created operational and business reports using Jasper Reports</span></li>
+                            <li class="flex items-start gap-3"><i class="fas fa-chevron-right text-accent text-xs mt-1.5 shrink-0"></i><span>Debugged and resolved production issues in large-scale codebases</span></li>
                         </ul>
                     </div>
                 </div>
-                
-                <!-- Education -->
-                <div class="timeline-item" data-aos="fade-right" data-aos-duration="800" data-aos-delay="200">
-                    <div class="glass rounded-2xl p-8 gradient-border">
-                        <div class="flex flex-wrap items-start justify-between gap-4 mb-4">
-                            <div>
-                                <h3 class="font-display text-xl font-semibold text-accent">BE - Mechanical Engineering</h3>
-                                <p class="text-fg font-medium">Dhirajlal Gandhi College of Technology</p>
-                            </div>
-                            <span class="glass px-4 py-2 rounded-full text-sm text-accent">2018 - 2022</span>
+                <div class="tli" data-aos="fade-right" data-aos-duration="800" data-aos-delay="200">
+                    <div class="glass rounded-2xl p-6 md:p-8 gb">
+                        <div class="flex flex-col sm:flex-row sm:items-start justify-between gap-3 mb-4">
+                            <div><h3 class="font-display text-lg md:text-xl font-semibold text-accent">BE - Mechanical Engineering</h3><p class="text-fg font-medium text-sm md:text-base">Dhirajlal Gandhi College of Technology</p></div>
+                            <span class="glass px-4 py-2 rounded-full text-xs md:text-sm text-accent self-start">2018 - 2022</span>
                         </div>
-                        <p class="text-muted">Built a strong foundation in engineering principles, problem-solving, and analytical thinking that translates into structured software development approach.</p>
+                        <p class="text-muted text-sm md:text-base">Built a strong foundation in engineering principles, problem-solving, and analytical thinking that translates into structured software development approach.</p>
                     </div>
                 </div>
             </div>
         </div>
     </section>
-    
-    <!-- Contact Section -->
-    <section id="contact" class="py-32 relative">
-        <div class="max-w-6xl mx-auto px-6">
-            <div class="text-center mb-16" data-aos="fade-up">
-                <h2 class="section-title font-display text-4xl md:text-5xl font-bold mb-6 mx-auto">Get In Touch</h2>
-                <p class="text-muted max-w-2xl mx-auto">Have a project in mind? Let's work together to build something amazing.</p>
+
+    <!-- Contact -->
+    <section id="contact" class="py-28 relative">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6">
+            <div class="text-center mb-12 md:mb-16" data-aos="fade-up">
+                <h2 class="st font-display text-3xl md:text-5xl font-bold mb-6 mx-auto">Get In Touch</h2>
+                <p class="text-muted max-w-2xl mx-auto text-sm md:text-base">Have a project in mind? Let's work together to build something amazing.</p>
             </div>
-            
-            <div class="grid lg:grid-cols-2 gap-12">
+            <div class="grid lg:grid-cols-2 gap-10">
                 <div data-aos="fade-right" data-aos-duration="800">
-                    <div class="glass rounded-3xl p-8 h-full">
-                        <h3 class="font-display text-2xl font-semibold mb-6">Contact Information</h3>
-                        
-                        <div class="space-y-6">
+                    <div class="glass rounded-3xl p-6 md:p-8 h-full">
+                        <h3 class="font-display text-xl md:text-2xl font-semibold mb-6">Contact Information</h3>
+                        <div class="space-y-4">
                             <a href="mailto:thirupathi7845@gmail.com" class="flex items-center gap-4 p-4 rounded-xl bg-bg/50 hover:bg-accent/10 transition-colors group">
-                                <div class="w-12 h-12 rounded-xl bg-accent/10 flex items-center justify-center group-hover:bg-accent/20 transition-colors">
-                                    <i class="fas fa-envelope text-accent text-xl"></i>
-                                </div>
-                                <div>
-                                    <p class="text-xs text-muted mb-1">Email</p>
-                                    <p class="text-fg">thirupathi7845@gmail.com</p>
-                                </div>
+                                <div class="w-11 h-11 rounded-xl bg-accent/10 flex items-center justify-center group-hover:bg-accent/20 transition-colors shrink-0"><i class="fas fa-envelope text-accent text-lg"></i></div>
+                                <div class="min-w-0"><p class="text-xs text-muted mb-0.5">Email</p><p class="text-fg text-sm truncate">thirupathi7845@gmail.com</p></div>
                             </a>
-                            
                             <a href="tel:+917397070203" class="flex items-center gap-4 p-4 rounded-xl bg-bg/50 hover:bg-accent/10 transition-colors group">
-                                <div class="w-12 h-12 rounded-xl bg-accent/10 flex items-center justify-center group-hover:bg-accent/20 transition-colors">
-                                    <i class="fas fa-phone text-accent text-xl"></i>
-                                </div>
-                                <div>
-                                    <p class="text-xs text-muted mb-1">Phone</p>
-                                    <p class="text-fg">+91-7397070203</p>
-                                </div>
+                                <div class="w-11 h-11 rounded-xl bg-accent/10 flex items-center justify-center group-hover:bg-accent/20 transition-colors shrink-0"><i class="fas fa-phone text-accent text-lg"></i></div>
+                                <div><p class="text-xs text-muted mb-0.5">Phone</p><p class="text-fg text-sm">+91-7397070203</p></div>
                             </a>
-                            
                             <div class="flex items-center gap-4 p-4 rounded-xl bg-bg/50">
-                                <div class="w-12 h-12 rounded-xl bg-accent/10 flex items-center justify-center">
-                                    <i class="fas fa-map-marker-alt text-accent text-xl"></i>
-                                </div>
-                                <div>
-                                    <p class="text-xs text-muted mb-1">Location</p>
-                                    <p class="text-fg">Salem, Tamil Nadu, India</p>
-                                </div>
+                                <div class="w-11 h-11 rounded-xl bg-accent/10 flex items-center justify-center shrink-0"><i class="fas fa-map-marker-alt text-accent text-lg"></i></div>
+                                <div><p class="text-xs text-muted mb-0.5">Location</p><p class="text-fg text-sm">Salem, Tamil Nadu, India</p></div>
                             </div>
                         </div>
-                        
-                        <div class="mt-8 pt-8 border-t border-border">
+                        <div class="mt-8 pt-6 border-t border-border">
                             <p class="text-sm text-muted mb-4">Connect with me</p>
                             <div class="flex gap-4">
-                                <a href="https://linkedin.com/in/thirupathi-g" target="_blank" class="social-link">
-                                    <i class="fab fa-linkedin-in text-lg"></i>
-                                </a>
-                                <a href="https://github.com/thirupathimech" target="_blank" class="social-link">
-                                    <i class="fab fa-github text-lg"></i>
-                                </a>
-                                <a href="https://thirupathimech.github.io/dashBoard" target="_blank" class="social-link">
-                                    <i class="fas fa-globe text-lg"></i>
-                                </a>
+                                <a href="https://linkedin.com/in/thirupathi-g" target="_blank" class="sl" aria-label="LinkedIn"><i class="fab fa-linkedin-in text-lg"></i></a>
+                                <a href="https://github.com/thirupathimech" target="_blank" class="sl" aria-label="GitHub"><i class="fab fa-github text-lg"></i></a>
+                                <a href="https://thirupathimech.github.io/dashBoard" target="_blank" class="sl" aria-label="Portfolio"><i class="fas fa-globe text-lg"></i></a>
                             </div>
                         </div>
                     </div>
                 </div>
-                
                 <div data-aos="fade-left" data-aos-duration="800" data-aos-delay="200">
-                    <form class="glass rounded-3xl p-8" id="contactForm">
-                        <div class="space-y-6">
-                            <div>
-                                <label class="block text-sm text-muted mb-2">Your Name</label>
-                                <input type="text" class="form-input" placeholder="John Doe" required>
-                            </div>
-                            <div>
-                                <label class="block text-sm text-muted mb-2">Email Address</label>
-                                <input type="email" class="form-input" placeholder="john@example.com" required>
-                            </div>
-                            <div>
-                                <label class="block text-sm text-muted mb-2">Subject</label>
-                                <input type="text" class="form-input" placeholder="Project Inquiry" required>
-                            </div>
-                            <div>
-                                <label class="block text-sm text-muted mb-2">Message</label>
-                                <textarea class="form-input min-h-[150px] resize-none" placeholder="Tell me about your project..." required></textarea>
-                            </div>
-                            <button type="submit" class="btn-primary w-full">
-                                <span>Send Message</span>
-                            </button>
+                    <form class="glass rounded-3xl p-6 md:p-8" id="contactForm">
+                        <div class="space-y-5">
+                            <div><label class="block text-sm text-muted mb-2">Your Name</label><input type="text" class="fi" placeholder="John Doe" required></div>
+                            <div><label class="block text-sm text-muted mb-2">Email Address</label><input type="email" class="fi" placeholder="john@example.com" required></div>
+                            <div><label class="block text-sm text-muted mb-2">Subject</label><input type="text" class="fi" placeholder="Project Inquiry" required></div>
+                            <div><label class="block text-sm text-muted mb-2">Message</label><textarea class="fi min-h-[130px] resize-none" placeholder="Tell me about your project..." required></textarea></div>
+                            <button type="submit" class="bp w-full text-center"><span>Send Message</span></button>
                         </div>
                     </form>
                 </div>
             </div>
         </div>
     </section>
-    
+
     <!-- Footer -->
-    <footer class="py-12 border-t border-border">
-        <div class="max-w-6xl mx-auto px-6">
-            <div class="flex flex-col md:flex-row items-center justify-between gap-6">
-                <div class="flex items-center gap-4">
-                    <span class="font-display font-bold text-2xl text-accent">TG</span>
-                    <span class="text-muted">|</span>
-                    <span class="text-muted text-sm">Software Engineer</span>
-                </div>
-                
-                <div class="flex items-center gap-6">
+    <footer class="py-10 border-t border-border">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6">
+            <div class="flex flex-col md:flex-row items-center justify-between gap-5">
+                <div class="flex items-center gap-4"><span class="font-display font-bold text-2xl text-accent">TG</span><span class="text-muted">|</span><span class="text-muted text-sm">Software Engineer</span></div>
+                <div class="flex items-center gap-6 flex-wrap justify-center">
                     <a href="#hero" class="text-muted hover:text-accent transition-colors text-sm">Home</a>
                     <a href="#about" class="text-muted hover:text-accent transition-colors text-sm">About</a>
                     <a href="#skills" class="text-muted hover:text-accent transition-colors text-sm">Skills</a>
                     <a href="#contact" class="text-muted hover:text-accent transition-colors text-sm">Contact</a>
                 </div>
-                
-                <p class="text-muted text-sm">
-                    © 2026 Thirupathi G. All rights reserved.
-                </p>
+                <p class="text-muted text-sm">© 2026 Thirupathi G. All rights reserved.</p>
             </div>
         </div>
     </footer>
-    
+
     <script>
-        // Initialize AOS
-        AOS.init({
-            duration: 800,
-            once: true,
-            offset: 100
-        });
-        
-        // Initialize Typed.js
-        document.addEventListener('DOMContentLoaded', function() {
-            const typedElement = document.getElementById('typed');
-            if (typedElement) {
-                new Typed('#typed', {
-                    strings: [
-                        'Java Developer',
-                        'Backend Engineer',
-                        'Problem Solver',
-                        'Clean Code Advocate'
-                    ],
-                    typeSpeed: 60,
-                    backSpeed: 40,
-                    backDelay: 2000,
-                    loop: true,
-                    cursorChar: '|'
-                });
-            }
-        });
-        
-        // Initialize Vanilla Tilt
-        document.addEventListener('DOMContentLoaded', function() {
-            const tiltElements = document.querySelectorAll('[data-tilt]');
-            if (tiltElements.length > 0) {
-                VanillaTilt.init(tiltElements, {
-                    max: 15,
-                    speed: 400,
-                    glare: true,
-                    'max-glare': 0.2,
-                    scale: 1.02
-                });
-            }
-        });
-        
-        // Create Floating Particles
-        function createParticles() {
-            const container = document.getElementById('particles');
-            if (!container) return;
-            
-            const particleCount = 20;
-            
-            for (let i = 0; i < particleCount; i++) {
-                const particle = document.createElement('div');
-                particle.className = 'particle';
-                particle.style.left = Math.random() * 100 + '%';
-                particle.style.top = Math.random() * 100 + '%';
-                particle.style.animationDelay = Math.random() * 10 + 's';
-                particle.style.animationDuration = (Math.random() * 10 + 10) + 's';
-                container.appendChild(particle);
-            }
-        }
-        
-        createParticles();
-        
-        // Smooth Scroll for Navigation
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
+        // AOS
+        AOS.init({ duration: window.innerWidth < 768 ? 400 : 800, once: true, offset: 60 });
+
+        // Typed
+        document.addEventListener('DOMContentLoaded', () => {
+            new Typed('#typed', {
+                strings: ['Java Developer','Backend Engineer','Problem Solver','Clean Code Advocate'],
+                typeSpeed: 60, backSpeed: 40, backDelay: 2000, loop: true, cursorChar: '|'
             });
         });
-        
-        // Form Submission Handler
-        const contactForm = document.getElementById('contactForm');
-        if (contactForm) {
-            contactForm.addEventListener('submit', function(e) {
-                e.preventDefault();
-                
-                const btn = this.querySelector('button[type="submit"]');
-                const originalText = btn.innerHTML;
-                btn.innerHTML = '<span>Sending...</span>';
-                btn.disabled = true;
-                
-                setTimeout(() => {
-                    btn.innerHTML = '<span>Message Sent!</span>';
-                    btn.style.background = 'linear-gradient(135deg, #10b981, #059669)';
-                    
-                    setTimeout(() => {
-                        btn.innerHTML = originalText;
-                        btn.style.background = '';
-                        btn.disabled = false;
-                        contactForm.reset();
-                    }, 2000);
-                }, 1500);
-            });
+
+        // Vanilla Tilt — desktop only, lazy
+        if (window.innerWidth >= 1024) {
+            const s = document.createElement('script');
+            s.src = 'https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.1/vanilla-tilt.min.js';
+            s.onload = () => VanillaTilt.init(document.querySelectorAll('[data-tilt]'), { max:12, speed:400, glare:true, 'max-glare':.15, scale:1.02 });
+            document.head.appendChild(s);
         }
-        
-        // Navbar Background on Scroll
+
+        // Hamburger / Mobile Menu
+        const hbg = document.getElementById('hbg');
+        const mobMenu = document.getElementById('mobMenu');
+        const mobClose = document.getElementById('mobClose');
+
+        const openMenu = () => { mobMenu.classList.add('open'); hbg.classList.add('active'); hbg.setAttribute('aria-expanded','true'); document.body.style.overflow='hidden'; };
+        const closeMenu = () => { mobMenu.classList.remove('open'); hbg.classList.remove('active'); hbg.setAttribute('aria-expanded','false'); document.body.style.overflow=''; };
+
+        hbg.addEventListener('click', () => mobMenu.classList.contains('open') ? closeMenu() : openMenu());
+        mobClose.addEventListener('click', closeMenu);
+        document.querySelectorAll('.mlink').forEach(l => l.addEventListener('click', closeMenu));
+        document.addEventListener('keydown', e => e.key==='Escape' && closeMenu());
+
+        // Particles - desktop only
+        if (window.innerWidth >= 768) {
+            const c = document.getElementById('particles');
+            for (let i = 0; i < 15; i++) {
+                const p = document.createElement('div');
+                p.className = 'pt';
+                p.style.cssText = `left:${Math.random()*100}%;top:${Math.random()*100}%;animation-delay:${Math.random()*10}s;animation-duration:${Math.random()*10+10}s`;
+                c.appendChild(p);
+            }
+        }
+
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(a => {
+            a.addEventListener('click', function(e) {
+                const h = this.getAttribute('href');
+                if (h === '#') return;
+                e.preventDefault();
+                document.querySelector(h)?.scrollIntoView({ behavior:'smooth', block:'start' });
+            });
+        });
+
+        // Contact form
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const btn = this.querySelector('button[type="submit"]');
+            const orig = btn.innerHTML;
+            btn.innerHTML = '<span>Sending...</span>'; btn.disabled = true;
+            setTimeout(() => {
+                btn.innerHTML = '<span>✓ Message Sent!</span>';
+                btn.style.background = 'linear-gradient(135deg,#10b981,#059669)';
+                setTimeout(() => { btn.innerHTML = orig; btn.style.background = ''; btn.disabled = false; this.reset(); }, 2000);
+            }, 1500);
+        });
+
+        // Navbar scroll
         const nav = document.querySelector('nav');
-        if (nav) {
-            window.addEventListener('scroll', () => {
-                if (window.scrollY > 50) {
-                    nav.style.background = 'rgba(10, 15, 26, 0.95)';
-                } else {
-                    nav.style.background = 'rgba(17, 24, 39, 0.8)';
-                }
-            });
-        }
-        
-        // Intersection Observer for Active Nav Links
-        const sections = document.querySelectorAll('section[id]');
-        const navLinks = document.querySelectorAll('.nav-link');
-        
-        const observerOptions = {
-            root: null,
-            rootMargin: '-50% 0px -50% 0px',
-            threshold: 0
-        };
-        
-        const observer = new IntersectionObserver((entries) => {
+        window.addEventListener('scroll', () => {
+            nav.style.background = window.scrollY > 50 ? 'rgba(10,15,26,.97)' : 'rgba(10,15,26,.93)';
+        }, { passive: true });
+
+        // Active nav
+        const obs = new IntersectionObserver(entries => {
             entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    navLinks.forEach(link => {
-                        link.classList.remove('text-accent');
-                        if (link.getAttribute('href') === '#' + entry.target.id) {
-                            link.classList.add('text-accent');
-                        }
-                    });
-                }
+                if (entry.isIntersecting)
+                    document.querySelectorAll('.nl').forEach(l => l.classList.toggle('text-accent', l.getAttribute('href') === '#' + entry.target.id));
             });
-        }, observerOptions);
-        
-        sections.forEach(section => observer.observe(section));
-        
-        // Respect Reduced Motion
-        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-            document.querySelectorAll('.gradient-orb, .particle').forEach(el => {
-                el.style.animation = 'none';
-            });
-        }
+        }, { rootMargin:'-50% 0px -50% 0px', threshold:0 });
+        document.querySelectorAll('section[id]').forEach(s => obs.observe(s));
+
+        // Reduced motion
+        if (window.matchMedia('(prefers-reduced-motion:reduce)').matches)
+            document.querySelectorAll('.orb,.pt').forEach(el => el.style.animation='none');
     </script>
 </body>
 </html>
