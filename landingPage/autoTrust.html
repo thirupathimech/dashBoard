@@ -1,0 +1,1414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Premium Second-Hand Car Dealer - Find your perfect pre-owned vehicle at the best prices. Verified cars, trusted service.">
+    <meta name="keywords" content="second hand cars, used cars, pre-owned vehicles, car dealer, affordable cars">
+    <title>AutoTrust Motors | Premium Second-Hand Car Dealer</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Font Awesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Swiper CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+	<link rel="icon" href="../favicon.ico">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'inter': ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: '#1e3a5f',
+                        secondary: '#2c5282',
+                        accent: '#f6ad55',
+                        dark: '#1a202c',
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        /* Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+        }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: #1e3a5f;
+            border-radius: 4px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: #2c5282;
+        }
+        
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-10px);
+            }
+            60% {
+                transform: translateY(-5px);
+            }
+        }
+        
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+        }
+        
+        .animate-fadeInUp {
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+        
+        .animate-fadeIn {
+            animation: fadeIn 1s ease-out forwards;
+        }
+        
+        .animate-slideInLeft {
+            animation: slideInLeft 0.8s ease-out forwards;
+        }
+        
+        .animate-slideInRight {
+            animation: slideInRight 0.8s ease-out forwards;
+        }
+        
+        .animate-bounce-slow {
+            animation: bounce 2s infinite;
+        }
+        
+        .animate-pulse-slow {
+            animation: pulse 2s infinite;
+        }
+        
+        /* Delay Classes */
+        .delay-100 { animation-delay: 0.1s; }
+        .delay-200 { animation-delay: 0.2s; }
+        .delay-300 { animation-delay: 0.3s; }
+        .delay-400 { animation-delay: 0.4s; }
+        .delay-500 { animation-delay: 0.5s; }
+        .delay-600 { animation-delay: 0.6s; }
+        
+        /* Gradient Text */
+        .gradient-text {
+            background: linear-gradient(135deg, #ffffff 0%, #f6ad55 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        /* Hero Background */
+        .hero-bg {
+            background: linear-gradient(135deg, rgba(30, 58, 95, 0.9) 0%, rgba(26, 32, 44, 0.95) 100%),
+                        url('https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+        
+        /* Card Hover Effects */
+        .car-card {
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        
+        .car-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        }
+        
+        .car-card:hover .car-image {
+            transform: scale(1.05);
+        }
+        
+        .car-image {
+            transition: transform 0.5s ease;
+        }
+        
+        /* Feature Card Hover */
+        .feature-card {
+            transition: all 0.3s ease;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        .feature-card:hover .feature-icon {
+            transform: scale(1.1);
+            background: linear-gradient(135deg, #f6ad55 0%, #ed8936 100%);
+        }
+        
+        .feature-icon {
+            transition: all 0.3s ease;
+        }
+        
+        /* Button Styles */
+        .btn-primary {
+            background: linear-gradient(135deg, #f6ad55 0%, #ed8936 100%);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.5s ease;
+        }
+        
+        .btn-primary:hover::before {
+            left: 100%;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(246, 173, 85, 0.4);
+        }
+        
+        /* Navbar Styles */
+        .navbar {
+            transition: all 0.3s ease;
+        }
+        
+        .navbar.scrolled {
+            background: rgba(26, 32, 44, 0.98) !important;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        .nav-link {
+            position: relative;
+            transition: color 0.3s ease;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #f6ad55, #ed8936);
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover::after,
+        .nav-link.active::after {
+            width: 100%;
+        }
+        
+        /* Swiper Custom Styles */
+        .swiper-pagination-bullet {
+            background: #f6ad55 !important;
+            opacity: 0.5;
+        }
+        
+        .swiper-pagination-bullet-active {
+            opacity: 1 !important;
+            background: #f6ad55 !important;
+        }
+        
+        .swiper-button-next,
+        .swiper-button-prev {
+            color: #f6ad55 !important;
+        }
+        
+        /* WhatsApp Button */
+        .whatsapp-btn {
+            background: linear-gradient(135deg, #25d366 0%, #128c7e 100%);
+            transition: all 0.3s ease;
+        }
+        
+        .whatsapp-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 10px 30px rgba(37, 211, 102, 0.4);
+        }
+        
+        /* Form Styles */
+        .form-input {
+            transition: all 0.3s ease;
+        }
+        
+        .form-input:focus {
+            border-color: #f6ad55;
+            box-shadow: 0 0 0 3px rgba(246, 173, 85, 0.2);
+        }
+        
+        /* Pattern Background */
+        .pattern-bg {
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+        
+        /* Mobile Menu */
+        .mobile-menu {
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
+        }
+        
+        .mobile-menu.active {
+            transform: translateX(0);
+        }
+        
+        /* Hamburger Animation */
+        .hamburger span {
+            transition: all 0.3s ease;
+        }
+        
+        .hamburger.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+        
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+        
+        .hamburger.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(7px, -6px);
+        }
+        
+        /* Scroll Indicator */
+        .scroll-indicator {
+            animation: bounce 2s infinite;
+        }
+        
+        /* Stats Counter */
+        .stat-number {
+            background: linear-gradient(135deg, #f6ad55 0%, #ed8936 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+    </style>
+</head>
+<body class="font-inter bg-gray-50">
+
+    <!-- ========== HEADER / NAVIGATION ========== -->
+    <nav id="navbar" class="navbar fixed top-0 left-0 right-0 z-50 bg-transparent py-4">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between">
+                <!-- Logo -->
+                <a href="#home" class="flex items-center space-x-2">
+                    <div class="w-10 h-10 bg-gradient-to-br from-orange-400 to-orange-600 rounded-lg flex items-center justify-center">
+                        <i class="fas fa-car text-white text-lg"></i>
+                    </div>
+                    <span class="text-xl font-bold text-white">Auto<span class="text-orange-400">Trust</span></span>
+                </a>
+                
+                <!-- Desktop Navigation -->
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#home" class="nav-link text-white hover:text-orange-400 font-medium active">Home</a>
+                    <a href="#cars" class="nav-link text-white hover:text-orange-400 font-medium">Cars</a>
+                    <a href="#about" class="nav-link text-white hover:text-orange-400 font-medium">About</a>
+                    <a href="#contact" class="nav-link text-white hover:text-orange-400 font-medium">Contact</a>
+                </div>
+                
+                <!-- CTA Button -->
+                <div class="hidden md:block">
+                    <a href="tel:+1234567890" class="btn-primary px-6 py-2.5 rounded-full text-white font-semibold inline-flex items-center space-x-2">
+                        <i class="fas fa-phone"></i>
+                        <span>Call Now</span>
+                    </a>
+                </div>
+                
+                <!-- Mobile Menu Button -->
+                <button id="menuBtn" class="hamburger md:hidden flex flex-col space-y-1.5 p-2">
+                    <span class="block w-6 h-0.5 bg-white"></span>
+                    <span class="block w-6 h-0.5 bg-white"></span>
+                    <span class="block w-6 h-0.5 bg-white"></span>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div id="mobileMenu" class="mobile-menu fixed top-0 right-0 w-72 h-full bg-gray-900 shadow-2xl md:hidden">
+            <div class="p-6">
+                <button id="closeMenu" class="absolute top-4 right-4 text-white text-2xl">
+                    <i class="fas fa-times"></i>
+                </button>
+                <div class="mt-12 flex flex-col space-y-6">
+                    <a href="#home" class="text-white hover:text-orange-400 text-lg font-medium transition-colors">Home</a>
+                    <a href="#cars" class="text-white hover:text-orange-400 text-lg font-medium transition-colors">Cars</a>
+                    <a href="#about" class="text-white hover:text-orange-400 text-lg font-medium transition-colors">About</a>
+                    <a href="#contact" class="text-white hover:text-orange-400 text-lg font-medium transition-colors">Contact</a>
+                    <a href="tel:+1234567890" class="btn-primary px-6 py-3 rounded-full text-white font-semibold text-center mt-4">
+                        <i class="fas fa-phone mr-2"></i>Call Now
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ========== HERO SECTION ========== -->
+    <section id="home" class="hero-bg min-h-screen flex items-center relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-32 relative z-10">
+            <div class="max-w-3xl">
+                <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-tight animate-fadeInUp">
+                    Find Your Perfect <br>
+                    <span class="gradient-text">Second-Hand Car</span>
+                </h1>
+                <p class="mt-6 text-lg sm:text-xl text-gray-300 animate-fadeInUp delay-200 opacity-0">
+                    Discover premium pre-owned vehicles at unbeatable prices. Every car is thoroughly inspected, 
+                    certified, and comes with complete documentation for your peace of mind.
+                </p>
+                <div class="mt-10 flex flex-col sm:flex-row gap-4 animate-fadeInUp delay-300 opacity-0">
+                    <a href="#cars" class="btn-primary px-8 py-4 rounded-full text-white font-semibold text-lg inline-flex items-center justify-center space-x-2">
+                        <span>View Available Cars</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </a>
+                    <a href="https://wa.me/1234567890" target="_blank" class="whatsapp-btn px-8 py-4 rounded-full text-white font-semibold text-lg inline-flex items-center justify-center space-x-2">
+                        <i class="fab fa-whatsapp text-xl"></i>
+                        <span>WhatsApp Us</span>
+                    </a>
+                </div>
+                
+                <!-- Stats -->
+                <div class="mt-16 grid grid-cols-3 gap-8 animate-fadeInUp delay-400 opacity-0">
+                    <div class="text-center">
+                        <div class="stat-number text-3xl sm:text-4xl font-bold">500+</div>
+                        <div class="text-gray-400 text-sm sm:text-base mt-1">Cars Sold</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="stat-number text-3xl sm:text-4xl font-bold">10+</div>
+                        <div class="text-gray-400 text-sm sm:text-base mt-1">Years Experience</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="stat-number text-3xl sm:text-4xl font-bold">98%</div>
+                        <div class="text-gray-400 text-sm sm:text-base mt-1">Happy Customers</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Scroll Indicator -->
+        <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 text-white animate-bounce-slow">
+            <a href="#cars" class="flex flex-col items-center">
+                <span class="text-sm mb-2">Scroll Down</span>
+                <i class="fas fa-chevron-down"></i>
+            </a>
+        </div>
+    </section>
+
+    <!-- ========== FEATURED CARS SECTION ========== -->
+    <section id="cars" class="py-20 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- Section Header -->
+            <div class="text-center mb-16">
+                <span class="text-orange-500 font-semibold text-sm uppercase tracking-wider">Our Inventory</span>
+                <h2 class="mt-3 text-3xl sm:text-4xl font-bold text-gray-900">Featured Cars</h2>
+                <p class="mt-4 text-gray-600 max-w-2xl mx-auto">
+                    Browse our hand-picked selection of quality pre-owned vehicles, each thoroughly inspected and ready for a new home.
+                </p>
+            </div>
+            
+            <!-- Cars Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                
+                <!-- Car Card 1 -->
+                <div class="car-card bg-white rounded-2xl overflow-hidden shadow-lg">
+                    <div class="relative overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1555215695-3004980ad54e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                             alt="BMW 3 Series" 
+                             class="car-image w-full h-56 object-cover">
+                        <div class="absolute top-4 left-4 bg-orange-500 text-white px-3 py-1 rounded-full text-sm font-semibold">
+                            2022
+                        </div>
+                        <button class="absolute top-4 right-4 w-10 h-10 bg-white/90 rounded-full flex items-center justify-center hover:bg-white transition-colors">
+                            <i class="far fa-heart text-gray-600 hover:text-red-500"></i>
+                        </button>
+                        <div class="absolute bottom-4 left-4 bg-green-500 text-white px-3 py-1 rounded-full text-xs font-semibold">
+                            <i class="fas fa-check mr-1"></i>Verified
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-gray-900">BMW 3 Series 320d</h3>
+                        <div class="mt-3 flex items-center text-gray-500 text-sm space-x-4">
+                            <span><i class="fas fa-gas-pump mr-1"></i>Diesel</span>
+                            <span><i class="fas fa-cog mr-1"></i>Automatic</span>
+                            <span><i class="fas fa-road mr-1"></i>25,000 km</span>
+                        </div>
+                        <div class="mt-4 flex items-center justify-between">
+                            <div>
+                                <span class="text-2xl font-bold text-gray-900">₹32.5</span>
+                                <span class="text-gray-500 text-sm">Lakh</span>
+                            </div>
+                            <button class="btn-primary px-5 py-2.5 rounded-full text-white font-semibold text-sm">
+                                Contact Now
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Car Card 2 -->
+                <div class="car-card bg-white rounded-2xl overflow-hidden shadow-lg">
+                    <div class="relative overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                             alt="Mercedes C-Class" 
+                             class="car-image w-full h-56 object-cover">
+                        <div class="absolute top-4 left-4 bg-orange-500 text-white px-3 py-1 rounded-full text-sm font-semibold">
+                            2021
+                        </div>
+                        <button class="absolute top-4 right-4 w-10 h-10 bg-white/90 rounded-full flex items-center justify-center hover:bg-white transition-colors">
+                            <i class="far fa-heart text-gray-600 hover:text-red-500"></i>
+                        </button>
+                        <div class="absolute bottom-4 left-4 bg-green-500 text-white px-3 py-1 rounded-full text-xs font-semibold">
+                            <i class="fas fa-check mr-1"></i>Verified
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-gray-900">Mercedes-Benz C-Class</h3>
+                        <div class="mt-3 flex items-center text-gray-500 text-sm space-x-4">
+                            <span><i class="fas fa-gas-pump mr-1"></i>Petrol</span>
+                            <span><i class="fas fa-cog mr-1"></i>Automatic</span>
+                            <span><i class="fas fa-road mr-1"></i>35,000 km</span>
+                        </div>
+                        <div class="mt-4 flex items-center justify-between">
+                            <div>
+                                <span class="text-2xl font-bold text-gray-900">₹38.9</span>
+                                <span class="text-gray-500 text-sm">Lakh</span>
+                            </div>
+                            <button class="btn-primary px-5 py-2.5 rounded-full text-white font-semibold text-sm">
+                                Contact Now
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Car Card 3 -->
+                <div class="car-card bg-white rounded-2xl overflow-hidden shadow-lg">
+                    <div class="relative overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1606664515524-ed2f786a0bd6?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                             alt="Audi A4" 
+                             class="car-image w-full h-56 object-cover">
+                        <div class="absolute top-4 left-4 bg-orange-500 text-white px-3 py-1 rounded-full text-sm font-semibold">
+                            2022
+                        </div>
+                        <button class="absolute top-4 right-4 w-10 h-10 bg-white/90 rounded-full flex items-center justify-center hover:bg-white transition-colors">
+                            <i class="far fa-heart text-gray-600 hover:text-red-500"></i>
+                        </button>
+                        <div class="absolute bottom-4 left-4 bg-green-500 text-white px-3 py-1 rounded-full text-xs font-semibold">
+                            <i class="fas fa-check mr-1"></i>Verified
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-gray-900">Audi A4 Premium</h3>
+                        <div class="mt-3 flex items-center text-gray-500 text-sm space-x-4">
+                            <span><i class="fas fa-gas-pump mr-1"></i>Petrol</span>
+                            <span><i class="fas fa-cog mr-1"></i>Automatic</span>
+                            <span><i class="fas fa-road mr-1"></i>18,000 km</span>
+                        </div>
+                        <div class="mt-4 flex items-center justify-between">
+                            <div>
+                                <span class="text-2xl font-bold text-gray-900">₹35.5</span>
+                                <span class="text-gray-500 text-sm">Lakh</span>
+                            </div>
+                            <button class="btn-primary px-5 py-2.5 rounded-full text-white font-semibold text-sm">
+                                Contact Now
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Car Card 4 -->
+                <div class="car-card bg-white rounded-2xl overflow-hidden shadow-lg">
+                    <div class="relative overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                             alt="Toyota Fortuner" 
+                             class="car-image w-full h-56 object-cover">
+                        <div class="absolute top-4 left-4 bg-orange-500 text-white px-3 py-1 rounded-full text-sm font-semibold">
+                            2021
+                        </div>
+                        <button class="absolute top-4 right-4 w-10 h-10 bg-white/90 rounded-full flex items-center justify-center hover:bg-white transition-colors">
+                            <i class="far fa-heart text-gray-600 hover:text-red-500"></i>
+                        </button>
+                        <div class="absolute bottom-4 left-4 bg-green-500 text-white px-3 py-1 rounded-full text-xs font-semibold">
+                            <i class="fas fa-check mr-1"></i>Verified
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-gray-900">Toyota Fortuner 4x4</h3>
+                        <div class="mt-3 flex items-center text-gray-500 text-sm space-x-4">
+                            <span><i class="fas fa-gas-pump mr-1"></i>Diesel</span>
+                            <span><i class="fas fa-cog mr-1"></i>Automatic</span>
+                            <span><i class="fas fa-road mr-1"></i>42,000 km</span>
+                        </div>
+                        <div class="mt-4 flex items-center justify-between">
+                            <div>
+                                <span class="text-2xl font-bold text-gray-900">₹28.5</span>
+                                <span class="text-gray-500 text-sm">Lakh</span>
+                            </div>
+                            <button class="btn-primary px-5 py-2.5 rounded-full text-white font-semibold text-sm">
+                                Contact Now
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Car Card 5 -->
+                <div class="car-card bg-white rounded-2xl overflow-hidden shadow-lg">
+                    <div class="relative overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1580273916550-e323be2ae537?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                             alt="Honda City" 
+                             class="car-image w-full h-56 object-cover">
+                        <div class="absolute top-4 left-4 bg-orange-500 text-white px-3 py-1 rounded-full text-sm font-semibold">
+                            2023
+                        </div>
+                        <button class="absolute top-4 right-4 w-10 h-10 bg-white/90 rounded-full flex items-center justify-center hover:bg-white transition-colors">
+                            <i class="far fa-heart text-gray-600 hover:text-red-500"></i>
+                        </button>
+                        <div class="absolute bottom-4 left-4 bg-green-500 text-white px-3 py-1 rounded-full text-xs font-semibold">
+                            <i class="fas fa-check mr-1"></i>Verified
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-gray-900">Honda City ZX</h3>
+                        <div class="mt-3 flex items-center text-gray-500 text-sm space-x-4">
+                            <span><i class="fas fa-gas-pump mr-1"></i>Petrol</span>
+                            <span><i class="fas fa-cog mr-1"></i>Manual</span>
+                            <span><i class="fas fa-road mr-1"></i>12,000 km</span>
+                        </div>
+                        <div class="mt-4 flex items-center justify-between">
+                            <div>
+                                <span class="text-2xl font-bold text-gray-900">₹11.2</span>
+                                <span class="text-gray-500 text-sm">Lakh</span>
+                            </div>
+                            <button class="btn-primary px-5 py-2.5 rounded-full text-white font-semibold text-sm">
+                                Contact Now
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Car Card 6 -->
+                <div class="car-card bg-white rounded-2xl overflow-hidden shadow-lg">
+                    <div class="relative overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1617531653332-bd46c24f2068?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                             alt="Hyundai Creta" 
+                             class="car-image w-full h-56 object-cover">
+                        <div class="absolute top-4 left-4 bg-orange-500 text-white px-3 py-1 rounded-full text-sm font-semibold">
+                            2022
+                        </div>
+                        <button class="absolute top-4 right-4 w-10 h-10 bg-white/90 rounded-full flex items-center justify-center hover:bg-white transition-colors">
+                            <i class="far fa-heart text-gray-600 hover:text-red-500"></i>
+                        </button>
+                        <div class="absolute bottom-4 left-4 bg-green-500 text-white px-3 py-1 rounded-full text-xs font-semibold">
+                            <i class="fas fa-check mr-1"></i>Verified
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-gray-900">Hyundai Creta SX</h3>
+                        <div class="mt-3 flex items-center text-gray-500 text-sm space-x-4">
+                            <span><i class="fas fa-gas-pump mr-1"></i>Diesel</span>
+                            <span><i class="fas fa-cog mr-1"></i>Automatic</span>
+                            <span><i class="fas fa-road mr-1"></i>22,000 km</span>
+                        </div>
+                        <div class="mt-4 flex items-center justify-between">
+                            <div>
+                                <span class="text-2xl font-bold text-gray-900">₹15.8</span>
+                                <span class="text-gray-500 text-sm">Lakh</span>
+                            </div>
+                            <button class="btn-primary px-5 py-2.5 rounded-full text-white font-semibold text-sm">
+                                Contact Now
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+            
+            <!-- View All Button -->
+            <div class="text-center mt-12">
+                <button class="border-2 border-gray-800 text-gray-800 px-8 py-3 rounded-full font-semibold hover:bg-gray-800 hover:text-white transition-all duration-300">
+                    View All Cars <i class="fas fa-arrow-right ml-2"></i>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== WHY CHOOSE US SECTION ========== -->
+    <section id="why-us" class="py-20 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 pattern-bg relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <!-- Section Header -->
+            <div class="text-center mb-16">
+                <span class="text-orange-400 font-semibold text-sm uppercase tracking-wider">Our Promise</span>
+                <h2 class="mt-3 text-3xl sm:text-4xl font-bold text-white">Why Choose Us</h2>
+                <p class="mt-4 text-gray-400 max-w-2xl mx-auto">
+                    We're committed to providing the best car buying experience with transparency, quality, and trust at every step.
+                </p>
+            </div>
+            
+            <!-- Features Grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                
+                <!-- Feature 1 -->
+                <div class="feature-card text-center p-8 rounded-2xl border border-gray-700/50">
+                    <div class="feature-icon w-16 h-16 bg-gradient-to-br from-gray-700 to-gray-800 rounded-2xl flex items-center justify-center mx-auto mb-6">
+                        <i class="fas fa-shield-alt text-2xl text-orange-400"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-3">Trusted Dealer</h3>
+                    <p class="text-gray-400">
+                        Over 10 years of trusted service with 500+ happy customers. Your satisfaction is our priority.
+                    </p>
+                </div>
+                
+                <!-- Feature 2 -->
+                <div class="feature-card text-center p-8 rounded-2xl border border-gray-700/50">
+                    <div class="feature-icon w-16 h-16 bg-gradient-to-br from-gray-700 to-gray-800 rounded-2xl flex items-center justify-center mx-auto mb-6">
+                        <i class="fas fa-tags text-2xl text-orange-400"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-3">Best Price</h3>
+                    <p class="text-gray-400">
+                        Competitive pricing with no hidden costs. We offer the best value for quality pre-owned vehicles.
+                    </p>
+                </div>
+                
+                <!-- Feature 3 -->
+                <div class="feature-card text-center p-8 rounded-2xl border border-gray-700/50">
+                    <div class="feature-icon w-16 h-16 bg-gradient-to-br from-gray-700 to-gray-800 rounded-2xl flex items-center justify-center mx-auto mb-6">
+                        <i class="fas fa-check-circle text-2xl text-orange-400"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-3">Verified Vehicles</h3>
+                    <p class="text-gray-400">
+                        Every car undergoes a 150-point inspection. Only verified and certified vehicles in our inventory.
+                    </p>
+                </div>
+                
+                <!-- Feature 4 -->
+                <div class="feature-card text-center p-8 rounded-2xl border border-gray-700/50">
+                    <div class="feature-icon w-16 h-16 bg-gradient-to-br from-gray-700 to-gray-800 rounded-2xl flex items-center justify-center mx-auto mb-6">
+                        <i class="fas fa-file-signature text-2xl text-orange-400"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-3">Fast Documentation</h3>
+                    <p class="text-gray-400">
+                        Hassle-free paperwork and quick RC transfer. We handle all documentation for you.
+                    </p>
+                </div>
+                
+            </div>
+        </div>
+        
+        <!-- Decorative Elements -->
+        <div class="absolute top-0 left-0 w-64 h-64 bg-orange-500/5 rounded-full blur-3xl"></div>
+        <div class="absolute bottom-0 right-0 w-96 h-96 bg-orange-500/5 rounded-full blur-3xl"></div>
+    </section>
+
+    <!-- ========== CUSTOMER REVIEWS SECTION ========== -->
+    <section id="reviews" class="py-20 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- Section Header -->
+            <div class="text-center mb-16">
+                <span class="text-orange-500 font-semibold text-sm uppercase tracking-wider">Testimonials</span>
+                <h2 class="mt-3 text-3xl sm:text-4xl font-bold text-gray-900">What Our Customers Say</h2>
+                <p class="mt-4 text-gray-600 max-w-2xl mx-auto">
+                    Don't just take our word for it. Here's what our valued customers have to say about their experience.
+                </p>
+            </div>
+            
+            <!-- Swiper Slider -->
+            <div class="swiper testimonialSwiper">
+                <div class="swiper-wrapper pb-12">
+                    
+                    <!-- Testimonial 1 -->
+                    <div class="swiper-slide">
+                        <div class="bg-white rounded-2xl p-8 shadow-lg h-full">
+                            <div class="flex items-center mb-6">
+                                <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&q=80" 
+                                     alt="Customer" 
+                                     class="w-14 h-14 rounded-full object-cover">
+                                <div class="ml-4">
+                                    <h4 class="font-bold text-gray-900">Rahul Sharma</h4>
+                                    <p class="text-gray-500 text-sm">Mumbai, India</p>
+                                </div>
+                            </div>
+                            <div class="flex text-orange-400 mb-4">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <p class="text-gray-600 italic">
+                                "Excellent service! I bought a BMW 3 Series from AutoTrust and the whole experience was seamless. 
+                                The car was in perfect condition and the paperwork was handled professionally. Highly recommended!"
+                            </p>
+                            <div class="mt-4 pt-4 border-t border-gray-100">
+                                <span class="text-sm text-gray-500"><i class="fas fa-car mr-2"></i>Purchased: BMW 3 Series</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Testimonial 2 -->
+                    <div class="swiper-slide">
+                        <div class="bg-white rounded-2xl p-8 shadow-lg h-full">
+                            <div class="flex items-center mb-6">
+                                <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&q=80" 
+                                     alt="Customer" 
+                                     class="w-14 h-14 rounded-full object-cover">
+                                <div class="ml-4">
+                                    <h4 class="font-bold text-gray-900">Priya Patel</h4>
+                                    <p class="text-gray-500 text-sm">Delhi, India</p>
+                                </div>
+                            </div>
+                            <div class="flex text-orange-400 mb-4">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <p class="text-gray-600 italic">
+                                "I was looking for a reliable used car for my family and found the perfect Honda City here. 
+                                The team was patient, transparent about the car's history, and gave me a fair price. Thank you!"
+                            </p>
+                            <div class="mt-4 pt-4 border-t border-gray-100">
+                                <span class="text-sm text-gray-500"><i class="fas fa-car mr-2"></i>Purchased: Honda City</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Testimonial 3 -->
+                    <div class="swiper-slide">
+                        <div class="bg-white rounded-2xl p-8 shadow-lg h-full">
+                            <div class="flex items-center mb-6">
+                                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&q=80" 
+                                     alt="Customer" 
+                                     class="w-14 h-14 rounded-full object-cover">
+                                <div class="ml-4">
+                                    <h4 class="font-bold text-gray-900">Amit Kumar</h4>
+                                    <p class="text-gray-500 text-sm">Bangalore, India</p>
+                                </div>
+                            </div>
+                            <div class="flex text-orange-400 mb-4">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star-half-alt"></i>
+                            </div>
+                            <p class="text-gray-600 italic">
+                                "Great experience buying my Audi A4. The verification process gave me confidence, 
+                                and the after-sales support has been fantastic. Will definitely recommend to friends!"
+                            </p>
+                            <div class="mt-4 pt-4 border-t border-gray-100">
+                                <span class="text-sm text-gray-500"><i class="fas fa-car mr-2"></i>Purchased: Audi A4</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Testimonial 4 -->
+                    <div class="swiper-slide">
+                        <div class="bg-white rounded-2xl p-8 shadow-lg h-full">
+                            <div class="flex items-center mb-6">
+                                <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&q=80" 
+                                     alt="Customer" 
+                                     class="w-14 h-14 rounded-full object-cover">
+                                <div class="ml-4">
+                                    <h4 class="font-bold text-gray-900">Sneha Gupta</h4>
+                                    <p class="text-gray-500 text-sm">Pune, India</p>
+                                </div>
+                            </div>
+                            <div class="flex text-orange-400 mb-4">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <p class="text-gray-600 italic">
+                                "My first car purchase and it couldn't have been better! The team at AutoTrust made everything 
+                                so easy to understand. Got my Hyundai Creta at an amazing price with all papers clear."
+                            </p>
+                            <div class="mt-4 pt-4 border-t border-gray-100">
+                                <span class="text-sm text-gray-500"><i class="fas fa-car mr-2"></i>Purchased: Hyundai Creta</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Testimonial 5 -->
+                    <div class="swiper-slide">
+                        <div class="bg-white rounded-2xl p-8 shadow-lg h-full">
+                            <div class="flex items-center mb-6">
+                                <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&q=80" 
+                                     alt="Customer" 
+                                     class="w-14 h-14 rounded-full object-cover">
+                                <div class="ml-4">
+                                    <h4 class="font-bold text-gray-900">Vikram Singh</h4>
+                                    <p class="text-gray-500 text-sm">Chennai, India</p>
+                                </div>
+                            </div>
+                            <div class="flex text-orange-400 mb-4">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <p class="text-gray-600 italic">
+                                "Bought a Fortuner for my business needs. The condition was like new and the documentation 
+                                was completed within a week. Professional service and genuine vehicles. Highly trustworthy!"
+                            </p>
+                            <div class="mt-4 pt-4 border-t border-gray-100">
+                                <span class="text-sm text-gray-500"><i class="fas fa-car mr-2"></i>Purchased: Toyota Fortuner</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+                
+                <!-- Pagination -->
+                <div class="swiper-pagination"></div>
+                
+                <!-- Navigation -->
+                <div class="swiper-button-prev"></div>
+                <div class="swiper-button-next"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== ABOUT SECTION ========== -->
+    <section id="about" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                
+                <!-- Image Side -->
+                <div class="relative">
+                    <img src="https://images.unsplash.com/photo-1560958089-b8a1929cea89?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                         alt="About Us" 
+                         class="rounded-2xl shadow-2xl w-full">
+                    
+                    <!-- Floating Stats Card -->
+                    <div class="absolute -bottom-8 -right-8 bg-gradient-to-br from-gray-900 to-gray-800 text-white p-6 rounded-2xl shadow-xl hidden md:block">
+                        <div class="flex items-center space-x-4">
+                            <div class="w-14 h-14 bg-orange-500 rounded-full flex items-center justify-center">
+                                <i class="fas fa-award text-2xl"></i>
+                            </div>
+                            <div>
+                                <div class="text-3xl font-bold">10+</div>
+                                <div class="text-gray-400 text-sm">Years of Excellence</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Content Side -->
+                <div>
+                    <span class="text-orange-500 font-semibold text-sm uppercase tracking-wider">About Us</span>
+                    <h2 class="mt-3 text-3xl sm:text-4xl font-bold text-gray-900">Your Trusted Partner in Finding the Perfect Car</h2>
+                    
+                    <p class="mt-6 text-gray-600 leading-relaxed">
+                        AutoTrust Motors has been a leading name in the second-hand car market for over a decade. 
+                        We believe that buying a pre-owned vehicle should be as exciting and stress-free as buying a new one. 
+                        Our commitment to quality, transparency, and customer satisfaction has made us the preferred choice 
+                        for thousands of car buyers.
+                    </p>
+                    
+                    <p class="mt-4 text-gray-600 leading-relaxed">
+                        Every vehicle in our inventory undergoes a comprehensive 150-point inspection by our certified technicians. 
+                        We provide detailed vehicle history reports, ensure clean documentation, and offer competitive pricing 
+                        with no hidden charges. Our dedicated team guides you through every step, from selection to financing 
+                        and documentation.
+                    </p>
+                    
+                    <!-- Stats Grid -->
+                    <div class="mt-10 grid grid-cols-2 sm:grid-cols-3 gap-6">
+                        <div class="text-center p-4 bg-gray-50 rounded-xl">
+                            <div class="text-3xl font-bold text-gray-900">500+</div>
+                            <div class="text-gray-500 text-sm mt-1">Cars Sold</div>
+                        </div>
+                        <div class="text-center p-4 bg-gray-50 rounded-xl">
+                            <div class="text-3xl font-bold text-gray-900">98%</div>
+                            <div class="text-gray-500 text-sm mt-1">Satisfaction</div>
+                        </div>
+                        <div class="text-center p-4 bg-gray-50 rounded-xl">
+                            <div class="text-3xl font-bold text-gray-900">24/7</div>
+                            <div class="text-gray-500 text-sm mt-1">Support</div>
+                        </div>
+                    </div>
+                    
+                    <!-- CTA -->
+                    <div class="mt-10">
+                        <a href="#contact" class="btn-primary px-8 py-4 rounded-full text-white font-semibold inline-flex items-center space-x-2">
+                            <span>Get in Touch</span>
+                            <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== CONTACT SECTION ========== -->
+    <section id="contact" class="py-20 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- Section Header -->
+            <div class="text-center mb-16">
+                <span class="text-orange-500 font-semibold text-sm uppercase tracking-wider">Get In Touch</span>
+                <h2 class="mt-3 text-3xl sm:text-4xl font-bold text-gray-900">Contact Us</h2>
+                <p class="mt-4 text-gray-600 max-w-2xl mx-auto">
+                    Ready to find your dream car? Get in touch with us today. We're here to help you every step of the way.
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16">
+                
+                <!-- Contact Info -->
+                <div>
+                    <!-- Contact Cards -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-10">
+                        
+                        <!-- Phone -->
+                        <div class="bg-white p-6 rounded-2xl shadow-lg">
+                            <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mb-4">
+                                <i class="fas fa-phone text-blue-600 text-xl"></i>
+                            </div>
+                            <h4 class="font-bold text-gray-900 mb-2">Phone</h4>
+                            <p class="text-gray-600">+91 98765 43210</p>
+                            <p class="text-gray-600">+91 98765 43211</p>
+                        </div>
+                        
+                        <!-- WhatsApp -->
+                        <div class="bg-gradient-to-br from-green-500 to-green-600 p-6 rounded-2xl shadow-lg">
+                            <div class="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center mb-4">
+                                <i class="fab fa-whatsapp text-white text-2xl"></i>
+                            </div>
+                            <h4 class="font-bold text-white mb-2">WhatsApp</h4>
+                            <p class="text-white/90">+91 98765 43210</p>
+                            <a href="https://wa.me/919876543210" target="_blank" 
+                               class="inline-block mt-3 bg-white text-green-600 px-4 py-2 rounded-full text-sm font-semibold hover:bg-gray-100 transition-colors">
+                                Chat Now
+                            </a>
+                        </div>
+                        
+                        <!-- Location -->
+                        <div class="bg-white p-6 rounded-2xl shadow-lg">
+                            <div class="w-12 h-12 bg-red-100 rounded-xl flex items-center justify-center mb-4">
+                                <i class="fas fa-map-marker-alt text-red-600 text-xl"></i>
+                            </div>
+                            <h4 class="font-bold text-gray-900 mb-2">Location</h4>
+                            <p class="text-gray-600">123 Auto Street, Near Highway</p>
+                            <p class="text-gray-600">Mumbai, MH 400001</p>
+                        </div>
+                        
+                        <!-- Email -->
+                        <div class="bg-white p-6 rounded-2xl shadow-lg">
+                            <div class="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center mb-4">
+                                <i class="fas fa-envelope text-purple-600 text-xl"></i>
+                            </div>
+                            <h4 class="font-bold text-gray-900 mb-2">Email</h4>
+                            <p class="text-gray-600">info@autotrust.com</p>
+                            <p class="text-gray-600">sales@autotrust.com</p>
+                        </div>
+                        
+                    </div>
+                    
+                    <!-- Map Placeholder -->
+                    <div class="bg-gray-300 rounded-2xl h-64 overflow-hidden">
+                        <iframe 
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d241317.11609823277!2d72.74109995709657!3d19.082198735586943!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7c6306644edc1%3A0x5da4ed8f8d648c69!2sMumbai%2C%20Maharashtra!5e0!3m2!1sen!2sin!4v1699999999999!5m2!1sen!2sin"
+                            width="100%" 
+                            height="100%" 
+                            style="border:0;" 
+                            allowfullscreen="" 
+                            loading="lazy"
+                            class="rounded-2xl">
+                        </iframe>
+                    </div>
+                </div>
+                
+                <!-- Contact Form -->
+                <div class="bg-white p-8 rounded-2xl shadow-lg">
+                    <h3 class="text-2xl font-bold text-gray-900 mb-6">Send Us a Message</h3>
+                    
+                    <form id="contactForm" class="space-y-6">
+                        <!-- Name -->
+                        <div>
+                            <label class="block text-gray-700 font-medium mb-2">Full Name</label>
+                            <input type="text" 
+                                   class="form-input w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none"
+                                   placeholder="Enter your full name">
+                        </div>
+                        
+                        <!-- Phone & Email -->
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-gray-700 font-medium mb-2">Phone Number</label>
+                                <input type="tel" 
+                                       class="form-input w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none"
+                                       placeholder="Your phone number">
+                            </div>
+                            <div>
+                                <label class="block text-gray-700 font-medium mb-2">Email Address</label>
+                                <input type="email" 
+                                       class="form-input w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none"
+                                       placeholder="Your email address">
+                            </div>
+                        </div>
+                        
+                        <!-- Interest -->
+                        <div>
+                            <label class="block text-gray-700 font-medium mb-2">Interested In</label>
+                            <select class="form-input w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none bg-white">
+                                <option value="">Select a car category</option>
+                                <option value="sedan">Sedan</option>
+                                <option value="suv">SUV</option>
+                                <option value="hatchback">Hatchback</option>
+                                <option value="luxury">Luxury</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        
+                        <!-- Message -->
+                        <div>
+                            <label class="block text-gray-700 font-medium mb-2">Message</label>
+                            <textarea rows="4" 
+                                      class="form-input w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none resize-none"
+                                      placeholder="Tell us about your requirements..."></textarea>
+                        </div>
+                        
+                        <!-- Submit Button -->
+                        <button type="submit" 
+                                class="btn-primary w-full py-4 rounded-xl text-white font-semibold text-lg">
+                            Send Message <i class="fas fa-paper-plane ml-2"></i>
+                        </button>
+                    </form>
+                </div>
+                
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== FOOTER ========== -->
+    <footer class="bg-gray-900 text-white pt-16 pb-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
+                
+                <!-- Brand Info -->
+                <div>
+                    <a href="#home" class="flex items-center space-x-2 mb-6">
+                        <div class="w-10 h-10 bg-gradient-to-br from-orange-400 to-orange-600 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-car text-white text-lg"></i>
+                        </div>
+                        <span class="text-xl font-bold">Auto<span class="text-orange-400">Trust</span></span>
+                    </a>
+                    <p class="text-gray-400 mb-6">
+                        Your trusted partner for quality pre-owned vehicles. We bring you the best selection 
+                        of verified second-hand cars at competitive prices.
+                    </p>
+                    <!-- Social Media -->
+                    <div class="flex space-x-4">
+                        <a href="#" class="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-orange-500 transition-colors">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-orange-500 transition-colors">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-orange-500 transition-colors">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-orange-500 transition-colors">
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Quick Links -->
+                <div>
+                    <h4 class="text-lg font-bold mb-6">Quick Links</h4>
+                    <ul class="space-y-3">
+                        <li><a href="#home" class="text-gray-400 hover:text-orange-400 transition-colors">Home</a></li>
+                        <li><a href="#cars" class="text-gray-400 hover:text-orange-400 transition-colors">Browse Cars</a></li>
+                        <li><a href="#about" class="text-gray-400 hover:text-orange-400 transition-colors">About Us</a></li>
+                        <li><a href="#reviews" class="text-gray-400 hover:text-orange-400 transition-colors">Reviews</a></li>
+                        <li><a href="#contact" class="text-gray-400 hover:text-orange-400 transition-colors">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Services -->
+                <div>
+                    <h4 class="text-lg font-bold mb-6">Our Services</h4>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="text-gray-400 hover:text-orange-400 transition-colors">Car Sales</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-orange-400 transition-colors">Car Financing</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-orange-400 transition-colors">Insurance</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-orange-400 transition-colors">RC Transfer</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-orange-400 transition-colors">Car Inspection</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Contact Info -->
+                <div>
+                    <h4 class="text-lg font-bold mb-6">Contact Info</h4>
+                    <ul class="space-y-4">
+                        <li class="flex items-start space-x-3">
+                            <i class="fas fa-map-marker-alt text-orange-400 mt-1"></i>
+                            <span class="text-gray-400">123 Auto Street, Near Highway<br>Mumbai, MH 400001</span>
+                        </li>
+                        <li class="flex items-center space-x-3">
+                            <i class="fas fa-phone text-orange-400"></i>
+                            <span class="text-gray-400">+91 98765 43210</span>
+                        </li>
+                        <li class="flex items-center space-x-3">
+                            <i class="fas fa-envelope text-orange-400"></i>
+                            <span class="text-gray-400">info@autotrust.com</span>
+                        </li>
+                        <li class="flex items-center space-x-3">
+                            <i class="fas fa-clock text-orange-400"></i>
+                            <span class="text-gray-400">Mon-Sat: 9AM - 7PM</span>
+                        </li>
+                    </ul>
+                </div>
+                
+            </div>
+            
+            <!-- Copyright -->
+            <div class="border-t border-gray-800 mt-12 pt-8 text-center">
+                <p class="text-gray-500">
+                    &copy; 2024 AutoTrust Motors. All Rights Reserved. | Designed with <i class="fas fa-heart text-red-500"></i> for Car Lovers
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ========== FLOATING WHATSAPP BUTTON ========== -->
+    <a href="https://wa.me/919876543210" 
+       target="_blank" 
+       class="whatsapp-btn fixed bottom-6 right-6 w-14 h-14 rounded-full flex items-center justify-center shadow-lg z-50 animate-pulse-slow">
+        <i class="fab fa-whatsapp text-white text-2xl"></i>
+    </a>
+
+    <!-- ========== SCRIPTS ========== -->
+    <!-- Swiper JS -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    
+    <script>
+        // ===== Initialize Swiper =====
+        const testimonialSwiper = new Swiper('.testimonialSwiper', {
+            slidesPerView: 1,
+            spaceBetween: 30,
+            loop: true,
+            autoplay: {
+                delay: 5000,
+                disableOnInteraction: false,
+            },
+            pagination: {
+                el: '.swiper-pagination',
+                clickable: true,
+            },
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+            },
+            breakpoints: {
+                640: {
+                    slidesPerView: 2,
+                },
+                1024: {
+                    slidesPerView: 3,
+                },
+            },
+        });
+
+        // ===== Sticky Navbar =====
+        const navbar = document.getElementById('navbar');
+        const heroSection = document.getElementById('home');
+        
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 100) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // ===== Mobile Menu Toggle =====
+        const menuBtn = document.getElementById('menuBtn');
+        const closeMenu = document.getElementById('closeMenu');
+        const mobileMenu = document.getElementById('mobileMenu');
+        const mobileLinks = mobileMenu.querySelectorAll('a');
+
+        menuBtn.addEventListener('click', () => {
+            mobileMenu.classList.add('active');
+            menuBtn.classList.add('active');
+        });
+
+        closeMenu.addEventListener('click', () => {
+            mobileMenu.classList.remove('active');
+            menuBtn.classList.remove('active');
+        });
+
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.remove('active');
+                menuBtn.classList.remove('active');
+            });
+        });
+
+        // ===== Active Nav Link on Scroll =====
+        const sections = document.querySelectorAll('section[id]');
+        const navLinks = document.querySelectorAll('.nav-link');
+
+        window.addEventListener('scroll', () => {
+            let current = '';
+            
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                
+                if (scrollY >= sectionTop - 200) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href').slice(1) === current) {
+                    link.classList.add('active');
+                }
+            });
+        });
+
+        // ===== Smooth Scroll for Anchor Links =====
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // ===== Contact Form (UI Only) =====
+        const contactForm = document.getElementById('contactForm');
+        
+        contactForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            alert('Thank you for your message! We will get back to you soon.');
+            contactForm.reset();
+        });
+
+        // ===== Heart Button Toggle =====
+        document.querySelectorAll('.car-card button').forEach(btn => {
+            if (btn.querySelector('.fa-heart')) {
+                btn.addEventListener('click', function() {
+                    const icon = this.querySelector('i');
+                    icon.classList.toggle('far');
+                    icon.classList.toggle('fas');
+                    icon.classList.toggle('text-red-500');
+                });
+            }
+        });
+
+        // ===== Intersection Observer for Animations =====
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe all car cards and feature cards
+        document.querySelectorAll('.car-card, .feature-card').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(20px)';
+            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(el);
+        });
+    </script>
+
+</body>
+</html>

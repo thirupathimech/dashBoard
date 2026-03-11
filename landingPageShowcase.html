@@ -900,6 +900,172 @@
                 </div>
             </section>
 
+			<!-- SECOND HAND CAR DEALERS SECTION -->
+			<section class="category-section" aria-labelledby="heading-cars">
+				
+				<div class="section-header">
+					<h2 id="heading-cars" class="section-title">For Used Car Dealers</h2>
+					<p class="section-description">
+						Showcase second-hand cars with detailed listings, pricing, mileage, and instant buyer contact options.
+					</p>
+				</div>
+
+				<div class="category-header">
+					<div class="category-icon" style="background:#f97316;" aria-hidden="true">
+						<i class="fas fa-car"></i>
+					</div>
+					<h2 class="category-title">Second Hand Car Dealers</h2>
+				</div>
+
+				<div class="cards-grid" id="grid-cars" role="list">
+
+					<!-- Card 1 -->
+					<article class="card" role="listitem">
+						<div class="card-image-container">
+							<span class="badge badge-hot">Hot Deal</span>
+							<div class="card-overlay"></div>
+							<img src="landingPage/images/car001.jpg"
+								 alt="Used car dealership website template"
+								 class="card-image"
+								 loading="lazy">
+						</div>
+
+						<div class="card-content">
+							<span class="card-category" style="color:#f97316;">Car Listings</span>
+							<h3 class="card-title">AutoTrust</h3>
+
+							<p class="card-desc">
+								Modern used car dealer website with vehicle listings, price filters, and instant contact.
+							</p>
+
+							<div class="features">
+								<span class="feature-tag">Vehicle Listings</span>
+								<span class="feature-tag">Price Filters</span>
+								<span class="feature-tag">WhatsApp Enquiry</span>
+							</div>
+
+							<div class="card-actions">
+								<button class="btn btn-glass"
+									onclick="showDetails(
+									'AutoTrust',
+									'Used car dealership landing page template',
+									'Second Hand Car Dealers',
+									['Vehicle Listings','Mileage Details','WhatsApp Contact'],
+									'#')">
+									Details
+								</button>
+
+								<button class="btn btn-primary"
+									onclick="openDemo('AutoTrust','landingPage/autoTrust.html')">
+									Live Demo
+								</button>
+							</div>
+						</div>
+					</article>
+
+					<!-- Card 2 -->
+					<article class="card" role="listitem">
+						<div class="card-image-container">
+							<span class="badge badge-new">New</span>
+							<div class="card-overlay"></div>
+							<img src="landingPage/images/car002.jpg"
+								 alt="Luxury used car showcase website"
+								 class="card-image"
+								 loading="lazy">
+						</div>
+
+						<div class="card-content">
+							<span class="card-category" style="color:#f97316;">Premium Cars</span>
+							<h3 class="card-title">Elite Wheels</h3>
+
+							<p class="card-desc">
+								Premium used car showroom design perfect for luxury vehicles and imported cars.
+							</p>
+
+							<div class="features">
+								<span class="feature-tag">Full Gallery</span>
+								<span class="feature-tag">Specs Section</span>
+								<span class="feature-tag">Book Test Drive</span>
+							</div>
+
+							<div class="card-actions">
+								<button class="btn btn-glass"
+									onclick="showDetails(
+									'Elite Wheels',
+									'Luxury used car dealership template',
+									'Second Hand Car Dealers',
+									['Vehicle Gallery','Specs Table','Test Drive Booking'],
+									'#')">
+									Details
+								</button>
+
+								<button class="btn btn-primary"
+									onclick="openDemo('Elite Wheels','#')">
+									Live Demo
+								</button>
+							</div>
+						</div>
+					</article>
+
+<!-- Card 3 -->
+					<article class="card" role="listitem">
+						<div class="card-image-container">
+							<span class="badge badge-sale">Featured</span>
+							<div class="card-overlay"></div>
+							<img src="landingPage/images/car003.jpg"
+								 alt="AUTOELITE premium used car dealership website template"
+								 class="card-image"
+								 loading="lazy">
+						</div>
+
+					
+					<div class="card-content">
+						<span class="card-category" style="color:#f97316;">Premium Dealer</span>
+						<h3 class="card-title">AUTOELITE</h3>
+
+						<p class="card-desc">
+							Elegant second-hand car dealer website designed for premium listings with detailed vehicle specs and instant buyer contact.
+						</p>
+
+						<div class="features">
+							<span class="feature-tag">Vehicle Specs</span>
+							<span class="feature-tag">Mileage Details</span>
+							<span class="feature-tag">WhatsApp Booking</span>
+						</div>
+
+						<div class="card-actions">
+							<button class="btn btn-glass"
+								onclick="showDetails(
+								'AUTOELITE',
+								'Premium second hand car dealership template',
+								'Second Hand Car Dealers',
+								['Vehicle Specifications','Mileage & Condition','WhatsApp Enquiry'],
+								'#')">
+								Details
+							</button>
+
+							<button class="btn btn-primary"
+								onclick="openDemo('AUTOELITE','landingPage/autoElite.html')">
+								Live Demo
+							</button>
+						</div>
+					</div>
+					</article>
+
+				
+				</div>
+
+				<div class="nav-buttons">
+					<button class="nav-btn prev-btn" onclick="navigateCategory('cars', -1)">
+						<i class="fas fa-chevron-left"></i>
+					</button>
+					<button class="nav-btn next-btn" onclick="navigateCategory('cars', 1)">
+						<i class="fas fa-chevron-right"></i>
+					</button>
+				</div>
+
+			</section>
+
             <footer>
                 <p>&copy; <span id="year"></span> DesignShowcase. All rights reserved. Crafted for Creative Professionals.</p>
                 <p style="margin-top: 10px; font-size: 0.8rem; opacity: 0.7;">Premium landing page templates for photographers, boutiques, and artists.</p>
@@ -947,7 +1113,7 @@
                 document.getElementById("year").textContent = new Date().getFullYear();
                 
                 // Initialize category states
-                const categories = ['photo', 'saree', 'mehandi'];
+                const categories = ['photo', 'saree', 'mehandi', 'cars'];
                 categories.forEach(category => {
                     const grid = document.getElementById(`grid-${category}`);
                     const cards = grid.querySelectorAll('.card');
