@@ -523,7 +523,32 @@
             <!-- Storage Information -->
             <div class="storage-info animate__animated animate__fadeIn">
                 <h5><i class="bi bi-info-circle"></i> Storage Information</h5>
-                <p class="mb-0">This application stores images in your browser's local storage. When you publish this site to GitHub Pages, the images will not be stored on GitHub. For a production application, consider using a cloud storage service like Firebase, AWS S3, or similar.</p>
+                <p class="mb-3">By default images are stored in browser local storage. To keep images inside your GitHub project (so they are visible across browsers/devices), enable GitHub Storage below and provide your repository details.</p>
+                <div class="row g-3">
+                    <div class="col-md-2">
+                        <div class="form-check mt-2">
+                            <input class="form-check-input" type="checkbox" id="githubEnabled">
+                            <label class="form-check-label fw-semibold" for="githubEnabled">Enable</label>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="githubRepo" class="form-label">Repository (owner/repo)</label>
+                        <input type="text" class="form-control" id="githubRepo" placeholder="username/repository">
+                    </div>
+                    <div class="col-md-2">
+                        <label for="githubBranch" class="form-label">Branch</label>
+                        <input type="text" class="form-control" id="githubBranch" placeholder="main">
+                    </div>
+                    <div class="col-md-4">
+                        <label for="githubToken" class="form-label">GitHub Token</label>
+                        <input type="password" class="form-control" id="githubToken" placeholder="PAT with repo scope">
+                    </div>
+                    <div class="col-12">
+                        <button class="btn btn-primary btn-sm" type="button" id="saveGithubConfigBtn">
+                            <i class="bi bi-github me-2"></i>Save GitHub Storage Settings
+                        </button>
+                    </div>
+                </div>
             </div>
             
             <div class="row">
@@ -787,6 +812,7 @@
         let currentImageIndex = -1;
         let currentAction = '';
         let currentUser = null;
+        let githubConfig = null;
 
         // Initialize the app
         document.addEventListener('DOMContentLoaded', function() {
@@ -810,6 +836,9 @@
             document.getElementById('yearFilterList').addEventListener('change', filterList);
             document.getElementById('monthFilterList').addEventListener('change', filterList);
             document.getElementById('searchList').addEventListener('input', filterList);
+
+            document.getElementById('saveGithubConfigBtn').addEventListener('click', saveGithubConfig);
+            loadGithubConfig();
         });
 
         // Authentication Functions
@@ -871,6 +900,7 @@
                 populateYearFilters();
                 displayGallery();
                 displayList();
+                loadGithubConfig();
                 
                 showToast('Login successful!', 'success');
             } else {
@@ -928,6 +958,7 @@
             document.getElementById('confirmPassword').value = '';
             
             showToast('Registration successful!', 'success');
+            loadGithubConfig();
         }
 
         function logout() {
@@ -980,25 +1011,44 @@
             
             const reader = new FileReader();
             
-            reader.onload = function(e) {
+            reader.onload = async function(e) {
                 const now = new Date();
                 const date = now.toISOString().split('T')[0]; // YYYY-MM-DD
                 const time = now.toTimeString().split(' ')[0]; // HH:MM:SS
-                
+
+                const extension = file.name.split('.').pop();
+                const safeTitle = sanitizeFileName(title);
+                const repoPath = `uploads/${date}/${safeTitle}.${extension}`;
+                let imageSource = e.target.result;
+                let savedPath = repoPath;
+
+                if (githubConfig && githubConfig.enabled) {
+                    try {
+                        const base64Content = e.target.result.split(',')[1];
+                        const uploadResult = await uploadImageToGitHub(base64Content, repoPath, title);
+                        imageSource = uploadResult.url;
+                        savedPath = uploadResult.path;
+                    } catch (error) {
+                        console.error('GitHub upload failed:', error);
+                        showToast(`GitHub upload failed: ${error.message}`, 'error');
+                        return;
+                    }
+                }
+
                 const imageData = {
                     title: title,
                     date: date,
                     time: time,
-                    data: e.target.result,
-                    extension: file.name.split('.').pop(),
-                    path: `uploads/${date}/${title}.${file.name.split('.').pop()}`,
+                    data: imageSource,
+                    extension: extension,
+                    path: savedPath,
                     password: password || null,
                     userId: currentUser.username
                 };
-                
+
                 images.push(imageData);
                 saveToStorage();
-                
+
                 // Reset form
                 form.reset();
                 form.classList.remove('was-validated');
@@ -1009,10 +1059,87 @@
                 displayList();
                 populateYearFilters();
                 
-                showToast('Image uploaded successfully!', 'success');
+                showToast(githubConfig && githubConfig.enabled ? 'Image uploaded to GitHub successfully!' : 'Image uploaded successfully!', 'success');
             };
             
             reader.readAsDataURL(file);
+        }
+
+        function sanitizeFileName(value) {
+            return value
+                .toLowerCase()
+                .replace(/[^a-z0-9-_ ]/g, '')
+                .trim()
+                .replace(/\s+/g, '-')
+                .slice(0, 80) || `image-${Date.now()}`;
+        }
+
+        async function uploadImageToGitHub(base64Content, filePath, title) {
+            const url = `https://api.github.com/repos/${githubConfig.repo}/contents/${filePath}`;
+            const response = await fetch(url, {
+                method: 'PUT',
+                headers: {
+                    'Authorization': `Bearer ${githubConfig.token}`,
+                    'Accept': 'application/vnd.github+json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    message: `Upload image: ${title}`,
+                    content: base64Content,
+                    branch: githubConfig.branch
+                })
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.message || 'Unable to upload to GitHub');
+            }
+
+            return {
+                path: filePath,
+                url: `https://raw.githubusercontent.com/${githubConfig.repo}/${githubConfig.branch}/${filePath}`
+            };
+        }
+
+        function loadGithubConfig() {
+            if (!currentUser) {
+                return;
+            }
+
+            const configKey = `github_config_${currentUser.username}`;
+            const data = localStorage.getItem(configKey);
+            githubConfig = data ? JSON.parse(data) : {
+                enabled: false,
+                repo: '',
+                branch: 'main',
+                token: ''
+            };
+
+            document.getElementById('githubEnabled').checked = !!githubConfig.enabled;
+            document.getElementById('githubRepo').value = githubConfig.repo || '';
+            document.getElementById('githubBranch').value = githubConfig.branch || 'main';
+            document.getElementById('githubToken').value = githubConfig.token || '';
+        }
+
+        function saveGithubConfig() {
+            if (!currentUser) {
+                showToast('Please login before saving GitHub configuration.', 'error');
+                return;
+            }
+
+            const enabled = document.getElementById('githubEnabled').checked;
+            const repo = document.getElementById('githubRepo').value.trim();
+            const branch = document.getElementById('githubBranch').value.trim() || 'main';
+            const token = document.getElementById('githubToken').value.trim();
+
+            if (enabled && (!repo || !token)) {
+                showToast('Repo and token are required when GitHub storage is enabled.', 'error');
+                return;
+            }
+
+            githubConfig = { enabled, repo, branch, token };
+            localStorage.setItem(`github_config_${currentUser.username}`, JSON.stringify(githubConfig));
+            showToast('GitHub storage configuration saved.', 'success');
         }
 
         function saveToStorage() {
