@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Projects Admin</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <script src="projects-data.js"></script>
+    <style>
+        body {
+            background: #f4f6ff;
+        }
+
+        .app-shell {
+            max-width: 1100px;
+        }
+
+        .table-wrap {
+            overflow-x: auto;
+        }
+
+        .tag-chip {
+            background: #e9ecff;
+            color: #3f51b5;
+            border-radius: 999px;
+            padding: 0.2rem 0.55rem;
+            font-size: 0.75rem;
+            margin: 0.1rem;
+            display: inline-block;
+        }
+
+        @media (max-width: 576px) {
+            .card-body {
+                padding: 1rem;
+            }
+
+            .btn-stack {
+                display: grid;
+                gap: 0.5rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container py-4 py-md-5 app-shell">
+        <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center gap-2 mb-4">
+            <div>
+                <h1 class="h3 mb-1">Projects Admin</h1>
+                <p class="text-muted mb-0">Add, edit, delete cards shown in index page.</p>
+            </div>
+            <div class="btn-stack">
+                <a href="index.html" class="btn btn-outline-primary"><i class="bi bi-house"></i> Go to Home</a>
+                <button class="btn btn-outline-danger" id="resetBtn"><i class="bi bi-arrow-counterclockwise"></i> Reset Defaults</button>
+            </div>
+        </div>
+
+        <div class="card shadow-sm mb-4">
+            <div class="card-body">
+                <h2 class="h5 mb-3" id="formTitle">Add Project Card</h2>
+                <form id="projectForm" class="row g-3">
+                    <input type="hidden" id="projectIndex">
+                    <div class="col-12 col-md-6">
+                        <label for="title" class="form-label">Title</label>
+                        <input id="title" class="form-control" required>
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <label for="icon" class="form-label">Bootstrap Icon class</label>
+                        <input id="icon" class="form-control" placeholder="bi-window" required>
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <label for="link" class="form-label">Link</label>
+                        <input id="link" class="form-control" placeholder="tool.html or https://..." required>
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <label for="tags" class="form-label">Tags (comma separated)</label>
+                        <input id="tags" class="form-control" placeholder="Tool, Java, Utility">
+                    </div>
+                    <div class="col-12">
+                        <label for="description" class="form-label">Description</label>
+                        <textarea id="description" class="form-control" rows="3" required></textarea>
+                    </div>
+                    <div class="col-12 d-flex flex-wrap gap-2">
+                        <button type="submit" class="btn btn-primary" id="saveBtn"><i class="bi bi-floppy"></i> Save</button>
+                        <button type="button" class="btn btn-secondary" id="cancelEditBtn" hidden>Cancel Edit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <div class="table-wrap">
+                    <table class="table align-middle">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Project</th>
+                                <th>Tags</th>
+                                <th class="text-end">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="projectsTableBody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const projectForm = document.getElementById('projectForm');
+        const projectsTableBody = document.getElementById('projectsTableBody');
+        const formTitle = document.getElementById('formTitle');
+        const cancelEditBtn = document.getElementById('cancelEditBtn');
+
+        const fields = {
+            index: document.getElementById('projectIndex'),
+            title: document.getElementById('title'),
+            description: document.getElementById('description'),
+            icon: document.getElementById('icon'),
+            link: document.getElementById('link'),
+            tags: document.getElementById('tags')
+        };
+
+        let projects = window.ProjectStore ? window.ProjectStore.getProjects() : [];
+
+        function renderTable() {
+            projectsTableBody.innerHTML = '';
+
+            if (!projects.length) {
+                projectsTableBody.innerHTML = '<tr><td colspan="4" class="text-center text-muted py-4">No project cards yet.</td></tr>';
+                return;
+            }
+
+            projects.forEach((project, index) => {
+                const tr = document.createElement('tr');
+                const tags = (project.tags || []).map(tag => `<span class="tag-chip">${tag}</span>`).join('');
+                tr.innerHTML = `
+                    <td>${index + 1}</td>
+                    <td>
+                        <div class="fw-semibold"><i class="bi ${project.icon} me-2"></i>${project.title}</div>
+                        <div class="text-muted small">${project.description}</div>
+                        <a href="${project.link}" class="small" target="_blank">${project.link}</a>
+                    </td>
+                    <td>${tags}</td>
+                    <td class="text-end">
+                        <button class="btn btn-sm btn-outline-primary me-1" onclick="startEdit(${index})"><i class="bi bi-pencil"></i></button>
+                        <button class="btn btn-sm btn-outline-danger" onclick="deleteProject(${index})"><i class="bi bi-trash"></i></button>
+                    </td>
+                `;
+                projectsTableBody.appendChild(tr);
+            });
+        }
+
+        function persistProjects() {
+            if (window.ProjectStore) {
+                window.ProjectStore.saveProjects(projects);
+            }
+        }
+
+        function clearForm() {
+            projectForm.reset();
+            fields.index.value = '';
+            formTitle.textContent = 'Add Project Card';
+            cancelEditBtn.hidden = true;
+        }
+
+        function startEdit(index) {
+            const project = projects[index];
+            fields.index.value = index;
+            fields.title.value = project.title;
+            fields.description.value = project.description;
+            fields.icon.value = project.icon;
+            fields.link.value = project.link;
+            fields.tags.value = (project.tags || []).join(', ');
+            formTitle.textContent = 'Edit Project Card';
+            cancelEditBtn.hidden = false;
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function deleteProject(index) {
+            if (!confirm('Delete this card?')) return;
+            projects.splice(index, 1);
+            persistProjects();
+            renderTable();
+            clearForm();
+        }
+
+        projectForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+            const payload = {
+                title: fields.title.value.trim(),
+                description: fields.description.value.trim(),
+                icon: fields.icon.value.trim() || 'bi-window',
+                link: fields.link.value.trim(),
+                tags: fields.tags.value.split(',').map(tag => tag.trim()).filter(Boolean)
+            };
+
+            const index = fields.index.value;
+            if (index === '') {
+                projects.unshift(payload);
+            } else {
+                projects[Number(index)] = payload;
+            }
+
+            persistProjects();
+            renderTable();
+            clearForm();
+        });
+
+        cancelEditBtn.addEventListener('click', clearForm);
+
+        document.getElementById('resetBtn').addEventListener('click', () => {
+            if (!confirm('Reset all cards to default list?')) return;
+            if (window.ProjectStore) {
+                window.ProjectStore.resetProjects();
+                projects = window.ProjectStore.getProjects();
+                renderTable();
+                clearForm();
+            }
+        });
+
+        renderTable();
+        window.startEdit = startEdit;
+        window.deleteProject = deleteProject;
+    </script>
+</body>
+
+</html>
