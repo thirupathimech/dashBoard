@@ -7,448 +7,1125 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <script src="https://unpkg.com/typed.js@2.1.0/dist/typed.umd.js"></script>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Devicons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css">
+    <!-- AOS -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <link rel="icon" href="favicon.ico">
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        bg: '#0a0f1a', 'bg-secondary': '#111827', fg: '#f1f5f9',
-                        muted: '#64748b', accent: '#14b8a6', 'accent-light': '#2dd4bf',
-                    },
-                    fontFamily: { display: ['Space Grotesk','sans-serif'], body: ['DM Sans','sans-serif'] }
-                }
+    <style>
+        :root {
+            --bg: #0a0f1a;
+            --bg-secondary: #111827;
+            --bg-card: rgba(17, 24, 39, 0.7);
+            --fg: #f1f5f9;
+            --muted: #64748b;
+            --accent: #14b8a6;
+            --accent-light: #2dd4bf;
+            --border: rgba(100, 116, 139, 0.2);
+        }
+        .text-muted{
+            --bs-text-opacity: 1;
+            color: rgb(157 168 179 / 75%) !important;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--bg);
+            color: var(--fg);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--accent);
+            border-radius: 4px;
+        }
+
+        /* Background Grid Pattern */
+        .bg-grid {
+            background-image: 
+                linear-gradient(rgba(20, 184, 166, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(20, 184, 166, 0.03) 1px, transparent 1px);
+            background-size: 60px 60px;
+        }
+
+        /* Typography */
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+        }
+
+        /* Orbs - Desktop Only */
+        .orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(100px);
+            opacity: 0.4;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        @media (max-width: 768px) {
+            .orb {
+                display: none;
             }
         }
-    </script>
-    <style>
-        :root{--bg:#0a0f1a;--bg2:#111827;--fg:#f1f5f9;--muted:#64748b;--accent:#14b8a6;--alight:#2dd4bf;--border:rgba(100,116,139,.2)}
-        *{margin:0;padding:0;box-sizing:border-box}
-        html{scroll-behavior:smooth}
-        body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--fg);overflow-x:hidden}
-        ::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:var(--accent);border-radius:4px}
-        .bg-grid{background-image:linear-gradient(rgba(20,184,166,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(20,184,166,.03) 1px,transparent 1px);background-size:60px 60px}
-        /* Orbs - desktop only */
-        .orb{position:absolute;border-radius:50%;filter:blur(100px);opacity:.4;pointer-events:none;will-change:transform}
-        @media(max-width:768px){.orb{display:none}}
-        .orb1{width:500px;height:500px;background:radial-gradient(circle,rgba(20,184,166,.3) 0%,transparent 70%);top:-150px;right:-150px;animation:float 20s ease-in-out infinite}
-        .orb2{width:350px;height:350px;background:radial-gradient(circle,rgba(6,182,212,.25) 0%,transparent 70%);bottom:20%;left:-80px;animation:float 15s ease-in-out infinite reverse}
-        .orb3{width:400px;height:400px;background:radial-gradient(circle,rgba(20,184,166,.2) 0%,transparent 70%);top:60%;right:-100px;animation:float 18s ease-in-out infinite}
-        @keyframes float{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(25px,-25px) scale(1.04)}66%{transform:translate(-15px,15px) scale(.96)}}
-        .glass{background:rgba(17,24,39,.6);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid rgba(100,116,139,.15)}
-        .glass-strong{background:rgba(10,15,26,.93);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border:1px solid var(--border)}
-        /* Gradient border */
-        .gb{position:relative;background:var(--bg2);border-radius:16px}
-        .gb::before{content:'';position:absolute;inset:-2px;border-radius:18px;background:linear-gradient(135deg,var(--accent),#06b6d4,var(--alight),var(--accent));background-size:300% 300%;animation:gm 4s ease infinite;z-index:-1;opacity:0;transition:opacity .4s}
-        .gb:hover::before{opacity:1}
-        @keyframes gm{0%{background-position:0 50%}50%{background-position:100% 50%}100%{background-position:0 50%}}
-        /* Tech card */
-        .tc{position:relative;border-radius:16px;overflow:hidden;transition:all .4s cubic-bezier(.175,.885,.32,1.275)}
-        .tc::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(20,184,166,.1),rgba(6,182,212,.05));opacity:0;transition:opacity .3s}
-        .tc:hover::before{opacity:1}.tc:hover{transform:translateY(-6px)}
-        .tlbg{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .4s;font-size:100px;color:rgba(20,184,166,.08)}
-        .tc:hover .tlbg{opacity:1}
-        /* Nav */
-        .nl{position:relative;color:var(--muted);transition:color .3s;text-decoration:none}
-        .nl::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:2px;background:var(--accent);transition:width .3s}
-        .nl:hover{color:var(--fg)}.nl:hover::after{width:100%}
-        /* Mobile menu */
-        .mob-menu{display:none;position:fixed;inset:0;background:rgba(10,15,26,.98);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);z-index:200;flex-direction:column;align-items:center;justify-content:center;gap:2rem}
-        .mob-menu.open{display:flex}
-        .mob-menu a{font-family:'Space Grotesk',sans-serif;font-size:2rem;font-weight:600;color:var(--muted);text-decoration:none;transition:color .2s}
-        .mob-menu a:hover,.mob-menu a:active{color:var(--accent)}
-        .mob-close{position:absolute;top:1.5rem;right:1.5rem;background:none;border:none;color:var(--muted);font-size:1.5rem;cursor:pointer;padding:8px;transition:color .2s}
-        .mob-close:hover{color:var(--accent)}
-        /* Hamburger */
-        .hbg{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:6px;background:none;border:none}
-        .hbg span{display:block;width:22px;height:2px;background:var(--fg);border-radius:2px;transition:all .3s}
-        .hbg.active span:nth-child(1){transform:translateY(7px) rotate(45deg)}
-        .hbg.active span:nth-child(2){opacity:0}
-        .hbg.active span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
-        @media(max-width:767px){.hbg{display:flex}.desk-nav{display:none !important}.desk-hire{display:none !important}}
-        /* Buttons */
-        .bp{position:relative;background:linear-gradient(135deg,var(--accent),#0d9488);color:var(--bg);font-weight:600;padding:12px 28px;border-radius:12px;overflow:hidden;transition:all .3s;display:inline-block;text-decoration:none;white-space:nowrap;font-family:'DM Sans',sans-serif;font-size:inherit}
-        .bp::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,var(--alight),var(--accent));opacity:0;transition:opacity .3s}
-        .bp:hover{transform:translateY(-2px);box-shadow:0 10px 40px rgba(20,184,166,.3)}.bp:hover::before{opacity:1}
-        .bp span{position:relative;z-index:1}
-        .bs{background:transparent;color:var(--fg);font-weight:500;padding:12px 28px;border-radius:12px;border:1px solid var(--border);transition:all .3s;display:inline-block;text-decoration:none;white-space:nowrap}
-        .bs:hover{border-color:var(--accent);color:var(--accent);transform:translateY(-2px)}
-        .mob-cta{padding:14px 44px !important;font-size:1.1rem !important}
-        /* Section title */
-        .st{position:relative;display:inline-block}
-        .st::after{content:'';position:absolute;bottom:-8px;left:0;width:60px;height:3px;background:linear-gradient(90deg,var(--accent),transparent);border-radius:2px}
-        /* Timeline */
-        .tli{position:relative;padding-left:32px}
-        .tli::before{content:'';position:absolute;left:0;top:8px;width:12px;height:12px;background:var(--accent);border-radius:50%;box-shadow:0 0 20px rgba(20,184,166,.5)}
-        .tli::after{content:'';position:absolute;left:5px;top:24px;width:2px;height:calc(100% - 16px);background:linear-gradient(180deg,var(--accent),transparent)}
-        .tli:last-child::after{display:none}
-        /* Social */
-        .sl{display:flex;align-items:center;justify-content:center;width:48px;height:48px;border-radius:12px;background:rgba(100,116,139,.1);border:1px solid var(--border);color:var(--muted);transition:all .3s;text-decoration:none}
-        .sl:hover{background:var(--accent);border-color:var(--accent);color:var(--bg);transform:translateY(-4px);box-shadow:0 10px 30px rgba(20,184,166,.3)}
-        /* Stat */
-        .sn{background:linear-gradient(135deg,var(--fg),var(--alight));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-        /* Form */
-        .fi{background:rgba(100,116,139,.1);border:1px solid var(--border);border-radius:12px;padding:14px 18px;color:var(--fg);transition:all .3s;width:100%;font-family:'DM Sans',sans-serif;font-size:1rem}
-        .fi:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 4px rgba(20,184,166,.1)}
-        .fi::placeholder{color:var(--muted)}
-        /* Particles - desktop only */
-        .pt{position:absolute;width:4px;height:4px;background:var(--accent);border-radius:50%;opacity:.3;animation:pf 10s ease-in-out infinite}
-        @media(max-width:768px){.pt{display:none}}
-        @keyframes pf{0%,100%{transform:translateY(0) translateX(0)}25%{transform:translateY(-20px) translateX(10px)}50%{transform:translateY(-10px) translateX(-10px)}75%{transform:translateY(-30px) translateX(5px)}}
-        .typed-cursor{color:var(--accent);font-weight:300}
-        /* Mobile adjustments */
-        @media(max-width:768px){
-            section{padding-top:4.5rem !important;padding-bottom:4.5rem !important}
-            .hero-btns{flex-direction:column;gap:12px}
-            .hero-btns a{text-align:center;width:100%}
+
+        .orb-1 {
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(20, 184, 166, 0.3) 0%, transparent 70%);
+            top: -150px;
+            right: -150px;
+            animation: floatOrb 20s ease-in-out infinite;
         }
-        @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.01ms !important}}
+
+        .orb-2 {
+            width: 350px;
+            height: 350px;
+            background: radial-gradient(circle, rgba(6, 182, 212, 0.25) 0%, transparent 70%);
+            bottom: 20%;
+            left: -80px;
+            animation: floatOrb 15s ease-in-out infinite reverse;
+        }
+
+        .orb-3 {
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(20, 184, 166, 0.2) 0%, transparent 70%);
+            top: 60%;
+            right: -100px;
+            animation: floatOrb 18s ease-in-out infinite;
+        }
+
+        @keyframes floatOrb {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(25px, -25px) scale(1.04); }
+            66% { transform: translate(-15px, 15px) scale(0.96); }
+        }
+
+        /* Glass Effects */
+        .glass {
+            background: var(--bg-card);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--border);
+        }
+
+        .glass-strong {
+            background: rgba(10, 15, 26, 0.93);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border-bottom: 1px solid var(--border);
+        }
+
+        /* Navbar */
+        .navbar {
+            padding: 1rem 0;
+            transition: background 0.3s ease;
+        }
+
+        .navbar.scrolled {
+            background: rgba(10, 15, 26, 0.98) !important;
+        }
+
+        .navbar-brand {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+            font-size: 1.75rem;
+            color: var(--accent) !important;
+        }
+
+        .nav-link {
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.9rem;
+            color: var(--muted) !important;
+            padding: 0.5rem 1rem !important;
+            position: relative;
+            transition: color 0.3s ease;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 1rem;
+            right: 1rem;
+            height: 2px;
+            background: var(--accent);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            color: var(--fg) !important;
+        }
+
+        .nav-link:hover::after,
+        .nav-link.active::after {
+            transform: scaleX(1);
+        }
+
+        .navbar-toggler {
+            border: none;
+            padding: 0.5rem;
+        }
+
+        .navbar-toggler:focus {
+            box-shadow: none;
+        }
+
+        .navbar-toggler-icon {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(241, 245, 249, 1)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+        }
+
+        /* Buttons */
+        .btn-primary-custom {
+            background: linear-gradient(135deg, var(--accent), #0d9488);
+            border: none;
+            color: var(--bg);
+            font-weight: 600;
+            padding: 0.75rem 1.75rem;
+            border-radius: 12px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary-custom::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, var(--accent-light), var(--accent));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .btn-primary-custom:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 40px rgba(20, 184, 166, 0.3);
+            color: var(--bg);
+        }
+
+        .btn-primary-custom:hover::before {
+            opacity: 1;
+        }
+
+        .btn-primary-custom span {
+            position: relative;
+            z-index: 1;
+        }
+
+        .btn-secondary-custom {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--fg);
+            font-weight: 500;
+            padding: 0.75rem 1.75rem;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary-custom:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+            transform: translateY(-2px);
+        }
+
+        /* Hero Section */
+        .hero-section {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding-top: 100px;
+            position: relative;
+        }
+
+        .hero-title {
+            font-size: clamp(2.4rem, 8vw, 4.5rem);
+            line-height: 1.1;
+        }
+
+        .hero-subtitle {
+            font-size: clamp(1.2rem, 4vw, 1.75rem);
+            color: var(--muted);
+        }
+
+        .typed-cursor {
+            color: var(--accent);
+            font-weight: 300;
+        }
+
+        /* Code Block */
+        .code-block {
+            background: var(--bg-card);
+            border-radius: 24px;
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .code-block pre {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.85rem;
+            color: var(--muted);
+            margin: 0;
+            overflow-x: auto;
+        }
+
+        /* Stats */
+        .stat-number {
+            background: linear-gradient(135deg, var(--fg), var(--accent-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .stat-card {
+            background: var(--bg-card);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-4px);
+        }
+
+        /* Section Titles */
+        .section-title {
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent), transparent);
+            border-radius: 2px;
+        }
+
+        /* Skill Cards */
+        .skill-card {
+            background: var(--bg-card);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 1.5rem;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            height: 100%;
+        }
+
+        .skill-card::before {
+            content: '';
+            position: absolute;
+            inset: -2px;
+            border-radius: 18px;
+            background: linear-gradient(135deg, var(--accent), #06b6d4, var(--accent-light), var(--accent));
+            background-size: 300% 300%;
+            animation: gradientMove 4s ease infinite;
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .skill-card:hover::before {
+            opacity: 1;
+        }
+
+        .skill-card:hover {
+            transform: translateY(-6px);
+        }
+
+        .skill-card .skill-icon-bg {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 100px;
+            color: rgba(20, 184, 166, 0.08);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .skill-card:hover .skill-icon-bg {
+            opacity: 1;
+        }
+
+        @keyframes gradientMove {
+            0% { background-position: 0 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0 50%; }
+        }
+
+        /* Timeline */
+        .timeline-item {
+            position: relative;
+            padding-left: 32px;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 8px;
+            width: 12px;
+            height: 12px;
+            background: var(--accent);
+            border-radius: 50%;
+            box-shadow: 0 0 20px rgba(20, 184, 166, 0.5);
+        }
+
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            left: 5px;
+            top: 24px;
+            width: 2px;
+            height: calc(100% - 16px);
+            background: linear-gradient(180deg, var(--accent), transparent);
+        }
+
+        .timeline-item:last-child::after {
+            display: none;
+        }
+
+        .experience-card {
+            background: var(--bg-card);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+        }
+
+        .experience-card:hover {
+            border-color: rgba(20, 184, 166, 0.3);
+        }
+
+        .badge-custom {
+            background: rgba(20, 184, 166, 0.1);
+            border: 1px solid rgba(20, 184, 166, 0.3);
+            color: var(--accent);
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-size: 0.85rem;
+        }
+
+        /* Contact Section */
+        .contact-card {
+            background: var(--bg-card);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 2rem;
+            height: 100%;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            border-radius: 12px;
+            background: rgba(10, 15, 26, 0.5);
+            transition: background 0.3s ease;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .contact-item:hover {
+            background: rgba(20, 184, 166, 0.1);
+        }
+
+        .contact-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            background: rgba(20, 184, 166, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .social-link {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            background: rgba(100, 116, 139, 0.1);
+            border: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--muted);
+            transition: all 0.3s ease;
+        }
+
+        .social-link:hover {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: var(--bg);
+            transform: translateY(-4px);
+            box-shadow: 0 10px 30px rgba(20, 184, 166, 0.3);
+        }
+
+        /* Form Inputs */
+        .form-control-custom {
+            background: rgba(100, 116, 139, 0.1);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 0.875rem 1.125rem;
+            color: var(--fg);
+            font-family: 'DM Sans', sans-serif;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-control-custom:focus {
+            background: rgba(100, 116, 139, 0.15);
+            border-color: var(--accent);
+            box-shadow: 0 0 0 4px rgba(20, 184, 166, 0.1);
+            color: var(--fg);
+            outline: none;
+        }
+
+        .form-control-custom::placeholder {
+            color: var(--muted);
+        }
+
+        .form-label {
+            font-size: 0.875rem;
+            color: var(--muted);
+            margin-bottom: 0.5rem;
+        }
+
+        /* Footer */
+        footer {
+            border-top: 1px solid var(--border);
+            padding: 2rem 0;
+        }
+
+        footer a {
+            color: var(--muted);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        footer a:hover {
+            color: var(--accent);
+        }
+
+        /* Scroll Animation */
+        .scroll-indicator {
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
+            40% { transform: translateX(-50%) translateY(-10px); }
+            60% { transform: translateX(-50%) translateY(-5px); }
+        }
+
+        /* Alert Styles */
+        .alert-custom {
+            border-radius: 12px;
+            border: none;
+            padding: 1rem 1.5rem;
+        }
+
+        .alert-success-custom {
+            background: rgba(16, 185, 129, 0.15);
+            color: #10b981;
+            border: 1px solid rgba(16, 185, 129, 0.3);
+        }
+
+        .alert-error-custom {
+            background: rgba(239, 68, 68, 0.15);
+            color: #ef4444;
+            border: 1px solid rgba(239, 68, 68, 0.3);
+        }
+
+        /* Reduced Motion */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        /* Mobile Adjustments */
+        @media (max-width: 768px) {
+            section {
+                padding: 4rem 0 !important;
+            }
+
+            .hero-section {
+                padding-top: 80px;
+            }
+
+            .code-block {
+                display: none;
+            }
+
+            .navbar-collapse {
+                background: rgba(10, 15, 26, 0.98);
+                border-radius: 16px;
+                padding: 1rem;
+                margin-top: 1rem;
+                border: 1px solid var(--border);
+            }
+
+            .btn-primary-custom,
+            .btn-secondary-custom {
+                width: 100%;
+                text-align: center;
+                margin-bottom: 0.5rem;
+            }
+        }
     </style>
 </head>
 <body class="bg-grid">
-    <div class="orb orb1"></div>
-    <div class="orb orb2"></div>
-    <div class="orb orb3"></div>
-    <div id="particles" class="fixed inset-0 pointer-events-none overflow-hidden"></div>
+    <!-- Orbs -->
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
 
-    <!-- Mobile Menu -->
-    <div class="mob-menu" id="mobMenu">
-        <button class="mob-close" id="mobClose"><i class="fas fa-times"></i></button>
-        <a href="#about" class="mlink">About</a>
-        <a href="#skills" class="mlink">Skills</a>
-        <a href="#experience" class="mlink">Experience</a>
-        <a href="#contact" class="mlink">Contact</a>
-        <a href="#contact" class="bp mob-cta mlink"><span>Hire Me</span></a>
-    </div>
-
-    <!-- Nav -->
-    <nav class="fixed top-0 left-0 right-0 z-50 glass-strong">
-        <div class="max-w-6xl mx-auto px-4 sm:px-6 py-4">
-            <div class="flex items-center justify-between">
-                <a href="index.html" class="font-display font-bold text-2xl text-accent">TG</a>
-                <div class="desk-nav hidden md:flex items-center gap-8">
-                    <a href="#about" class="nl font-body text-sm">About</a>
-                    <a href="#skills" class="nl font-body text-sm">Skills</a>
-                    <a href="#experience" class="nl font-body text-sm">Experience</a>
-                    <a href="#contact" class="nl font-body text-sm">Contact</a>
-                </div>
-                <a href="#contact" class="bp desk-hire text-sm hidden md:inline-block"><span>Hire Me</span></a>
-                <button class="hbg" id="hbg" aria-label="Open menu" aria-expanded="false">
-                    <span></span><span></span><span></span>
-                </button>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-md fixed-top glass-strong">
+        <div class="container">
+            <a class="navbar-brand" href="#">TG</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                <ul class="navbar-nav align-items-md-center gap-md-3">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#about">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#skills">Skills</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#experience">Experience</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#contact">Contact</a>
+                    </li>
+                    <li class="nav-item d-none d-md-block ms-2">
+                        <a class="btn btn-primary-custom" href="#contact"><span>Hire Me</span></a>
+                    </li>
+                </ul>
+                <a class="btn btn-primary-custom d-md-none mt-3" href="#contact"><span>Hire Me</span></a>
             </div>
         </div>
     </nav>
 
-    <!-- Hero -->
-    <section id="hero" class="min-h-screen flex items-center justify-center relative pt-20">
-        <div class="max-w-6xl mx-auto px-4 sm:px-6 py-16 md:py-20 w-full">
-            <div class="grid lg:grid-cols-2 gap-10 items-center">
-                <div data-aos="fade-right" data-aos-duration="1000">
-                    <p class="font-body text-accent font-medium mb-4 tracking-wider uppercase text-sm">Software Engineer</p>
-                    <h1 class="font-display font-bold mb-6 leading-tight" style="font-size:clamp(2.4rem,8vw,4.5rem)">
-                        Hi, I'm <span class="text-accent">Thirupathi</span>
+    <!-- Hero Section -->
+    <section id="hero" class="hero-section">
+        <div class="container">
+            <div class="row align-items-center g-5">
+                <div class="col-lg-6" data-aos="fade-right" data-aos-duration="1000">
+                    <p class="text-accent fw-medium mb-3 text-uppercase tracking-wide" style="font-size: 0.875rem; letter-spacing: 0.1em;">Software Engineer</p>
+                    <h1 class="hero-title mb-4">
+                        Hi, I'm <span style="color: var(--accent);">Thirupathi</span>
                     </h1>
-                    <div class="font-display text-muted mb-8 h-10" style="font-size:clamp(1.2rem,4vw,1.75rem)">
+                    <div class="hero-subtitle mb-4" style="font-family: 'Space Grotesk', sans-serif;">
                         <span id="typed"></span>
                     </div>
-                    <p class="font-body text-muted mb-10 max-w-lg leading-relaxed" style="font-size:clamp(.95rem,2.5vw,1.1rem)">
+                    <p class="text-muted mb-4" style="max-width: 500px;">
                         Building robust enterprise applications with clean code and scalable architecture. Focused on aviation maintenance software and backend development.
                     </p>
-                    <div class="hero-btns flex flex-wrap gap-4">
-                        <a href="#contact" class="bp"><span>Get In Touch</span></a>
-                        <a href="https://github.com/thirupathimech" target="_blank" class="bs"><i class="fab fa-github mr-2"></i>View GitHub</a>
+                    <div class="d-flex flex-wrap gap-3">
+                        <a href="#contact" class="btn btn-primary-custom"><span>Get In Touch</span></a>
+                        <a href="https://github.com/thirupathimech" target="_blank" class="btn btn-secondary-custom">
+                            <i class="fab fa-github me-2"></i>View GitHub
+                        </a>
                     </div>
                 </div>
-                <!-- Code block desktop only -->
-                <div class="relative hidden lg:block" data-aos="fade-left" data-aos-duration="1000" data-aos-delay="200">
-                    <div class="glass rounded-3xl p-8 relative overflow-hidden">
-                        <div class="absolute top-4 right-4 flex gap-2">
-                            <span class="w-3 h-3 rounded-full bg-red-500"></span>
-                            <span class="w-3 h-3 rounded-full bg-yellow-500"></span>
-                            <span class="w-3 h-3 rounded-full bg-green-500"></span>
+                <div class="col-lg-6 d-none d-lg-block" data-aos="fade-left" data-aos-duration="1000" data-aos-delay="200">
+                    <div class="code-block">
+                        <div class="d-flex gap-2 position-absolute" style="top: 1rem; right: 1rem;">
+                            <span class="rounded-circle" style="width: 12px; height: 12px; background: #ef4444;"></span>
+                            <span class="rounded-circle" style="width: 12px; height: 12px; background: #f59e0b;"></span>
+                            <span class="rounded-circle" style="width: 12px; height: 12px; background: #10b981;"></span>
                         </div>
-                        <pre class="font-mono text-sm text-muted overflow-x-auto"><code class="text-accent-light">class</code> <code class="text-fg">SoftwareEngineer</code> {
-  <code class="text-accent-light">private</code> String name = <code class="text-green-400">"Thirupathi G"</code>;
-  <code class="text-accent-light">private</code> String role = <code class="text-green-400">"Backend Developer"</code>;
-  <code class="text-accent-light">private</code> String[] skills = {
-    <code class="text-green-400">"Java"</code>, <code class="text-green-400">"Spring Boot"</code>,
-    <code class="text-green-400">"React"</code>, <code class="text-green-400">"MySQL"</code>
+                        <pre><code><span style="color: var(--accent-light);">class</span> <span style="color: var(--fg);">SoftwareEngineer</span> {
+  <span style="color: var(--accent-light);">private</span> String name = <span style="color: #10b981;">"Thirupathi G"</span>;
+  <span style="color: var(--accent-light);">private</span> String role = <span style="color: #10b981;">"Backend Developer"</span>;
+  <span style="color: var(--accent-light);">private</span> String[] skills = {
+    <span style="color: #10b981;">"Java"</span>, <span style="color: #10b981;">"Spring Boot"</span>,
+    <span style="color: #10b981;">"Python"</span>, <span style="color: #10b981;">"FastAPI"</span>,
+    <span style="color: #10b981;">"React"</span>, <span style="color: #10b981;">"MySQL"</span>
   };
 
-  <code class="text-accent-light">public</code> String <code class="text-yellow-400">getGreeting</code>() {
-    <code class="text-accent-light">return</code> <code class="text-green-400">"Welcome to my portfolio!"</code>;
+  <span style="color: var(--accent-light);">public</span> String <span style="color: #f59e0b;">getGreeting</span>() {
+    <span style="color: var(--accent-light);">return</span> <span style="color: #10b981;">"Welcome to my portfolio!"</span>;
   }
-}</pre>
+}</code></pre>
                     </div>
-                    <div class="absolute -bottom-6 -right-6 w-24 h-24 border-2 border-accent rounded-2xl opacity-20"></div>
-                    <div class="absolute -top-6 -left-6 w-16 h-16 border-2 border-accent-light rounded-xl opacity-20"></div>
                 </div>
             </div>
+
             <!-- Stats -->
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 mt-16 md:mt-20" data-aos="fade-up" data-aos-delay="400">
-                <div class="glass rounded-2xl p-5 md:p-6 text-center"><div class="sn font-display text-3xl md:text-4xl font-bold">1.5+</div><p class="text-muted text-xs md:text-sm mt-2">Years Experience</p></div>
-                <div class="glass rounded-2xl p-5 md:p-6 text-center"><div class="sn font-display text-3xl md:text-4xl font-bold">12+</div><p class="text-muted text-xs md:text-sm mt-2">Technologies</p></div>
-                <div class="glass rounded-2xl p-5 md:p-6 text-center"><div class="sn font-display text-3xl md:text-4xl font-bold">5+</div><p class="text-muted text-xs md:text-sm mt-2">Projects Delivered</p></div>
-                <div class="glass rounded-2xl p-5 md:p-6 text-center"><div class="sn font-display text-3xl md:text-4xl font-bold">100%</div><p class="text-muted text-xs md:text-sm mt-2">Client Satisfaction</p></div>
+            <div class="row g-4 mt-5" data-aos="fade-up" data-aos-delay="400">
+                <div class="col-6 col-md-3">
+                    <div class="stat-card">
+                        <div class="stat-number display-5 fw-bold">1.5+</div>
+                        <p class="text-muted small mb-0 mt-2">Years Experience</p>
+                    </div>
+                </div>
+                <div class="col-6 col-md-3">
+                    <div class="stat-card">
+                        <div class="stat-number display-5 fw-bold">15+</div>
+                        <p class="text-muted small mb-0 mt-2">Technologies</p>
+                    </div>
+                </div>
+                <div class="col-6 col-md-3">
+                    <div class="stat-card">
+                        <div class="stat-number display-5 fw-bold">5+</div>
+                        <p class="text-muted small mb-0 mt-2">Projects Delivered</p>
+                    </div>
+                </div>
+                <div class="col-6 col-md-3">
+                    <div class="stat-card">
+                        <div class="stat-number display-5 fw-bold">100%</div>
+                        <p class="text-muted small mb-0 mt-2">Client Satisfaction</p>
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce hidden md:block">
-            <a href="#about" class="text-muted hover:text-accent transition-colors"><i class="fas fa-chevron-down text-2xl"></i></a>
+        <div class="scroll-indicator d-none d-md-block">
+            <a href="#about" class="text-muted" style="transition: color 0.3s ease;">
+                <i class="fas fa-chevron-down fa-2x"></i>
+            </a>
         </div>
     </section>
 
-    <!-- About -->
-    <section id="about" class="py-28 relative">
-        <div class="max-w-6xl mx-auto px-4 sm:px-6">
-            <div class="grid lg:grid-cols-2 gap-12 items-center">
-                <div data-aos="fade-right" data-aos-duration="800">
-                    <div class="relative max-w-sm mx-auto lg:max-w-none">
-                        <div class="glass rounded-3xl p-2">
-                            <div class="aspect-square rounded-2xl overflow-hidden relative group">
-                                <img src="Profile_Pic.jpg" alt="Thirupathi G" loading="lazy" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
-                                <div class="absolute inset-0 bg-gradient-to-t from-bg/60 to-transparent"></div>
+    <!-- About Section -->
+    <section id="about" class="py-5 position-relative">
+        <div class="container py-5">
+            <div class="row g-5 align-items-center">
+                <div class="col-lg-5" data-aos="fade-right" data-aos-duration="800">
+                    <div class="position-relative" style="max-width: 400px; margin: 0 auto;">
+                        <div class="glass rounded-4 p-2">
+                            <div class="ratio ratio-1x1 rounded-3 overflow-hidden">
+                                <img src="Profile_Pic.jpg" alt="Thirupathi G" loading="lazy" class="object-fit-cover" style="transition: transform 0.5s ease;">
                             </div>
                         </div>
-                        <div class="absolute -bottom-4 -right-4 glass rounded-2xl px-5 py-3">
-                            <p class="text-accent font-display font-semibold text-sm">Based in Salem, India</p>
+                        <div class="glass rounded-3 px-4 py-3 position-absolute" style="bottom: -1rem; right: -1rem;">
+                            <p class="mb-0" style="color: var(--accent); font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 0.875rem;">Based in Salem, India</p>
                         </div>
                     </div>
                 </div>
-                <div data-aos="fade-left" data-aos-duration="800" data-aos-delay="200">
-                    <h2 class="st font-display text-3xl md:text-5xl font-bold mb-8">About Me</h2>
-                    <div class="space-y-5 text-muted leading-relaxed text-sm md:text-base">
-                        <p>I'm a passionate Software Engineer with strong experience in Java-based enterprise applications. My expertise lies in backend development, UI frameworks, REST APIs, and performance optimization.</p>
-                        <p>Currently working on aviation maintenance software at Ultramain, I focus on building scalable architecture, writing clean code, and ensuring system stability. I believe in continuous learning and staying updated with the latest technologies.</p>
+                <div class="col-lg-7" data-aos="fade-left" data-aos-duration="800" data-aos-delay="200">
+                    <h2 class="section-title display-5 fw-bold mb-4">About Me</h2>
+                    <div class="text-muted mb-4">
+                        <p class="mb-3">I'm a passionate Software Engineer with strong experience in Java-based enterprise applications. My expertise lies in backend development, UI frameworks, REST APIs, and performance optimization.</p>
+                        <p class="mb-3">Currently working on aviation maintenance software at Ultramain, I focus on building scalable architecture, writing clean code, and ensuring system stability. I believe in continuous learning and staying updated with the latest technologies.</p>
                         <p>When I'm not coding, you'll find me exploring new frameworks, contributing to open-source projects, or working on personal projects to sharpen my skills.</p>
                     </div>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-8">
-                        <div class="glass rounded-xl p-4"><p class="text-xs text-muted mb-1">Email</p><p class="text-sm text-fg break-all">thirupathi7845@gmail.com</p></div>
-                        <div class="glass rounded-xl p-4"><p class="text-xs text-muted mb-1">Phone</p><p class="text-sm text-fg">+91-7397070203</p></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Skills -->
-    <section id="skills" class="py-28 relative">
-        <div class="max-w-6xl mx-auto px-4 sm:px-6">
-            <div class="text-center mb-12 md:mb-16" data-aos="fade-up">
-                <h2 class="st font-display text-3xl md:text-5xl font-bold mb-6 mx-auto">Tech Stack</h2>
-                <p class="text-muted max-w-2xl mx-auto text-sm md:text-base">Technologies I work with to build robust and scalable applications</p>
-            </div>
-            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
-                <div class="tc glass gb p-5 md:p-6" data-tilt data-aos="fade-up" data-aos-delay="0"><div class="tlbg"><i class="devicon-java-plain"></i></div><div class="relative z-10"><i class="devicon-java-plain text-3xl md:text-4xl text-accent mb-3 block"></i><h3 class="font-display font-semibold text-base md:text-lg mb-1">Java</h3><p class="text-muted text-xs md:text-sm hidden sm:block">Enterprise-grade backend development with strong OOP principles</p></div></div>
-                <div class="tc glass gb p-5 md:p-6" data-tilt data-aos="fade-up" data-aos-delay="50"><div class="tlbg"><i class="devicon-spring-original"></i></div><div class="relative z-10"><i class="devicon-spring-original text-3xl md:text-4xl text-green-500 mb-3 block"></i><h3 class="font-display font-semibold text-base md:text-lg mb-1">Spring Boot</h3><p class="text-muted text-xs md:text-sm hidden sm:block">Building microservices and RESTful APIs at scale</p></div></div>
-                <div class="tc glass gb p-5 md:p-6" data-tilt data-aos="fade-up" data-aos-delay="100"><div class="tlbg"><i class="devicon-hibernate-plain"></i></div><div class="relative z-10"><i class="devicon-hibernate-plain text-3xl md:text-4xl text-amber-600 mb-3 block"></i><h3 class="font-display font-semibold text-base md:text-lg mb-1">Hibernate</h3><p class="text-muted text-xs md:text-sm hidden sm:block">ORM framework for efficient database operations</p></div></div>
-                <div class="tc glass gb p-5 md:p-6" data-tilt data-aos="fade-up" data-aos-delay="150"><div class="tlbg"><i class="fas fa-plug"></i></div><div class="relative z-10"><i class="fas fa-plug text-3xl md:text-4xl text-blue-400 mb-3 block"></i><h3 class="font-display font-semibold text-base md:text-lg mb-1">REST APIs</h3><p class="text-muted text-xs md:text-sm hidden sm:block">Designing and consuming scalable API endpoints</p></div></div>
-                <div class="tc glass gb p-5 md:p-6" data-tilt data-aos="fade-up" data-aos-delay="200"><div class="tlbg"><i class="devicon-react-original"></i></div><div class="relative z-10"><i class="devicon-react-original text-3xl md:text-4xl text-cyan-400 mb-3 block"></i><h3 class="font-display font-semibold text-base md:text-lg mb-1">React</h3><p class="text-muted text-xs md:text-sm hidden sm:block">Building interactive UIs with component architecture</p></div></div>
-                <div class="tc glass gb p-5 md:p-6" data-tilt data-aos="fade-up" data-aos-delay="250"><div class="tlbg"><i class="devicon-javascript-plain"></i></div><div class="relative z-10"><i class="devicon-javascript-plain text-3xl md:text-4xl text-yellow-400 mb-3 block"></i><h3 class="font-display font-semibold text-base md:text-lg mb-1">JavaScript</h3><p class="text-muted text-xs md:text-sm hidden sm:block">Dynamic frontend development and DOM manipulation</p></div></div>
-                <div class="tc glass gb p-5 md:p-6" data-tilt data-aos="fade-up" data-aos-delay="300"><div class="tlbg"><i class="devicon-mysql-plain"></i></div><div class="relative z-10"><i class="devicon-mysql-plain text-3xl md:text-4xl text-blue-500 mb-3 block"></i><h3 class="font-display font-semibold text-base md:text-lg mb-1">MySQL</h3><p class="text-muted text-xs md:text-sm hidden sm:block">Relational database design and query optimization</p></div></div>
-                <div class="tc glass gb p-5 md:p-6" data-tilt data-aos="fade-up" data-aos-delay="350"><div class="tlbg"><i class="devicon-postgresql-plain"></i></div><div class="relative z-10"><i class="devicon-postgresql-plain text-3xl md:text-4xl text-blue-300 mb-3 block"></i><h3 class="font-display font-semibold text-base md:text-lg mb-1">PostgreSQL</h3><p class="text-muted text-xs md:text-sm hidden sm:block">Advanced SQL features for enterprise applications</p></div></div>
-                <div class="tc glass gb p-5 md:p-6" data-tilt data-aos="fade-up" data-aos-delay="400"><div class="tlbg"><i class="devicon-git-plain"></i></div><div class="relative z-10"><i class="devicon-git-plain text-3xl md:text-4xl text-orange-500 mb-3 block"></i><h3 class="font-display font-semibold text-base md:text-lg mb-1">Git</h3><p class="text-muted text-xs md:text-sm hidden sm:block">Version control and collaborative development</p></div></div>
-                <div class="tc glass gb p-5 md:p-6" data-tilt data-aos="fade-up" data-aos-delay="450"><div class="tlbg"><i class="devicon-apache-plain"></i></div><div class="relative z-10"><i class="devicon-apache-plain text-3xl md:text-4xl text-red-500 mb-3 block"></i><h3 class="font-display font-semibold text-base md:text-lg mb-1">Maven</h3><p class="text-muted text-xs md:text-sm hidden sm:block">Build automation and dependency management</p></div></div>
-                <div class="tc glass gb p-5 md:p-6" data-tilt data-aos="fade-up" data-aos-delay="500"><div class="tlbg"><i class="fas fa-server"></i></div><div class="relative z-10"><i class="fas fa-server text-3xl md:text-4xl text-amber-500 mb-3 block"></i><h3 class="font-display font-semibold text-base md:text-lg mb-1">WildFly</h3><p class="text-muted text-xs md:text-sm hidden sm:block">Enterprise Java application server deployment</p></div></div>
-                <div class="tc glass gb p-5 md:p-6" data-tilt data-aos="fade-up" data-aos-delay="550"><div class="tlbg"><i class="fas fa-vial"></i></div><div class="relative z-10"><i class="fas fa-vial text-3xl md:text-4xl text-green-400 mb-3 block"></i><h3 class="font-display font-semibold text-base md:text-lg mb-1">Selenium</h3><p class="text-muted text-xs md:text-sm hidden sm:block">Automated testing for web applications</p></div></div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Experience -->
-    <section id="experience" class="py-28 relative">
-        <div class="max-w-4xl mx-auto px-4 sm:px-6">
-            <div class="text-center mb-12 md:mb-16" data-aos="fade-up">
-                <h2 class="st font-display text-3xl md:text-5xl font-bold mb-6 mx-auto">Experience</h2>
-                <p class="text-muted max-w-2xl mx-auto text-sm md:text-base">My professional journey in software development</p>
-            </div>
-            <div class="space-y-8">
-                <div class="tli" data-aos="fade-right" data-aos-duration="800">
-                    <div class="glass rounded-2xl p-6 md:p-8 gb">
-                        <div class="flex flex-col sm:flex-row sm:items-start justify-between gap-3 mb-4">
-                            <div><h3 class="font-display text-lg md:text-xl font-semibold text-accent">Software Engineer</h3><p class="text-fg font-medium text-sm md:text-base">Ultramain Software India Pvt Ltd</p></div>
-                            <span class="glass px-4 py-2 rounded-full text-xs md:text-sm text-accent self-start whitespace-nowrap">Oct 2023 - Present</span>
-                        </div>
-                        <ul class="space-y-3 text-muted text-sm md:text-base">
-                            <li class="flex items-start gap-3"><i class="fas fa-chevron-right text-accent text-xs mt-1.5 shrink-0"></i><span>Developed and maintained enterprise aviation maintenance applications using Java technologies</span></li>
-                            <li class="flex items-start gap-3"><i class="fas fa-chevron-right text-accent text-xs mt-1.5 shrink-0"></i><span>Designed and enhanced UI components using GWT and Sencha GXT with focus on performance and usability</span></li>
-                            <li class="flex items-start gap-3"><i class="fas fa-chevron-right text-accent text-xs mt-1.5 shrink-0"></i><span>Optimized backend logic and SQL queries to improve application response time</span></li>
-                            <li class="flex items-start gap-3"><i class="fas fa-chevron-right text-accent text-xs mt-1.5 shrink-0"></i><span>Built and consumed REST APIs for internal system integrations</span></li>
-                            <li class="flex items-start gap-3"><i class="fas fa-chevron-right text-accent text-xs mt-1.5 shrink-0"></i><span>Created operational and business reports using Jasper Reports</span></li>
-                            <li class="flex items-start gap-3"><i class="fas fa-chevron-right text-accent text-xs mt-1.5 shrink-0"></i><span>Debugged and resolved production issues in large-scale codebases</span></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="tli" data-aos="fade-right" data-aos-duration="800" data-aos-delay="200">
-                    <div class="glass rounded-2xl p-6 md:p-8 gb">
-                        <div class="flex flex-col sm:flex-row sm:items-start justify-between gap-3 mb-4">
-                            <div><h3 class="font-display text-lg md:text-xl font-semibold text-accent">BE - Mechanical Engineering</h3><p class="text-fg font-medium text-sm md:text-base">Dhirajlal Gandhi College of Technology</p></div>
-                            <span class="glass px-4 py-2 rounded-full text-xs md:text-sm text-accent self-start">2018 - 2022</span>
-                        </div>
-                        <p class="text-muted text-sm md:text-base">Built a strong foundation in engineering principles, problem-solving, and analytical thinking that translates into structured software development approach.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Contact -->
-    <section id="contact" class="py-28 relative">
-        <div class="max-w-6xl mx-auto px-4 sm:px-6">
-            <div class="text-center mb-12 md:mb-16" data-aos="fade-up">
-                <h2 class="st font-display text-3xl md:text-5xl font-bold mb-6 mx-auto">Get In Touch</h2>
-                <p class="text-muted max-w-2xl mx-auto text-sm md:text-base">Have a project in mind? Let's work together to build something amazing.</p>
-            </div>
-            <div class="grid lg:grid-cols-2 gap-10">
-                <div data-aos="fade-right" data-aos-duration="800">
-                    <div class="glass rounded-3xl p-6 md:p-8 h-full">
-                        <h3 class="font-display text-xl md:text-2xl font-semibold mb-6">Contact Information</h3>
-                        <div class="space-y-4">
-                            <a href="mailto:thirupathi7845@gmail.com" class="flex items-center gap-4 p-4 rounded-xl bg-bg/50 hover:bg-accent/10 transition-colors group">
-                                <div class="w-11 h-11 rounded-xl bg-accent/10 flex items-center justify-center group-hover:bg-accent/20 transition-colors shrink-0"><i class="fas fa-envelope text-accent text-lg"></i></div>
-                                <div class="min-w-0"><p class="text-xs text-muted mb-0.5">Email</p><p class="text-fg text-sm truncate">thirupathi7845@gmail.com</p></div>
-                            </a>
-                            <a href="tel:+917397070203" class="flex items-center gap-4 p-4 rounded-xl bg-bg/50 hover:bg-accent/10 transition-colors group">
-                                <div class="w-11 h-11 rounded-xl bg-accent/10 flex items-center justify-center group-hover:bg-accent/20 transition-colors shrink-0"><i class="fas fa-phone text-accent text-lg"></i></div>
-                                <div><p class="text-xs text-muted mb-0.5">Phone</p><p class="text-fg text-sm">+91-7397070203</p></div>
-                            </a>
-                            <div class="flex items-center gap-4 p-4 rounded-xl bg-bg/50">
-                                <div class="w-11 h-11 rounded-xl bg-accent/10 flex items-center justify-center shrink-0"><i class="fas fa-map-marker-alt text-accent text-lg"></i></div>
-                                <div><p class="text-xs text-muted mb-0.5">Location</p><p class="text-fg text-sm">Salem, Tamil Nadu, India</p></div>
+                    <div class="row g-3">
+                        <div class="col-sm-6">
+                            <div class="glass rounded-3 p-3">
+                                <p class="text-muted small mb-1">Email</p>
+                                <p class="mb-0 small text-truncate">thirupathi7845@gmail.com</p>
                             </div>
                         </div>
-                        <div class="mt-8 pt-6 border-t border-border">
-                            <p class="text-sm text-muted mb-4">Connect with me</p>
-                            <div class="flex gap-4">
-                                <a href="https://linkedin.com/in/thirupathi-g" target="_blank" class="sl" aria-label="LinkedIn"><i class="fab fa-linkedin-in text-lg"></i></a>
-                                <a href="https://github.com/thirupathimech" target="_blank" class="sl" aria-label="GitHub"><i class="fab fa-github text-lg"></i></a>
-                                <a href="https://thirupathimech.github.io/dashBoard" target="_blank" class="sl" aria-label="Portfolio"><i class="fas fa-globe text-lg"></i></a>
+                        <div class="col-sm-6">
+                            <div class="glass rounded-3 p-3">
+                                <p class="text-muted small mb-1">Phone</p>
+                                <p class="mb-0 small">+91-7397070203</p>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div data-aos="fade-left" data-aos-duration="800" data-aos-delay="200">
-                    <form class="glass rounded-3xl p-6 md:p-8" id="contactForm">
-                        <div class="space-y-5">
-                            <div><label class="block text-sm text-muted mb-2">Your Name</label><input type="text" class="fi" placeholder="John Doe" required></div>
-                            <div><label class="block text-sm text-muted mb-2">Email Address</label><input type="email" class="fi" placeholder="john@example.com" required></div>
-                            <div><label class="block text-sm text-muted mb-2">Subject</label><input type="text" class="fi" placeholder="Project Inquiry" required></div>
-                            <div><label class="block text-sm text-muted mb-2">Message</label><textarea class="fi min-h-[130px] resize-none" placeholder="Tell me about your project..." required></textarea></div>
-                            <button type="submit" class="bp w-full text-center"><span>Send Message</span></button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills" class="py-5 position-relative">
+        <div class="container py-5">
+            <div class="text-center mb-5" data-aos="fade-up">
+                <h2 class="section-title display-5 fw-bold mb-4 d-inline-block">Tech Stack</h2>
+                <p class="text-muted" style="max-width: 600px; margin: 0 auto;">Technologies I work with to build robust and scalable applications</p>
+            </div>
+            <div class="row g-4" id="skillsGrid">
+                <!-- Skills will be rendered by JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Experience Section -->
+    <section id="experience" class="py-5 position-relative">
+        <div class="container py-5" style="max-width: 900px;">
+            <div class="text-center mb-5" data-aos="fade-up">
+                <h2 class="section-title display-5 fw-bold mb-4 d-inline-block">Experience</h2>
+                <p class="text-muted" style="max-width: 600px; margin: 0 auto;">My professional journey in software development</p>
+            </div>
+            <div class="timeline-item mb-4" data-aos="fade-right" data-aos-duration="800">
+                <div class="experience-card">
+                    <div class="d-flex flex-column flex-sm-row justify-content-between align-items-start gap-3 mb-4">
+                        <div>
+                            <h3 class="h5 mb-1" style="color: var(--accent);">Software Engineer</h3>
+                            <p class="mb-0">Ultramain Software India Pvt Ltd</p>
                         </div>
-                    </form>
+                        <span class="badge-custom">Oct 2023 - Present</span>
+                    </div>
+                    <ul class="list-unstyled mb-0 text-muted">
+                        <li class="d-flex gap-3 mb-3">
+                            <i class="fas fa-chevron-right mt-1" style="color: var(--accent); font-size: 0.75rem;"></i>
+                            <span>Developed and maintained enterprise aviation maintenance applications using Java technologies</span>
+                        </li>
+                        <li class="d-flex gap-3 mb-3">
+                            <i class="fas fa-chevron-right mt-1" style="color: var(--accent); font-size: 0.75rem;"></i>
+                            <span>Designed and enhanced UI components using GWT and Sencha GXT with focus on performance and usability</span>
+                        </li>
+                        <li class="d-flex gap-3 mb-3">
+                            <i class="fas fa-chevron-right mt-1" style="color: var(--accent); font-size: 0.75rem;"></i>
+                            <span>Optimized backend logic and SQL queries to improve application response time</span>
+                        </li>
+                        <li class="d-flex gap-3 mb-3">
+                            <i class="fas fa-chevron-right mt-1" style="color: var(--accent); font-size: 0.75rem;"></i>
+                            <span>Built and consumed REST APIs for internal system integrations</span>
+                        </li>
+                        <li class="d-flex gap-3 mb-3">
+                            <i class="fas fa-chevron-right mt-1" style="color: var(--accent); font-size: 0.75rem;"></i>
+                            <span>Created operational and business reports using Jasper Reports</span>
+                        </li>
+                        <li class="d-flex gap-3">
+                            <i class="fas fa-chevron-right mt-1" style="color: var(--accent); font-size: 0.75rem;"></i>
+                            <span>Debugged and resolved production issues in large-scale codebases</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="timeline-item" data-aos="fade-right" data-aos-duration="800" data-aos-delay="200">
+                <div class="experience-card">
+                    <div class="d-flex flex-column flex-sm-row justify-content-between align-items-start gap-3 mb-4">
+                        <div>
+                            <h3 class="h5 mb-1" style="color: var(--accent);">BE - Mechanical Engineering</h3>
+                            <p class="mb-0">Dhirajlal Gandhi College of Technology</p>
+                        </div>
+                        <span class="badge-custom">2018 - 2022</span>
+                    </div>
+                    <p class="text-muted mb-0">Built a strong foundation in engineering principles, problem-solving, and analytical thinking that translates into structured software development approach.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-5 position-relative">
+        <div class="container py-5">
+            <div class="text-center mb-5" data-aos="fade-up">
+                <h2 class="section-title display-5 fw-bold mb-4 d-inline-block">Get In Touch</h2>
+                <p class="text-muted" style="max-width: 600px; margin: 0 auto;">Have a project in mind? Let's work together to build something amazing.</p>
+            </div>
+            <div class="row g-4 g-lg-5">
+                <div class="col-lg-5" data-aos="fade-right" data-aos-duration="800">
+                    <div class="contact-card h-100">
+                        <h3 class="h4 mb-4">Contact Information</h3>
+                        <div class="d-flex flex-column gap-3">
+                            <a href="mailto:thirupathi7845@gmail.com" class="contact-item">
+                                <div class="contact-icon">
+                                    <i class="fas fa-envelope" style="color: var(--accent);"></i>
+                                </div>
+                                <div>
+                                    <p class="text-muted small mb-0">Email</p>
+                                    <p class="mb-0 small">thirupathi7845@gmail.com</p>
+                                </div>
+                            </a>
+                            <a href="tel:+917397070203" class="contact-item">
+                                <div class="contact-icon">
+                                    <i class="fas fa-phone" style="color: var(--accent);"></i>
+                                </div>
+                                <div>
+                                    <p class="text-muted small mb-0">Phone</p>
+                                    <p class="mb-0 small">+91-7397070203</p>
+                                </div>
+                            </a>
+                            <div class="contact-item" style="cursor: default;">
+                                <div class="contact-icon">
+                                    <i class="fas fa-map-marker-alt" style="color: var(--accent);"></i>
+                                </div>
+                                <div>
+                                    <p class="text-muted small mb-0">Location</p>
+                                    <p class="mb-0 small">Salem, Tamil Nadu, India</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-4 pt-4" style="border-top: 1px solid var(--border);">
+                            <p class="text-muted small mb-3">Connect with me</p>
+                            <div class="d-flex gap-3">
+                                <a href="https://linkedin.com/in/thirupathi-g" target="_blank" class="social-link" aria-label="LinkedIn">
+                                    <i class="fab fa-linkedin-in"></i>
+                                </a>
+                                <a href="https://github.com/thirupathimech" target="_blank" class="social-link" aria-label="GitHub">
+                                    <i class="fab fa-github"></i>
+                                </a>
+                                <a href="https://thirupathimech.github.io/dashBoard" target="_blank" class="social-link" aria-label="Portfolio">
+                                    <i class="fas fa-globe"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-7" data-aos="fade-left" data-aos-duration="800" data-aos-delay="200">
+                    <div class="contact-card">
+                        <form id="contactForm" action="https://formspree.io/f/mrbkkynr" method="POST">
+                            <div class="row g-4">
+                                <div class="col-12">
+                                    <label class="form-label">Your Name</label>
+                                    <input type="text" name="name" class="form-control form-control-custom" placeholder="John Doe" required>
+                                </div>
+                                <div class="col-12">
+                                    <label class="form-label">Email Address</label>
+                                    <input type="email" name="email" class="form-control form-control-custom" placeholder="john@example.com" required>
+                                </div>
+                                <div class="col-12">
+                                    <label class="form-label">Subject</label>
+                                    <input type="text" name="subject" class="form-control form-control-custom" placeholder="Project Inquiry" required>
+                                </div>
+                                <div class="col-12">
+                                    <label class="form-label">Message</label>
+                                    <textarea name="message" class="form-control form-control-custom" rows="5" placeholder="Tell me about your project..." required></textarea>
+                                </div>
+                                <div class="col-12">
+                                    <button type="submit" class="btn btn-primary-custom w-100" id="submitBtn">
+                                        <span>Send Message</span>
+                                    </button>
+                                </div>
+                            </div>
+                            <div id="formAlert" class="mt-3" style="display: none;"></div>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Footer -->
-    <footer class="py-10 border-t border-border">
-        <div class="max-w-6xl mx-auto px-4 sm:px-6">
-            <div class="flex flex-col md:flex-row items-center justify-between gap-5">
-                <div class="flex items-center gap-4"><span class="font-display font-bold text-2xl text-accent">TG</span><span class="text-muted">|</span><span class="text-muted text-sm">Software Engineer</span></div>
-                <div class="flex items-center gap-6 flex-wrap justify-center">
-                    <a href="#hero" class="text-muted hover:text-accent transition-colors text-sm">Home</a>
-                    <a href="#about" class="text-muted hover:text-accent transition-colors text-sm">About</a>
-                    <a href="#skills" class="text-muted hover:text-accent transition-colors text-sm">Skills</a>
-                    <a href="#contact" class="text-muted hover:text-accent transition-colors text-sm">Contact</a>
+    <footer>
+        <div class="container">
+            <div class="row align-items-center g-4">
+                <div class="col-md-4">
+                    <div class="d-flex align-items-center gap-3">
+                        <span class="h4 mb-0" style="color: var(--accent); font-family: 'Space Grotesk', sans-serif; font-weight: 700;">TG</span>
+                        <span class="text-muted">|</span>
+                        <span class="text-muted small">Software Engineer</span>
+                    </div>
                 </div>
-                <p class="text-muted text-sm">© 2026 Thirupathi G. All rights reserved.</p>
+                <div class="col-md-4">
+                    <div class="d-flex justify-content-center gap-4 flex-wrap">
+                        <a href="#hero">Home</a>
+                        <a href="#about">About</a>
+                        <a href="#skills">Skills</a>
+                        <a href="#contact">Contact</a>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <p class="text-muted small text-md-end mb-0">© 2025 Thirupathi G. All rights reserved.</p>
+                </div>
             </div>
         </div>
     </footer>
 
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <!-- Bootstrap 5 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- AOS -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <!-- Typed.js -->
+    <script src="https://unpkg.com/typed.js@2.1.0/dist/typed.umd.js"></script>
+
     <script>
-        // AOS
-        AOS.init({ duration: window.innerWidth < 768 ? 400 : 800, once: true, offset: 60 });
+        // Skills Data
+        const skillsData = [
+            { name: 'Java', icon: 'devicon-java-plain', color: 'var(--accent)', description: 'Enterprise-grade backend development with strong OOP principles' },
+            { name: 'Spring Boot', icon: 'devicon-spring-original', color: '#22c55e', description: 'Building microservices and RESTful APIs at scale' },
+            { name: 'Python', icon: 'devicon-python-plain', color: '#3b82f6', description: 'Versatile programming for automation, scripting, and backend' },
+            { name: 'FastAPI', icon: 'fas fa-bolt', color: '#059669', description: 'Modern, fast web framework for building APIs with Python' },
+            { name: 'Flask', icon: 'devicon-flask-original', color: '#f8fafc', description: 'Lightweight WSGI web application framework in Python' },
+            { name: 'Hibernate', icon: 'devicon-hibernate-plain', color: '#d97706', description: 'ORM framework for efficient database operations' },
+            { name: 'REST APIs', icon: 'fas fa-plug', color: '#60a5fa', description: 'Designing and consuming scalable API endpoints' },
+            { name: 'React', icon: 'devicon-react-original', color: '#22d3ee', description: 'Building interactive UIs with component architecture' },
+            { name: 'JavaScript', icon: 'devicon-javascript-plain', color: '#facc15', description: 'Dynamic frontend development and DOM manipulation' },
+            { name: 'MySQL', icon: 'devicon-mysql-plain', color: '#3b82f6', description: 'Relational database design and query optimization' },
+            { name: 'PostgreSQL', icon: 'devicon-postgresql-plain', color: '#93c5fd', description: 'Advanced SQL features for enterprise applications' },
+            { name: 'JasperReports', icon: 'fas fa-file-alt', color: '#f97316', description: 'Enterprise reporting and document generation' },
+            { name: 'Git', icon: 'devicon-git-plain', color: '#f97316', description: 'Version control and collaborative development' },
+            { name: 'Maven', icon: 'devicon-apache-plain', color: '#ef4444', description: 'Build automation and dependency management' },
+            { name: 'WildFly', icon: 'fas fa-server', color: '#f59e0b', description: 'Enterprise Java application server deployment' },
+            { name: 'Selenium', icon: 'fas fa-vial', color: '#22c55e', description: 'Automated testing for web applications' }
+        ];
 
-        // Typed
-        document.addEventListener('DOMContentLoaded', () => {
+        // Render Skills
+        function renderSkills() {
+            const grid = $('#skillsGrid');
+            skillsData.forEach((skill, index) => {
+                const card = `
+                    <div class="col-6 col-md-4 col-lg-3" data-aos="fade-up" data-aos-delay="${index * 50}">
+                        <div class="skill-card">
+                            <div class="skill-icon-bg">
+                                <i class="${skill.icon}"></i>
+                            </div>
+                            <div class="position-relative" style="z-index: 1;">
+                                <i class="${skill.icon} d-block mb-3" style="font-size: 2.5rem; color: ${skill.color};"></i>
+                                <h3 class="h6 mb-1">${skill.name}</h3>
+                                <p class="text-muted small mb-0 d-none d-sm-block">${skill.description}</p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                grid.append(card);
+            });
+        }
+
+        // Initialize
+        $(document).ready(function() {
+            // Render skills
+            renderSkills();
+
+            // Initialize AOS
+            AOS.init({
+                duration: window.innerWidth < 768 ? 400 : 800,
+                once: true,
+                offset: 60
+            });
+
+            // Initialize Typed
             new Typed('#typed', {
-                strings: ['Java Developer','Backend Engineer','Problem Solver','Clean Code Advocate'],
-                typeSpeed: 60, backSpeed: 40, backDelay: 2000, loop: true, cursorChar: '|'
+                strings: ['Java Developer', 'Backend Engineer', 'Python Developer', 'Problem Solver', 'Clean Code Advocate'],
+                typeSpeed: 60,
+                backSpeed: 40,
+                backDelay: 2000,
+                loop: true,
+                cursorChar: '|'
             });
-        });
 
-        // Vanilla Tilt — desktop only, lazy
-        if (window.innerWidth >= 1024) {
-            const s = document.createElement('script');
-            s.src = 'https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.1/vanilla-tilt.min.js';
-            s.onload = () => VanillaTilt.init(document.querySelectorAll('[data-tilt]'), { max:12, speed:400, glare:true, 'max-glare':.15, scale:1.02 });
-            document.head.appendChild(s);
-        }
+            // Navbar scroll effect
+            $(window).on('scroll', function() {
+                if ($(this).scrollTop() > 50) {
+                    $('.navbar').addClass('scrolled');
+                } else {
+                    $('.navbar').removeClass('scrolled');
+                }
+            });
 
-        // Hamburger / Mobile Menu
-        const hbg = document.getElementById('hbg');
-        const mobMenu = document.getElementById('mobMenu');
-        const mobClose = document.getElementById('mobClose');
+            // Smooth scroll
+            $('a[href^="#"]').on('click', function(e) {
+                const target = $(this.getAttribute('href'));
+                if (target.length) {
+                    e.preventDefault();
+                    // Close mobile menu if open
+                    $('.navbar-collapse').collapse('hide');
+                    $('html, body').animate({
+                        scrollTop: target.offset().top - 70
+                    }, 600);
+                }
+            });
 
-        const openMenu = () => { mobMenu.classList.add('open'); hbg.classList.add('active'); hbg.setAttribute('aria-expanded','true'); document.body.style.overflow='hidden'; };
-        const closeMenu = () => { mobMenu.classList.remove('open'); hbg.classList.remove('active'); hbg.setAttribute('aria-expanded','false'); document.body.style.overflow=''; };
+            // Active nav link on scroll
+            $(window).on('scroll', function() {
+                const scrollPos = $(this).scrollTop() + 100;
+                $('section[id]').each(function() {
+                    const sectionTop = $(this).offset().top;
+                    const sectionBottom = sectionTop + $(this).outerHeight();
+                    const sectionId = $(this).attr('id');
+                    
+                    if (scrollPos >= sectionTop && scrollPos < sectionBottom) {
+                        $('.nav-link').removeClass('active');
+                        $(`.nav-link[href="#${sectionId}"]`).addClass('active');
+                    }
+                });
+            });
 
-        hbg.addEventListener('click', () => mobMenu.classList.contains('open') ? closeMenu() : openMenu());
-        mobClose.addEventListener('click', closeMenu);
-        document.querySelectorAll('.mlink').forEach(l => l.addEventListener('click', closeMenu));
-        document.addEventListener('keydown', e => e.key==='Escape' && closeMenu());
-
-        // Particles - desktop only
-        if (window.innerWidth >= 768) {
-            const c = document.getElementById('particles');
-            for (let i = 0; i < 15; i++) {
-                const p = document.createElement('div');
-                p.className = 'pt';
-                p.style.cssText = `left:${Math.random()*100}%;top:${Math.random()*100}%;animation-delay:${Math.random()*10}s;animation-duration:${Math.random()*10+10}s`;
-                c.appendChild(p);
-            }
-        }
-
-        // Smooth scroll
-        document.querySelectorAll('a[href^="#"]').forEach(a => {
-            a.addEventListener('click', function(e) {
-                const h = this.getAttribute('href');
-                if (h === '#') return;
+            // Contact form submission with jQuery AJAX
+            $('#contactForm').on('submit', function(e) {
                 e.preventDefault();
-                document.querySelector(h)?.scrollIntoView({ behavior:'smooth', block:'start' });
+                
+                const $form = $(this);
+                const $btn = $('#submitBtn');
+                const $alert = $('#formAlert');
+                const originalBtnText = $btn.html();
+                
+                // Show loading state
+                $btn.prop('disabled', true).html('<span>Sending...</span>');
+                $alert.hide();
+                
+                // Get form data
+                const formData = $form.serialize();
+                
+                // Submit to Formspree
+                $.ajax({
+                    url: $form.attr('action'),
+                    method: 'POST',
+                    data: formData,
+                    dataType: 'json',
+                    success: function(response) {
+                        $alert.removeClass('alert-error-custom').addClass('alert-custom alert-success-custom')
+                              .html('<i class="fas fa-check-circle me-2"></i>Message sent successfully! I\'ll get back to you soon.')
+                              .slideDown();
+                        $form[0].reset();
+                    },
+                    error: function(xhr, status, error) {
+                        $alert.removeClass('alert-success-custom').addClass('alert-custom alert-error-custom')
+                              .html('<i class="fas fa-exclamation-circle me-2"></i>Oops! Something went wrong. Please try again.')
+                              .slideDown();
+                    },
+                    complete: function() {
+                        $btn.prop('disabled', false).html(originalBtnText);
+                    }
+                });
             });
         });
 
-        // Contact form
-        document.getElementById('contactForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const btn = this.querySelector('button[type="submit"]');
-            const orig = btn.innerHTML;
-            btn.innerHTML = '<span>Sending...</span>'; btn.disabled = true;
-            setTimeout(() => {
-                btn.innerHTML = '<span>✓ Message Sent!</span>';
-                btn.style.background = 'linear-gradient(135deg,#10b981,#059669)';
-                setTimeout(() => { btn.innerHTML = orig; btn.style.background = ''; btn.disabled = false; this.reset(); }, 2000);
-            }, 1500);
-        });
-
-        // Navbar scroll
-        const nav = document.querySelector('nav');
-        window.addEventListener('scroll', () => {
-            nav.style.background = window.scrollY > 50 ? 'rgba(10,15,26,.97)' : 'rgba(10,15,26,.93)';
-        }, { passive: true });
-
-        // Active nav
-        const obs = new IntersectionObserver(entries => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting)
-                    document.querySelectorAll('.nl').forEach(l => l.classList.toggle('text-accent', l.getAttribute('href') === '#' + entry.target.id));
-            });
-        }, { rootMargin:'-50% 0px -50% 0px', threshold:0 });
-        document.querySelectorAll('section[id]').forEach(s => obs.observe(s));
-
-        // Reduced motion
-        if (window.matchMedia('(prefers-reduced-motion:reduce)').matches)
-            document.querySelectorAll('.orb,.pt').forEach(el => el.style.animation='none');
+        // Reduced motion check
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            $('.orb').css('animation', 'none');
+        }
     </script>
 </body>
 </html>
