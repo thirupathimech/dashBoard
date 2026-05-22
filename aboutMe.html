@@ -965,7 +965,7 @@
                     </div>
                 </div>
                 <div class="col-md-4">
-                    <p class="text-muted small text-md-end mb-0">© 2025 Thirupathi G. All rights reserved.</p>
+                    <p class="text-muted small text-md-end mb-0">© <span id="year"></span> Thirupathi G. All rights reserved.</p>
                 </div>
             </div>
         </div>
@@ -1022,6 +1022,8 @@
                 grid.append(card);
             });
         }
+
+        document.getElementById("year").textContent = new Date().getFullYear();
 
         // Initialize
         $(document).ready(function() {
