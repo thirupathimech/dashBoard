@@ -5,104 +5,350 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard Projects Admin</title>
+    
+    <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- External Data Logic -->
     <script src="projects-data.js"></script>
+
     <style>
+        :root {
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --bg-color: #f0f2f5;
+            --card-bg: #ffffff;
+            --text-main: #1a1a1a;
+            --text-muted: #6c757d;
+            --accent-color: #4f46e5;
+        }
+
         body {
-            background: #f4f6ff;
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            -webkit-font-smoothing: antialiased;
         }
 
         .app-shell {
-            max-width: 1100px;
+            max-width: 1200px;
         }
 
+        /* --- Header Styling --- */
+        .page-header {
+            background: var(--card-bg);
+            border-bottom: 1px solid #e5e7eb;
+            padding: 2rem 0;
+            margin-bottom: 2rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        .brand-title {
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            color: #111827;
+        }
+
+        .brand-subtitle {
+            font-weight: 400;
+            color: #6b7280;
+        }
+
+        /* --- Card & Form Styling --- */
+        .dashboard-card {
+            background: var(--card-bg);
+            border: none;
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .form-label {
+            font-weight: 500;
+            font-size: 0.875rem;
+            color: #374151;
+            margin-bottom: 0.375rem;
+        }
+
+        .form-control {
+            border-radius: 0.5rem;
+            border: 1px solid #d1d5db;
+            padding: 0.75rem 1rem;
+            font-size: 0.95rem;
+            transition: border-color 0.15s, box-shadow 0.15s;
+        }
+
+        .form-control:focus {
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15);
+        }
+
+        .btn {
+            font-weight: 500;
+            padding: 0.6rem 1.25rem;
+            border-radius: 0.5rem;
+            transition: all 0.2s;
+        }
+
+        .btn-primary {
+            background: var(--accent-color);
+            border-color: var(--accent-color);
+        }
+
+        .btn-primary:hover {
+            background: #4338ca;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 6px -1px rgba(79, 70, 229, 0.3);
+        }
+
+        .btn-outline-secondary {
+            border-color: #d1d5db;
+            color: #4b5563;
+        }
+        
+        .btn-outline-secondary:hover {
+             background-color: #f3f4f6;
+             border-color: #d1d5db;
+             color: #111827;
+        }
+
+        .btn-outline-danger {
+            color: #ef4444;
+            border-color: #fecaca;
+        }
+
+        .btn-outline-danger:hover {
+            background-color: #fee2e2;
+            color: #dc2626;
+            border-color: #fecaca;
+        }
+
+        /* --- Table Styling (Desktop) --- */
         .table-wrap {
             overflow-x: auto;
         }
 
+        .table {
+            color: #374151;
+            margin-bottom: 0;
+        }
+
+        .table thead th {
+            background-color: #f9fafb;
+            border-bottom: 2px solid #e5e7eb;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: #6b7280;
+            padding: 1rem;
+        }
+
+        .table tbody tr {
+            border-bottom: 1px solid #f3f4f6;
+            transition: background-color 0.1s;
+        }
+
+        .table tbody tr:hover {
+            background-color: #f9fafb;
+        }
+
+        .table td {
+            padding: 1rem;
+            vertical-align: middle;
+        }
+
+        /* --- Mobile Card View (Responsive Transformation) --- */
+        @media (max-width: 768px) {
+            .table thead {
+                display: none; /* Hide headers */
+            }
+
+            .table, .table tbody, .table tr, .table td {
+                display: block;
+                width: 100%;
+            }
+
+            .table tr {
+                margin-bottom: 1.5rem;
+                border: 1px solid #e5e7eb;
+                border-radius: 0.75rem;
+                box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+                overflow: hidden;
+                background: white;
+            }
+
+            .table td {
+                border: none;
+                border-bottom: 1px solid #f3f4f6;
+                position: relative;
+                padding-left: 45%;
+                text-align: left;
+                min-height: 45px;
+            }
+            
+            .table td:last-child {
+                border-bottom: none;
+                display: flex;
+                justify-content: flex-end;
+                padding: 1rem;
+                background-color: #f9fafb;
+            }
+
+            /* Labeling cells on mobile using data-label */
+            .table td::before {
+                content: attr(data-label);
+                position: absolute;
+                left: 1rem;
+                width: 35%;
+                padding-right: 10px;
+                white-space: nowrap;
+                font-weight: 600;
+                color: #6b7280;
+                font-size: 0.85rem;
+            }
+        }
+
         .tag-chip {
-            background: #e9ecff;
-            color: #3f51b5;
+            background: #eef2ff;
+            color: #4338ca;
             border-radius: 999px;
-            padding: 0.2rem 0.55rem;
+            padding: 0.25rem 0.75rem;
             font-size: 0.75rem;
             margin: 0.1rem;
             display: inline-block;
+            font-weight: 500;
         }
 
-        @media (max-width: 576px) {
-            .card-body {
-                padding: 1rem;
-            }
+        .icon-preview {
+            font-size: 1.25rem;
+            color: var(--accent-color);
+            min-width: 30px;
+            text-align: center;
+        }
 
-            .btn-stack {
-                display: grid;
-                gap: 0.5rem;
-            }
+        .action-btns {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            height: 6px;
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #c7c7c7;
+            border-radius: 3px;
         }
     </style>
 </head>
 
 <body>
-    <div class="container py-4 py-md-5 app-shell">
-        <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center gap-2 mb-4">
-            <div>
-                <h1 class="h3 mb-1">Projects Admin</h1>
-                <p class="text-muted mb-0">Add, edit, delete cards shown in index page.</p>
-            </div>
-            <div class="btn-stack">
-                <a href="index.html" class="btn btn-outline-primary"><i class="bi bi-house"></i> Go to Home</a>
-                <button class="btn btn-outline-danger" id="resetBtn"><i class="bi bi-arrow-counterclockwise"></i> Reset Defaults</button>
+
+    <!-- Header Section -->
+    <header class="page-header">
+        <div class="container app-shell">
+            <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center gap-3">
+                <div>
+                    <h1 class="h3 brand-title">Projects Admin</h1>
+                    <p class="text-muted brand-subtitle mb-0">Manage your portfolio cards dynamically.</p>
+                </div>
+                <div class="d-flex gap-2 w-100 w-md-auto justify-content-md-end">
+                    <a href="index.html" class="btn btn-outline-secondary flex-fill flex-md-grow-0">
+                        <i class="bi bi-arrow-left-circle me-1"></i> Back to Site
+                    </a>
+                    <button class="btn btn-outline-danger flex-fill flex-md-grow-0" id="resetBtn">
+                        <i class="bi bi-arrow-counterclockwise me-1"></i> Reset
+                    </button>
+                </div>
             </div>
         </div>
+    </header>
 
-        <div class="card shadow-sm mb-4">
-            <div class="card-body">
-                <h2 class="h5 mb-3" id="formTitle">Add Project Card</h2>
+    <!-- Main Content -->
+    <div class="container app-shell pb-5">
+        
+        <!-- Form Card -->
+        <div class="dashboard-card card mb-4 border-0 shadow-sm">
+            <div class="card-header bg-white border-bottom-0 pt-4 pb-0 px-4">
+                <h2 class="h5 mb-0 fw-bold" id="formTitle">
+                    <i class="bi bi-plus-circle text-primary me-2"></i>Add Project Card
+                </h2>
+            </div>
+            <div class="card-body p-4">
                 <form id="projectForm" class="row g-3">
                     <input type="hidden" id="projectIndex">
-                    <div class="col-12 col-md-6">
-                        <label for="title" class="form-label">Title</label>
-                        <input id="title" class="form-control" required>
+                    
+                    <div class="col-md-6">
+                        <label for="title" class="form-label">Project Title</label>
+                        <input id="title" class="form-control" placeholder="e.g. Weather App" required>
                     </div>
-                    <div class="col-12 col-md-6">
-                        <label for="icon" class="form-label">Bootstrap Icon class</label>
-                        <input id="icon" class="form-control" placeholder="bi-window" required>
+                    
+                    <div class="col-md-6">
+                        <label for="icon" class="form-label">Bootstrap Icon</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-white"><i class="bi bi-star"></i></span>
+                            <input id="icon" class="form-control" placeholder="bi-star-fill" required>
+                        </div>
                     </div>
-                    <div class="col-12 col-md-6">
-                        <label for="link" class="form-label">Link</label>
-                        <input id="link" class="form-control" placeholder="tool.html or https://..." required>
+                    
+                    <div class="col-md-6">
+                        <label for="link" class="form-label">Project Link</label>
+                        <input id="link" class="form-control" placeholder="https://..." required>
                     </div>
-                    <div class="col-12 col-md-6">
-                        <label for="tags" class="form-label">Tags (comma separated)</label>
-                        <input id="tags" class="form-control" placeholder="Tool, Java, Utility">
+                    
+                    <div class="col-md-6">
+                        <label for="tags" class="form-label">Tags</label>
+                        <input id="tags" class="form-control" placeholder="HTML, CSS, JavaScript">
+                        <div class="form-text">Separate tags with commas.</div>
                     </div>
+                    
                     <div class="col-12">
                         <label for="description" class="form-label">Description</label>
-                        <textarea id="description" class="form-control" rows="3" required></textarea>
+                        <textarea id="description" class="form-control" rows="3" placeholder="Brief description..." required></textarea>
                     </div>
-                    <div class="col-12 d-flex flex-wrap gap-2">
-                        <button type="submit" class="btn btn-primary" id="saveBtn"><i class="bi bi-floppy"></i> Save</button>
-                        <button type="button" class="btn btn-secondary" id="cancelEditBtn" hidden>Cancel Edit</button>
+                    
+                    <div class="col-12 d-flex flex-wrap gap-2 pt-2">
+                        <button type="submit" class="btn btn-primary px-4" id="saveBtn">
+                            <i class="bi bi-check2-circle me-1"></i> Save Project
+                        </button>
+                        <button type="button" class="btn btn-outline-secondary" id="cancelEditBtn" hidden>
+                            Cancel Editing
+                        </button>
                     </div>
                 </form>
             </div>
         </div>
 
-        <div class="card shadow-sm">
-            <div class="card-body">
+        <!-- Table Card -->
+        <div class="dashboard-card card border-0 shadow-sm">
+            <div class="card-header bg-white border-bottom-0 pt-4 pb-0 px-4">
+                 <h2 class="h5 mb-0 fw-bold">
+                    <i class="bi bi-collection text-secondary me-2"></i>Current Projects
+                </h2>
+            </div>
+            <div class="card-body p-0 p-md-3">
                 <div class="table-wrap">
-                    <table class="table align-middle">
+                    <table class="table align-middle mb-0">
                         <thead>
                             <tr>
-                                <th>#</th>
-                                <th>Project</th>
-                                <th>Tags</th>
-                                <th class="text-end">Actions</th>
+                                <th scope="col">#</th>
+                                <th scope="col">Project Details</th>
+                                <th scope="col">Tags</th>
+                                <th scope="col" class="text-end">Actions</th>
                             </tr>
                         </thead>
-                        <tbody id="projectsTableBody"></tbody>
+                        <tbody id="projectsTableBody">
+                            <!-- JS Populated -->
+                        </tbody>
                     </table>
                 </div>
             </div>
@@ -124,30 +370,61 @@
             tags: document.getElementById('tags')
         };
 
+        // Safe access to store
         let projects = window.ProjectStore ? window.ProjectStore.getProjects() : [];
 
         function renderTable() {
             projectsTableBody.innerHTML = '';
 
             if (!projects.length) {
-                projectsTableBody.innerHTML = '<tr><td colspan="4" class="text-center text-muted py-4">No project cards yet.</td></tr>';
+                projectsTableBody.innerHTML = `
+                    <tr>
+                        <td colspan="4" class="text-center text-muted py-5">
+                            <i class="bi bi-inbox fs-1 d-block mb-2"></i>
+                            No project cards yet.
+                        </td>
+                    </tr>`;
                 return;
             }
 
             projects.forEach((project, index) => {
                 const tr = document.createElement('tr');
-                const tags = (project.tags || []).map(tag => `<span class="tag-chip">${tag}</span>`).join('');
+                
+                // Create tags HTML
+                const tags = (project.tags || [])
+                    .map(tag => `<span class="tag-chip">${tag}</span>`)
+                    .join(' ');
+
                 tr.innerHTML = `
-                    <td>${index + 1}</td>
-                    <td>
-                        <div class="fw-semibold"><i class="bi ${project.icon} me-2"></i>${project.title}</div>
-                        <div class="text-muted small">${project.description}</div>
-                        <a href="${project.link}" class="small" target="_blank">${project.link}</a>
+                    <td data-label="#">
+                        <span class="fw-bold text-muted">${index + 1}</span>
                     </td>
-                    <td>${tags}</td>
-                    <td class="text-end">
-                        <button class="btn btn-sm btn-outline-primary me-1" onclick="startEdit(${index})"><i class="bi bi-pencil"></i></button>
-                        <button class="btn btn-sm btn-outline-danger" onclick="deleteProject(${index})"><i class="bi bi-trash"></i></button>
+                    <td data-label="Project">
+                        <div class="d-flex align-items-start gap-3">
+                            <div class="icon-preview pt-1">
+                                <i class="bi ${project.icon || 'bi-file-earmark'}"></i>
+                            </div>
+                            <div>
+                                <div class="fw-semibold mb-1">${project.title}</div>
+                                <div class="text-muted small mb-1" style="line-height: 1.4;">${project.description}</div>
+                                <a href="${project.link}" class="small text-decoration-none" target="_blank">
+                                    <i class="bi bi-link-45deg"></i> ${project.link}
+                                </a>
+                            </div>
+                        </div>
+                    </td>
+                    <td data-label="Tags">
+                        <div class="d-flex flex-wrap gap-1">${tags}</div>
+                    </td>
+                    <td data-label="Actions" class="text-end">
+                        <div class="action-btns">
+                            <button class="btn btn-sm btn-outline-primary rounded-circle" onclick="startEdit(${index})" title="Edit">
+                                <i class="bi bi-pencil"></i>
+                            </button>
+                            <button class="btn btn-sm btn-outline-danger rounded-circle" onclick="deleteProject(${index})" title="Delete">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                        </div>
                     </td>
                 `;
                 projectsTableBody.appendChild(tr);
@@ -163,7 +440,7 @@
         function clearForm() {
             projectForm.reset();
             fields.index.value = '';
-            formTitle.textContent = 'Add Project Card';
+            formTitle.innerHTML = '<i class="bi bi-plus-circle text-primary me-2"></i>Add Project Card';
             cancelEditBtn.hidden = true;
         }
 
@@ -175,13 +452,15 @@
             fields.icon.value = project.icon;
             fields.link.value = project.link;
             fields.tags.value = (project.tags || []).join(', ');
-            formTitle.textContent = 'Edit Project Card';
+            
+            formTitle.innerHTML = '<i class="bi bi-pencil-square text-warning me-2"></i>Edit Project Card';
             cancelEditBtn.hidden = false;
+            
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
         function deleteProject(index) {
-            if (!confirm('Delete this card?')) return;
+            if (!confirm('Delete this card? This cannot be undone.')) return;
             projects.splice(index, 1);
             persistProjects();
             renderTable();
@@ -190,6 +469,7 @@
 
         projectForm.addEventListener('submit', function(event) {
             event.preventDefault();
+            
             const payload = {
                 title: fields.title.value.trim(),
                 description: fields.description.value.trim(),
@@ -199,10 +479,11 @@
             };
 
             const index = fields.index.value;
+            
             if (index === '') {
-                projects.unshift(payload);
+                projects.unshift(payload); // Add to top
             } else {
-                projects[Number(index)] = payload;
+                projects[Number(index)] = payload; // Update
             }
 
             persistProjects();
@@ -222,10 +503,12 @@
             }
         });
 
+        // Initial Render
         renderTable();
+
+        // Global access for inline onclick handlers
         window.startEdit = startEdit;
         window.deleteProject = deleteProject;
     </script>
 </body>
-
 </html>
