@@ -991,10 +991,23 @@
             // Register GSAP plugins
             gsap.registerPlugin(ScrollTrigger, TextPlugin);
 
-            // Hide loader after page loads
-            setTimeout(() => {
+            // ---------------------------------------------------------
+            // LOADER LOGIC: Check if site has been loaded before
+            // ---------------------------------------------------------
+            const hasLoadedBefore = localStorage.getItem('portfolioLoaded');
+
+            if (hasLoadedBefore) {
+                // If user has visited before, hide loader immediately
                 $('#loader').addClass('hidden');
-            }, 1500);
+            } else {
+                // If first time visiting, wait 1.5s then hide loader
+                setTimeout(() => {
+                    $('#loader').addClass('hidden');
+                    // Set the flag in localStorage so we know they've visited
+                    localStorage.setItem('portfolioLoaded', 'true');
+                }, 1500);
+            }
+            // ---------------------------------------------------------
 
             // Custom Cursor
             const cursor = document.querySelector('.cursor');
