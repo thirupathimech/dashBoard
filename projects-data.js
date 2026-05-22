@@ -125,14 +125,7 @@
                 description: 'Talk to a smart, chatty bot that gets your vibe. Great for dev portfolios, demos, or just some fun!',
                 link: 'chatbot.html',
                 tags: ['AI', 'Chat', 'Bot']
-            },
-            {
-                icon: 'bi-person-badge',
-                title: 'Employee Form',
-                description: 'Simplify the management of employee payroll information with this user-friendly application.',
-                link: 'https://thirupathimech.github.io/dashBoard/employeeForm',
-                tags: ['Form', 'Employee', 'Management']
-            },
+            },            
             {
                 icon: 'bi-controller',
                 title: 'Snake Game',
