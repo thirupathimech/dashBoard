@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>API Test Hub - Professional API Testing Tool</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <meta name="description" content="A lightweight API workbench for sending HTTP requests and inspecting responses.">
+    <meta name="theme-color" content="#f6f7fb">
+    <title>API Workbench | Thirupathi G</title>
     <script src="https://cdn.jsdelivr.net/npm/react@18.0.0/umd/react.development.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/react-dom@18.0.0/umd/react-dom.development.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@babel/standalone/babel.js"></script>
@@ -12,46 +13,220 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="icon" href="favicon.ico">
     <style>
-        body { font-family: 'Inter', sans-serif; }
-        .code-editor {
-            font-family: 'Consolas', 'Monaco', monospace;
-            font-size: 14px;
+        :root { color-scheme: light; }
+        * { box-sizing: border-box; }
+        body { margin: 0; font-family: 'Inter', system-ui, sans-serif; background: #f6f7fb; }
+        button, input, select, textarea { font: inherit; }
+        button { cursor: pointer; }
+        .api-app {
+            --page: #f6f7fb;
+            --surface: #fff;
+            --surface-soft: #f8f9fc;
+            --text: #172033;
+            --muted: #66738b;
+            --border: #e4e8f0;
+            --accent: #5148df;
+            --accent-strong: #4338ca;
+            --accent-soft: rgba(81,72,223,.09);
+            --teal: #149a88;
+            --shadow: 0 16px 42px rgba(24,37,68,.07);
+            min-height: 100vh;
+            background: radial-gradient(circle at 82% -8%, rgba(81,72,223,.1), transparent 28rem), var(--page);
+            color: var(--text);
+            transition: background-color .2s ease, color .2s ease;
         }
-        .json-viewer {
-            font-family: 'Consolas', 'Monaco', monospace;
+        .api-app.is-dark {
+            color-scheme: dark;
+            --page: #0d1220;
+            --surface: #151d2c;
+            --surface-soft: #111827;
+            --text: #eef2ff;
+            --muted: #a2aec2;
+            --border: #293449;
+            --accent: #918cff;
+            --accent-strong: #a9a5ff;
+            --accent-soft: rgba(145,140,255,.14);
+            --teal: #4dd6bc;
+            --shadow: 0 18px 45px rgba(0,0,0,.2);
         }
-        .gradient-bg {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        .app-header {
+            position: sticky; top: 0; z-index: 20;
+            border-bottom: 1px solid var(--border);
+            background: color-mix(in srgb, var(--surface) 90%, transparent);
+            backdrop-filter: blur(18px);
         }
-        .gradient-text {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+        .header-inner, .workspace-layout, .footer-inner { width: min(100% - 2.5rem, 1280px); margin-inline: auto; }
+        .header-inner { min-height: 76px; display: flex; justify-content: space-between; align-items: center; gap: 1rem; }
+        .brand-lockup { display: flex; align-items: center; gap: .8rem; min-width: 0; }
+        .brand-mark { width: 42px; height: 42px; display: grid; flex: 0 0 auto; place-items: center; border-radius: 14px; background: linear-gradient(135deg,#5148df,#15a894); color: #fff; box-shadow: 0 8px 22px rgba(81,72,223,.22); }
+        .brand-title { margin: 0; color: var(--text); font-size: 1rem; font-weight: 750; letter-spacing: -.035em; }
+        .brand-caption { margin: .12rem 0 0; color: var(--muted); font-size: .72rem; }
+        .header-actions { display: flex; align-items: center; gap: .55rem; }
+        .icon-button, .header-link, .primary-button, .secondary-button, .quiet-button {
+            min-height: 40px; display: inline-flex; align-items: center; justify-content: center; gap: .5rem;
+            padding: .6rem .85rem; border: 1px solid transparent; border-radius: 11px;
+            font-size: .8rem; font-weight: 650; text-decoration: none; transition: .18s ease;
         }
-        .terminal-bg {
-            background-color: #1e293b;
+        .icon-button { width: 42px; padding: 0; border-color: var(--border); background: var(--surface); color: var(--muted); }
+        .icon-button:hover, .header-link:hover, .quiet-button:hover { border-color: var(--accent); color: var(--accent); }
+        .header-link, .quiet-button { border-color: var(--border); background: var(--surface); color: var(--muted); }
+        .primary-button { background: linear-gradient(110deg,#5148df,#15a894); color: #fff; box-shadow: 0 8px 20px rgba(81,72,223,.17); }
+        .primary-button:hover { filter: brightness(1.04); transform: translateY(-1px); }
+        .primary-button:disabled { opacity: .52; cursor: not-allowed; transform: none; box-shadow: none; }
+        .workspace-layout { display: grid; grid-template-columns: 280px minmax(0,1fr); align-items: start; gap: 1.2rem; padding-block: 2rem 3rem; }
+        .sidebar, .main-column { display: grid; min-width: 0; gap: 1.2rem; }
+        .surface-card { min-width: 0; overflow: hidden; border: 1px solid var(--border); border-radius: 19px; background: var(--surface); box-shadow: var(--shadow); }
+        .card-padding { padding: 1.2rem; }
+        .card-heading { display: flex; justify-content: space-between; align-items: center; gap: .75rem; margin-bottom: 1rem; }
+        .card-heading h2, .card-heading h3 { margin: 0; color: var(--text); font-size: .98rem; font-weight: 700; letter-spacing: -.025em; }
+        .overline { margin: 0 0 .35rem; color: var(--accent); font-size: .64rem; font-weight: 750; letter-spacing: .12em; text-transform: uppercase; }
+        .muted-copy { margin: .3rem 0 0; color: var(--muted); font-size: .78rem; line-height: 1.55; }
+        .collection-list { display: grid; gap: .55rem; }
+        .collection-item { overflow: hidden; border: 1px solid var(--border); border-radius: 13px; background: var(--surface-soft); }
+        .collection-row { display: flex; align-items: stretch; gap: .35rem; padding: .3rem; }
+        .collection-select { flex: 1; min-width: 0; display: flex; align-items: center; gap: .65rem; padding: .65rem; border: 0; border-radius: 9px; background: transparent; color: var(--text); text-align: left; }
+        .collection-select:hover, .collection-select.selected { background: var(--accent-soft); }
+        .collection-icon { width: 34px; height: 34px; display: grid; flex: 0 0 auto; place-items: center; border-radius: 10px; background: var(--surface); color: var(--accent); }
+        .collection-copy { min-width: 0; flex: 1; }
+        .collection-copy strong { display: block; overflow: hidden; font-size: .78rem; text-overflow: ellipsis; white-space: nowrap; }
+        .collection-copy small { display: block; margin-top: .13rem; color: var(--muted); font-size: .67rem; }
+        .delete-collection { width: 34px; border: 0; border-radius: 8px; background: transparent; color: var(--muted); }
+        .delete-collection:hover { background: rgba(239,68,68,.1); color: #e5484d; }
+        .saved-request-list { display: grid; gap: .3rem; padding: 0 .5rem .5rem 3.15rem; }
+        .saved-request { display: flex; align-items: center; gap: .45rem; padding: .5rem; border: 0; border-radius: 8px; background: transparent; color: var(--muted); text-align: left; }
+        .saved-request:hover { background: var(--surface); color: var(--accent); }
+        .method-chip { flex: 0 0 auto; padding: .18rem .34rem; border-radius: 5px; background: var(--accent-soft); color: var(--accent); font-size: .58rem; font-weight: 800; }
+        .saved-request span:last-child { overflow: hidden; font-size: .68rem; text-overflow: ellipsis; white-space: nowrap; }
+        .empty-collection { padding: .9rem .7rem; border: 1px dashed var(--border); border-radius: 12px; color: var(--muted); font-size: .75rem; text-align: center; }
+        .test-card { background: linear-gradient(150deg,var(--surface),color-mix(in srgb,var(--accent-soft) 54%,var(--surface))); }
+        .test-url-row { display: flex; gap: .45rem; }
+        .test-url-row input { min-width: 0; flex: 1; }
+        .sample-note { display: flex; gap: .5rem; margin-top: .8rem; padding: .7rem; border: 1px solid color-mix(in srgb,var(--accent) 18%,var(--border)); border-radius: 10px; background: var(--accent-soft); color: var(--muted); font-size: .68rem; line-height: 1.45; }
+        .sample-note i { color: var(--accent); }
+        .workspace-tabs { display: flex; gap: .4rem; padding: .65rem; border-bottom: 1px solid var(--border); background: var(--surface-soft); }
+        .workspace-tab { min-height: 38px; display: inline-flex; align-items: center; gap: .5rem; padding: .55rem .85rem; border: 0; border-radius: 9px; background: transparent; color: var(--muted); font-size: .78rem; font-weight: 650; }
+        .workspace-tab.active { background: var(--surface); color: var(--accent); box-shadow: 0 2px 8px rgba(20,30,55,.07); }
+        .request-panel { padding: 1.2rem; }
+        .request-title-row { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; margin-bottom: 1rem; }
+        .request-title-row h1 { margin: 0; color: var(--text); font-size: clamp(1.25rem,2vw,1.65rem); font-weight: 750; letter-spacing: -.05em; }
+        .request-title-row p { margin: .35rem 0 0; color: var(--muted); font-size: .77rem; }
+        .active-collection-label { max-width: 45%; padding: .35rem .6rem; overflow: hidden; border: 1px solid var(--border); border-radius: 99px; color: var(--muted); font-size: .68rem; text-overflow: ellipsis; white-space: nowrap; }
+        .request-line { display: grid; grid-template-columns: 125px minmax(0,1fr) auto; gap: .55rem; }
+        .field, .select-field, .code-field {
+            width: 100%; min-width: 0; min-height: 44px; padding: .68rem .8rem;
+            border: 1px solid var(--border); border-radius: 10px; outline: none;
+            background: var(--surface-soft); color: var(--text); font-size: .8rem; transition: .16s ease;
         }
-        .terminal-text {
-            color: #22d3ee;
+        .field:focus, .select-field:focus, .code-field:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+        .field::placeholder, .code-field::placeholder { color: color-mix(in srgb,var(--muted) 72%,transparent); }
+        .select-field { cursor: pointer; }
+        .request-line .primary-button { min-width: 104px; }
+        .request-toolbar { display: flex; align-items: center; justify-content: space-between; gap: .7rem; margin-top: .75rem; }
+        .request-toolbar .muted-copy { margin: 0; font-size: .7rem; }
+        .request-options { margin-top: 1rem; border-top: 1px solid var(--border); }
+        .option-tabs { display: flex; gap: .3rem; overflow-x: auto; padding: .7rem 0; }
+        .option-tab { flex: 0 0 auto; padding: .48rem .7rem; border: 0; border-radius: 8px; background: transparent; color: var(--muted); font-size: .72rem; font-weight: 650; }
+        .option-tab.active { background: var(--accent-soft); color: var(--accent); }
+        .option-content { min-height: 175px; }
+        .field-label { display: flex; justify-content: space-between; gap: .5rem; margin-bottom: .45rem; color: var(--text); font-size: .75rem; font-weight: 650; }
+        .field-hint { color: var(--muted); font-size: .67rem; font-weight: 400; }
+        .code-field { min-height: 145px; resize: vertical; font-family: 'SFMono-Regular',Consolas,monospace; font-size: .76rem; line-height: 1.55; tab-size: 2; }
+        .auth-fields { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: .6rem; margin-top: .65rem; }
+        .inline-error { display: flex; gap: .65rem; margin-bottom: 1rem; padding: .8rem .9rem; border: 1px solid rgba(229,72,77,.25); border-radius: 11px; background: rgba(229,72,77,.08); color: #c53339; font-size: .76rem; line-height: 1.5; }
+        .dark .inline-error { color: #ff9a9e; }
+        .response-card { margin-top: 1.2rem; }
+        .response-header { display: flex; justify-content: space-between; align-items: center; gap: 1rem; padding: 1rem 1.2rem; border-bottom: 1px solid var(--border); }
+        .response-heading { display: flex; flex-wrap: wrap; align-items: center; gap: .65rem; }
+        .response-heading h2 { margin: 0; color: var(--text); font-size: .9rem; font-weight: 700; }
+        .response-meta { display: flex; flex-wrap: wrap; align-items: center; gap: .45rem; }
+        .meta-chip { padding: .32rem .52rem; border: 1px solid var(--border); border-radius: 999px; color: var(--muted); font-size: .65rem; font-weight: 650; }
+        .status-chip { padding: .34rem .57rem; border-radius: 999px; font-size: .67rem; font-weight: 750; }
+        .status-success { background: rgba(20,154,136,.12); color: #087e70; }
+        .status-warn { background: rgba(217,145,0,.13); color: #966300; }
+        .status-error { background: rgba(229,72,77,.12); color: #c53339; }
+        .dark .status-success { color: #62dfcb; }
+        .dark .status-warn { color: #ffd16f; }
+        .dark .status-error { color: #ff9a9e; }
+        .response-actions { display: flex; align-items: center; gap: .4rem; }
+        .response-actions .quiet-button { min-height: 34px; padding: .42rem .6rem; font-size: .68rem; }
+        .copy-error { margin: .6rem 0 0; color: #c53339; font-size: .7rem; }
+        .dark .copy-error { color: #ff9a9e; }
+        .save-message { margin: .55rem 0 0; color: #c53339; font-size: .7rem; }
+        .save-message.success { color: var(--teal); }
+        .response-body { padding: 1rem 1.2rem 1.2rem; }
+        .terminal-bg { max-height: 430px; min-height: 140px; overflow: auto; border: 1px solid #283346; border-radius: 13px; background: #101722; }
+        .terminal-text { margin: 0; padding: 1rem; color: #b6f3e5; font: .76rem/1.6 'SFMono-Regular',Consolas,monospace; white-space: pre-wrap; overflow-wrap: anywhere; }
+        .response-empty, .history-empty { display: grid; min-height: 145px; place-content: center; justify-items: center; gap: .45rem; color: var(--muted); text-align: center; }
+        .response-empty i, .history-empty i { color: var(--accent); font-size: 1.4rem; }
+        .response-empty strong, .history-empty strong { color: var(--text); font-size: .8rem; }
+        .response-empty span, .history-empty span { font-size: .7rem; }
+        .response-headers { margin-top: .8rem; border: 1px solid var(--border); border-radius: 11px; }
+        .response-headers summary { padding: .7rem .85rem; color: var(--muted); cursor: pointer; font-size: .72rem; font-weight: 650; }
+        .response-headers pre { max-height: 180px; overflow: auto; margin: 0; padding: .75rem .9rem; border-top: 1px solid var(--border); color: var(--muted); font: .68rem/1.5 'SFMono-Regular',Consolas,monospace; white-space: pre-wrap; overflow-wrap: anywhere; }
+        .history-list { display: grid; gap: .55rem; }
+        .history-item { display: grid; grid-template-columns: auto minmax(0,1fr) auto; align-items: center; gap: .7rem; width: 100%; padding: .75rem; border: 1px solid var(--border); border-radius: 11px; background: var(--surface-soft); color: var(--text); text-align: left; }
+        .history-item:hover { border-color: var(--accent); background: var(--accent-soft); }
+        .history-url { overflow: hidden; color: var(--text); font-size: .72rem; text-overflow: ellipsis; white-space: nowrap; }
+        .history-time { color: var(--muted); font-size: .64rem; white-space: nowrap; }
+        .collection-modal-backdrop { position: fixed; inset: 0; z-index: 50; display: grid; place-items: center; padding: 1rem; background: rgba(12,18,32,.58); backdrop-filter: blur(5px); }
+        .collection-modal { width: min(100%,430px); padding: 1.35rem; border: 1px solid var(--border); border-radius: 19px; background: var(--surface); box-shadow: 0 25px 80px rgba(0,0,0,.26); }
+        .modal-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; margin-bottom: 1.1rem; }
+        .modal-header h2 { margin: 0; color: var(--text); font-size: 1.05rem; font-weight: 750; }
+        .modal-error { margin: -.35rem 0 .8rem; color: #c53339; font-size: .72rem; }
+        .modal-actions { display: flex; justify-content: flex-end; gap: .5rem; margin-top: .85rem; }
+        .app-footer { border-top: 1px solid var(--border); background: var(--surface); }
+        .footer-inner { display: flex; justify-content: space-between; gap: 1rem; padding-block: 1.15rem; color: var(--muted); font-size: .69rem; }
+        .footer-inner nav { display: flex; flex-wrap: wrap; gap: 1rem; }
+        .footer-inner a { color: var(--muted); text-decoration: none; }
+        .footer-inner a:hover { color: var(--accent); }
+        .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+        button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-visible, summary:focus-visible { outline: 3px solid var(--accent-soft); outline-offset: 2px; }
+        @media (max-width: 900px) {
+            .workspace-layout { grid-template-columns: 235px minmax(0,1fr); gap: .85rem; }
+            .header-inner, .workspace-layout, .footer-inner { width: min(100% - 1.75rem, 1280px); }
+            .request-line { grid-template-columns: 100px minmax(0,1fr) auto; }
         }
-        .dark .terminal-bg {
-            background-color: #0f172a;
+        @media (max-width: 700px) {
+            .header-inner, .workspace-layout, .footer-inner { width: min(100% - 1.25rem, 620px); }
+            .header-inner { min-height: 68px; }
+            .header-link { display: none; }
+            .workspace-layout { grid-template-columns: minmax(0,1fr); padding-block: 1rem 2rem; }
+            .sidebar { grid-template-columns: repeat(2,minmax(0,1fr)); align-items: start; gap: .75rem; }
+            .sidebar > :first-child { grid-column: 1 / -1; }
+            .card-padding, .request-panel { padding: 1rem; }
+            .request-line { grid-template-columns: 95px minmax(0,1fr); }
+            .request-line .primary-button { grid-column: 1 / -1; }
+            .response-header { padding: .85rem 1rem; }
+            .response-body { padding: .85rem 1rem 1rem; }
         }
-        .dark .terminal-text {
-            color: #67e8f9;
+        @media (max-width: 480px) {
+            .header-inner, .workspace-layout, .footer-inner { width: min(100% - 1rem, 440px); }
+            .header-inner { min-height: 62px; }
+            .brand-mark { width: 38px; height: 38px; border-radius: 12px; }
+            .brand-title { font-size: .9rem; }
+            .brand-caption { font-size: .65rem; }
+            .header-actions { gap: .35rem; }
+            .icon-button { width: 38px; min-height: 38px; }
+            .header-actions .primary-button { min-height: 38px; padding: .5rem .65rem; font-size: .7rem; }
+            .sidebar { grid-template-columns: minmax(0,1fr); }
+            .sidebar > :first-child { grid-column: auto; }
+            .request-title-row { flex-direction: column; gap: .55rem; }
+            .active-collection-label { max-width: 100%; }
+            .request-line { grid-template-columns: 1fr; }
+            .request-line .primary-button { grid-column: auto; }
+            .request-toolbar { align-items: stretch; flex-direction: column; }
+            .request-toolbar > * { width: 100%; }
+            .auth-fields { grid-template-columns: 1fr; }
+            .response-header { align-items: flex-start; flex-direction: column; }
+            .response-header > * { width: 100%; }
+            .response-heading { justify-content: space-between; }
+            .response-actions { justify-content: flex-end; }
+            .history-item { grid-template-columns: auto minmax(0,1fr); }
+            .history-item .response-meta { grid-column: 1 / -1; justify-content: flex-end; }
+            .footer-inner { align-items: flex-start; flex-direction: column; }
         }
-        .error-bg {
-            background-color: #fee2e2;
-        }
-        .dark .error-bg {
-            background-color: #7f1d1d;
-        }
-        .error-text {
-            color: #dc2626;
-        }
-        .dark .error-text {
-            color: #fca5a5;
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation-duration: .01ms !important; }
         }
     </style>
 </head>
@@ -61,20 +236,54 @@
     <script type="text/babel">
         const { useState, useEffect } = React;
 
+        const readStoredJson = (key, fallback) => {
+            try {
+                const stored = localStorage.getItem(key);
+                return stored ? JSON.parse(stored) : fallback;
+            } catch {
+                return fallback;
+            }
+        };
+
+        const encodeBase64Utf8 = (value) => {
+            const bytes = new TextEncoder().encode(value);
+            let binary = '';
+            bytes.forEach(byte => { binary += String.fromCharCode(byte); });
+            return btoa(binary);
+        };
+
         const APIHub = () => {
             const [darkMode, setDarkMode] = useState(() => {
-                return localStorage.getItem('darkMode') === 'true';
+                try { return localStorage.getItem('darkMode') === 'true'; } catch { return false; }
             });
             const [showCollectionModal, setShowCollectionModal] = useState(false);
             const [collectionName, setCollectionName] = useState('');
-            const [collections, setCollections] = useState([]);
+            const [collectionError, setCollectionError] = useState('');
+            const [collections, setCollections] = useState(() => {
+                const saved = readStoredJson('apiHubCollections', []);
+                if (!Array.isArray(saved)) return [];
+                return saved
+                    .filter(collection => collection && typeof collection === 'object' && typeof collection.name === 'string')
+                    .map((collection, index) => ({
+                        ...collection,
+                        id: collection.id ?? `restored-${index}`,
+                        requests: Array.isArray(collection.requests)
+                            ? collection.requests
+                                .filter(request => request && typeof request === 'object')
+                                .map((request, requestIndex) => ({ ...request, id: request.id ?? `restored-${index}-${requestIndex}` }))
+                            : []
+                    }));
+            });
             const [activeTab, setActiveTab] = useState('request');
-            const [activeCollection, setActiveCollection] = useState(null);
+            const [activeRequestSection, setActiveRequestSection] = useState('params');
+            const [activeCollectionId, setActiveCollectionId] = useState(null);
+            const [expandedCollectionId, setExpandedCollectionId] = useState(null);
             const [method, setMethod] = useState('GET');
             const [url, setUrl] = useState('');
             const [headers, setHeaders] = useState('');
             const [body, setBody] = useState('');
             const [response, setResponse] = useState(null);
+            const [responseMeta, setResponseMeta] = useState(null);
             const [loading, setLoading] = useState(false);
             const [statusCode, setStatusCode] = useState(null);
             const [history, setHistory] = useState([]);
@@ -83,634 +292,543 @@
             const [authUsername, setAuthUsername] = useState('');
             const [authPassword, setAuthPassword] = useState('');
             const [queryParams, setQueryParams] = useState('');
-            const [responseFormat, setResponseFormat] = useState('json');
+            const [responseFormat, setResponseFormat] = useState('pretty');
             const [error, setError] = useState(null);
+            const [saveMessage, setSaveMessage] = useState('');
+            const [copied, setCopied] = useState(false);
+            const [copyError, setCopyError] = useState('');
             const [testUrl, setTestUrl] = useState('https://jsonplaceholder.typicode.com/todos/1');
+            const activeCollection = collections.find(collection => collection.id === activeCollectionId) || null;
 
-            // Toggle dark mode
-            const toggleDarkMode = () => {
-                const newDarkMode = !darkMode;
-                setDarkMode(newDarkMode);
-                localStorage.setItem('darkMode', newDarkMode);
-            };
-
-            // Apply dark mode class to body
             useEffect(() => {
-                if (darkMode) {
-                    document.documentElement.classList.add('dark');
-                } else {
-                    document.documentElement.classList.remove('dark');
-                }
+                document.documentElement.classList.toggle('dark', darkMode);
+                try { localStorage.setItem('darkMode', String(darkMode)); } catch { /* Theme still works for this session. */ }
             }, [darkMode]);
 
-            const handleRequest = async () => {
-                if (!url) return;
-                
-                setLoading(true);
-                setResponse(null);
-                setStatusCode(null);
+            useEffect(() => {
+                try { localStorage.setItem('apiHubCollections', JSON.stringify(collections)); } catch { /* Keep collections available for this session. */ }
+            }, [collections]);
+
+            const toggleDarkMode = () => setDarkMode(current => !current);
+
+            const handleRequest = async (event, overrides = {}) => {
+                if (event) event.preventDefault();
+                if (loading) return;
+
+                const requestMethod = overrides.method || method;
+                const requestUrl = String(overrides.url ?? url).trim();
                 setError(null);
+                setSaveMessage('');
+                setResponse(null);
+                setResponseMeta(null);
+                setStatusCode(null);
+                setCopied(false);
+                setCopyError('');
+
+                if (!requestUrl) {
+                    setError('Enter a request URL before sending.');
+                    return;
+                }
+
+                setLoading(true);
+                let timeoutId;
 
                 try {
-                    // Validate URL format
-                    try {
-                        new URL(url);
-                    } catch (e) {
-                        throw new Error('Invalid URL format. Please enter a valid URL (e.g., https://api.example.com)');
+                    let requestAddress;
+                    try { requestAddress = new URL(requestUrl); } catch {
+                        throw new Error('Enter a complete URL, including https:// or http://.');
+                    }
+                    if (!['http:', 'https:'].includes(requestAddress.protocol)) {
+                        throw new Error('Only HTTP and HTTPS request URLs are supported.');
                     }
 
-                    const options = {
-                        method: method,
-                        headers: {}
-                    };
-
-                    // Parse headers
-                    if (headers) {
+                    const requestHeaders = new Headers();
+                    if (headers.trim()) {
+                        let parsedHeaders;
+                        try { parsedHeaders = JSON.parse(headers); } catch {
+                            throw new Error('Headers must be a valid JSON object.');
+                        }
+                        if (!parsedHeaders || typeof parsedHeaders !== 'object' || Array.isArray(parsedHeaders)) {
+                            throw new Error('Headers must be a JSON object with header names and values.');
+                        }
                         try {
-                            const parsedHeaders = JSON.parse(headers);
                             Object.entries(parsedHeaders).forEach(([key, value]) => {
-                                options.headers[key] = value;
+                                if (value === null || typeof value === 'object') throw new Error('Header values must be text or numbers.');
+                                requestHeaders.set(key, String(value));
                             });
-                        } catch (e) {
-                            throw new Error('Invalid headers format. Please use valid JSON.');
+                        } catch (headerError) {
+                            throw new Error(headerError.message || 'One or more headers are invalid.');
                         }
                     }
 
-                    // Add authentication
-                    if (authType === 'bearer' && authToken) {
-                        options.headers['Authorization'] = `Bearer ${authToken}`;
-                    } else if (authType === 'basic' && authUsername && authPassword) {
-                        const encoded = btoa(`${authUsername}:${authPassword}`);
-                        options.headers['Authorization'] = `Basic ${encoded}`;
+                    if (queryParams.trim()) {
+                        let parsedParams;
+                        try { parsedParams = JSON.parse(queryParams); } catch {
+                            throw new Error('Query parameters must be a valid JSON object.');
+                        }
+                        if (!parsedParams || typeof parsedParams !== 'object' || Array.isArray(parsedParams)) {
+                            throw new Error('Query parameters must be a JSON object.');
+                        }
+                        Object.entries(parsedParams).forEach(([key, value]) => {
+                            if (Array.isArray(value)) {
+                                value.forEach(item => requestAddress.searchParams.append(key, item == null ? '' : String(item)));
+                            } else if (value !== undefined) {
+                                requestAddress.searchParams.append(key, value === null ? '' : typeof value === 'object' ? JSON.stringify(value) : String(value));
+                            }
+                        });
                     }
 
-                    // Parse body
-                    if (body) {
+                    const options = { method: requestMethod, headers: requestHeaders };
+                    if (body.trim()) {
+                        if (requestMethod === 'GET' || requestMethod === 'HEAD') {
+                            throw new Error(`${requestMethod} requests cannot include a body. Clear the body or choose another method.`);
+                        }
                         try {
                             options.body = JSON.stringify(JSON.parse(body));
-                            options.headers['Content-Type'] = 'application/json';
-                        } catch (e) {
-                            options.body = body;
+                            if (!requestHeaders.has('Content-Type')) requestHeaders.set('Content-Type', 'application/json');
+                        } catch (bodyError) {
+                            if (bodyError instanceof SyntaxError) options.body = body;
+                            else throw bodyError;
                         }
                     }
 
-                    // Parse query parameters
-                    let finalUrl = url;
-                    if (queryParams) {
-                        const params = new URLSearchParams();
-                        try {
-                            const parsedParams = JSON.parse(queryParams);
-                            Object.entries(parsedParams).forEach(([key, value]) => {
-                                params.append(key, value);
-                            });
-                            finalUrl = `${url}?${params.toString()}`;
-                        } catch (e) {
-                            throw new Error('Invalid query parameters format. Please use valid JSON.');
-                        }
+                    if (authType === 'bearer' && authToken.trim()) {
+                        requestHeaders.set('Authorization', `Bearer ${authToken.trim()}`);
+                    } else if (authType === 'basic' && (authUsername || authPassword)) {
+                        requestHeaders.set('Authorization', `Basic ${encodeBase64Utf8(`${authUsername}:${authPassword}`)}`);
                     }
 
+                    const controller = new AbortController();
+                    timeoutId = window.setTimeout(() => controller.abort(), 30000);
+                    options.signal = controller.signal;
+                    const startedAt = performance.now();
+                    const finalUrl = requestAddress.toString();
                     const res = await fetch(finalUrl, options);
                     const data = await res.text();
-                    
+                    const duration = Math.round(performance.now() - startedAt);
+                    const size = new TextEncoder().encode(data).length;
+
                     setResponse(data);
                     setStatusCode(res.status);
-                    
-                    // Add to history
-                    const newHistory = {
-                        id: Date.now(),
-                        method,
-                        url: finalUrl,
-                        timestamp: new Date().toLocaleString(),
+                    setResponseMeta({
+                        duration,
+                        size,
+                        headers: Array.from(res.headers.entries())
+                    });
+                    setHistory(current => [{
+                        id: `${Date.now()}-${Math.random().toString(36).slice(2, 7)}`,
+                        method: requestMethod,
+                        url: requestUrl,
+                        displayUrl: finalUrl,
+                        headers,
+                        body,
+                        queryParams,
+                        timestamp: new Date().toLocaleTimeString(),
                         status: res.status
-                    };
-                    setHistory([newHistory, ...history.slice(0, 9)]);
-                } catch (error) {
-                    setError(error.message);
-                    setStatusCode(500);
-                    setResponse(`Error: ${error.message}`);
+                    }, ...current].slice(0, 15));
+                } catch (requestError) {
+                    const message = requestError.name === 'AbortError'
+                        ? 'Request timed out after 30 seconds.'
+                        : requestError.message === 'Failed to fetch'
+                            ? 'Could not reach this API. Check the URL, network, server availability, and CORS settings.'
+                            : requestError.message || 'The request could not be completed.';
+                    setError(message);
+                    setStatusCode(null);
                 } finally {
+                    window.clearTimeout(timeoutId);
                     setLoading(false);
                 }
             };
 
-            const formatJSON = (json) => {
-                try {
-                    return JSON.stringify(JSON.parse(json), null, 2);
-                } catch {
-                    return json;
-                }
+            const formatJSON = (value) => {
+                try { return JSON.stringify(JSON.parse(value), null, 2); } catch { return value; }
             };
 
-            const copyToClipboard = (text) => {
-                navigator.clipboard.writeText(text);
+            const copyToClipboard = async (text) => {
+                setCopyError('');
+                try {
+                    if (navigator.clipboard && window.isSecureContext) {
+                        await navigator.clipboard.writeText(text);
+                    } else {
+                        const helper = document.createElement('textarea');
+                        helper.value = text;
+                        helper.setAttribute('readonly', '');
+                        helper.style.position = 'fixed';
+                        helper.style.opacity = '0';
+                        document.body.appendChild(helper);
+                        helper.select();
+                        const copiedSuccessfully = document.execCommand('copy');
+                        helper.remove();
+                        if (!copiedSuccessfully) throw new Error('Clipboard access is unavailable.');
+                    }
+                    setCopied(true);
+                    window.setTimeout(() => setCopied(false), 1800);
+                } catch {
+                    setCopyError('Could not copy. Check clipboard permissions and try again.');
+                }
             };
 
             const loadFromHistory = (item) => {
                 setMethod(item.method);
                 setUrl(item.url);
-            };
-
-            const handleHome = () => {
-                setMethod('GET');
-                setUrl('');
-                setHeaders('');
-                setBody('');
-                setResponse(null);
-                setStatusCode(null);
-                setError(null);
+                setHeaders(item.headers || '');
+                setBody(item.body || '');
+                setQueryParams(item.queryParams || '');
                 setAuthType('none');
                 setAuthToken('');
                 setAuthUsername('');
                 setAuthPassword('');
-                setQueryParams('');
                 setActiveTab('request');
-                window.location.href = 'index.html';
+                setError(null);
             };
 
             const handleCreateCollection = () => {
-                if (collectionName.trim()) {
-                    const newCollection = {
-                        id: Date.now(),
-                        name: collectionName,
-                        requests: []
-                    };
-                    setCollections([...collections, newCollection]);
-                    setCollectionName('');
-                    setShowCollectionModal(false);
+                const name = collectionName.trim();
+                if (!name) {
+                    setCollectionError('Enter a name for this collection.');
+                    return;
                 }
+                if (collections.some(collection => typeof collection.name === 'string' && collection.name.toLowerCase() === name.toLowerCase())) {
+                    setCollectionError('A collection with that name already exists.');
+                    return;
+                }
+                const newCollection = {
+                    id: `${Date.now()}-${Math.random().toString(36).slice(2, 7)}`,
+                    name,
+                    requests: []
+                };
+                setCollections(current => [...current, newCollection]);
+                setActiveCollectionId(newCollection.id);
+                setExpandedCollectionId(newCollection.id);
+                setCollectionName('');
+                setCollectionError('');
+                setShowCollectionModal(false);
             };
 
             const selectCollection = (collection) => {
-                setActiveCollection(collection);
+                setActiveCollectionId(collection.id);
+                setExpandedCollectionId(current => current === collection.id ? null : collection.id);
                 setActiveTab('request');
             };
 
+            const saveCurrentRequest = () => {
+                setSaveMessage('');
+                if (!activeCollection) {
+                    setSaveMessage('Choose a collection before saving this request.');
+                    return;
+                }
+                if (!url.trim()) {
+                    setSaveMessage('Enter a URL before saving this request.');
+                    return;
+                }
+                let requestName;
+                try { requestName = `${method} ${new URL(url.trim()).pathname || '/'}`; }
+                catch { requestName = `${method} request`; }
+                const savedRequest = {
+                    id: `${Date.now()}-${Math.random().toString(36).slice(2, 7)}`,
+                    name: requestName,
+                    method,
+                    url: url.trim(),
+                    headers,
+                    body,
+                    queryParams
+                };
+                setCollections(current => current.map(collection => collection.id === activeCollection.id
+                    ? { ...collection, requests: [...(Array.isArray(collection.requests) ? collection.requests : []), savedRequest] }
+                    : collection));
+                setError(null);
+                setSaveMessage(`Saved to ${activeCollection.name}.`);
+            };
+
+            const loadSavedRequest = (savedRequest) => {
+                setMethod(savedRequest.method || 'GET');
+                setUrl(savedRequest.url || '');
+                setHeaders(savedRequest.headers || '');
+                setBody(savedRequest.body || '');
+                setQueryParams(savedRequest.queryParams || '');
+                setAuthType('none');
+                setAuthToken('');
+                setAuthUsername('');
+                setAuthPassword('');
+                setActiveTab('request');
+                setError(null);
+                setSaveMessage('');
+            };
+
+            const removeCollection = (collectionId) => {
+                if (!window.confirm('Delete this collection and its saved requests?')) return;
+                setCollections(current => current.filter(collection => collection.id !== collectionId));
+                if (activeCollectionId === collectionId) setActiveCollectionId(null);
+                if (expandedCollectionId === collectionId) setExpandedCollectionId(null);
+            };
+
             const handleTestRequest = () => {
-                setUrl(testUrl);
                 setMethod('GET');
+                setUrl(testUrl);
+                setActiveTab('request');
+                setError(null);
             };
 
             return (
-                <div className={`min-h-screen ${darkMode ? 'dark bg-gray-900' : 'bg-gray-50'}`}>
-                    {/* Header */}
-                    <header className={`${darkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'} shadow-sm border-b`}>
-                        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                            <div className="flex justify-between items-center h-16">
-                                <div className="flex items-center">
-                                    <div className="flex items-center space-x-3">
-                                        <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
-                                            <i className="fas fa-plug text-white text-lg"></i>
-                                        </div>
-                                        <h1 className={`text-2xl font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>API Test Hub</h1>
-                                    </div>
-                                </div>
-                                <div className="flex items-center space-x-4">
-                                    <button 
-                                        onClick={handleHome}
-                                        className={`${darkMode ? 'text-gray-400 hover:text-gray-200' : 'text-gray-500 hover:text-gray-700'} transition-colors`}
-                                        title="Home"
-                                    >
-                                        <i className="fas fa-home"></i>
-                                    </button>
-                                    <button 
-                                        onClick={toggleDarkMode}
-                                        className={`${darkMode ? 'text-gray-400 hover:text-gray-200' : 'text-gray-500 hover:text-gray-700'} transition-colors`}
-                                    >
-                                        <i className={`fas ${darkMode ? 'fa-sun' : 'fa-moon'}`}></i>
-                                    </button>
-                                    <button 
-                                        onClick={() => setShowCollectionModal(true)}
-                                        className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-4 py-2 rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all transform hover:scale-105"
-                                    >
-                                        <i className="fas fa-plus mr-2"></i>
-                                        New Collection
-                                    </button>
-                                </div>
+                <div className={`api-app ${darkMode ? 'is-dark' : ''}`}>
+                    <header className="app-header">
+                        <div className="header-inner">
+                            <a className="brand-lockup" href="index.html" aria-label="Return to portfolio home">
+                                <span className="brand-mark"><i className="fas fa-plug" aria-hidden="true"></i></span>
+                                <span>
+                                    <span className="brand-title">API Workbench</span>
+                                    <span className="brand-caption">A clear space to test your endpoints</span>
+                                </span>
+                            </a>
+                            <div className="header-actions">
+                                <a className="header-link" href="index.html"><i className="fas fa-arrow-left" aria-hidden="true"></i> Portfolio</a>
+                                <button className="icon-button" type="button" onClick={toggleDarkMode} aria-label={darkMode ? 'Switch to light theme' : 'Switch to dark theme'} title={darkMode ? 'Switch to light theme' : 'Switch to dark theme'}>
+                                    <i className={`fas ${darkMode ? 'fa-sun' : 'fa-moon'}`} aria-hidden="true"></i>
+                                </button>
+                                <button className="primary-button" type="button" onClick={() => { setCollectionError(''); setShowCollectionModal(true); }}>
+                                    <i className="fas fa-folder-plus" aria-hidden="true"></i><span>New collection</span>
+                                </button>
                             </div>
                         </div>
                     </header>
 
-                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-                        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-                            {/* Collections Sidebar */}
-                            <div className="lg:col-span-1">
-                                <div className={`${darkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'} rounded-lg shadow-sm border p-4`}>
-                                    <h3 className={`text-sm font-semibold mb-4 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>Collections</h3>
-                                    <div className="space-y-2">
-                                        {collections.length === 0 ? (
-                                            <p className="text-sm text-gray-500">No collections yet</p>
-                                        ) : (
-                                            collections.map((collection) => (
-                                                <div
-                                                    key={collection.id}
-                                                    onClick={() => selectCollection(collection)}
-                                                    className={`p-3 rounded-lg cursor-pointer transition-colors ${
-                                                        activeCollection?.id === collection.id
-                                                            ? 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300'
-                                                            : darkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-100'
-                                                    }`}
-                                                >
-                                                    <div className="flex items-center justify-between">
-                                                        <span className="text-sm font-medium">{collection.name}</span>
-                                                        <i className="fas fa-folder text-xs"></i>
-                                                    </div>
-                                                </div>
-                                            ))
-                                        )}
-                                    </div>
+                    <main className="workspace-layout">
+                        <aside className="sidebar" aria-label="API workspace sidebar">
+                            <section className="surface-card card-padding">
+                                <div className="card-heading">
+                                    <div><p className="overline">Workspace</p><h2>Collections</h2></div>
+                                    <button className="icon-button" type="button" onClick={() => { setCollectionError(''); setShowCollectionModal(true); }} aria-label="Create a collection" title="Create a collection">
+                                        <i className="fas fa-plus" aria-hidden="true"></i>
+                                    </button>
                                 </div>
-
-                                {/* Test Endpoint */}
-                                <div className={`${darkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'} rounded-lg shadow-sm border p-4 mt-4`}>
-                                    <h3 className={`text-sm font-semibold mb-4 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>Test Endpoint</h3>
-                                    <p className={`text-xs mb-3 ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
-                                        Try this working endpoint:
-                                    </p>
-                                    <div className="flex space-x-2">
-                                        <input
-                                            type="text"
-                                            value={testUrl}
-                                            onChange={(e) => setTestUrl(e.target.value)}
-                                            className={`flex-1 px-3 py-1 text-xs border rounded focus:ring-1 focus:ring-blue-500 focus:border-transparent ${
-                                                darkMode 
-                                                    ? 'bg-gray-700 border-gray-600 text-gray-300' 
-                                                    : 'bg-gray-50 border-gray-300 text-gray-900'
-                                            }`}
-                                        />
-                                        <button
-                                            onClick={handleTestRequest}
-                                            className="px-3 py-1 bg-blue-600 text-white text-xs rounded hover:bg-blue-700 transition-colors"
-                                        >
-                                            Test
-                                        </button>
-                                    </div>
-                                    <div className="mt-3 p-3 bg-blue-50 dark:bg-blue-900 rounded-lg">
-                                        <p className="text-xs text-blue-800 dark:text-blue-200">
-                                            <i className="fas fa-info-circle mr-1"></i>
-                                            This endpoint returns sample JSON data
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            {/* Main Content */}
-                            <div className="lg:col-span-3">
-                                {/* Tabs */}
-                                <div className={`${darkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'} rounded-lg shadow-sm border mb-6`}>
-                                    <div className="border-b border-gray-200 dark:border-gray-700">
-                                        <nav className="flex space-x-8 px-6">
-                                            <button
-                                                onClick={() => setActiveTab('request')}
-                                                className={`py-4 px-1 border-b-2 font-medium text-sm ${
-                                                    activeTab === 'request'
-                                                        ? 'border-blue-500 text-blue-600'
-                                                        : `border-transparent ${darkMode ? 'text-gray-400 hover:text-gray-200' : 'text-gray-500 hover:text-gray-700'} hover:border-gray-300`
-                                                }`}
-                                            >
-                                                Request
-                                            </button>
-                                            <button
-                                                onClick={() => setActiveTab('history')}
-                                                className={`py-4 px-1 border-b-2 font-medium text-sm ${
-                                                    activeTab === 'history'
-                                                        ? 'border-blue-500 text-blue-600'
-                                                        : `border-transparent ${darkMode ? 'text-gray-400 hover:text-gray-200' : 'text-gray-500 hover:text-gray-700'} hover:border-gray-300`
-                                                }`}
-                                            >
-                                                History
-                                            </button>
-                                        </nav>
-                                    </div>
-
-                                    {activeTab === 'request' && (
-                                        <div className="p-6">
-                                            {/* Error Message */}
-                                            {error && (
-                                                <div className="mb-4 p-4 error-bg rounded-lg border border-red-200 dark:border-red-800">
-                                                    <div className="flex items-start">
-                                                        <i className="fas fa-exclamation-triangle error-text mt-1 mr-2"></i>
-                                                        <div>
-                                                            <h4 className="text-sm font-semibold error-text mb-1">Request Failed</h4>
-                                                            <p className="text-sm error-text">{error}</p>
-                                                            <div className="mt-2 text-xs error-text">
-                                                                <strong>Common issues:</strong><br/>
-                                                                • Check if the server is running<br/>
-                                                                • Verify the URL is correct<br/>
-                                                                • Ensure CORS is properly configured<br/>
-                                                                • Check network connectivity
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            )}
-
-                                            {/* Method and URL */}
-                                            <div className="mb-6">
-                                                <div className="flex space-x-2 mb-4">
-                                                    {['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'HEAD', 'OPTIONS'].map((m) => (
-                                                        <button
-                                                            key={m}
-                                                            onClick={() => setMethod(m)}
-                                                            className={`px-4 py-2 rounded-lg font-medium transition-all transform hover:scale-105 ${
-                                                                method === m
-                                                                    ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg'
-                                                                    : `${darkMode ? 'bg-gray-700 text-gray-300 hover:bg-gray-600' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'}`
-                                                            }`}
-                                                        >
-                                                            {m}
+                                {collections.length === 0 ? (
+                                    <div className="empty-collection"><i className="far fa-folder-open" aria-hidden="true"></i><br />No collections yet. Create one to save requests.</div>
+                                ) : (
+                                    <div className="collection-list">
+                                        {collections.map((collection) => {
+                                            const savedRequests = Array.isArray(collection.requests) ? collection.requests : [];
+                                            const expanded = expandedCollectionId === collection.id;
+                                            return (
+                                                <article className="collection-item" key={collection.id}>
+                                                    <div className="collection-row">
+                                                        <button className={`collection-select ${activeCollectionId === collection.id ? 'selected' : ''}`} type="button" onClick={() => selectCollection(collection)} aria-pressed={activeCollectionId === collection.id} aria-expanded={expanded}>
+                                                            <span className="collection-icon"><i className={`fas ${expanded ? 'fa-folder-open' : 'fa-folder'}`} aria-hidden="true"></i></span>
+                                                            <span className="collection-copy"><strong>{collection.name}</strong><small>{savedRequests.length} saved {savedRequests.length === 1 ? 'request' : 'requests'}</small></span>
+                                                            <i className={`fas ${expanded ? 'fa-chevron-up' : 'fa-chevron-down'}`} aria-hidden="true"></i>
                                                         </button>
-                                                    ))}
-                                                </div>
-                                                <div className="flex space-x-2">
-                                                    <input
-                                                        type="text"
-                                                        value={url}
-                                                        onChange={(e) => setUrl(e.target.value)}
-                                                        placeholder="Enter API URL (e.g., https://api.example.com/data)"
-                                                        className={`flex-1 px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
-                                                            darkMode 
-                                                                ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400' 
-                                                                : 'bg-white border-gray-300 text-gray-900'
-                                                        }`}
-                                                    />
-                                                    <button
-                                                        onClick={handleRequest}
-                                                        disabled={loading || !url}
-                                                        className="px-6 py-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg hover:from-blue-700 hover:to-purple-700 disabled:from-gray-400 disabled:to-gray-500 transition-all transform hover:scale-105 disabled:scale-100"
-                                                    >
-                                                        {loading ? (
-                                                            <i className="fas fa-spinner fa-spin mr-2"></i>
-                                                        ) : (
-                                                            <i className="fas fa-paper-plane mr-2"></i>
-                                                        )}
-                                                        Send
-                                                    </button>
-                                                </div>
-                                            </div>
-
-                                            {/* Authentication */}
-                                            <div className="mb-6">
-                                                <div className="flex items-center justify-between mb-3">
-                                                    <h3 className={`text-sm font-medium ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>Authentication</h3>
-                                                    <select
-                                                        value={authType}
-                                                        onChange={(e) => setAuthType(e.target.value)}
-                                                        className={`text-sm border rounded px-2 py-1 ${
-                                                            darkMode 
-                                                                ? 'bg-gray-700 border-gray-600 text-white' 
-                                                                : 'bg-white border-gray-300 text-gray-900'
-                                                        }`}
-                                                    >
-                                                        <option value="none">None</option>
-                                                        <option value="bearer">Bearer Token</option>
-                                                        <option value="basic">Basic Auth</option>
-                                                    </select>
-                                                </div>
-                                                {authType === 'bearer' && (
-                                                    <input
-                                                        type="text"
-                                                        value={authToken}
-                                                        onChange={(e) => setAuthToken(e.target.value)}
-                                                        placeholder="Enter Bearer Token"
-                                                        className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
-                                                            darkMode 
-                                                                ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400' 
-                                                                : 'bg-white border-gray-300 text-gray-900'
-                                                        }`}
-                                                    />
-                                                )}
-                                                {authType === 'basic' && (
-                                                    <div className="grid grid-cols-2 gap-2">
-                                                        <input
-                                                            type="text"
-                                                            value={authUsername}
-                                                            onChange={(e) => setAuthUsername(e.target.value)}
-                                                            placeholder="Username"
-                                                            className={`px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
-                                                                darkMode 
-                                                                    ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400' 
-                                                                    : 'bg-white border-gray-300 text-gray-900'
-                                                            }`}
-                                                        />
-                                                        <input
-                                                            type="password"
-                                                            value={authPassword}
-                                                            onChange={(e) => setAuthPassword(e.target.value)}
-                                                            placeholder="Password"
-                                                            className={`px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
-                                                                darkMode 
-                                                                    ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400' 
-                                                                    : 'bg-white border-gray-300 text-gray-900'
-                                                            }`}
-                                                        />
+                                                        <button className="delete-collection" type="button" onClick={() => removeCollection(collection.id)} aria-label={`Delete ${collection.name}`} title="Delete collection">
+                                                            <i className="far fa-trash-alt" aria-hidden="true"></i>
+                                                        </button>
                                                     </div>
-                                                )}
-                                            </div>
-
-                                            {/* Query Parameters */}
-                                            <div className="mb-6">
-                                                <h3 className={`text-sm font-medium ${darkMode ? 'text-gray-300' : 'text-gray-700'} mb-3`}>Query Parameters</h3>
-                                                <textarea
-                                                    value={queryParams}
-                                                    onChange={(e) => setQueryParams(e.target.value)}
-                                                    placeholder='{"key1": "value1", "key2": "value2"}'
-                                                    className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent h-24 code-editor ${
-                                                        darkMode 
-                                                            ? 'bg-gray-700 border-gray-600 text-gray-300' 
-                                                            : 'bg-white border-gray-300 text-gray-900'
-                                                    }`}
-                                                />
-                                            </div>
-
-                                            {/* Headers */}
-                                            <div className="mb-6">
-                                                <h3 className={`text-sm font-medium ${darkMode ? 'text-gray-300' : 'text-gray-700'} mb-3`}>Headers</h3>
-                                                <textarea
-                                                    value={headers}
-                                                    onChange={(e) => setHeaders(e.target.value)}
-                                                    placeholder='{"Content-Type": "application/json", "Authorization": "Bearer token"}'
-                                                    className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent h-24 code-editor ${
-                                                        darkMode 
-                                                            ? 'bg-gray-700 border-gray-600 text-gray-300' 
-                                                            : 'bg-white border-gray-300 text-gray-900'
-                                                    }`}
-                                                />
-                                            </div>
-
-                                            {/* Body */}
-                                            <div className="mb-6">
-                                                <h3 className={`text-sm font-medium ${darkMode ? 'text-gray-300' : 'text-gray-700'} mb-3`}>Request Body</h3>
-                                                <textarea
-                                                    value={body}
-                                                    onChange={(e) => setBody(e.target.value)}
-                                                    placeholder='{"key": "value"}'
-                                                    className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent h-32 code-editor ${
-                                                        darkMode 
-                                                            ? 'bg-gray-700 border-gray-600 text-gray-300' 
-                                                            : 'bg-white border-gray-300 text-gray-900'
-                                                    }`}
-                                                />
-                                            </div>
-                                        </div>
-                                    )}
-
-                                    {activeTab === 'history' && (
-                                        <div className="p-6">
-                                            <div className="space-y-3">
-                                                {history.length === 0 ? (
-                                                    <div className="text-center py-8 text-gray-500">
-                                                        <i className="fas fa-history text-4xl mb-4"></i>
-                                                        <p>No request history yet</p>
-                                                    </div>
-                                                ) : (
-                                                    history.map((item) => (
-                                                        <div
-                                                            key={item.id}
-                                                            onClick={() => loadFromHistory(item)}
-                                                            className={`p-4 rounded-lg cursor-pointer transition-colors ${
-                                                                darkMode ? 'bg-gray-700 hover:bg-gray-600' : 'bg-gray-50 hover:bg-gray-100'
-                                                            }`}
-                                                        >
-                                                            <div className="flex justify-between items-center">
-                                                                <div>
-                                                                    <span className="inline-block px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded font-medium mr-2">
-                                                                        {item.method}
-                                                                    </span>
-                                                                    <span className={`text-sm ${darkMode ? 'text-gray-300' : 'text-gray-900'}`}>{item.url}</span>
-                                                                </div>
-                                                                <div className="flex items-center space-x-3">
-                                                                    <span className={`px-2 py-1 rounded text-xs font-medium ${
-                                                                        item.status >= 200 && item.status < 300
-                                                                            ? 'bg-green-100 text-green-800'
-                                                                            : item.status >= 400
-                                                                            ? 'bg-red-100 text-red-800'
-                                                                            : 'bg-yellow-100 text-yellow-800'
-                                                                    }`}>
-                                                                        {item.status}
-                                                                    </span>
-                                                                    <span className="text-xs text-gray-500">{item.timestamp}</span>
-                                                                </div>
-                                                            </div>
+                                                    {expanded && (
+                                                        <div className="saved-request-list">
+                                                            {savedRequests.length ? savedRequests.map((savedRequest) => (
+                                                                <button className="saved-request" key={savedRequest.id} type="button" onClick={() => loadSavedRequest(savedRequest)} title={savedRequest.url}>
+                                                                    <span className="method-chip">{savedRequest.method}</span>
+                                                                    <span>{savedRequest.name || savedRequest.url}</span>
+                                                                </button>
+                                                            )) : <span className="field-hint">No saved requests yet</span>}
                                                         </div>
-                                                    ))
+                                                    )}
+                                                </article>
+                                            );
+                                        })}
+                                    </div>
+                                )}
+                                <p className="muted-copy" style={{ marginTop: '.8rem', fontSize: '.67rem' }}>Saved requests stay in this browser. Credentials from the Authorization tab are not saved.</p>
+                            </section>
+
+                            <section className="surface-card card-padding test-card">
+                                <div className="card-heading" style={{ marginBottom: '.45rem' }}>
+                                    <div><p className="overline">Quick start</p><h2>Try an endpoint</h2></div>
+                                    <span className="collection-icon"><i className="fas fa-bolt" aria-hidden="true"></i></span>
+                                </div>
+                                <p className="muted-copy" style={{ marginBottom: '.8rem' }}>Load an example endpoint into the request form.</p>
+                                <div className="test-url-row">
+                                    <label className="sr-only" htmlFor="testUrl">Sample API endpoint</label>
+                                    <input id="testUrl" className="field" type="url" value={testUrl} onChange={(event) => setTestUrl(event.target.value)} aria-label="Sample API endpoint" />
+                                    <button className="quiet-button" type="button" onClick={handleTestRequest} disabled={loading}>Load sample</button>
+                                </div>
+                                <div className="sample-note"><i className="fas fa-info-circle" aria-hidden="true"></i><span>Loads a sample GET URL into the form. Check any current options before sending.</span></div>
+                            </section>
+                        </aside>
+
+                        <div className="main-column">
+                            <section className="surface-card" aria-label="Request workspace">
+                                <nav className="workspace-tabs" role="tablist" aria-label="Request workspace tabs">
+                                    <button className={`workspace-tab ${activeTab === 'request' ? 'active' : ''}`} type="button" role="tab" aria-selected={activeTab === 'request'} onClick={() => setActiveTab('request')}>
+                                        <i className="fas fa-paper-plane" aria-hidden="true"></i>Request
+                                    </button>
+                                    <button className={`workspace-tab ${activeTab === 'history' ? 'active' : ''}`} type="button" role="tab" aria-selected={activeTab === 'history'} onClick={() => setActiveTab('history')}>
+                                        <i className="fas fa-history" aria-hidden="true"></i>History <span className="field-hint">{history.length}</span>
+                                    </button>
+                                </nav>
+
+                                {activeTab === 'request' ? (
+                                    <div className="request-panel" role="tabpanel">
+                                        <div className="request-title-row">
+                                            <div><p className="overline">Compose</p><h1>Send an API request</h1><p>Set your method, URL, and options, then inspect the response.</p></div>
+                                            <span className="active-collection-label" title={activeCollection ? activeCollection.name : 'No collection selected'}>
+                                                <i className="fas fa-folder" aria-hidden="true"></i> {activeCollection ? activeCollection.name : 'No collection selected'}
+                                            </span>
+                                        </div>
+
+                                        <form className="request-line" onSubmit={handleRequest} noValidate>
+                                            <label className="sr-only" htmlFor="requestMethod">HTTP method</label>
+                                            <select id="requestMethod" className="select-field" value={method} onChange={(event) => setMethod(event.target.value)}>
+                                                {['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'HEAD', 'OPTIONS'].map(item => <option key={item} value={item}>{item}</option>)}
+                                            </select>
+                                            <label className="sr-only" htmlFor="requestUrl">Request URL</label>
+                                            <input id="requestUrl" className="field" type="url" value={url} onChange={(event) => setUrl(event.target.value)} placeholder="https://api.example.com/v1/resource" autoComplete="url" />
+                                            <button className="primary-button" type="submit" disabled={loading}>
+                                                {loading ? <><i className="fas fa-spinner fa-spin" aria-hidden="true"></i>Sending</> : <><i className="fas fa-paper-plane" aria-hidden="true"></i>Send</>}
+                                            </button>
+                                        </form>
+
+                                        <div className="request-toolbar">
+                                            <p className="muted-copy">{activeCollection ? `Save this setup to ${activeCollection.name}. Authorization-tab credentials are excluded.` : 'Select a collection to save this request for later.'}</p>
+                                            <button className="quiet-button" type="button" onClick={saveCurrentRequest} disabled={!activeCollection}>
+                                                <i className="far fa-bookmark" aria-hidden="true"></i>Save request
+                                            </button>
+                                        </div>
+                                        {saveMessage && <p className={`save-message ${saveMessage.startsWith('Saved to ') ? 'success' : ''}`} role="status">{saveMessage}</p>}
+
+                                        <div className="request-options">
+                                            <nav className="option-tabs" role="tablist" aria-label="Request options">
+                                                {[
+                                                    ['params', 'Query params', 'fa-sliders-h'],
+                                                    ['headers', 'Headers', 'fa-list-alt'],
+                                                    ['body', 'Body', 'fa-code'],
+                                                    ['auth', 'Authorization', 'fa-lock']
+                                                ].map(([key, label, icon]) => (
+                                                    <button key={key} className={`option-tab ${activeRequestSection === key ? 'active' : ''}`} type="button" role="tab" aria-selected={activeRequestSection === key} onClick={() => setActiveRequestSection(key)}>
+                                                        <i className={`fas ${icon}`} aria-hidden="true"></i>{label}
+                                                    </button>
+                                                ))}
+                                            </nav>
+                                            <div className="option-content" role="tabpanel">
+                                                {activeRequestSection === 'params' && (
+                                                    <div>
+                                                        <label className="field-label" htmlFor="queryParams">Query parameters <span className="field-hint">JSON object · existing URL parameters are preserved</span></label>
+                                                        <textarea id="queryParams" className="code-field" value={queryParams} onChange={(event) => setQueryParams(event.target.value)} placeholder={'{\n  "page": 1,\n  "limit": 20\n}'} spellCheck="false" />
+                                                    </div>
+                                                )}
+                                                {activeRequestSection === 'headers' && (
+                                                    <div>
+                                                        <label className="field-label" htmlFor="requestHeaders">Request headers <span className="field-hint">JSON object · values must be text or numbers</span></label>
+                                                        <textarea id="requestHeaders" className="code-field" value={headers} onChange={(event) => setHeaders(event.target.value)} placeholder={'{\n  "Accept": "application/json"\n}'} spellCheck="false" />
+                                                    </div>
+                                                )}
+                                                {activeRequestSection === 'body' && (
+                                                    <div>
+                                                        <label className="field-label" htmlFor="requestBody">Request body <span className="field-hint">Valid JSON is sent as JSON; other text is sent as entered</span></label>
+                                                        <textarea id="requestBody" className="code-field" value={body} onChange={(event) => setBody(event.target.value)} placeholder={'{\n  "name": "Example"\n}'} spellCheck="false" />
+                                                        {(method === 'GET' || method === 'HEAD') && <p className="field-hint" style={{ marginTop: '.45rem' }}>GET and HEAD requests cannot include a body.</p>}
+                                                    </div>
+                                                )}
+                                                {activeRequestSection === 'auth' && (
+                                                    <div>
+                                                        <label className="field-label" htmlFor="authType">Authorization type</label>
+                                                        <select id="authType" className="select-field" value={authType} onChange={(event) => setAuthType(event.target.value)}>
+                                                            <option value="none">No authorization</option>
+                                                            <option value="bearer">Bearer token</option>
+                                                            <option value="basic">Basic authentication</option>
+                                                        </select>
+                                                        {authType === 'bearer' && <div style={{ marginTop: '.65rem' }}><label className="field-label" htmlFor="authToken">Bearer token</label><input id="authToken" className="field" type="password" autoComplete="off" value={authToken} onChange={(event) => setAuthToken(event.target.value)} placeholder="Enter token" /></div>}
+                                                        {authType === 'basic' && <div className="auth-fields"><div><label className="field-label" htmlFor="authUsername">Username</label><input id="authUsername" className="field" type="text" autoComplete="username" value={authUsername} onChange={(event) => setAuthUsername(event.target.value)} placeholder="Username" /></div><div><label className="field-label" htmlFor="authPassword">Password</label><input id="authPassword" className="field" type="password" autoComplete="current-password" value={authPassword} onChange={(event) => setAuthPassword(event.target.value)} placeholder="Password" /></div></div>}
+                                                        <p className="field-hint" style={{ marginTop: '.55rem' }}>These credentials are used for this request only and are not saved in collections.</p>
+                                                    </div>
                                                 )}
                                             </div>
                                         </div>
-                                    )}
-                                </div>
-                            </div>
-                        </div>
-
-                        {/* Response Panel */}
-                        <div className="lg:col-span-3">
-                            <div className={`${darkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'} rounded-lg shadow-sm border`}>
-                                <div className="border-b border-gray-200 dark:border-gray-700 px-6 py-4">
-                                    <div className="flex justify-between items-center">
-                                        <h3 className={`text-sm font-medium ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>Response</h3>
-                                        {statusCode && (
-                                            <span className={`px-2 py-1 rounded text-xs font-medium ${
-                                                statusCode >= 200 && statusCode < 300
-                                                    ? 'bg-green-100 text-green-800'
-                                                    : statusCode >= 400
-                                                    ? 'bg-red-100 text-red-800'
-                                                    : 'bg-yellow-100 text-yellow-800'
-                                            }`}>
-                                                {statusCode}
-                                            </span>
+                                    </div>
+                                ) : (
+                                    <div className="request-panel" role="tabpanel">
+                                        <div className="request-title-row"><div><p className="overline">This session</p><h1>Request history</h1><p>Restore the URL, headers, parameters, and body. Authorization-tab credentials are excluded.</p></div></div>
+                                        {history.length === 0 ? (
+                                            <div className="history-empty"><i className="fas fa-history" aria-hidden="true"></i><strong>No requests yet</strong><span>HTTP responses will appear here.</span></div>
+                                        ) : (
+                                            <div className="history-list">
+                                                {history.map((item) => (
+                                                    <button className="history-item" key={item.id} type="button" onClick={() => loadFromHistory(item)} title="Load this request">
+                                                        <span className="method-chip">{item.method}</span>
+                                                        <span className="history-url">{item.displayUrl || item.url}</span>
+                                                        <span className="response-meta"><span className={`status-chip ${item.status >= 200 && item.status < 300 ? 'status-success' : item.status >= 400 ? 'status-error' : 'status-warn'}`}>{item.status}</span><span className="history-time">{item.timestamp}</span></span>
+                                                    </button>
+                                                ))}
+                                            </div>
                                         )}
                                     </div>
-                                </div>
-                                <div className="p-6">
-                                    {loading ? (
-                                        <div className="text-center py-8">
-                                            <i className="fas fa-spinner fa-spin text-2xl text-gray-400 mb-4"></i>
-                                            <p className="text-gray-500">Sending request...</p>
-                                        </div>
-                                    ) : response ? (
-                                        <div>
-                                            <div className="mb-4">
-                                                <button
-                                                    onClick={() => copyToClipboard(response)}
-                                                    className={`w-full px-4 py-2 rounded-lg transition-colors text-sm ${
-                                                        darkMode 
-                                                            ? 'bg-gray-700 text-gray-300 hover:bg-gray-600' 
-                                                            : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                                                    }`}
-                                                >
-                                                    <i className="fas fa-copy mr-2"></i>
-                                                    Copy Response
-                                                </button>
-                                            </div>
-                                            <div className="terminal-bg rounded-lg p-4 overflow-auto max-h-96">
-                                                <pre className="terminal-text text-sm code-editor whitespace-pre-wrap">
-                                                    {formatJSON(response)}
-                                                </pre>
-                                            </div>
-                                        </div>
-                                    ) : (
-                                        <div className="text-center py-8 text-gray-500">
-                                            <i className="fas fa-terminal text-4xl mb-4"></i>
-                                            <p>Response will appear here</p>
+                                )}
+                            </section>
+
+                            <section className="surface-card response-card" aria-labelledby="responseHeading">
+                                <div className="response-header">
+                                    <div className="response-heading">
+                                        <h2 id="responseHeading">Response</h2>
+                                        {statusCode !== null && <span className={`status-chip ${statusCode >= 200 && statusCode < 300 ? 'status-success' : statusCode >= 400 ? 'status-error' : 'status-warn'}`}>HTTP {statusCode}</span>}
+                                        {responseMeta && <><span className="meta-chip">{responseMeta.duration} ms</span><span className="meta-chip">{responseMeta.size < 1024 ? `${responseMeta.size} B` : `${(responseMeta.size / 1024).toFixed(1)} KB`}</span></>}
+                                    </div>
+                                    {response !== null && (
+                                        <div className="response-actions">
+                                            <button className="quiet-button" type="button" onClick={() => setResponseFormat(current => current === 'pretty' ? 'raw' : 'pretty')}>
+                                                <i className="fas fa-align-left" aria-hidden="true"></i>{responseFormat === 'pretty' ? 'Raw' : 'Pretty'}
+                                            </button>
+                                            <button className="quiet-button" type="button" onClick={() => copyToClipboard(response)}>
+                                                <i className={`fas ${copied ? 'fa-check' : 'fa-copy'}`} aria-hidden="true"></i>{copied ? 'Copied' : 'Copy'}
+                                            </button>
                                         </div>
                                     )}
                                 </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    {/* Collection Modal */}
-                    {showCollectionModal && (
-                        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-                            <div className={`${darkMode ? 'bg-gray-800' : 'bg-white'} rounded-lg p-6 w-96`}>
-                                <h3 className={`text-lg font-semibold mb-4 ${darkMode ? 'text-white' : 'text-gray-900'}`}>Create New Collection</h3>
-                                <input
-                                    type="text"
-                                    value={collectionName}
-                                    onChange={(e) => setCollectionName(e.target.value)}
-                                    placeholder="Collection Name"
-                                    className={`w-full px-4 py-2 border rounded-lg mb-4 focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
-                                        darkMode 
-                                            ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400' 
-                                            : 'bg-white border-gray-300 text-gray-900'
-                                    }`}
-                                />
-                                <div className="flex space-x-3">
-                                    <button
-                                        onClick={handleCreateCollection}
-                                        className="flex-1 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
-                                    >
-                                        Create
-                                    </button>
-                                    <button
-                                        onClick={() => setShowCollectionModal(false)}
-                                        className={`flex-1 px-4 py-2 rounded-lg transition-colors ${
-                                            darkMode 
-                                                ? 'bg-gray-700 text-gray-300 hover:bg-gray-600' 
-                                                : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                                        }`}
-                                    >
-                                        Cancel
-                                    </button>
+                                <div className="response-body">
+                                    {loading ? (
+                                        <div className="response-empty"><i className="fas fa-spinner fa-spin" aria-hidden="true"></i><strong>Sending request</strong><span>Waiting for the server response…</span></div>
+                                    ) : response !== null ? (
+                                        <>
+                                            <div className="terminal-bg"><pre className="terminal-text">{responseFormat === 'pretty' ? formatJSON(response) : response}</pre></div>
+                                            {copyError && <p className="copy-error" role="status">{copyError}</p>}
+                                            {responseMeta?.headers?.length > 0 && (
+                                                <details className="response-headers">
+                                                    <summary>Response headers ({responseMeta.headers.length})</summary>
+                                                    <pre>{responseMeta.headers.map(([name, value]) => `${name}: ${value}`).join('\n')}</pre>
+                                                </details>
+                                            )}
+                                        </>
+                                    ) : error ? (
+                                        <div className="inline-error" role="alert"><i className="fas fa-exclamation-circle" aria-hidden="true"></i><span>{error}</span></div>
+                                    ) : (
+                                        <div className="response-empty"><i className="fas fa-terminal" aria-hidden="true"></i><strong>Response will appear here</strong><span>Send a request to inspect status, timing, headers, and response data.</span></div>
+                                    )}
                                 </div>
-                            </div>
+                            </section>
+                        </div>
+                    </main>
+
+                    <footer className="app-footer">
+                        <div className="footer-inner"><span>API Workbench · Requests are sent directly from this browser.</span><nav aria-label="Footer"><a href="index.html">Back to portfolio</a></nav></div>
+                    </footer>
+
+                    {showCollectionModal && (
+                        <div className="collection-modal-backdrop" onMouseDown={(event) => { if (event.target === event.currentTarget) setShowCollectionModal(false); }}>
+                            <form className="collection-modal" role="dialog" aria-modal="true" aria-labelledby="collectionModalTitle" onSubmit={(event) => { event.preventDefault(); handleCreateCollection(); }}>
+                                <div className="modal-header">
+                                    <div><p className="overline">Organize requests</p><h2 id="collectionModalTitle">Create a collection</h2><p className="muted-copy">Keep related endpoints together for quick access.</p></div>
+                                    <button className="icon-button" type="button" onClick={() => setShowCollectionModal(false)} aria-label="Close dialog"><i className="fas fa-times" aria-hidden="true"></i></button>
+                                </div>
+                                <label className="field-label" htmlFor="collectionName">Collection name</label>
+                                <input id="collectionName" className="field" type="text" autoFocus maxLength="60" value={collectionName} onChange={(event) => { setCollectionName(event.target.value); setCollectionError(''); }} placeholder="e.g. Customer API" />
+                                {collectionError && <p className="modal-error" role="alert">{collectionError}</p>}
+                                <p className="field-hint" style={{ display: 'block', marginTop: '.55rem' }}>Saved locally. Authorization-tab credentials are not stored; custom headers are saved as entered.</p>
+                                <div className="modal-actions">
+                                    <button className="quiet-button" type="button" onClick={() => setShowCollectionModal(false)}>Cancel</button>
+                                    <button className="primary-button" type="submit"><i className="fas fa-folder-plus" aria-hidden="true"></i>Create collection</button>
+                                </div>
+                            </form>
                         </div>
                     )}
-
-                    {/* Footer */}
-                    <footer className={`${darkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'} border-t mt-12`}>
-                        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-                            <div className="flex justify-between items-center text-sm text-gray-500">
-                                <div>API Test Hub © 2026</div>
-                                <div className="flex space-x-6">
-                                    <a href="#" className={`${darkMode ? 'text-gray-400 hover:text-gray-200' : 'text-gray-500 hover:text-gray-700'}`}>Documentation</a>
-                                    <a href="#" className={`${darkMode ? 'text-gray-400 hover:text-gray-200' : 'text-gray-500 hover:text-gray-700'}`}>Support</a>
-                                    <a href="#" className={`${darkMode ? 'text-gray-400 hover:text-gray-200' : 'text-gray-500 hover:text-gray-700'}`}>GitHub</a>
-                                </div>
-                            </div>
-                        </div>
-                    </footer>
                 </div>
             );
+
         };
 
         ReactDOM.render(<APIHub />, document.getElementById('root'));
