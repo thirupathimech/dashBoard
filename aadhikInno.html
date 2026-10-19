@@ -3,7 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Aadhik Innovations | Scalable Web Applications</title>
+  <title>Aadhik Innovations | Thoughtful Software &amp; Web Apps</title>
+  <meta name="description" content="Thirupathi G designs and builds practical web applications, APIs, and workflow tools for modern businesses.">
+  <meta name="theme-color" content="#0c0c10">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
@@ -269,14 +271,8 @@
       content: '';
       width: 8px;
       height: 8px;
-      background: var(--accent);
       border-radius: 50%;
-      animation: pulse 2s infinite;
-    }
-
-    @keyframes pulse {
-      0%, 100% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.5; transform: scale(1.2); }
+      background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
     }
 
     .hero-title {
@@ -398,6 +394,29 @@
       overflow: hidden;
     }
 
+    .about-image-main img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 38%;
+    }
+
+    .about-image-badge {
+      position: absolute;
+      right: -0.75rem;
+      bottom: 1.75rem;
+      max-width: calc(100% - 1rem);
+      padding: 0.85rem 1rem;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      background: var(--card);
+      color: var(--fg);
+      font-size: 0.85rem;
+      font-weight: 600;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.28);
+    }
+
     .card::before {
       content: '';
       position: absolute;
@@ -420,23 +439,6 @@
       opacity: 1;
     }
 
-    .card-icon {
-      width: 56px;
-      height: 56px;
-      border-radius: 14px;
-      background: var(--accent-dim);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 1.5rem;
-    }
-
-    .card-icon svg {
-      width: 28px;
-      height: 28px;
-      color: var(--accent);
-    }
-
     .card-title {
       font-size: 1.35rem;
       margin-bottom: 0.75rem;
@@ -448,28 +450,49 @@
       margin-bottom: 1.5rem;
     }
 
-    .feature-list {
-      list-style: none;
-      margin-bottom: 1.5rem;
+    .project-visual {
+      margin: -2rem -2rem 1.75rem;
+      overflow: hidden;
+      border-bottom: 1px solid var(--border);
+      background: #10151e;
     }
 
-    .feature-list li {
+    .project-card {
       display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      padding: 0.5rem 0;
-      font-size: 0.9rem;
-      color: var(--fg-muted);
+      flex-direction: column;
+      height: 100%;
     }
 
-    .feature-list li::before {
-      content: '';
-      width: 6px;
-      height: 6px;
-      background: var(--accent);
-      border-radius: 50%;
-      flex-shrink: 0;
+    .project-preview-art {
+      display: block;
+      width: 100%;
+      height: auto;
     }
+
+    .project-tags {
+      gap: 0.5rem;
+      margin: 0 0 1.5rem;
+    }
+
+    .project-tags .skill-tag {
+      padding: 0.35rem 0.7rem;
+      font-size: 0.75rem;
+      cursor: default;
+    }
+
+    .project-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-top: auto;
+      color: var(--accent);
+      font-size: 0.9rem;
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    .project-link svg { transition: transform 0.2s ease; }
+    .project-link:hover svg { transform: translateX(4px); }
 
     /* About Section */
     .about-grid {
@@ -507,24 +530,8 @@
       background: var(--card);
       border: 1px solid var(--border);
       border-radius: 24px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
       overflow: hidden;
     }
-
-    .code-block {
-      font-family: 'SF Mono', 'Fira Code', monospace;
-      font-size: 0.75rem;
-      color: var(--fg-muted);
-      padding: 2rem;
-      line-height: 1.8;
-    }
-
-    .code-block .keyword { color: #c792ea; }
-    .code-block .function { color: #82aaff; }
-    .code-block .string { color: var(--accent); }
-    .code-block .comment { color: #546e7a; }
 
     .skill-tags {
       display: flex;
@@ -585,6 +592,64 @@
       font-size: 0.95rem;
     }
 
+    .delivery-panel {
+      margin-top: 2rem;
+      padding: 2rem;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      background: linear-gradient(135deg, var(--card), var(--bg-elevated));
+    }
+
+    .delivery-title {
+      margin-bottom: 1.5rem;
+      font-size: 1.25rem;
+    }
+
+    .delivery-steps {
+      display: grid;
+      gap: 1.25rem;
+    }
+
+    @media (min-width: 768px) {
+      .delivery-steps { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+
+    @media (min-width: 1200px) {
+      .delivery-steps { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    }
+
+    .delivery-step {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+    }
+
+    .delivery-step-number {
+      display: grid;
+      width: 2rem;
+      height: 2rem;
+      flex: 0 0 2rem;
+      place-items: center;
+      border: 1px solid rgba(0, 229, 160, 0.3);
+      border-radius: 10px;
+      background: var(--accent-dim);
+      color: var(--accent);
+      font-size: 0.75rem;
+      font-weight: 700;
+    }
+
+    .delivery-step strong {
+      display: block;
+      margin-bottom: 0.25rem;
+      font-size: 0.9rem;
+    }
+
+    .delivery-step p {
+      margin: 0;
+      color: var(--fg-muted);
+      font-size: 0.82rem;
+    }
+
     /* Contact Form */
     .contact-wrapper {
       display: grid;
@@ -629,6 +694,44 @@
 
     .form-input::placeholder {
       color: var(--fg-muted);
+    }
+
+    .form-status {
+      min-height: 1.5rem;
+      font-size: 0.9rem;
+    }
+
+    .form-status[data-state="success"] { color: var(--accent); }
+    .form-status[data-state="error"] { color: #f87171; }
+
+    .contact-detail {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      align-items: baseline;
+      color: var(--fg-muted);
+    }
+
+    .contact-detail-label {
+      min-width: 3.5rem;
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .contact-detail a {
+      color: var(--accent);
+      text-decoration: none;
+      overflow-wrap: anywhere;
+    }
+
+    .contact-detail a:hover { text-decoration: underline; }
+
+    .btn:disabled {
+      cursor: wait;
+      opacity: 0.7;
+      transform: none;
     }
 
     textarea.form-input {
@@ -763,13 +866,13 @@
   <!-- Navbar -->
   <nav class="navbar" id="navbar">
     <div class="max-w-7xl mx-auto flex items-center justify-between">
-      <a href="#" class="text-xl font-bold" style="font-family: 'Space Grotesk', sans-serif;">
+      <a href="#top" class="text-xl font-bold" style="font-family: 'Space Grotesk', sans-serif;">
         <span class="gradient-text">Aadhik</span> Innovations
       </a>
       
       <div class="nav-links flex items-center gap-8">
         <a href="#about" class="nav-link">About</a>
-        <a href="#products" class="nav-link">Products</a>
+        <a href="#work" class="nav-link">Work</a>
         <a href="#services" class="nav-link">Services</a>
         <a href="#contact" class="nav-link">Contact</a>
         <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
@@ -779,7 +882,7 @@
         </button>
       </div>
 
-      <button class="hamburger" id="hamburger" aria-label="Open menu">
+      <button class="hamburger" id="hamburger" aria-label="Open menu" aria-controls="mobileMenu" aria-expanded="false">
         <span></span>
         <span></span>
         <span></span>
@@ -788,37 +891,37 @@
   </nav>
 
   <!-- Mobile Menu -->
-  <div class="mobile-menu" id="mobileMenu">
+  <nav class="mobile-menu" id="mobileMenu" aria-label="Mobile navigation" aria-hidden="true">
     <a href="#about">About</a>
-    <a href="#products">Products</a>
+    <a href="#work">Work</a>
     <a href="#services">Services</a>
     <a href="#contact">Contact</a>
-  </div>
+  </nav>
 
   <!-- Hero Section -->
-  <section class="hero bg-grid relative">
+  <section class="hero bg-grid relative" id="top">
     <div class="orb orb-1"></div>
     <div class="orb orb-2"></div>
     
     <div class="max-w-7xl mx-auto px-6 w-full">
       <div class="hero-content max-w-2xl">
         <div class="hero-badge reveal">
-          Available for Projects
+          Independent Software Developer
         </div>
         <h1 class="hero-title reveal reveal-delay-1">
-          <span class="gradient-text">Aadhik</span><br>Innovations
+          Practical software.<br><span class="gradient-text">Thoughtfully built.</span>
         </h1>
         <p class="hero-tagline reveal reveal-delay-2">
-          Building Scalable Web Applications for Modern Businesses. Transform your ideas into powerful digital solutions.
+          I build web applications, APIs, and workflow tools that turn complicated day-to-day work into something simpler.
         </p>
         <div class="flex flex-wrap gap-4 reveal reveal-delay-3">
-          <a href="#products" class="btn btn-primary">
-            View Products
+          <a href="#work" class="btn btn-primary">
+            Explore my work
             <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
               <path d="M5 12h14M12 5l7 7-7 7"/>
             </svg>
           </a>
-          <a href="#contact" class="btn btn-secondary">Contact Me</a>
+          <a href="#contact" class="btn btn-secondary">Start a conversation</a>
         </div>
       </div>
     </div>
@@ -836,8 +939,8 @@
         </code>
       </div>
       <div class="float-card">
-        <div class="text-sm font-semibold mb-1">Build Complete</div>
-        <div class="text-xs" style="color: var(--accent);">+99% Coverage</div>
+        <div class="text-sm font-semibold mb-1">Built around your workflow</div>
+        <div class="text-xs" style="color: var(--accent);">Useful, focused software</div>
       </div>
       <div class="float-card">
         <div class="flex items-center gap-2">
@@ -845,7 +948,7 @@
             <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
             <polyline points="22 4 12 14.01 9 11.01"/>
           </svg>
-          <span class="text-sm">Deployed Successfully</span>
+          <span class="text-sm">Responsive by design</span>
         </div>
       </div>
     </div>
@@ -858,98 +961,113 @@
         <div class="about-image reveal">
           <div class="about-image-bg"></div>
           <div class="about-image-main">
-            <div class="code-block">
-              <span class="comment">// Aadhik Innovations</span><br>
-              <span class="keyword">class</span> <span class="function">Developer</span> {<br>
-              &nbsp;&nbsp;skills = [<br>
-              &nbsp;&nbsp;&nbsp;&nbsp;<span class="string">'Web Development'</span>,<br>
-              &nbsp;&nbsp;&nbsp;&nbsp;<span class="string">'SaaS Applications'</span>,<br>
-              &nbsp;&nbsp;&nbsp;&nbsp;<span class="string">'UI/UX Design'</span><br>
-              &nbsp;&nbsp;];<br>
-              <br>
-              &nbsp;&nbsp;<span class="function">build</span>(idea) {<br>
-              &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span> <span class="string">'Scalable Solution'</span>;<br>
-              &nbsp;&nbsp;}<br>
-              }
-            </div>
+            <img src="Profile_Pic.jpg" alt="Portrait of Thirupathi G" loading="lazy" decoding="async">
           </div>
+          <div class="about-image-badge">Java · REST APIs · Web apps</div>
         </div>
 
         <div class="reveal reveal-delay-2">
           <span class="section-label">About Me</span>
           <h2 class="section-title text-left">Crafting Digital Experiences That Matter</h2>
           <p class="text-lg mb-6" style="color: var(--fg-muted);">
-            I'm a freelance developer passionate about building web applications that solve real business problems. With expertise in modern technologies and a keen eye for design, I transform complex requirements into elegant, user-friendly solutions.
+            I'm a software engineer focused on backend development, REST APIs, and practical user interfaces. I turn real workflow problems into web tools that are clear and straightforward to use.
           </p>
           <p style="color: var(--fg-muted);">
-            From concept to deployment, I handle every aspect of development ensuring your product is scalable, secure, and performs exceptionally.
+            I work from the problem outward: understand the people using the tool, shape a simple solution, then build and refine it with feedback.
           </p>
           <div class="skill-tags">
             <span class="skill-tag">Web Development</span>
-            <span class="skill-tag">SaaS Apps</span>
-            <span class="skill-tag">UI/UX Design</span>
-            <span class="skill-tag">API Integration</span>
-            <span class="skill-tag">Database Design</span>
+            <span class="skill-tag">Java</span>
+            <span class="skill-tag">REST APIs</span>
+            <span class="skill-tag">Web Applications</span>
+            <span class="skill-tag">UI Frameworks</span>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Products Section -->
-  <section class="section" id="products" style="background: var(--bg-elevated);">
+  <!-- Selected Work -->
+  <section class="section" id="work" style="background: var(--bg-elevated);">
     <div class="max-w-7xl mx-auto">
       <div class="section-header">
-        <span class="section-label reveal">Products</span>
-        <h2 class="section-title reveal reveal-delay-1">Ready-to-Deploy Solutions</h2>
+        <span class="section-label reveal">Selected Work</span>
+        <h2 class="section-title reveal reveal-delay-1">Software for real business workflows</h2>
         <p class="section-desc reveal reveal-delay-2">
-          Production-ready applications built with modern technologies, designed for scalability and performance.
+          From payroll and dental hospital maintenance to online stores and rental-home discovery, each project is shaped around a real day-to-day need.
         </p>
       </div>
 
       <div class="grid md:grid-cols-2 gap-8">
-        <!-- Payroll System -->
-        <div class="card reveal reveal-delay-1">
-          <div class="card-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <rect x="1" y="4" width="22" height="16" rx="2" ry="2"/>
-              <line x1="1" y1="10" x2="23" y2="10"/>
+        <article class="card project-card reveal reveal-delay-1">
+          <div class="project-visual">
+            <svg class="project-preview-art" viewBox="0 0 600 300" role="img" aria-label="Illustrative preview of a payroll dashboard with employee pay rows">
+              <rect width="600" height="300" fill="#101820"/><rect x="26" y="22" width="548" height="256" rx="18" fill="#171f2b" stroke="#303c4d"/>
+              <circle cx="52" cy="47" r="5" fill="#fb7185"/><circle cx="70" cy="47" r="5" fill="#fbbf24"/><circle cx="88" cy="47" r="5" fill="#34d399"/>
+              <text x="116" y="52" fill="#aab8c8" font-size="13" font-family="Arial, sans-serif">Payroll overview</text>
+              <rect x="48" y="72" width="504" height="42" rx="9" fill="#102a2b"/><text x="66" y="98" fill="#8ecfc4" font-size="12" font-family="Arial, sans-serif">PAY PERIOD</text><text x="185" y="98" fill="#e4edf7" font-size="13" font-family="Arial, sans-serif">Current cycle</text><text x="435" y="98" fill="#55e4b6" font-size="12" font-family="Arial, sans-serif">In progress</text>
+              <text x="64" y="143" fill="#8092a7" font-size="11" font-family="Arial, sans-serif">EMPLOYEE</text><text x="300" y="143" fill="#8092a7" font-size="11" font-family="Arial, sans-serif">PAY DETAILS</text><text x="465" y="143" fill="#8092a7" font-size="11" font-family="Arial, sans-serif">STATUS</text>
+              <path d="M48 154h504M48 194h504M48 234h504" stroke="#2b3948"/>
+              <circle cx="71" cy="174" r="11" fill="#164b45"/><text x="66" y="178" fill="#7ce0c3" font-size="10" font-family="Arial, sans-serif">A</text><text x="94" y="179" fill="#d8e2ed" font-size="13" font-family="Arial, sans-serif">Employee 01</text><text x="300" y="179" fill="#aab8c8" font-size="12" font-family="Arial, sans-serif">Salary details</text><rect x="462" y="164" width="73" height="21" rx="10" fill="#123b30"/><text x="476" y="178" fill="#55e4b6" font-size="10" font-family="Arial, sans-serif">Reviewed</text>
+              <circle cx="71" cy="214" r="11" fill="#253d5b"/><text x="66" y="218" fill="#a8c7ff" font-size="10" font-family="Arial, sans-serif">B</text><text x="94" y="219" fill="#d8e2ed" font-size="13" font-family="Arial, sans-serif">Employee 02</text><text x="300" y="219" fill="#aab8c8" font-size="12" font-family="Arial, sans-serif">Salary details</text><rect x="462" y="204" width="73" height="21" rx="10" fill="#253246"/><text x="477" y="218" fill="#bdd0e8" font-size="10" font-family="Arial, sans-serif">Ready</text>
             </svg>
           </div>
-          <h3 class="card-title">Payroll System</h3>
-          <p class="card-desc">
-            A comprehensive employee management solution with automated salary calculations and detailed payslip generation. Built for businesses of all sizes.
-          </p>
-          <ul class="feature-list">
-            <li>Automated salary calculation engine</li>
-            <li>Detailed financial reports & analytics</li>
-            <li>Secure employee data management</li>
-            <li>Customizable tax & deduction rules</li>
-          </ul>
-          <button class="btn btn-secondary btn-small">View Demo</button>
-        </div>
+          <h3 class="card-title">Payroll Application</h3>
+          <p class="card-desc">Organizes employee pay information and salary processing into a clearer payroll workflow, helping teams review each pay cycle in one place.</p>
+          <div class="skill-tags project-tags" aria-label="Core workflows"><span class="skill-tag">Employee pay</span><span class="skill-tag">Salary processing</span><span class="skill-tag">Pay-cycle review</span></div>
+          <a href="#contact" class="project-link">Discuss a payroll system <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+        </article>
 
-        <!-- E-commerce Platform -->
-        <div class="card reveal reveal-delay-2">
-          <div class="card-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <circle cx="9" cy="21" r="1"/>
-              <circle cx="20" cy="21" r="1"/>
-              <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+        <article class="card project-card reveal reveal-delay-2">
+          <div class="project-visual">
+            <svg class="project-preview-art" viewBox="0 0 600 300" role="img" aria-label="Illustrative dental hospital maintenance board showing equipment status">
+              <rect width="600" height="300" fill="#111923"/><rect x="26" y="22" width="548" height="256" rx="18" fill="#192330" stroke="#303c4d"/>
+              <circle cx="54" cy="49" r="16" fill="#123b43"/><path d="M54 39v20M44 49h20" stroke="#58d7e2" stroke-width="3" stroke-linecap="round"/><text x="82" y="47" fill="#e4edf7" font-size="14" font-weight="700" font-family="Arial, sans-serif">Dental care · Maintenance</text><text x="82" y="65" fill="#8fa2b7" font-size="11" font-family="Arial, sans-serif">Equipment &amp; facility follow-up</text>
+              <rect x="48" y="83" width="504" height="34" rx="8" fill="#111923"/><text x="64" y="105" fill="#8fa2b7" font-size="11" font-family="Arial, sans-serif">ASSET / AREA</text><text x="323" y="105" fill="#8fa2b7" font-size="11" font-family="Arial, sans-serif">NEXT ACTION</text><text x="466" y="105" fill="#8fa2b7" font-size="11" font-family="Arial, sans-serif">STATUS</text>
+              <path d="M48 127h504M48 178h504M48 229h504" stroke="#2b3948"/>
+              <rect x="64" y="141" width="28" height="28" rx="8" fill="#173e49"/><path d="M78 147v16m-6-8h12" stroke="#68dbe4" stroke-width="2"/><text x="105" y="153" fill="#d8e2ed" font-size="12" font-family="Arial, sans-serif">Treatment room</text><text x="105" y="168" fill="#8fa2b7" font-size="10" font-family="Arial, sans-serif">Equipment check</text><text x="323" y="159" fill="#becada" font-size="11" font-family="Arial, sans-serif">Inspection</text><rect x="460" y="143" width="75" height="22" rx="11" fill="#493a1d"/><text x="473" y="158" fill="#f5cc78" font-size="10" font-family="Arial, sans-serif">Due soon</text>
+              <rect x="64" y="192" width="28" height="28" rx="8" fill="#193f35"/><path d="m72 206 4 4 8-9" fill="none" stroke="#73e2b7" stroke-width="2"/><text x="105" y="204" fill="#d8e2ed" font-size="12" font-family="Arial, sans-serif">Sterilization area</text><text x="105" y="219" fill="#8fa2b7" font-size="10" font-family="Arial, sans-serif">Routine service</text><text x="323" y="210" fill="#becada" font-size="11" font-family="Arial, sans-serif">Completed</text><rect x="460" y="194" width="75" height="22" rx="11" fill="#123b30"/><text x="478" y="209" fill="#73e2b7" font-size="10" font-family="Arial, sans-serif">Closed</text>
             </svg>
           </div>
-          <h3 class="card-title">E-commerce Platform</h3>
-          <p class="card-desc">
-            Full-featured online store solution with everything you need to run a successful e-commerce business, from inventory to checkout.
-          </p>
-          <ul class="feature-list">
-            <li>Complete product management system</li>
-            <li>Smart shopping cart & checkout</li>
-            <li>Secure payment gateway integration</li>
-            <li>Powerful admin dashboard</li>
-          </ul>
-          <button class="btn btn-secondary btn-small">View Demo</button>
-        </div>
+          <h3 class="card-title">Dental Hospital Maintenance Software</h3>
+          <p class="card-desc">Keeps equipment and facility maintenance visible across a dental hospital, so teams can log issues, follow up on service, and see what still needs attention.</p>
+          <div class="skill-tags project-tags" aria-label="Core workflows"><span class="skill-tag">Maintenance tracking</span><span class="skill-tag">Service follow-up</span><span class="skill-tag">Operational visibility</span></div>
+          <a href="#contact" class="project-link">Discuss a maintenance system <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+        </article>
+
+        <article class="card project-card reveal reveal-delay-3">
+          <div class="project-visual">
+            <svg class="project-preview-art" viewBox="0 0 600 300" role="img" aria-label="Illustrative e-commerce storefront with product cards and order actions">
+              <rect width="600" height="300" fill="#101820"/><rect x="26" y="22" width="548" height="256" rx="18" fill="#171f2b" stroke="#303c4d"/>
+              <text x="50" y="52" fill="#e4edf7" font-size="15" font-weight="700" font-family="Arial, sans-serif">Online store</text><text x="483" y="52" fill="#8fa2b7" font-size="11" font-family="Arial, sans-serif">CATALOG  ·  ORDERS</text>
+              <rect x="48" y="69" width="504" height="32" rx="8" fill="#10151e" stroke="#303c4d"/><circle cx="66" cy="85" r="5" fill="none" stroke="#8fa2b7" stroke-width="1.5"/><path d="m70 89 4 4" stroke="#8fa2b7" stroke-width="1.5"/><text x="84" y="89" fill="#718399" font-size="11" font-family="Arial, sans-serif">Search products</text>
+              <rect x="48" y="116" width="156" height="128" rx="10" fill="#202b38" stroke="#354253"/><rect x="58" y="126" width="136" height="67" rx="7" fill="#2e4a52"/><circle cx="126" cy="157" r="24" fill="#73c7b5"/><rect x="66" y="202" width="82" height="8" rx="4" fill="#d8e2ed"/><rect x="66" y="216" width="54" height="6" rx="3" fill="#8294a8"/><rect x="151" y="205" width="40" height="24" rx="7" fill="#00d69a"/>
+              <rect x="222" y="116" width="156" height="128" rx="10" fill="#202b38" stroke="#354253"/><rect x="232" y="126" width="136" height="67" rx="7" fill="#3d394f"/><path d="M264 173 300 137l37 36" fill="none" stroke="#b5a6ef" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/><rect x="240" y="202" width="82" height="8" rx="4" fill="#d8e2ed"/><rect x="240" y="216" width="54" height="6" rx="3" fill="#8294a8"/><rect x="325" y="205" width="40" height="24" rx="7" fill="#00d69a"/>
+              <rect x="396" y="116" width="156" height="128" rx="10" fill="#202b38" stroke="#354253"/><rect x="406" y="126" width="136" height="67" rx="7" fill="#534443"/><rect x="447" y="139" width="54" height="43" rx="8" fill="#e7aa80"/><rect x="414" y="202" width="82" height="8" rx="4" fill="#d8e2ed"/><rect x="414" y="216" width="54" height="6" rx="3" fill="#8294a8"/><rect x="499" y="205" width="40" height="24" rx="7" fill="#00d69a"/>
+            </svg>
+          </div>
+          <h3 class="card-title">E-commerce Software</h3>
+          <p class="card-desc">Brings product discovery and store operations into one online shopping flow—from browsing a catalogue to placing an order.</p>
+          <div class="skill-tags project-tags" aria-label="Core workflows"><span class="skill-tag">Online storefront</span><span class="skill-tag">Product catalogue</span><span class="skill-tag">Order flow</span></div>
+          <a href="#contact" class="project-link">Discuss an e-commerce build <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+        </article>
+
+        <article class="card project-card reveal reveal-delay-4">
+          <div class="project-visual">
+            <svg class="project-preview-art" viewBox="0 0 600 300" role="img" aria-label="Illustrative rental-home search page with listing filters and home cards">
+              <rect width="600" height="300" fill="#101820"/><rect x="26" y="22" width="548" height="256" rx="18" fill="#171f2b" stroke="#303c4d"/>
+              <text x="50" y="52" fill="#f2d5a5" font-size="16" font-weight="700" font-family="Arial, sans-serif">Magic Key</text><text x="145" y="52" fill="#9eacbb" font-size="11" font-family="Arial, sans-serif">RENTAL HOMES</text>
+              <rect x="48" y="69" width="504" height="40" rx="9" fill="#f5f3ee"/><circle cx="69" cy="89" r="6" fill="none" stroke="#576574" stroke-width="1.5"/><path d="m73 93 4 4" stroke="#576574" stroke-width="1.5"/><text x="89" y="93" fill="#5e6a76" font-size="12" font-family="Arial, sans-serif">Search city, area, or listing</text><rect x="468" y="75" width="72" height="28" rx="7" fill="#b57a3d"/><text x="488" y="93" fill="#fffaf2" font-size="11" font-weight="700" font-family="Arial, sans-serif">Search</text>
+              <text x="50" y="134" fill="#e4edf7" font-size="12" font-weight="700" font-family="Arial, sans-serif">Find a home that fits</text><rect x="50" y="145" width="72" height="22" rx="11" fill="#263748"/><text x="64" y="160" fill="#bdcddd" font-size="10" font-family="Arial, sans-serif">City</text><rect x="130" y="145" width="72" height="22" rx="11" fill="#263748"/><text x="144" y="160" fill="#bdcddd" font-size="10" font-family="Arial, sans-serif">BHK</text><rect x="210" y="145" width="88" height="22" rx="11" fill="#263748"/><text x="224" y="160" fill="#bdcddd" font-size="10" font-family="Arial, sans-serif">Budget</text><rect x="306" y="145" width="111" height="22" rx="11" fill="#263748"/><text x="320" y="160" fill="#bdcddd" font-size="10" font-family="Arial, sans-serif">Furnishing</text><rect x="425" y="145" width="106" height="22" rx="11" fill="#263748"/><text x="439" y="160" fill="#bdcddd" font-size="10" font-family="Arial, sans-serif">Property type</text>
+              <rect x="50" y="181" width="238" height="69" rx="9" fill="#24323e"/><rect x="59" y="190" width="75" height="51" rx="6" fill="#5f776e"/><path d="m70 218 26-19 27 19v17H70z" fill="#d7c2a4"/><path d="m66 219 30-23 31 23" fill="none" stroke="#ede0ca" stroke-width="4" stroke-linejoin="round"/><text x="145" y="204" fill="#e4edf7" font-size="11" font-family="Arial, sans-serif">Verified home</text><text x="145" y="222" fill="#aab8c8" font-size="10" font-family="Arial, sans-serif">Photos · rent · area</text><text x="145" y="238" fill="#d8c39f" font-size="10" font-family="Arial, sans-serif">Compare details</text>
+              <rect x="302" y="181" width="238" height="69" rx="9" fill="#24323e"/><rect x="311" y="190" width="75" height="51" rx="6" fill="#697681"/><path d="m322 218 26-19 27 19v17h-53z" fill="#e3d7c7"/><path d="m318 219 30-23 31 23" fill="none" stroke="#f4eee4" stroke-width="4" stroke-linejoin="round"/><text x="397" y="204" fill="#e4edf7" font-size="11" font-family="Arial, sans-serif">Rental listing</text><text x="397" y="222" fill="#aab8c8" font-size="10" font-family="Arial, sans-serif">Location · BHK · budget</text><text x="397" y="238" fill="#d8c39f" font-size="10" font-family="Arial, sans-serif">Browse homes</text>
+            </svg>
+          </div>
+          <h3 class="card-title">MagicKey · Rental Homes</h3>
+          <p class="card-desc">Helps people discover rental homes across Indian cities, with search and filters for locality, BHK, budget, furnishing, and property type.</p>
+          <div class="skill-tags project-tags" aria-label="Features"><span class="skill-tag">Rental listings</span><span class="skill-tag">City &amp; locality search</span><span class="skill-tag">Home filters</span></div>
+          <a href="https://www.magickey.online/" class="project-link" target="_blank" rel="noopener noreferrer">Visit MagicKey <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
+        </article>
       </div>
     </div>
   </section>
@@ -961,7 +1079,7 @@
         <span class="section-label reveal">Services</span>
         <h2 class="section-title reveal reveal-delay-1">What I Offer</h2>
         <p class="section-desc reveal reveal-delay-2">
-          End-to-end development services tailored to your business needs.
+          Bring a clear problem or a rough idea. I can help shape it into a practical, working solution.
         </p>
       </div>
 
@@ -970,15 +1088,15 @@
           <span class="service-number">01</span>
           <div>
             <h3 class="service-title">Custom Web Applications</h3>
-            <p class="service-desc">Tailored solutions built from the ground up to match your exact requirements and workflow.</p>
+            <p class="service-desc">Dashboards, portals, and internal tools shaped around your users and the way your team already works.</p>
           </div>
         </div>
 
         <div class="service-item reveal reveal-delay-2">
           <span class="service-number">02</span>
           <div>
-            <h3 class="service-title">Freelance Development</h3>
-            <p class="service-desc">Flexible engagement models with direct communication and transparent project management.</p>
+            <h3 class="service-title">API &amp; System Integration</h3>
+            <p class="service-desc">Connect services and move data between systems through clear, maintainable API integrations.</p>
           </div>
         </div>
 
@@ -986,8 +1104,18 @@
           <span class="service-number">03</span>
           <div>
             <h3 class="service-title">Business Automation</h3>
-            <p class="service-desc">Streamline operations with intelligent automation that saves time and reduces errors.</p>
+            <p class="service-desc">Reduce repetitive manual steps with focused tools that make everyday processes easier to follow.</p>
           </div>
+        </div>
+      </div>
+
+      <div class="delivery-panel reveal">
+        <h3 class="delivery-title">A clear path from idea to launch</h3>
+        <div class="delivery-steps">
+          <div class="delivery-step"><span class="delivery-step-number">01</span><div><strong>Understand</strong><p>Agree on the problem, users, and what success looks like.</p></div></div>
+          <div class="delivery-step"><span class="delivery-step-number">02</span><div><strong>Plan</strong><p>Break the solution into screens, data, and small milestones.</p></div></div>
+          <div class="delivery-step"><span class="delivery-step-number">03</span><div><strong>Build</strong><p>Share working progress early and refine it with your feedback.</p></div></div>
+          <div class="delivery-step"><span class="delivery-step-number">04</span><div><strong>Launch</strong><p>Check the important flows, deploy, and hand over the essentials.</p></div></div>
         </div>
       </div>
     </div>
@@ -1006,20 +1134,25 @@
 
       <div class="contact-wrapper">
         <form class="reveal reveal-delay-1" id="contactForm" action="https://formspree.io/f/mrbkkynr" method="POST">
+          <input type="hidden" name="_subject" value="New project enquiry — Aadhik Innovations">
           <div class="form-group">
             <label class="form-label" for="name">Your Name</label>
-            <input type="text" id="name" name="name" class="form-input" placeholder="John Doe" required>
+            <input type="text" id="name" name="name" class="form-input" placeholder="Your name" autocomplete="name" required>
           </div>
           <div class="form-group">
             <label class="form-label" for="email">Email Address</label>
-            <input type="email" id="email" name="email" class="form-input" placeholder="john@example.com" required>
+            <input type="email" id="email" name="email" class="form-input" placeholder="you@example.com" autocomplete="email" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="phone">Phone Number <span style="color: var(--fg-muted); font-weight: 400;">(optional)</span></label>
+            <input type="tel" id="phone" name="phone" class="form-input" placeholder="Your phone number" autocomplete="tel">
           </div>
           <div class="form-group">
             <label class="form-label" for="message">Message</label>
             <textarea id="message" name="message" class="form-input" placeholder="Tell me about your project..." required></textarea>
           </div>
           <button type="submit" class="btn btn-primary w-full">Send Message</button>
-          <p id="formStatus" class="mt-4" role="status" aria-live="polite"></p>
+          <p id="formStatus" class="form-status mt-4" role="status" aria-live="polite"></p>
         </form>
 
         <div class="reveal reveal-delay-2">
@@ -1033,13 +1166,13 @@
             </svg>
             Chat on WhatsApp
           </a>
-          <p class="mt-4 mb-2" style="color: var(--fg-muted);">
-            <i class="fas fa-phone mr-2" aria-hidden="true"></i>
-            <a href="tel:+917397070203" style="color: var(--accent); text-decoration: none;">+91-7397070203</a>
+          <p class="contact-detail mt-4 mb-2">
+            <span class="contact-detail-label">Phone</span>
+            <a href="tel:+917397070203">+91-7397070203</a>
           </p>
-          <p class="mb-0" style="color: var(--fg-muted);">
-            <i class="fas fa-envelope mr-2" aria-hidden="true"></i>
-            <a href="mailto:thirupathi7845@gmail.com" style="color: var(--accent); text-decoration: none;">thirupathi7845@gmail.com</a>
+          <p class="contact-detail mb-0">
+            <span class="contact-detail-label">Email</span>
+            <a href="mailto:thirupathi7845@gmail.com">thirupathi7845@gmail.com</a>
           </p>
           
           <div class="mt-8 p-6 rounded-2xl" style="background: var(--card); border: 1px solid var(--border);">
@@ -1060,7 +1193,7 @@
             <span class="gradient-text">Aadhik</span> Innovations
           </span>
           <p class="text-sm mt-2" style="color: var(--fg-muted);">
-            &copy; 2024 Aadhik Innovations. All rights reserved.
+            &copy; <span id="currentYear"></span> Thirupathi G · Aadhik Innovations.
           </p>
         </div>
         
@@ -1092,6 +1225,7 @@
     const hamburger = document.getElementById('hamburger');
     const mobileMenu = document.getElementById('mobileMenu');
     const contactForm = document.getElementById('contactForm');
+    document.getElementById('currentYear').textContent = new Date().getFullYear();
 
     // Navbar scroll effect
     function handleScroll() {
@@ -1121,9 +1255,12 @@
 
     // Mobile menu
     hamburger.addEventListener('click', function() {
-      mobileMenu.classList.toggle('open');
+      const isOpen = mobileMenu.classList.toggle('open');
+      mobileMenu.setAttribute('aria-hidden', String(!isOpen));
+      this.setAttribute('aria-expanded', String(isOpen));
+      this.setAttribute('aria-label', isOpen ? 'Close menu' : 'Open menu');
       const spans = this.querySelectorAll('span');
-      if (mobileMenu.classList.contains('open')) {
+      if (isOpen) {
         spans[0].style.transform = 'rotate(45deg) translate(5px, 5px)';
         spans[1].style.opacity = '0';
         spans[2].style.transform = 'rotate(-45deg) translate(5px, -5px)';
@@ -1138,11 +1275,28 @@
     document.querySelectorAll('.mobile-menu a').forEach(link => {
       link.addEventListener('click', function() {
         mobileMenu.classList.remove('open');
+        mobileMenu.setAttribute('aria-hidden', 'true');
+        hamburger.setAttribute('aria-expanded', 'false');
+        hamburger.setAttribute('aria-label', 'Open menu');
         const spans = hamburger.querySelectorAll('span');
         spans[0].style.transform = '';
         spans[1].style.opacity = '1';
         spans[2].style.transform = '';
       });
+    });
+
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' && mobileMenu.classList.contains('open')) {
+        mobileMenu.classList.remove('open');
+        mobileMenu.setAttribute('aria-hidden', 'true');
+        hamburger.setAttribute('aria-expanded', 'false');
+        hamburger.setAttribute('aria-label', 'Open menu');
+        hamburger.focus();
+        hamburger.querySelectorAll('span').forEach(span => {
+          span.style.transform = '';
+          span.style.opacity = '1';
+        });
+      }
     });
 
     // Scroll reveal animation
@@ -1174,6 +1328,7 @@
       btn.disabled = true;
       btn.textContent = 'Sending...';
       status.textContent = '';
+      delete status.dataset.state;
 
       try {
         const response = await fetch(form.action, {
@@ -1182,9 +1337,11 @@
           headers: { Accept: 'application/json' }
         });
         if (!response.ok) throw new Error('Form submission failed');
+        status.dataset.state = 'success';
         status.textContent = 'Message sent successfully! I\'ll get back to you soon.';
         form.reset();
       } catch (error) {
+        status.dataset.state = 'error';
         status.textContent = 'Message could not be sent. Please try again or contact me directly.';
       } finally {
         btn.disabled = false;
