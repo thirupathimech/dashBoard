@@ -1,1 +1,714 @@
-<html></html>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#102a2a" />
+    <title>Temple Trails — Thanjavur • Nagore • Velankanni</title>
+    <style>
+        :root {
+            --ink: #f6f4ed;
+            --muted: #c2cec7;
+            --bg: #0b1919;
+            --panel: #132727;
+            --gold: #f4c56a;
+            --teal: #79d7c4;
+            --line: rgba(255, 255, 255, .16)
+        }
+
+        * {
+            box-sizing: border-box
+        }
+
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 78px
+        }
+
+        body {
+            margin: 0;
+            background: var(--bg);
+            color: var(--ink);
+            font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            line-height: 1.6
+        }
+
+        a {
+            color: inherit
+        }
+
+        .nav {
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            padding: 12px clamp(16px, 5vw, 64px);
+            background: rgba(8, 23, 23, .88);
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--line)
+        }
+
+        .brand {
+            font-weight: 850;
+            letter-spacing: .08em;
+            font-size: .84rem
+        }
+
+        .brand span {
+            color: var(--gold)
+        }
+
+        .navlinks {
+            display: flex;
+            gap: 18px;
+            font-size: .82rem;
+            color: var(--muted)
+        }
+
+        .navlinks a {
+            text-decoration: none
+        }
+
+        .navlinks a:hover {
+            color: var(--gold)
+        }
+
+        .hero {
+            min-height: 86vh;
+            display: grid;
+            align-items: end;
+            position: relative;
+            overflow: hidden;
+            padding: clamp(28px, 7vw, 92px);
+            background: linear-gradient(90deg, rgba(5, 18, 18, .92), rgba(5, 18, 18, .45) 60%, rgba(5, 18, 18, .2)), linear-gradient(0deg, rgba(5, 18, 18, .8), transparent 65%), url('https://images.unsplash.com/photo-1606293926075-69a00db 결?auto=format&fit=crop&w=2000&q=85');
+            background-size: cover;
+            background-position: center
+        }
+
+        /* Fallback hero photo is a real remote image; the rest of the page remains usable offline. */
+        .hero {
+            background-image: linear-gradient(90deg, rgba(5, 18, 18, .92), rgba(5, 18, 18, .45) 60%, rgba(5, 18, 18, .2)), linear-gradient(0deg, rgba(5, 18, 18, .8), transparent 65%), url('https://images.unsplash.com/photo-1606293926075-69a00db0f9e4?auto=format&fit=crop&w=2000&q=85')
+        }
+
+        .hero-inner {
+            max-width: 850px;
+            position: relative
+        }
+
+        .eyebrow {
+            color: var(--gold);
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: .2em;
+            font-size: .76rem
+        }
+
+        .hero h1 {
+            font-size: clamp(2.7rem, 8vw, 6.8rem);
+            line-height: .98;
+            letter-spacing: -.055em;
+            margin: 18px 0
+        }
+
+        .hero h1 em {
+            font-family: Georgia, serif;
+            font-weight: 400;
+            color: var(--gold)
+        }
+
+        .hero p {
+            max-width: 610px;
+            color: #e0e7e1;
+            font-size: clamp(1rem, 2vw, 1.18rem)
+        }
+
+        .pills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 9px;
+            margin: 25px 0
+        }
+
+        .pill {
+            border: 1px solid rgba(255, 255, 255, .3);
+            background: rgba(255, 255, 255, .08);
+            padding: 7px 12px;
+            border-radius: 999px;
+            font-size: .82rem
+        }
+
+        .cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 13px 18px;
+            border-radius: 8px;
+            background: var(--gold);
+            color: #18221b;
+            font-weight: 850;
+            text-decoration: none;
+            transition: transform .2s
+        }
+
+        .cta:hover {
+            transform: translateY(-3px)
+        }
+
+        .section {
+            padding: 78px clamp(18px, 6vw, 88px)
+        }
+
+        .section-head {
+            max-width: 760px;
+            margin-bottom: 34px
+        }
+
+        .section-head h2 {
+            font-size: clamp(2rem, 5vw, 3.7rem);
+            letter-spacing: -.04em;
+            line-height: 1.08;
+            margin: 8px 0 14px
+        }
+
+        .section-head p {
+            color: var(--muted);
+            margin: 0
+        }
+
+        .overview {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            margin-top: -35px;
+            position: relative;
+            padding: 0 clamp(18px, 6vw, 88px)
+        }
+
+        .stat {
+            background: #193333;
+            border: 1px solid var(--line);
+            border-radius: 14px;
+            padding: 20px
+        }
+
+        .stat strong {
+            display: block;
+            font-size: 1.65rem;
+            color: var(--gold)
+        }
+
+        .stat span {
+            font-size: .82rem;
+            color: var(--muted)
+        }
+
+        .routebar {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin: 24px 0
+        }
+
+        .routebar a {
+            border: 1px solid var(--line);
+            border-radius: 999px;
+            padding: 8px 13px;
+            text-decoration: none;
+            color: var(--muted);
+            font-size: .84rem
+        }
+
+        .routebar a:hover {
+            border-color: var(--teal);
+            color: var(--teal)
+        }
+
+        .day-label {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin: 46px 0 25px
+        }
+
+        .day-label .num {
+            display: grid;
+            place-items: center;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: var(--gold);
+            color: #17221d;
+            font-weight: 900
+        }
+
+        .day-label h3 {
+            font-size: 1.55rem;
+            margin: 0
+        }
+
+        .day-label p {
+            margin: 0;
+            color: var(--muted);
+            font-size: .86rem
+        }
+
+        .timeline {
+            position: relative;
+            margin-left: 20px;
+            padding-left: 30px;
+            border-left: 1px solid rgba(121, 215, 196, .45)
+        }
+
+        .stop {
+            position: relative;
+            margin: 0 0 25px;
+            display: grid;
+            grid-template-columns: minmax(0, 1.1fr) minmax(240px, .9fr);
+            background: var(--panel);
+            border: 1px solid var(--line);
+            border-radius: 18px;
+            overflow: hidden;
+            transition: transform .25s, border-color .25s;
+            opacity: 0;
+            transform: translateY(18px)
+        }
+
+        .stop.show {
+            opacity: 1;
+            transform: translateY(0)
+        }
+
+        .stop:hover {
+            border-color: rgba(244, 197, 106, .65);
+            transform: translateY(-3px)
+        }
+
+        .stop:before {
+            content: "";
+            position: absolute;
+            left: -38px;
+            top: 28px;
+            width: 14px;
+            height: 14px;
+            background: var(--teal);
+            border: 4px solid var(--bg);
+            border-radius: 50%;
+            z-index: 2
+        }
+
+        .stop-copy {
+            padding: 24px
+        }
+
+        .time {
+            font-size: .76rem;
+            color: var(--teal);
+            font-weight: 850;
+            letter-spacing: .08em;
+            text-transform: uppercase
+        }
+
+        .stop h4 {
+            font-size: 1.42rem;
+            line-height: 1.2;
+            margin: 8px 0
+        }
+
+        .stop p {
+            color: var(--muted);
+            margin: 8px 0 15px;
+            font-size: .93rem
+        }
+
+        .meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px
+        }
+
+        .tag {
+            font-size: .76rem;
+            padding: 5px 9px;
+            border-radius: 6px;
+            background: rgba(255, 255, 255, .07);
+            color: #e1e8e2
+        }
+
+        .stop img {
+            width: 100%;
+            height: 100%;
+            min-height: 235px;
+            object-fit: cover;
+            display: block
+        }
+
+        .img-wrap {
+            position: relative;
+            min-height: 235px;
+            background: #203a38
+        }
+
+        .img-wrap:after {
+            content: "";
+            position: absolute;
+            inset: 45% 0 0;
+            background: linear-gradient(0deg, rgba(0, 0, 0, .35), transparent);
+            pointer-events: none
+        }
+
+        .note {
+            border: 1px solid rgba(244, 197, 106, .3);
+            background: rgba(244, 197, 106, .07);
+            padding: 18px 20px;
+            border-radius: 12px;
+            color: #e8e5d9;
+            font-size: .91rem;
+            margin: 24px 0
+        }
+
+        .note strong {
+            color: var(--gold)
+        }
+
+        .endcap {
+            padding: 70px 24px;
+            text-align: center;
+            background: linear-gradient(135deg, #183b37, #102222)
+        }
+
+        .endcap h2 {
+            font-size: clamp(2rem, 5vw, 3.8rem);
+            line-height: 1.05;
+            margin: 12px auto;
+            max-width: 700px
+        }
+
+        .endcap p {
+            color: var(--muted);
+            max-width: 620px;
+            margin: 14px auto 24px
+        }
+
+        .footer {
+            padding: 24px;
+            text-align: center;
+            color: #8fa49b;
+            font-size: .78rem
+        }
+
+        .progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: var(--gold);
+            width: 0;
+            z-index: 20;
+            transition: width .1s
+        }
+
+        .topbtn {
+            position: fixed;
+            right: 16px;
+            bottom: 16px;
+            background: var(--gold);
+            color: #102020;
+            text-decoration: none;
+            border-radius: 50%;
+            width: 44px;
+            height: 44px;
+            display: grid;
+            place-items: center;
+            font-size: 1.2rem;
+            box-shadow: 0 8px 24px #0005;
+            z-index: 8
+        }
+
+        @media(max-width:760px) {
+            .nav {
+                padding: 12px 16px
+            }
+
+            .navlinks {
+                gap: 10px;
+                font-size: .76rem
+            }
+
+            .navlinks a:nth-child(3) {
+                display: none
+            }
+
+            .hero {
+                min-height: 78vh;
+                padding: 28px 20px 60px
+            }
+
+            .overview {
+                grid-template-columns: repeat(2, 1fr);
+                padding: 0 16px;
+                margin-top: -24px
+            }
+
+            .stat {
+                padding: 15px
+            }
+
+            .stat strong {
+                font-size: 1.4rem
+            }
+
+            .section {
+                padding: 58px 17px
+            }
+
+            .timeline {
+                margin-left: 10px;
+                padding-left: 22px
+            }
+
+            .stop {
+                grid-template-columns: 1fr
+            }
+
+            .stop:before {
+                left: -30px
+            }
+
+            .stop img,
+            .img-wrap {
+                height: 205px;
+                min-height: 205px;
+                grid-row: 1
+            }
+
+            .stop-copy {
+                padding: 20px
+            }
+
+            .day-label {
+                margin-top: 36px
+            }
+
+            .section-head h2 {
+                font-size: 2.35rem
+            }
+        }
+
+        @media(prefers-reduced-motion:reduce) {
+            html {
+                scroll-behavior: auto
+            }
+
+            *,
+            *:before,
+            *:after {
+                transition: none !important;
+                animation: none !important
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="progress" id="progress"></div>
+    <nav class="nav">
+        <div class="brand">TEMPLE<span>TRAILS</span> ✦</div>
+        <div class="navlinks"><a href="#route">The route</a><a href="#day1">Day 1</a><a href="#day2">Day 2</a><a href="#tips">Travel notes</a></div>
+    </nav>
+    <header class="hero" id="top">
+        <div class="hero-inner">
+            <div class="eyebrow">Tamil Nadu · 2-day road trip</div>
+            <h1>Faith, heritage<br>& the <em>sea breeze.</em></h1>
+            <p>From the grand Chola-era temple at Thanjavur to Nagore’s spiritual calm and Velankanni’s coastal sanctuary — one memorable journey, mapped stop by stop.</p>
+            <div class="pills"><span class="pill">✦ Coimbatore start</span><span class="pill">✦ 2 days / 1 night</span><span class="pill">✦ Temples · Heritage · Coast</span></div><a class="cta" href="#route">Explore the itinerary <span>↓</span></a>
+        </div>
+    </header>
+    <div class="overview">
+        <div class="stat"><strong>02</strong><span>Days of discovery</span></div>
+        <div class="stat"><strong>07+</strong><span>Key stops & experiences</span></div>
+        <div class="stat"><strong>3 towns</strong><span>Thanjavur · Nagore · Velankanni</span></div>
+        <div class="stat"><strong>Coastal</strong><span>Culture meets the sea</span></div>
+    </div>
+    <section class="section" id="route">
+        <div class="section-head">
+            <div class="eyebrow">Your journey at a glance</div>
+            <h2>A route full of stories.</h2>
+            <p>Follow the itinerary from the pre-dawn pickup to the final return to Trichy. Scroll through each stop for the planned timing, suggested experience and travel notes.</p>
+            <div class="routebar"><a href="#day1">01 · Heritage & Nagore</a><a href="#day2">02 · Velankanni & return</a><a href="#tips">Before you go</a></div>
+        </div>
+        <div class="day-label" id="day1">
+            <div class="num">01</div>
+            <div>
+                <h3>Day 1 — Heritage & sacred shores</h3>
+                <p>Coimbatore → Trichy → Thanjavur → Nagore → Velankanni</p>
+            </div>
+        </div>
+        <div class="timeline">
+            <article class="stop">
+                <div class="stop-copy">
+                    <div class="time">12:00 AM → 5:15 AM · 5 hr 15 min</div>
+                    <h4>01. Pick-up at Trichy</h4>
+                    <p>Begin with the overnight drive from Coimbatore and meet your pickup at Trichy at dawn. Keep a light blanket, water and a small travel bag handy.</p>
+                    <div class="meta"><span class="tag">📍 Trichy</span><span class="tag">⏱ 30 min planned stop</span></div>
+                </div>
+                <div class="img-wrap"><img loading="lazy" src="Pick-Up at Trichy.png?auto=format&fit=crop&w=1000&q=80" alt="Road trip at sunrise" /></div>
+            </article>
+            <article class="stop">
+                <div class="stop-copy">
+                    <div class="time">5:45 AM → 7:00 AM · 1 hr 15 min</div>
+                    <h4>02. Brihadeeswarar Temple</h4>
+                    <p>Visit Thanjavur’s monumental Big Temple, celebrated for its Chola architecture, towering vimana and intricate stonework. Early morning is ideal for a calmer visit.</p>
+                    <div class="meta"><span class="tag">🏛 Heritage</span><span class="tag">⏱ 3.5 hr visit window</span></div>
+                </div>
+                <div class="img-wrap"><img loading="lazy" src="Friends at a Grand Indian Temple.png?auto=format&fit=crop&w=1000&q=80" alt="Historic South Indian temple architecture" /></div>
+            </article>
+            <article class="stop">
+                <div class="stop-copy">
+                    <div class="time">10:30 AM → 11:00 AM · 30 min transfer</div>
+                    <h4>03. Thanjavur Palace</h4>
+                    <p>Explore the palace complex and its historic atmosphere. Check which galleries and sections are open on the day, as access and timings can vary.</p>
+                    <div class="meta"><span class="tag">👑 Royal history</span><span class="tag">⏱ 1 hr 30 min visit</span></div>
+                </div>
+                <div class="img-wrap"><img loading="lazy" src="Friends Exploring Thanjavur Palace Courtyard.png?auto=format&fit=crop&w=1000&q=80" alt="Historic Indian palace architecture" /></div>
+            </article>
+            <article class="stop">
+                <div class="stop-copy">
+                    <div class="time">12:30 PM → 2:30 PM · 2 hr</div>
+                    <h4>04. Drive to Nagore + lunch</h4>
+                    <p>Head towards Nagore and make time for lunch along the way. A relaxed meal and a short water break will help you enjoy the afternoon stops.</p>
+                    <div class="meta"><span class="tag">🚗 Road transfer</span><span class="tag">🍽 Lunch break</span></div>
+                </div>
+                <div class="img-wrap"><img loading="lazy" src="Road Trip to Nagore Dargah.png?auto=format&fit=crop&w=1000&q=80" alt="A meal served for lunch" /></div>
+            </article>
+            <article class="stop">
+                <div class="stop-copy">
+                    <div class="time">4:00 PM → 4:30 PM · 30 min transfer</div>
+                    <h4>05. Nagore Beach</h4>
+                    <p>Pause by the coast for sea air and a gentle walk. Keep an eye on the time so you can reach the Dargah before your planned evening visit.</p>
+                    <div class="meta"><span class="tag">🌊 Coastal pause</span><span class="tag">⏱ 1 hr planned</span></div>
+                </div>
+                <div class="img-wrap"><img loading="lazy" src="Nagore Beach Sunset Stroll.png?auto=format&fit=crop&w=1000&q=80" alt="Waves on a tropical beach" /></div>
+            </article>
+            <article class="stop">
+                <div class="stop-copy">
+                    <div class="time">5:00 PM → 5:30 PM · 30 min transfer</div>
+                    <h4>06. Nagore Dargah</h4>
+                    <p>Spend time at the revered shrine, known for welcoming visitors from many backgrounds. Dress respectfully and follow local guidance on photography and visitor areas.</p>
+                    <div class="meta"><span class="tag">🕌 Spiritual heritage</span><span class="tag">⏱ 2 hr visit window</span></div>
+                </div>
+                <div class="img-wrap"><img loading="lazy" src="Friends at Nagore Dargah at Dusk.png?auto=format&fit=crop&w=1000&q=80" alt="Ornate mosque architecture" /></div>
+            </article>
+            <article class="stop">
+                <div class="stop-copy">
+                    <div class="time">7:00 PM → 9:00 PM · 2 hr</div>
+                    <h4>07. Arrive at Velankanni</h4>
+                    <p>Drive to Velankanni, collect dinner on arrival and settle in for the night. Rest well — tomorrow’s plan includes the Basilica and the beach before the return journey.</p>
+                    <div class="meta"><span class="tag">🚗 Evening drive</span><span class="tag">🍽 Dinner</span><span class="tag">🌙 Overnight stay</span></div>
+                </div>
+                <div class="img-wrap"><img loading="lazy" src="Velankanni Twilight Pilgrimage Memories.png?auto=format&fit=crop&w=1000&q=80" alt="Blue sea at dusk" /></div>
+            </article>
+        </div>
+        <div class="day-label" id="day2">
+            <div class="num">02</div>
+            <div>
+                <h3>Day 2 — Velankanni & homeward bound</h3>
+                <p>Breakfast → Basilica → lunch → beach → Trichy</p>
+            </div>
+        </div>
+        <div class="timeline">
+            <article class="stop">
+                <div class="stop-copy">
+                    <div class="time">10:30 AM → 11:00 AM · 30 min</div>
+                    <h4>08. Breakfast stop</h4>
+                    <p>Start the day with breakfast and a little time to get ready. Your original schedule labels this as a travel-and-food stop; confirm the restaurant and exact departure time locally.</p>
+                    <div class="meta"><span class="tag">☕ Breakfast</span><span class="tag">⏱ 45 min planned</span></div>
+                </div>
+                <div class="img-wrap"><img loading="lazy" src="Tamil Nadu Roadside Breakfast Feast.png?auto=format&fit=crop&w=1000&q=80" alt="Breakfast with fruit and coffee" /></div>
+            </article>
+            <article class="stop">
+                <div class="stop-copy">
+                    <div class="time">11:45 AM · Basilica visit</div>
+                    <h4>09. Basilica of Our Lady of Good Health</h4>
+                    <p>Visit Velankanni’s best-known pilgrimage landmark. Take a quiet moment to appreciate the architecture and atmosphere, while leaving room for services or crowds.</p>
+                    <div class="meta"><span class="tag">⛪ Pilgrimage</span><span class="tag">⏱ 2 hr planned</span></div>
+                </div>
+                <div class="img-wrap"><img loading="lazy" src="Friends at Velankanni Basilica.png?auto=format&fit=crop&w=1000&q=80" alt="Church architecture" /></div>
+            </article>
+            <article class="stop">
+                <div class="stop-copy">
+                    <div class="time">2:15 PM · Lunch</div>
+                    <h4>10. Lunch break</h4>
+                    <p>Refuel before the final coastal stop and drive. If the Basilica visit runs longer, shorten the beach stop only if needed rather than rushing the meal.</p>
+                    <div class="meta"><span class="tag">🍽 Lunch</span><span class="tag">⏱ 2 hr planned</span></div>
+                </div>
+                <div class="img-wrap"><img loading="lazy" src="Velankanni Seafood Feast with Friends.png?auto=format&fit=crop&w=1000&q=80" alt="Freshly prepared lunch" /></div>
+            </article>
+            <article class="stop">
+                <div class="stop-copy">
+                    <div class="time">4:45 PM · Beach time</div>
+                    <h4>11. Velankanni Beach</h4>
+                    <p>Finish the sightseeing portion with a breezy seaside walk. Follow local safety instructions, avoid rough surf and keep enough buffer for the return drive.</p>
+                    <div class="meta"><span class="tag">🌅 Coast & unwind</span><span class="tag">⏱ 2 hr planned</span></div>
+                </div>
+                <div class="img-wrap"><img loading="lazy" src="Golden-Hour Beach Walk with Friends.png?auto=format&fit=crop&w=1000&q=80" alt="Sunset along the coast" /></div>
+            </article>
+            <article class="stop">
+                <div class="stop-copy">
+                    <div class="time">7:00 PM → 10:30 PM · 3 hr 30 min</div>
+                    <h4>12. Return to Trichy</h4>
+                    <p>Leave Velankanni for Trichy and wrap up the trip. Keep a short comfort stop in reserve if needed, and confirm the final drop-off point with your driver.</p>
+                    <div class="meta"><span class="tag">🚗 Return drive</span><span class="tag">🏁 Trip complete</span></div>
+                </div>
+                <div class="img-wrap"><img loading="lazy" src="Velankanni to Trichy Road Trip at Sunset.png?auto=format&fit=crop&w=1000&q=80" alt="Journey through scenic landscapes" /></div>
+            </article>
+        </div>
+        <div class="note"><strong>Timing note:</strong> Day 2 entries in the supplied plan contain a few ambiguous times (for example, “00:15” and “12:00”). This page presents them as an approximate sequence, not confirmed arrival times. Please verify the exact timings and travel durations with your driver before departure.</div>
+    </section>
+    <section class="section" id="tips">
+        <div class="section-head">
+            <div class="eyebrow">A smoother trip</div>
+            <h2>Little details. Better memories.</h2>
+            <p>Keep these practical points in mind so the itinerary stays comfortable and respectful.</p>
+        </div>
+        <div class="overview" style="padding:0;margin:0;grid-template-columns:repeat(2,minmax(0,1fr))">
+            <div class="stat"><strong>01 · Start early</strong><span>Keep water, snacks, phone chargers and a light layer ready for the overnight drive.</span></div>
+            <div class="stat"><strong>02 · Dress respectfully</strong><span>Choose modest, comfortable clothing for temple, Dargah and Basilica visits.</span></div>
+            <div class="stat"><strong>03 · Check opening times</strong><span>Confirm worship schedules, palace galleries, local access and any photography restrictions.</span></div>
+            <div class="stat"><strong>04 · Leave a buffer</strong><span>Traffic, meals, crowds and prayer services can shift timings. Treat this as a plan, not a guarantee.</span></div>
+        </div>
+    </section>
+    <section class="endcap">
+        <div class="eyebrow">Two days. Many stories.</div>
+        <h2>Take the long way to a meaningful memory.</h2>
+        <p>Ancient stonework, a sacred coastal town, sea breeze and a journey shared together — may your trip be safe and memorable.</p><a class="cta" href="#top">↑ Back to the beginning</a>
+    </section>
+    <footer class="footer">TEMPLETRAILS · Personal trip itinerary · Images load from Unsplash when connected to the internet.</footer>
+    <a class="topbtn" href="#top" aria-label="Back to top">↑</a>
+    <script>
+        const progress = document.getElementById('progress');
+
+        function updateProgress() {
+            const max = document.documentElement.scrollHeight - innerHeight;
+            progress.style.width = (max > 0 ? (scrollY / max) * 100 : 0) + '%'
+        }
+        window.addEventListener('scroll', updateProgress, {
+            passive: true
+        });
+        updateProgress();
+        const observer = new IntersectionObserver(entries => entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('show');
+                observer.unobserve(entry.target)
+            }
+        }), {
+            threshold: .08
+        });
+        document.querySelectorAll('.stop').forEach(el => observer.observe(el));
+    </script>
+</body>
+
+</html>
