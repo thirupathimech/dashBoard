@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
+<html lang="en" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Thirupathi G | Software Engineer</title>
     <meta name="description" content="Meet Thirupathi G, a software engineer focused on Java, backend systems, REST APIs, and enterprise workflow software.">
-    <meta name="theme-color" content="#f6f7fb">
+    <meta name="theme-color" content="#0d1220">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -1414,8 +1414,8 @@
             themeToggle.innerHTML = themeIcons[theme];
             themeMeta?.setAttribute('content', theme === 'light' ? '#f6f7fb' : '#0d1220');
         }
-        let savedTheme = 'light';
-        try { savedTheme = localStorage.getItem('aadhik-theme') || 'light'; } catch (error) { /* Use the light default. */ }
+        let savedTheme = 'dark';
+        try { savedTheme = localStorage.getItem('aadhik-theme') || 'dark'; } catch (error) { /* Use the dark default. */ }
         applyTheme(savedTheme === 'dark' ? 'dark' : 'light', false);
         themeToggle.addEventListener('click', () => {
             applyTheme(document.documentElement.getAttribute('data-theme') === 'light' ? 'dark' : 'light');

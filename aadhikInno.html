@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
+<html lang="en" data-theme="dark">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -1658,8 +1658,8 @@
         button.innerHTML = theme === 'light' ? moonMarkup : sunMarkup;
       });
     }
-    let savedTheme = 'light';
-    try { savedTheme = localStorage.getItem('aadhik-theme') || 'light'; } catch (error) { /* Keep the accessible light default. */ }
+    let savedTheme = 'dark';
+    try { savedTheme = localStorage.getItem('aadhik-theme') || 'dark'; } catch (error) { /* Keep the accessible dark default. */ }
     setTheme(savedTheme === 'dark' ? 'dark' : 'light', false);
     themeToggles.forEach(button => button.addEventListener('click', () => {
       setTheme(document.documentElement.getAttribute('data-theme') === 'light' ? 'dark' : 'light');
