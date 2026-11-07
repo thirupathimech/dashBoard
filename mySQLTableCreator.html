@@ -76,7 +76,10 @@
             transition: all 0.2s ease;
             display: inline-flex;
             align-items: center;
+            justify-content: center;
             gap: 8px;
+            cursor: pointer;
+            text-align: center;
         }
         
         .btn-primary {
@@ -125,6 +128,9 @@
         }
         
         .form-control, .form-select {
+            width: 100%;
+            min-height: 44px;
+            max-width: 100%;
             background: rgba(31, 41, 55, 0.7);
             border: 1px solid rgba(75, 85, 99, 0.5);
             color: #e5e7eb;
@@ -147,12 +153,23 @@
         }
         
         .tab {
+            display: inline-flex;
+            align-items: center;
+            flex: 0 0 auto;
+            min-height: 44px;
             padding: 10px 20px;
             border-radius: 8px 8px 0 0;
             font-weight: 500;
             cursor: pointer;
             transition: all 0.2s ease;
             border-bottom: 3px solid transparent;
+            color: inherit;
+            background: transparent;
+            border-top: 0;
+            border-right: 0;
+            border-left: 0;
+            white-space: nowrap;
+            font: inherit;
         }
         
         .tab:hover {
@@ -162,6 +179,12 @@
         .tab.active {
             background: rgba(255, 255, 255, 0.1);
             border-bottom-color: #3b82f6;
+        }
+
+        .tab:focus-visible, .btn:focus-visible, .dark-mode-toggle:focus-visible,
+        .floating-button:focus-visible, .close-modal:focus-visible {
+            outline: 3px solid rgba(96, 165, 250, 0.8);
+            outline-offset: 3px;
         }
         
         .query-output {
@@ -242,6 +265,8 @@
             z-index: 200;
             align-items: center;
             justify-content: center;
+            overflow-y: auto;
+            padding: 16px;
         }
         
         .modal.show {
@@ -253,8 +278,8 @@
             border-radius: 12px;
             padding: 24px;
             max-width: 600px;
-            width: 90%;
-            max-height: 80vh;
+            width: min(600px, 100%);
+            max-height: min(80vh, 800px);
             overflow-y: auto;
         }
         
@@ -344,11 +369,9 @@
         }
         
         .dark-mode-toggle {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            width: 48px;
-            height: 48px;
+            flex: 0 0 44px;
+            width: 44px;
+            height: 44px;
             border-radius: 50%;
             background: rgba(31, 41, 55, 0.7);
             color: #e5e7eb;
@@ -457,43 +480,122 @@
         }
         
         @media (max-width: 768px) {
-            .container {
-                padding: 16px;
-            }
-            
             .column-card {
                 padding: 12px;
             }
             
             .btn {
-                padding: 6px 12px;
+                min-height: 42px;
+                padding: 8px 12px;
                 font-size: 0.875rem;
             }
             
             .modal-content {
                 padding: 16px;
+                max-height: 90vh;
+                max-height: 90dvh;
             }
             
             .query-output {
                 padding: 12px;
             }
+
+            .tab-list {
+                overflow-x: auto;
+                overscroll-behavior-x: contain;
+                scrollbar-width: thin;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            .column-card .form-check {
+                min-height: 40px;
+            }
+
+            .code-block {
+                max-width: 100%;
+            }
+
+            .code-block pre {
+                width: max-content;
+                min-width: 100%;
+                white-space: pre;
+            }
+
+            .query-output-header {
+                align-items: stretch;
+                flex-direction: column;
+            }
+
+            .query-actions {
+                display: grid;
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                width: 100%;
+            }
+
+            .query-actions .btn {
+                width: 100%;
+                min-width: 0;
+                padding: 8px 6px;
+            }
+
+            .relationship-visual {
+                padding: 8px;
+                overflow-x: auto;
+            }
+
+            #relationshipDiagram {
+                min-width: 480px;
+            }
+
+            .toast {
+                right: 16px;
+                bottom: 16px;
+                left: 16px;
+                justify-content: center;
+                padding: 12px 16px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header-actions {
+                display: grid;
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                width: 100%;
+            }
+
+            .header-actions .btn {
+                width: 100%;
+                min-width: 0;
+                padding: 8px 6px;
+            }
+
+            .header-actions .dark-mode-toggle {
+                width: 100%;
+                height: 42px;
+                flex-basis: auto;
+                border-radius: 8px;
+            }
+
+            .glass-morphism.p-6 { padding: 16px; }
+            .tab { padding: 10px 14px; font-size: 0.9rem; }
+            .query-actions .btn { font-size: 0.78rem; }
+            .quick-action-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
-    <!-- Dark Mode Toggle -->
-    <div class="dark-mode-toggle" onclick="toggleDarkMode()">
-        <i class="fas fa-moon" id="darkModeIcon"></i>
-    </div>
-    
     <!-- Header -->
-    <header class="glass-morphism py-4 px-6 mb-6">
-        <div class="container mx-auto flex justify-between items-center">
-            <div class="flex items-center gap-3">
-                <i class="fas fa-database text-3xl text-blue-400"></i>
-                <h1 class="text-2xl font-bold">MySQL Studio</h1>
+    <header class="glass-morphism py-4 px-4 sm:px-6 mb-6">
+        <div class="container mx-auto flex flex-col gap-4 sm:flex-row sm:justify-between sm:items-center">
+            <div class="flex min-w-0 items-center gap-3">
+                <i class="fas fa-database shrink-0 text-2xl text-blue-400 sm:text-3xl" aria-hidden="true"></i>
+                <h1 class="text-xl font-bold sm:text-2xl">MySQL Studio</h1>
             </div>
-            <div class="flex gap-2">
+            <div class="header-actions flex flex-wrap items-center gap-2">
+                <button type="button" class="dark-mode-toggle" onclick="toggleDarkMode()"
+                        id="darkModeToggle" aria-label="Switch to light mode" title="Switch theme">
+                    <i class="fas fa-moon" id="darkModeIcon" aria-hidden="true"></i>
+                </button>
                 <button class="btn btn-secondary" onclick="showImportModal()">
                     <i class="fas fa-file-import"></i> Import
                 </button>
@@ -524,22 +626,22 @@
             </div>
             
             <!-- Tabs -->
-            <div class="flex border-b border-gray-700 mb-6">
-                <div class="tab active" onclick="switchTab('create')">
+            <div class="tab-list flex border-b border-gray-700 mb-6" role="tablist" aria-label="Table builder tools">
+                <button type="button" role="tab" aria-selected="true" data-tab="create" class="tab active" onclick="switchTab('create')">
                     <i class="fas fa-plus-circle mr-2"></i> Create Table
-                </div>
-                <div class="tab" onclick="switchTab('alter')">
+                </button>
+                <button type="button" role="tab" aria-selected="false" data-tab="alter" class="tab" onclick="switchTab('alter')">
                     <i class="fas fa-edit mr-2"></i> Alter Table
-                </div>
-                <div class="tab" onclick="switchTab('indexes')">
+                </button>
+                <button type="button" role="tab" aria-selected="false" data-tab="indexes" class="tab" onclick="switchTab('indexes')">
                     <i class="fas fa-key mr-2"></i> Indexes
-                </div>
-                <div class="tab" onclick="switchTab('relationships')">
+                </button>
+                <button type="button" role="tab" aria-selected="false" data-tab="relationships" class="tab" onclick="switchTab('relationships')">
                     <i class="fas fa-project-diagram mr-2"></i> Relationships
-                </div>
-                <div class="tab" onclick="switchTab('orm')">
+                </button>
+                <button type="button" role="tab" aria-selected="false" data-tab="orm" class="tab" onclick="switchTab('orm')">
                     <i class="fas fa-code mr-2"></i> ORM Code
-                </div>
+                </button>
             </div>
             
             <!-- Tab Content -->
@@ -645,7 +747,7 @@
             <div id="relationshipsTab" class="tab-content hidden">
                 <div class="mb-4">
                     <h3 class="text-lg font-semibold mb-4">Table Relationships</h3>
-                    <div class="glass-morphism p-4 rounded-lg">
+                    <div class="glass-morphism p-4 rounded-lg relationship-visual">
                         <svg id="relationshipDiagram" width="100%" height="400"></svg>
                     </div>
                     <div id="relationships">
@@ -694,9 +796,9 @@
         <!-- Query Output -->
         <div id="queryOutput" class="hidden">
             <div class="glass-morphism p-6 rounded-xl">
-                <div class="flex justify-between items-center mb-4">
+                <div class="query-output-header flex justify-between items-center mb-4">
                     <h3 class="text-lg font-semibold">Generated Query</h3>
-                    <div class="flex gap-2">
+                    <div class="query-actions flex gap-2">
                         <button class="btn btn-secondary" onclick="formatQuery()">
                             <i class="fas fa-indent"></i> Format
                         </button>
@@ -723,9 +825,9 @@
     </main>
     
     <!-- Floating Action Button -->
-    <div class="floating-button" onclick="showQuickActions()">
-        <i class="fas fa-plus"></i>
-    </div>
+    <button type="button" class="floating-button" aria-label="Open quick actions" title="Quick actions" onclick="showQuickActions()">
+        <i class="fas fa-plus" aria-hidden="true"></i>
+    </button>
     
     <!-- Toast Notification -->
     <div id="toast" class="toast">
@@ -738,7 +840,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h2 class="modal-title">Import Table Structure</h2>
-                <button class="close-modal" onclick="closeModal('importModal')">
+                <button class="close-modal" aria-label="Close import dialog" onclick="closeModal('importModal')">
                     <i class="fas fa-times"></i>
                 </button>
             </div>
@@ -770,7 +872,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h2 class="modal-title">Export Table Structure</h2>
-                <button class="close-modal" onclick="closeModal('exportModal')">
+                <button class="close-modal" aria-label="Close export dialog" onclick="closeModal('exportModal')">
                     <i class="fas fa-times"></i>
                 </button>
             </div>
@@ -820,7 +922,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h2 class="modal-title">Query History</h2>
-                <button class="close-modal" onclick="closeModal('historyModal')">
+                <button class="close-modal" aria-label="Close history dialog" onclick="closeModal('historyModal')">
                     <i class="fas fa-times"></i>
                 </button>
             </div>
@@ -836,12 +938,12 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h2 class="modal-title">Quick Actions</h2>
-                <button class="close-modal" onclick="closeModal('quickActionsModal')">
+                <button class="close-modal" aria-label="Close quick actions dialog" onclick="closeModal('quickActionsModal')">
                     <i class="fas fa-times"></i>
                 </button>
             </div>
             <div class="modal-body">
-                <div class="grid grid-cols-2 gap-4">
+                <div class="quick-action-grid grid grid-cols-2 gap-4">
                     <button class="btn btn-secondary w-full" onclick="loadTemplate('users')">
                         <i class="fas fa-users mr-2"></i> Users Table
                     </button>
@@ -882,30 +984,42 @@
         // Data types with length requirements
         const lengthApplicableTypes = ['VARCHAR', 'CHAR', 'INT', 'FLOAT', 'DECIMAL'];
         const integerTypes = ['INT', 'BIGINT', 'SMALLINT', 'TINYINT'];
-        const numericTypes = ['INT', 'BIGINT', 'SMALLINT', 'TINYINT', 'FLOAT', 'DECIMAL', 'DOUBLE'];
+        const numericTypes = ['INT', 'BIGINT', 'SMALLINT', 'TINYINT', 'FLOAT', 'DECIMAL', 'DOUBLE', 'BOOLEAN'];
         const stringTypes = ['VARCHAR', 'CHAR', 'TEXT', 'LONGTEXT', 'MEDIUMTEXT', 'TINYTEXT'];
         const dateTypes = ['DATE', 'DATETIME', 'TIMESTAMP', 'TIME', 'YEAR'];
         
         // Initialize the app
         document.addEventListener('DOMContentLoaded', function() {
             // Load history from localStorage
-            const savedHistory = localStorage.getItem('mysqlStudioHistory');
-            if (savedHistory) {
-                queryHistory = JSON.parse(savedHistory);
+            try {
+                const savedHistory = localStorage.getItem('mysqlStudioHistory');
+                const parsedHistory = savedHistory ? JSON.parse(savedHistory) : [];
+                queryHistory = Array.isArray(parsedHistory) ? parsedHistory : [];
+            } catch (error) {
+                queryHistory = [];
             }
             
             // Add initial column
             addColumn();
             
-            // Check for dark mode preference
-            if (localStorage.getItem('darkMode') === 'false') {
-                document.body.classList.add('light-mode');
-                document.getElementById('darkModeIcon').className = 'fas fa-sun';
+            // The studio defaults to dark mode unless the user saved a light theme.
+            let savedTheme = null;
+            try {
+                savedTheme = localStorage.getItem('darkMode');
+            } catch (error) {
+                // Keep the default theme when browser storage is unavailable.
             }
+            const isDarkMode = savedTheme !== 'false';
+            document.body.classList.toggle('light-mode', !isDarkMode);
+            updateThemeButton(isDarkMode);
         });
         
         // Tab switching
         function switchTab(tabName) {
+            const selectedPanel = document.getElementById(tabName + 'Tab');
+            const selectedTab = document.querySelector(`.tab[data-tab="${tabName}"]`);
+            if (!selectedPanel || !selectedTab) return;
+
             // Hide all tabs
             document.querySelectorAll('.tab-content').forEach(tab => {
                 tab.classList.add('hidden');
@@ -914,13 +1028,14 @@
             // Remove active class from all tabs
             document.querySelectorAll('.tab').forEach(tab => {
                 tab.classList.remove('active');
+                tab.setAttribute('aria-selected', 'false');
             });
             
             // Show selected tab
-            document.getElementById(tabName + 'Tab').classList.remove('hidden');
+            selectedPanel.classList.remove('hidden');
             
-            // Add active class to selected tab
-            event.target.closest('.tab').classList.add('active');
+            selectedTab.classList.add('active');
+            selectedTab.setAttribute('aria-selected', 'true');
             
             currentTab = tabName;
             
@@ -934,10 +1049,20 @@
         function toggleDarkMode() {
             document.body.classList.toggle('light-mode');
             const isDarkMode = !document.body.classList.contains('light-mode');
-            localStorage.setItem('darkMode', isDarkMode);
-            
+            try {
+                localStorage.setItem('darkMode', isDarkMode);
+            } catch (error) {
+                // The current page still switches themes when storage is unavailable.
+            }
+            updateThemeButton(isDarkMode);
+        }
+
+        function updateThemeButton(isDarkMode) {
             const icon = document.getElementById('darkModeIcon');
+            const toggle = document.getElementById('darkModeToggle');
             icon.className = isDarkMode ? 'fas fa-moon' : 'fas fa-sun';
+            toggle.setAttribute('aria-label', isDarkMode ? 'Switch to light mode' : 'Switch to dark mode');
+            toggle.setAttribute('title', isDarkMode ? 'Switch to light mode' : 'Switch to dark mode');
         }
         
         // Column management
@@ -1483,14 +1608,104 @@
             }
         }
         
+        // SQL formatting helpers
+        function quoteIdentifier(value) {
+            return '`' + String(value).replace(/`/g, '``') + '`';
+        }
+
+        function escapeSqlString(value) {
+            return String(value).replace(/'/g, "''");
+        }
+
+        function splitCommaSeparated(value) {
+            const parts = [];
+            let part = '';
+            let quote = null;
+            let depth = 0;
+
+            for (let i = 0; i < String(value).length; i++) {
+                const character = String(value)[i];
+                if (quote) {
+                    part += character;
+                    if (character === '\\' && i + 1 < String(value).length) {
+                        part += String(value)[++i];
+                    } else if (character === quote) {
+                        if (String(value)[i + 1] === quote) {
+                            part += String(value)[++i];
+                        } else {
+                            quote = null;
+                        }
+                    }
+                } else if (character === "'" || character === '"' || character === '`') {
+                    quote = character;
+                    part += character;
+                } else if (character === '(') {
+                    depth++;
+                    part += character;
+                } else if (character === ')') {
+                    depth = Math.max(0, depth - 1);
+                    part += character;
+                } else if (character === ',' && depth === 0) {
+                    parts.push(part.trim());
+                    part = '';
+                } else {
+                    part += character;
+                }
+            }
+
+            if (part.trim()) parts.push(part.trim());
+            return parts;
+        }
+
+        function formatEnumValues(value) {
+            const values = splitCommaSeparated(value);
+            if (!values.length) return null;
+
+            const formattedValues = values.map(item => {
+                let valueText = item.trim();
+                if (!valueText) return null;
+                if ((valueText.startsWith("'") && valueText.endsWith("'")) ||
+                    (valueText.startsWith('"') && valueText.endsWith('"'))) {
+                    const quote = valueText[0];
+                    valueText = valueText.slice(1, -1).replace(new RegExp(quote + quote, 'g'), quote);
+                }
+                return `'${escapeSqlString(valueText)}'`;
+            });
+            return formattedValues.some(valueText => valueText === null) ? null : formattedValues.join(', ');
+        }
+
+        function formatDefaultValue(value, type) {
+            const rawValue = String(value).trim();
+            if (!rawValue) return '';
+            if (/^(NULL|TRUE|FALSE)$/i.test(rawValue) ||
+                /^CURRENT_(?:TIMESTAMP|DATE|TIME)(?:\(\d+\))?(?:\s+ON\s+UPDATE\s+CURRENT_TIMESTAMP(?:\(\d+\))?)?$/i.test(rawValue)) {
+                return rawValue.toUpperCase();
+            }
+
+            const isQuoted = (rawValue.startsWith("'") && rawValue.endsWith("'")) ||
+                (rawValue.startsWith('"') && rawValue.endsWith('"'));
+            if (numericTypes.includes(type) && !isQuoted) {
+                return /^[-+]?(?:\d+(?:\.\d+)?|\.\d+)$/.test(rawValue) ? rawValue : null;
+            }
+
+            const valueText = isQuoted
+                ? rawValue.slice(1, -1).replace(/''/g, "'").replace(/""/g, '"')
+                : rawValue;
+            return `'${escapeSqlString(valueText)}'`;
+        }
+
         // Query generation
         function generateQuery(event, isAlter) {
             event.preventDefault();
-            
-            const tableName = document.getElementById('tableName').value;
+            const tableNameInput = document.getElementById('tableName');
+            const tableName = tableNameInput.value.trim();
+            const tableNameError = document.getElementById('tableNameError');
+            tableNameInput.value = tableName;
+            tableNameError.textContent = '';
             
             if (!tableName) {
-                document.getElementById('tableNameError').textContent = 'Table name is required';
+                tableNameError.textContent = 'Table name is required';
+                tableNameInput.focus();
                 return;
             }
             
@@ -1508,6 +1723,8 @@
             } else {
                 query = generateCreateQuery(tableName);
             }
+
+            if (!query) return;
             
             // Display the query
             displayQuery(query);
@@ -1522,34 +1739,80 @@
             const collation = document.getElementById('collation').value;
             const tableDescription = document.getElementById('tableDescription').value;
             
-            let query = `CREATE TABLE \`${tableName}\` (\n`;
+            let query = `CREATE TABLE ${quoteIdentifier(tableName)} (\n`;
             
             // Get all columns
             const columns = [];
             const primaryKeys = [];
             const uniqueKeys = [];
             const foreignKeys = [];
+            const seenColumnNames = new Set();
+            let autoIncrementCount = 0;
             
             for (let i = 0; i < columnCount; i++) {
                 const columnElement = document.getElementById(`column-${i}`);
                 if (!columnElement) continue;
                 
-                const name = document.getElementById(`columnName${i}`).value;
+                const name = document.getElementById(`columnName${i}`).value.trim();
                 const type = document.getElementById(`columnType${i}`).value;
-                const length = document.getElementById(`columnLength${i}`).value;
-                const enumValues = document.getElementById(`columnEnum${i}`).value;
-                const defaultValue = document.getElementById(`columnDefault${i}`).value;
-                const comment = document.getElementById(`columnComment${i}`).value;
+                const length = document.getElementById(`columnLength${i}`).value.trim();
+                const enumValues = document.getElementById(`columnEnum${i}`).value.trim();
+                const defaultValue = document.getElementById(`columnDefault${i}`).value.trim();
+                const comment = document.getElementById(`columnComment${i}`).value.trim();
                 
-                if (!name || !type) continue;
+                if (!name || !type) {
+                    showToast(`Complete the name and type for column ${i + 1}`, 'error');
+                    return '';
+                }
+
+                const normalizedName = name.toLowerCase();
+                if (seenColumnNames.has(normalizedName)) {
+                    showToast(`Column name "${name}" is used more than once`, 'error');
+                    return '';
+                }
+                seenColumnNames.add(normalizedName);
+
+                if ((type === 'VARCHAR' || type === 'CHAR') && !/^\d+$/.test(length)) {
+                    showToast(`${type} needs a positive length`, 'error');
+                    return '';
+                }
+                if (length && !/^\d+(?:\s*,\s*\d+)?$/.test(length)) {
+                    showToast(`Length/precision for "${name}" must be numeric`, 'error');
+                    return '';
+                }
+                if (type === 'DECIMAL' && length) {
+                    const [precision, scale = '0'] = length.split(',').map(part => Number(part.trim()));
+                    if (precision < 1 || precision > 65 || scale < 0 || scale > 30 || scale > precision) {
+                        showToast('DECIMAL precision must be 1–65 and scale 0–30, with scale no greater than precision', 'error');
+                        return '';
+                    }
+                }
+
+                let formattedEnumValues = '';
+                if (type === 'ENUM' || type === 'SET') {
+                    formattedEnumValues = formatEnumValues(enumValues);
+                    if (!formattedEnumValues) {
+                        showToast(`${type} needs one or more comma-separated values`, 'error');
+                        return '';
+                    }
+                }
+
+                const isPrimary = document.getElementById(`columnPrimary${i}`).checked;
+                const isUnique = document.getElementById(`columnUnique${i}`).checked;
+                const isAutoIncrement = document.getElementById(`columnAutoIncrement${i}`).checked;
+                if (isAutoIncrement) {
+                    autoIncrementCount++;
+                    if (!integerTypes.includes(type) || (!isPrimary && !isUnique) || autoIncrementCount > 1) {
+                        showToast('AUTO_INCREMENT must be a single indexed integer column', 'error');
+                        return '';
+                    }
+                }
                 
-                let columnDef = `  \`${name}\` ${type}`;
+                let columnDef = `  ${quoteIdentifier(name)} ${type}`;
                 
                 // Add length/precision
                 if (type === 'ENUM' || type === 'SET') {
-                    if (enumValues) {
-                        columnDef += `(${enumValues})`;
-                    }
+                    columnDef += `(${formattedEnumValues})`;
                 } else if (lengthApplicableTypes.includes(type) && length) {
                     columnDef += `(${length})`;
                 }
@@ -1564,31 +1827,30 @@
                 }
                 
                 if (defaultValue) {
-                    if (defaultValue.toLowerCase() === 'null') {
-                        columnDef += ` DEFAULT NULL`;
-                    } else if (stringTypes.includes(type) || type === 'DATE' || type === 'DATETIME' || type === 'TIMESTAMP') {
-                        columnDef += ` DEFAULT '${defaultValue}'`;
-                    } else {
-                        columnDef += ` DEFAULT ${defaultValue}`;
+                    const formattedDefault = formatDefaultValue(defaultValue, type);
+                    if (formattedDefault === null) {
+                        showToast(`Enter a valid numeric default for "${name}"`, 'error');
+                        return '';
                     }
+                    columnDef += ` DEFAULT ${formattedDefault}`;
                 }
                 
-                if (document.getElementById(`columnAutoIncrement${i}`).checked) {
+                if (isAutoIncrement) {
                     columnDef += ` AUTO_INCREMENT`;
                 }
                 
                 if (comment) {
-                    columnDef += ` COMMENT '${comment}'`;
+                    columnDef += ` COMMENT '${escapeSqlString(comment)}'`;
                 }
                 
                 columns.push(columnDef);
                 
                 // Track constraints
-                if (document.getElementById(`columnPrimary${i}`).checked) {
+                if (isPrimary) {
                     primaryKeys.push(name);
                 }
                 
-                if (document.getElementById(`columnUnique${i}`).checked && !document.getElementById(`columnPrimary${i}`).checked) {
+                if (isUnique && !isPrimary) {
                     uniqueKeys.push(name);
                 }
                 
@@ -1598,11 +1860,21 @@
                     const fkOnDelete = document.getElementById(`columnFkOnDelete${i}`).value;
                     const fkOnUpdate = document.getElementById(`columnFkOnUpdate${i}`).value;
                     
+                    if (!fkTable.trim() || !fkColumn.trim()) {
+                        showToast(`Complete the foreign key reference for "${name}"`, 'error');
+                        return '';
+                    }
+
                     if (fkTable && fkColumn) {
                         const constraintName = `fk_${tableName}_${name}`;
-                        foreignKeys.push(`  CONSTRAINT \`${constraintName}\` FOREIGN KEY (\`${name}\`) REFERENCES \`${fkTable}\` (\`${fkColumn}\`) ON DELETE ${fkOnDelete} ON UPDATE ${fkOnUpdate}`);
+                        foreignKeys.push(`  CONSTRAINT ${quoteIdentifier(constraintName)} FOREIGN KEY (${quoteIdentifier(name)}) REFERENCES ${quoteIdentifier(fkTable.trim())} (${quoteIdentifier(fkColumn.trim())}) ON DELETE ${fkOnDelete} ON UPDATE ${fkOnUpdate}`);
                     }
                 }
+            }
+
+            if (!columns.length) {
+                showToast('Add at least one column before generating the table', 'error');
+                return '';
             }
             
             // Add columns to query
@@ -1610,12 +1882,12 @@
             
             // Add primary key
             if (primaryKeys.length > 0) {
-                query += `,\n  PRIMARY KEY (\`${primaryKeys.join('`, `')}\`)`;
+                query += `,\n  PRIMARY KEY (${primaryKeys.map(quoteIdentifier).join(', ')})`;
             }
             
             // Add unique keys
             uniqueKeys.forEach(key => {
-                query += `,\n  UNIQUE KEY \`uniq_${tableName}_${key}\` (\`${key}\`)`;
+                query += `,\n  UNIQUE KEY ${quoteIdentifier(`uniq_${tableName}_${key}`)} (${quoteIdentifier(key)})`;
             });
             
             // Add foreign keys
@@ -1625,7 +1897,7 @@
             
             // Add table comment if provided
             if (tableDescription) {
-                query += `,\n  COMMENT '${tableDescription}'`;
+                query += `,\n  COMMENT '${escapeSqlString(tableDescription)}'`;
             }
             
             query += `\n) ENGINE=${engine} DEFAULT CHARSET=${charset} COLLATE=${collation};`;
@@ -1634,22 +1906,32 @@
         }
         
         function generateAlterQuery(action, tableName) {
-            let query = `ALTER TABLE \`${tableName}\` `;
+            let query = `ALTER TABLE ${quoteIdentifier(tableName)} `;
             
             switch (action) {
                 case 'ADD':
                 case 'MODIFY':
-                    const columnName = document.getElementById('alterColumnName').value;
+                    const columnName = document.getElementById('alterColumnName').value.trim();
                     const columnType = document.getElementById('alterColumnType').value;
-                    const columnLength = document.getElementById('alterColumnLength').value;
-                    const columnDefault = document.getElementById('alterColumnDefault').value;
+                    const columnLength = document.getElementById('alterColumnLength').value.trim();
+                    const columnDefault = document.getElementById('alterColumnDefault').value.trim();
                     
                     if (!columnName || !columnType) {
                         showToast('Column name and type are required', 'error');
                         return '';
                     }
+
+                    if ((columnType === 'VARCHAR' || columnType === 'CHAR') && !/^\d+$/.test(columnLength)) {
+                        showToast(`${columnType} needs a positive length`, 'error');
+                        return '';
+                    }
+
+                    if (columnLength && !/^\d+(?:\s*,\s*\d+)?$/.test(columnLength)) {
+                        showToast('Length/precision must be numeric', 'error');
+                        return '';
+                    }
                     
-                    let columnDef = `\`${columnName}\` ${columnType}`;
+                    let columnDef = `${quoteIdentifier(columnName)} ${columnType}`;
                     
                     if (lengthApplicableTypes.includes(columnType) && columnLength) {
                         columnDef += `(${columnLength})`;
@@ -1660,13 +1942,12 @@
                     }
                     
                     if (columnDefault) {
-                        if (columnDefault.toLowerCase() === 'null') {
-                            columnDef += ` DEFAULT NULL`;
-                        } else if (stringTypes.includes(columnType) || dateTypes.includes(columnType)) {
-                            columnDef += ` DEFAULT '${columnDefault}'`;
-                        } else {
-                            columnDef += ` DEFAULT ${columnDefault}`;
+                        const formattedDefault = formatDefaultValue(columnDefault, columnType);
+                        if (formattedDefault === null) {
+                            showToast('Enter a valid numeric default', 'error');
+                            return '';
                         }
+                        columnDef += ` DEFAULT ${formattedDefault}`;
                     }
                     
                     if (document.getElementById('alterAutoIncrement').checked) {
@@ -1685,32 +1966,34 @@
                     }
                     
                     if (document.getElementById('alterForeign').checked) {
-                        const fkTable = document.getElementById('alterFkTable').value;
-                        const fkColumn = document.getElementById('alterFkColumn').value;
+                        const fkTable = document.getElementById('alterFkTable').value.trim();
+                        const fkColumn = document.getElementById('alterFkColumn').value.trim();
                         const fkOnDelete = document.getElementById('alterFkOnDelete').value;
                         const fkOnUpdate = document.getElementById('alterFkOnUpdate').value;
                         
-                        if (fkTable && fkColumn) {
-                            const constraintName = `fk_${tableName}_${columnName}`;
-                            query += `, ADD CONSTRAINT \`${constraintName}\` FOREIGN KEY (\`${columnName}\`) REFERENCES \`${fkTable}\` (\`${fkColumn}\`) ON DELETE ${fkOnDelete} ON UPDATE ${fkOnUpdate}`;
+                        if (!fkTable || !fkColumn) {
+                            showToast('Reference table and column are required for a foreign key', 'error');
+                            return '';
                         }
+                        const constraintName = `fk_${tableName}_${columnName}`;
+                        query += `, ADD CONSTRAINT ${quoteIdentifier(constraintName)} FOREIGN KEY (${quoteIdentifier(columnName)}) REFERENCES ${quoteIdentifier(fkTable)} (${quoteIdentifier(fkColumn)}) ON DELETE ${fkOnDelete} ON UPDATE ${fkOnUpdate}`;
                     }
                     break;
                     
                 case 'DROP':
-                    const dropColumnName = document.getElementById('alterColumnName').value;
+                    const dropColumnName = document.getElementById('alterColumnName').value.trim();
                     if (!dropColumnName) {
                         showToast('Column name is required', 'error');
                         return '';
                     }
-                    query += `DROP COLUMN \`${dropColumnName}\``;
+                    query += `DROP COLUMN ${quoteIdentifier(dropColumnName)}`;
                     break;
                     
                 case 'ADD_FK':
-                    const fkColumnName = document.getElementById('alterColumnName').value;
-                    const fkName = document.getElementById('alterFkName').value;
-                    const fkRefTable = document.getElementById('alterFkTable').value;
-                    const fkRefColumn = document.getElementById('alterFkColumn').value;
+                    const fkColumnName = document.getElementById('alterColumnName').value.trim();
+                    const fkName = document.getElementById('alterFkName').value.trim();
+                    const fkRefTable = document.getElementById('alterFkTable').value.trim();
+                    const fkRefColumn = document.getElementById('alterFkColumn').value.trim();
                     const fkOnDelete = document.getElementById('alterFkOnDelete').value;
                     const fkOnUpdate = document.getElementById('alterFkOnUpdate').value;
                     
@@ -1720,38 +2003,38 @@
                     }
                     
                     const constraintName = fkName || `fk_${tableName}_${fkColumnName}`;
-                    query += `ADD CONSTRAINT \`${constraintName}\` FOREIGN KEY (\`${fkColumnName}\`) REFERENCES \`${fkRefTable}\` (\`${fkRefColumn}\`) ON DELETE ${fkOnDelete} ON UPDATE ${fkOnUpdate}`;
+                    query += `ADD CONSTRAINT ${quoteIdentifier(constraintName)} FOREIGN KEY (${quoteIdentifier(fkColumnName)}) REFERENCES ${quoteIdentifier(fkRefTable)} (${quoteIdentifier(fkRefColumn)}) ON DELETE ${fkOnDelete} ON UPDATE ${fkOnUpdate}`;
                     break;
                     
                 case 'DROP_FK':
-                    const dropFkName = document.getElementById('alterFkName').value;
+                    const dropFkName = document.getElementById('alterFkName').value.trim();
                     if (!dropFkName) {
                         showToast('Constraint name is required', 'error');
                         return '';
                     }
-                    query += `DROP FOREIGN KEY \`${dropFkName}\``;
+                    query += `DROP FOREIGN KEY ${quoteIdentifier(dropFkName)}`;
                     break;
                     
                 case 'ADD_INDEX':
-                    const indexName = document.getElementById('alterIndexName').value;
+                    const indexName = document.getElementById('alterIndexName').value.trim();
                     const indexType = document.getElementById('alterIndexType').value;
-                    const indexColumns = document.getElementById('alterIndexColumns').value;
+                    const indexColumns = splitCommaSeparated(document.getElementById('alterIndexColumns').value);
                     
-                    if (!indexName || !indexColumns) {
+                    if (!indexName || !indexColumns.length) {
                         showToast('Index name and columns are required', 'error');
                         return '';
                     }
                     
-                    query += `ADD ${indexType} \`${indexName}\` (\`${indexColumns.replace(/,/g, '`, `')}\`)`;
+                    query += `ADD ${indexType} ${quoteIdentifier(indexName)} (${indexColumns.map(quoteIdentifier).join(', ')})`;
                     break;
                     
                 case 'DROP_INDEX':
-                    const dropIndexName = document.getElementById('alterIndexName').value;
+                    const dropIndexName = document.getElementById('alterIndexName').value.trim();
                     if (!dropIndexName) {
                         showToast('Index name is required', 'error');
                         return '';
                     }
-                    query += `DROP INDEX \`${dropIndexName}\``;
+                    query += `DROP INDEX ${quoteIdentifier(dropIndexName)}`;
                     break;
             }
             
