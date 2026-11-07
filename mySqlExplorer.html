@@ -5,8 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MySQL Topics Explorer</title>
     
-    <!-- Tailwind CSS -->
+    <!-- Use the `dark` class so the theme toggle controls Tailwind's dark variants. -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = { darkMode: 'selector' };
+    </script>
     
     <!-- Font Awesome for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
@@ -118,6 +121,43 @@
         .custom-scrollbar::-webkit-scrollbar-thumb:hover {
             background: rgba(102, 126, 234, 0.7);
         }
+
+        html { scroll-padding-top: 5rem; }
+        html.dark { color-scheme: dark; }
+        html:not(.dark) { color-scheme: light; }
+
+        @media (max-width: 639px) {
+            html, body { max-width: 100%; overflow-x: hidden; }
+            section[id] { scroll-margin-top: 8rem; }
+
+            .topic-card > button {
+                align-items: flex-start;
+                gap: 0.5rem;
+                padding: 1rem;
+            }
+
+            .topic-card > button > div { min-width: 0; }
+            .topic-card > button h3 { overflow-wrap: anywhere; font-size: 1rem; }
+            .topic-card > button > span { flex-shrink: 0; padding-top: 0.2rem; font-size: 0.72rem; }
+            .topic-card .px-6 { padding-left: 1rem; padding-right: 1rem; }
+
+            .code-container { overflow-x: auto; }
+            .code-container pre { width: max-content; min-width: 100%; margin: 0; }
+            .code-container > button {
+                position: static;
+                display: block;
+                width: max-content;
+                margin: 0 0 0.5rem auto;
+                opacity: 1;
+            }
+
+            #back-to-top { right: 1rem; bottom: 1rem; padding: 0.8rem; }
+            #toast-notification { width: calc(100% - 2rem); max-width: 28rem; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after { scroll-behavior: auto !important; animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+        }
     </style>
 </head>
 <body class="bg-gray-50 dark:bg-gray-900 transition-colors duration-300" x-data="mysqlExplorer()">
@@ -128,38 +168,56 @@
     <!-- Header -->
     <header class="gradient-bg text-white shadow-lg sticky top-0 z-40">
         <div class="container mx-auto px-4 py-4">
-            <div class="flex items-center justify-between">
-                <div class="flex items-center space-x-4">
+            <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                <div class="flex min-w-0 items-center gap-3 sm:gap-4">
                     <button @click="window.location.href='index.html'" 
-                            class="p-2 rounded-lg glass-effect hover:bg-white/20 transition-all">
-                        <i class="fas fa-home text-xl"></i>
+                            aria-label="Go to home" title="Home"
+                            class="shrink-0 p-2 rounded-lg glass-effect hover:bg-white/20 transition-all">
+                        <i class="fas fa-home text-lg sm:text-xl" aria-hidden="true"></i>
                     </button>
-                    <div>
-                        <h1 class="text-2xl font-bold">MySQL Topics Explorer</h1>
-                        <p class="text-sm opacity-90">Master MySQL with interactive examples</p>
+                    <div class="min-w-0">
+                        <h1 class="text-lg leading-tight font-bold sm:text-2xl">MySQL Topics Explorer</h1>
+                        <p class="mt-1 text-xs opacity-90 sm:text-sm">Master MySQL with interactive examples</p>
                     </div>
                 </div>
                 
-                <div class="flex items-center space-x-4">
+                <div class="flex w-full min-w-0 items-center gap-2 sm:w-auto sm:gap-4">
                     <!-- Search Bar -->
-                    <div class="relative">
+                    <div class="relative min-w-0 flex-1 sm:flex-none">
                         <input type="text" 
                                x-model="searchQuery" 
                                @input="filterTopics()"
                                placeholder="Search topics..." 
-                               class="w-64 px-4 py-2 pl-10 rounded-lg bg-white/20 glass-effect text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-white/50">
+                               aria-label="Search MySQL topics"
+                               class="w-full rounded-lg bg-white/20 py-2 pl-10 pr-3 text-sm text-white placeholder-white/70 glass-effect focus:outline-none focus:ring-2 focus:ring-white/50 sm:w-64">
                         <i class="fas fa-search absolute left-3 top-3 text-white/70"></i>
                     </div>
                     
                     <!-- Theme Toggle -->
                     <button @click="toggleTheme()" 
-                            class="p-2 rounded-lg glass-effect hover:bg-white/20 transition-all">
-                        <i class="fas" :class="darkMode ? 'fa-sun' : 'fa-moon'"></i>
+                            :aria-label="darkMode ? 'Switch to light theme' : 'Switch to dark theme'"
+                            :title="darkMode ? 'Switch to light theme' : 'Switch to dark theme'"
+                            class="shrink-0 p-2 rounded-lg glass-effect hover:bg-white/20 transition-all">
+                        <i class="fas" :class="darkMode ? 'fa-sun' : 'fa-moon'" aria-hidden="true"></i>
                     </button>
                 </div>
             </div>
         </div>
     </header>
+
+    <nav class="border-b border-gray-200 bg-white dark:border-gray-700 dark:bg-gray-800 lg:hidden" aria-label="MySQL categories">
+        <div class="container mx-auto flex gap-2 overflow-x-auto px-4 py-3 custom-scrollbar">
+            <button @click="scrollToCategory('mysql-sql')"
+                    :class="activeCategory === 'mysql-sql' ? 'bg-indigo-600 text-white' : 'bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-200'"
+                    class="shrink-0 rounded-full px-4 py-2 text-sm font-medium transition-colors">SQL</button>
+            <button @click="scrollToCategory('mysql-database')"
+                    :class="activeCategory === 'mysql-database' ? 'bg-indigo-600 text-white' : 'bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-200'"
+                    class="shrink-0 rounded-full px-4 py-2 text-sm font-medium transition-colors">Database</button>
+            <button @click="scrollToCategory('mysql-references')"
+                    :class="activeCategory === 'mysql-references' ? 'bg-indigo-600 text-white' : 'bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-200'"
+                    class="shrink-0 rounded-full px-4 py-2 text-sm font-medium transition-colors">References</button>
+        </div>
+    </nav>
     
     <div class="flex">
         <!-- Sidebar -->
@@ -180,15 +238,15 @@
         </aside>
         
         <!-- Main Content -->
-        <main class="flex-1 container mx-auto px-4 py-8">
+        <main class="container mx-auto min-w-0 flex-1 px-4 py-6 sm:py-8">
             <!-- MySQL SQL Section -->
             <section id="mysql-sql" class="mb-12 animate-fadeInUp">
                 <div class="flex items-center mb-6">
-                    <div class="bg-gradient-to-r from-purple-500 to-indigo-600 text-white p-3 rounded-lg mr-4">
+                    <div class="bg-gradient-to-r from-purple-500 to-indigo-600 text-white p-2 sm:p-3 rounded-lg mr-3 sm:mr-4">
                         <i class="fas fa-code text-2xl"></i>
                     </div>
                     <div>
-                        <h2 class="text-3xl font-bold text-gray-800 dark:text-white">MySQL SQL</h2>
+                        <h2 class="text-2xl font-bold text-gray-800 dark:text-white sm:text-3xl">MySQL SQL</h2>
                         <p class="text-gray-600 dark:text-gray-400">Core SQL commands and queries</p>
                     </div>
                 </div>
@@ -229,11 +287,11 @@
             <!-- MySQL Database Section -->
             <section id="mysql-database" class="mb-12 animate-fadeInUp">
                 <div class="flex items-center mb-6">
-                    <div class="bg-gradient-to-r from-green-500 to-teal-600 text-white p-3 rounded-lg mr-4">
+                    <div class="bg-gradient-to-r from-green-500 to-teal-600 text-white p-2 sm:p-3 rounded-lg mr-3 sm:mr-4">
                         <i class="fas fa-database text-2xl"></i>
                     </div>
                     <div>
-                        <h2 class="text-3xl font-bold text-gray-800 dark:text-white">MySQL Database</h2>
+                        <h2 class="text-2xl font-bold text-gray-800 dark:text-white sm:text-3xl">MySQL Database</h2>
                         <p class="text-gray-600 dark:text-gray-400">Database management and operations</p>
                     </div>
                 </div>
@@ -274,11 +332,11 @@
             <!-- MySQL References Section -->
             <section id="mysql-references" class="mb-12 animate-fadeInUp">
                 <div class="flex items-center mb-6">
-                    <div class="bg-gradient-to-r from-orange-500 to-red-600 text-white p-3 rounded-lg mr-4">
+                    <div class="bg-gradient-to-r from-orange-500 to-red-600 text-white p-2 sm:p-3 rounded-lg mr-3 sm:mr-4">
                         <i class="fas fa-book text-2xl"></i>
                     </div>
                     <div>
-                        <h2 class="text-3xl font-bold text-gray-800 dark:text-white">MySQL References</h2>
+                        <h2 class="text-2xl font-bold text-gray-800 dark:text-white sm:text-3xl">MySQL References</h2>
                         <p class="text-gray-600 dark:text-gray-400">Data types and functions</p>
                     </div>
                 </div>
@@ -319,7 +377,7 @@
     </div>
     
     <!-- Back to Top Button -->
-    <button @click="scrollToTop()"
+    <button id="back-to-top" @click="scrollToTop()"
             x-show="showBackToTop"
             x-transition
             class="fixed bottom-8 right-8 bg-gradient-to-r from-purple-500 to-indigo-600 text-white p-4 rounded-full shadow-lg hover:shadow-xl transform hover:scale-110 transition-all z-40">
@@ -327,7 +385,7 @@
     </button>
     
     <!-- Toast Notification -->
-    <div x-show="showToast"
+    <div id="toast-notification" x-show="showToast"
          x-transition:enter="transition ease-out duration-300"
          x-transition:enter-start="opacity-0 transform translate-y-full"
          x-transition:enter-end="opacity-100 transform translate-y-0"
@@ -1007,9 +1065,16 @@
                 },
                 
                 init() {
-                    // Check for dark mode preference
-                    this.darkMode = localStorage.getItem('darkMode') === 'true' || 
-                                   (!localStorage.getItem('darkMode') && window.matchMedia('(prefers-color-scheme: dark)').matches);
+                    // Honor the saved choice, then fall back to the system preference.
+                    let savedTheme = null;
+                    try {
+                        savedTheme = localStorage.getItem('darkMode');
+                    } catch (error) {
+                        // The page can still work when browser storage is unavailable.
+                    }
+
+                    this.darkMode = savedTheme === 'true' ||
+                        (savedTheme === null && window.matchMedia('(prefers-color-scheme: dark)').matches);
                     this.applyTheme();
                     
                     // Initialize scroll listeners
@@ -1026,15 +1091,15 @@
                 toggleTheme() {
                     this.darkMode = !this.darkMode;
                     this.applyTheme();
-                    localStorage.setItem('darkMode', this.darkMode);
+                    try {
+                        localStorage.setItem('darkMode', this.darkMode);
+                    } catch (error) {
+                        // Keep the current session's theme even when storage is unavailable.
+                    }
                 },
                 
                 applyTheme() {
-                    if (this.darkMode) {
-                        document.documentElement.classList.add('dark');
-                    } else {
-                        document.documentElement.classList.remove('dark');
-                    }
+                    document.documentElement.classList.toggle('dark', this.darkMode);
                 },
                 
                 updateScrollPercentage() {
