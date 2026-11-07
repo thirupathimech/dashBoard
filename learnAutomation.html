@@ -265,29 +265,239 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.2);
         }
 
+        #quiz-section {
+            background: linear-gradient(135deg, #f4f5ff 0%, #f6f0ff 55%, #edf6ff 100%);
+        }
+
+        .quiz-heading {
+            max-width: 700px;
+            margin: 0 auto 2rem;
+            text-align: center;
+        }
+
+        .quiz-eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #5c57c9;
+            background: rgba(102, 126, 234, 0.12);
+            border-radius: 999px;
+            padding: 0.45rem 0.85rem;
+            font-size: 0.82rem;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+        }
+
+        .quiz-heading .section-title {
+            margin: 0.85rem 0 0.5rem;
+        }
+
+        .quiz-heading p {
+            margin: 0;
+            color: #5b6475;
+            font-size: 1.05rem;
+        }
+
+        .quiz-card {
+            max-width: 820px;
+            margin: 0 auto;
+            padding: clamp(1.25rem, 4vw, 2.5rem);
+            background: #fff;
+            border: 1px solid rgba(89, 92, 160, 0.12);
+            border-radius: 24px;
+            box-shadow: 0 24px 70px rgba(47, 52, 100, 0.13);
+        }
+
+        .quiz-card-topline {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 0.85rem;
+            color: #667085;
+            font-size: 0.8rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+        }
+
+        .quiz-topic {
+            color: #5c57c9;
+            background: #f0efff;
+            border-radius: 999px;
+            padding: 0.4rem 0.7rem;
+            letter-spacing: 0;
+        }
+
+        .quiz-progress-track {
+            height: 8px;
+            margin-bottom: 2rem;
+            overflow: hidden;
+            background: #eeeff5;
+            border-radius: 999px;
+        }
+
+        .quiz-progress-track .progress-bar {
+            background: linear-gradient(90deg, #6575e8, #8b5cf6);
+            border-radius: inherit;
+            transition: width 0.35s ease;
+        }
+
+        .quiz-question h4 {
+            margin-bottom: 0.65rem;
+            color: #20243a;
+            font-size: clamp(1.15rem, 3vw, 1.4rem);
+            font-weight: 750;
+        }
+
+        .quiz-question > p {
+            margin-bottom: 1.4rem;
+            color: #5b6475;
+            font-size: 1.03rem;
+            line-height: 1.65;
+        }
+
+        .quiz-question {
+            counter-reset: quiz-option;
+        }
+
         .quiz-option {
-            background: rgba(102, 126, 234, 0.1);
-            border: 2px solid transparent;
-            border-radius: 10px;
-            padding: 1rem;
-            margin: 0.5rem 0;
+            display: flex;
+            width: 100%;
+            align-items: center;
+            gap: 0.85rem;
+            min-height: 58px;
+            margin: 0.7rem 0;
+            padding: 0.9rem 1rem;
+            color: #30364a;
+            background: #fff;
+            border: 1.5px solid #e4e7ef;
+            border-radius: 14px;
+            text-align: left;
+            font: inherit;
+            line-height: 1.5;
+            overflow-wrap: anywhere;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: border-color 0.18s ease, background 0.18s ease, box-shadow 0.18s ease;
+        }
+
+        .quiz-option::before {
+            counter-increment: quiz-option;
+            content: counter(quiz-option, upper-alpha);
+            display: grid;
+            flex: 0 0 30px;
+            width: 30px;
+            height: 30px;
+            place-items: center;
+            color: #626b7d;
+            background: #f2f3f8;
+            border-radius: 50%;
+            font-size: 0.78rem;
+            font-weight: 750;
+        }
+
+        .quiz-option .fa-circle {
+            display: none;
         }
 
         .quiz-option:hover {
-            background: rgba(102, 126, 234, 0.2);
-            border-color: #667eea;
+            border-color: #9aa4ef;
+            background: #fafaff;
         }
 
-        .quiz-option.correct {
-            background: rgba(40, 167, 69, 0.2);
-            border-color: #28a745;
+        .quiz-option.selected {
+            color: #353b83;
+            background: #f1f2ff;
+            border-color: #6875e6;
+            box-shadow: 0 0 0 3px rgba(104, 117, 230, 0.12);
         }
 
-        .quiz-option.incorrect {
-            background: rgba(220, 53, 69, 0.2);
-            border-color: #dc3545;
+        .quiz-option.selected::before {
+            color: #fff;
+            background: #6875e6;
+        }
+
+        .quiz-option:focus-visible,
+        .quiz-controls .btn:focus-visible,
+        .quiz-result .btn:focus-visible {
+            outline: 3px solid rgba(104, 117, 230, 0.45);
+            outline-offset: 3px;
+        }
+
+        .quiz-controls {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            align-items: center;
+            gap: 1rem;
+            margin-top: 1.75rem;
+        }
+
+        .quiz-controls .btn {
+            min-height: 46px;
+            border-radius: 12px;
+            font-weight: 650;
+        }
+
+        #prevBtn { justify-self: start; }
+        #nextBtn { justify-self: end; }
+
+        .quiz-hint {
+            color: #778094;
+            font-size: 0.88rem;
+            text-align: center;
+        }
+
+        .quiz-controls .btn-primary,
+        .quiz-result .btn-primary {
+            background: linear-gradient(135deg, #6675e8, #7954c8);
+            border: 0;
+            box-shadow: 0 8px 18px rgba(102, 117, 232, 0.2);
+        }
+
+        .quiz-result {
+            padding: 0.75rem 0 0;
+            text-align: center;
+        }
+
+        .quiz-result-icon {
+            display: grid;
+            width: 68px;
+            height: 68px;
+            margin: 0 auto 1rem;
+            place-items: center;
+            color: #7459d1;
+            background: #f0edff;
+            border-radius: 50%;
+            font-size: 1.75rem;
+        }
+
+        .quiz-result h3 { color: #20243a; font-weight: 750; }
+        .quiz-result .quiz-score { color: #5f68dc; font-size: clamp(2.5rem, 8vw, 4rem); font-weight: 800; }
+        .quiz-result #quiz-feedback { color: #5b6475; }
+        .quiz-review { margin: 2rem 0 1.5rem; text-align: left; }
+        .quiz-review h4 { margin-bottom: 1rem; color: #30364a; font-size: 1.05rem; font-weight: 750; }
+        .quiz-review-item { margin-bottom: 0.75rem; padding: 1rem; background: #f8f9fc; border: 1px solid #e9ebf2; border-radius: 14px; }
+        .quiz-review-item h5 { color: #30364a; font-size: 0.95rem; font-weight: 700; }
+        .quiz-review-item p { margin: 0.4rem 0 0; color: #667085; font-size: 0.9rem; overflow-wrap: anywhere; }
+        .quiz-review-item .review-correct { color: #14764d; }
+        .quiz-review-item .review-incorrect { color: #b54747; }
+
+        @media (max-width: 575.98px) {
+            #quiz-section { padding-top: 3rem !important; padding-bottom: 3rem !important; }
+            .quiz-heading { margin-bottom: 1.4rem; }
+            .quiz-heading p { font-size: 0.95rem; }
+            .quiz-card { border-radius: 18px; }
+            .quiz-card-topline { align-items: flex-start; font-size: 0.72rem; }
+            .quiz-topic { padding: 0.35rem 0.55rem; }
+            .quiz-progress-track { margin-bottom: 1.5rem; }
+            .quiz-question > p { font-size: 0.96rem; }
+            .quiz-option { min-height: 54px; padding: 0.8rem; font-size: 0.93rem; }
+            .quiz-controls { grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+            .quiz-hint { grid-column: 1 / -1; grid-row: 1; }
+            #prevBtn { grid-column: 1; grid-row: 2; }
+            #nextBtn { grid-column: 2; grid-row: 2; }
+            #prevBtn, #nextBtn { width: 100%; justify-self: stretch; }
+            .quiz-review-item { padding: 0.85rem; }
         }
 
         @media (max-width: 768px) {
@@ -1268,150 +1478,158 @@ mvn test -Dtest=LoginTest#testValidLogin</code></pre>
         </div>
     </section>
 
-    <section id="quiz-section" class="py-5" style="background: linear-gradient(135deg, #f3e5f5 0%, #e1bee7 100%);">
+    <section id="quiz-section" class="py-5">
         <div class="container">
-            <h2 class="section-title">Test Your Knowledge</h2>
+            <div class="quiz-heading">
+                <span class="quiz-eyebrow"><i class="fas fa-sparkles" aria-hidden="true"></i> Quick self-check · 5 questions</span>
+                <h2 class="section-title">Test Your Knowledge</h2>
+                <p>Choose an answer for each question. Your score and answer review appear when you finish.</p>
+            </div>
             
-            <div class="floating-card">
+            <div class="quiz-card" id="quiz-card">
+                <div class="quiz-card-topline">
+                    <span id="question-counter" aria-live="polite">QUESTION 1 OF 5</span>
+                    <span class="quiz-topic">XPath + TestNG</span>
+                </div>
+
+                <div class="progress quiz-progress-track" role="progressbar" aria-label="Quiz progress" aria-valuemin="0" aria-valuemax="5" aria-valuenow="1">
+                    <div class="progress-bar" id="quiz-progress" style="width: 20%"></div>
+                </div>
+
                 <div id="quiz-container">
                     <div class="quiz-question" id="question-1" style="display: block;">
                         <h4><i class="fas fa-question-circle text-primary me-2"></i>Question 1: XPath Basics</h4>
                         <p>Which XPath expression correctly selects all input elements with type "text"?</p>
                         
-                        <div class="quiz-option" onclick="selectOption(this, false)">
+                        <button type="button" class="quiz-option" data-correct="false" aria-pressed="false">
                             <i class="fas fa-circle me-2"></i>
                             /html/body/input[@type="text"]
-                        </div>
-                        <div class="quiz-option" onclick="selectOption(this, true)">
+                        </button>
+                        <button type="button" class="quiz-option" data-correct="true" aria-pressed="false">
                             <i class="fas fa-circle me-2"></i>
                             //input[@type='text']
-                        </div>
-                        <div class="quiz-option" onclick="selectOption(this, false)">
+                        </button>
+                        <button type="button" class="quiz-option" data-correct="false" aria-pressed="false">
                             <i class="fas fa-circle me-2"></i>
                             //input[type='text']
-                        </div>
-                        <div class="quiz-option" onclick="selectOption(this, false)">
+                        </button>
+                        <button type="button" class="quiz-option" data-correct="false" aria-pressed="false">
                             <i class="fas fa-circle me-2"></i>
                             input[@type='text']
-                        </div>
+                        </button>
                     </div>
 
                     <div class="quiz-question" id="question-2" style="display: none;">
                         <h4><i class="fas fa-question-circle text-primary me-2"></i>Question 2: TestNG Annotations</h4>
                         <p>Which annotation runs before each test method?</p>
                         
-                        <div class="quiz-option" onclick="selectOption(this, false)">
+                        <button type="button" class="quiz-option" data-correct="false" aria-pressed="false">
                             <i class="fas fa-circle me-2"></i>
                             @BeforeClass
-                        </div>
-                        <div class="quiz-option" onclick="selectOption(this, true)">
+                        </button>
+                        <button type="button" class="quiz-option" data-correct="true" aria-pressed="false">
                             <i class="fas fa-circle me-2"></i>
                             @BeforeMethod
-                        </div>
-                        <div class="quiz-option" onclick="selectOption(this, false)">
+                        </button>
+                        <button type="button" class="quiz-option" data-correct="false" aria-pressed="false">
                             <i class="fas fa-circle me-2"></i>
                             @BeforeTest
-                        </div>
-                        <div class="quiz-option" onclick="selectOption(this, false)">
+                        </button>
+                        <button type="button" class="quiz-option" data-correct="false" aria-pressed="false">
                             <i class="fas fa-circle me-2"></i>
                             @BeforeSuite
-                        </div>
+                        </button>
                     </div>
 
                     <div class="quiz-question" id="question-3" style="display: none;">
                         <h4><i class="fas fa-question-circle text-primary me-2"></i>Question 3: XPath Functions</h4>
                         <p>Which XPath function is used to get elements containing specific text?</p>
                         
-                        <div class="quiz-option" onclick="selectOption(this, false)">
+                        <button type="button" class="quiz-option" data-correct="false" aria-pressed="false">
                             <i class="fas fa-circle me-2"></i>
                             text()
-                        </div>
-                        <div class="quiz-option" onclick="selectOption(this, true)">
+                        </button>
+                        <button type="button" class="quiz-option" data-correct="true" aria-pressed="false">
                             <i class="fas fa-circle me-2"></i>
                             contains()
-                        </div>
-                        <div class="quiz-option" onclick="selectOption(this, false)">
+                        </button>
+                        <button type="button" class="quiz-option" data-correct="false" aria-pressed="false">
                             <i class="fas fa-circle me-2"></i>
                             starts-with()
-                        </div>
-                        <div class="quiz-option" onclick="selectOption(this, false)">
+                        </button>
+                        <button type="button" class="quiz-option" data-correct="false" aria-pressed="false">
                             <i class="fas fa-circle me-2"></i>
                             normalize-space()
-                        </div>
+                        </button>
                     </div>
 
                     <div class="quiz-question" id="question-4" style="display: none;">
                         <h4><i class="fas fa-question-circle text-primary me-2"></i>Question 4: TestNG Attributes</h4>
                         <p>Which attribute sets the execution priority of test methods?</p>
                         
-                        <div class="quiz-option" onclick="selectOption(this, false)">
+                        <button type="button" class="quiz-option" data-correct="false" aria-pressed="false">
                             <i class="fas fa-circle me-2"></i>
                             order
-                        </div>
-                        <div class="quiz-option" onclick="selectOption(this, true)">
+                        </button>
+                        <button type="button" class="quiz-option" data-correct="true" aria-pressed="false">
                             <i class="fas fa-circle me-2"></i>
                             priority
-                        </div>
-                        <div class="quiz-option" onclick="selectOption(this, false)">
+                        </button>
+                        <button type="button" class="quiz-option" data-correct="false" aria-pressed="false">
                             <i class="fas fa-circle me-2"></i>
                             sequence
-                        </div>
-                        <div class="quiz-option" onclick="selectOption(this, false)">
+                        </button>
+                        <button type="button" class="quiz-option" data-correct="false" aria-pressed="false">
                             <i class="fas fa-circle me-2"></i>
                             index
-                        </div>
+                        </button>
                     </div>
 
                     <div class="quiz-question" id="question-5" style="display: none;">
                         <h4><i class="fas fa-question-circle text-primary me-2"></i>Question 5: Advanced XPath</h4>
                         <p>How do you select the second div element using XPath?</p>
                         
-                        <div class="quiz-option" onclick="selectOption(this, false)">
+                        <button type="button" class="quiz-option" data-correct="false" aria-pressed="false">
                             <i class="fas fa-circle me-2"></i>
                             //div[@position=2]
-                        </div>
-                        <div class="quiz-option" onclick="selectOption(this, true)">
+                        </button>
+                        <button type="button" class="quiz-option" data-correct="true" aria-pressed="false">
                             <i class="fas fa-circle me-2"></i>
                             //div[2]
-                        </div>
-                        <div class="quiz-option" onclick="selectOption(this, false)">
+                        </button>
+                        <button type="button" class="quiz-option" data-correct="false" aria-pressed="false">
                             <i class="fas fa-circle me-2"></i>
-                            //div[position()=2]
-                        </div>
-                        <div class="quiz-option" onclick="selectOption(this, false)">
+                            //div[position()=3]
+                        </button>
+                        <button type="button" class="quiz-option" data-correct="false" aria-pressed="false">
                             <i class="fas fa-circle me-2"></i>
                             //div[index=2]
-                        </div>
+                        </button>
                     </div>
 
-                    <div id="quiz-result" style="display: none;">
-                        <div class="text-center">
-                            <h3><i class="fas fa-trophy text-warning me-2"></i>Quiz Complete!</h3>
-                            <div class="mt-4">
-                                <div class="display-4 text-primary" id="quiz-score">0/5</div>
-                                <p class="lead" id="quiz-feedback">Great job!</p>
-                                <button class="btn btn-primary btn-lg" onclick="resetQuiz()">
-                                    <i class="fas fa-redo me-2"></i>Take Quiz Again
-                                </button>
-                            </div>
+                    <div id="quiz-result" class="quiz-result" style="display: none;" aria-live="polite">
+                        <div class="quiz-result-icon"><i class="fas fa-trophy" aria-hidden="true"></i></div>
+                        <h3>Quiz complete</h3>
+                        <div class="quiz-score" id="quiz-score">0/5</div>
+                        <p id="quiz-feedback">Great job!</p>
+                        <div class="quiz-review" id="quiz-review">
+                            <h4>Answer review</h4>
+                            <div id="quiz-review-list"></div>
                         </div>
+                        <button class="btn btn-primary btn-lg" onclick="resetQuiz()">
+                            <i class="fas fa-redo me-2" aria-hidden="true"></i>Try again
+                        </button>
                     </div>
                 </div>
 
-                <div class="d-flex justify-content-between mt-4">
+                <div class="quiz-controls">
                     <button class="btn btn-outline-secondary" id="prevBtn" onclick="previousQuestion()" disabled>
-                        <i class="fas fa-chevron-left me-2"></i>Previous
+                        <i class="fas fa-chevron-left me-2" aria-hidden="true"></i><span>Previous</span>
                     </button>
-                    <div class="quiz-progress">
-                        <span id="question-counter">1 / 5</span>
-                    </div>
+                    <span class="quiz-hint" id="quiz-hint" aria-live="polite">Select one answer to continue</span>
                     <button class="btn btn-primary" id="nextBtn" onclick="nextQuestion()" disabled>
-                        Next<i class="fas fa-chevron-right ms-2"></i>
+                        <span class="button-label">Next</span><i class="fas fa-chevron-right ms-2" aria-hidden="true"></i>
                     </button>
-                </div>
-
-                <div class="progress mt-3">
-                    <div class="progress-bar" id="quiz-progress" style="width: 20%"></div>
                 </div>
             </div>
         </div>
@@ -1480,114 +1698,124 @@ mvn test -Dtest=LoginTest#testValidLogin</code></pre>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
 
     <script>
-        // Quiz functionality
+        // Quiz functionality: keep answers private until the quiz is submitted.
         let currentQuestion = 1;
-        let totalQuestions = 5;
-        let score = 0;
+        const totalQuestions = $('.quiz-question').length;
         let answers = {};
 
-        function selectOption(element, isCorrect) {
-            // Remove previous selections
-            $(element).parent().find('.quiz-option').removeClass('correct incorrect');
-            
-            // Mark current selection
-            if (isCorrect) {
-                $(element).addClass('correct');
-                answers[currentQuestion] = true;
-            } else {
-                $(element).addClass('incorrect');
-                answers[currentQuestion] = false;
-            }
-            
-            // Enable next button
-            $('#nextBtn').prop('disabled', false);
+        function selectOption(element) {
+            const question = $(element).closest('.quiz-question');
+            const options = question.find('.quiz-option');
+
+            options.removeClass('selected').attr('aria-pressed', 'false');
+            $(element).addClass('selected').attr('aria-pressed', 'true');
+            answers[currentQuestion] = options.index(element);
+            updateQuizProgress();
         }
 
         function nextQuestion() {
-            if (currentQuestion < totalQuestions) {
-                $(`#question-${currentQuestion}`).hide();
-                currentQuestion++;
-                $(`#question-${currentQuestion}`).show();
-                updateQuizProgress();
-                $('#nextBtn').prop('disabled', true);
-                $('#prevBtn').prop('disabled', false);
-                
-                if (currentQuestion === totalQuestions) {
-                    $('#nextBtn').text('Finish Quiz').off('click').on('click', finishQuiz);
-                }
+            if (answers[currentQuestion] === undefined) return;
+
+            if (currentQuestion === totalQuestions) {
+                finishQuiz();
+                return;
             }
+
+            $(`#question-${currentQuestion}`).hide();
+            currentQuestion++;
+            $(`#question-${currentQuestion}`).show();
+            updateQuizProgress();
         }
 
         function previousQuestion() {
-            if (currentQuestion > 1) {
-                $(`#question-${currentQuestion}`).hide();
-                currentQuestion--;
-                $(`#question-${currentQuestion}`).show();
-                updateQuizProgress();
-                
-                if (currentQuestion === 1) {
-                    $('#prevBtn').prop('disabled', true);
-                }
-                
-                $('#nextBtn').text('Next').off('click').on('click', nextQuestion);
-                
-                // Enable next button if question was answered
-                if (answers[currentQuestion] !== undefined) {
-                    $('#nextBtn').prop('disabled', false);
-                }
-            }
+            if (currentQuestion <= 1) return;
+
+            $(`#question-${currentQuestion}`).hide();
+            currentQuestion--;
+            $(`#question-${currentQuestion}`).show();
+            updateQuizProgress();
         }
 
         function updateQuizProgress() {
-            $('#question-counter').text(`${currentQuestion} / ${totalQuestions}`);
             const progress = (currentQuestion / totalQuestions) * 100;
-            $('#quiz-progress').css('width', progress + '%');
+            $('#question-counter').text(`QUESTION ${currentQuestion} OF ${totalQuestions}`);
+            $('#quiz-progress').css('width', `${progress}%`);
+            $('#quiz-progress').parent().attr('aria-valuenow', currentQuestion);
+            $('#prevBtn').prop('disabled', currentQuestion === 1);
+            $('#nextBtn')
+                .prop('disabled', answers[currentQuestion] === undefined)
+                .find('.button-label')
+                .text(currentQuestion === totalQuestions ? 'Finish quiz' : 'Next');
+            $('#quiz-hint').text(answers[currentQuestion] === undefined
+                ? 'Select one answer to continue'
+                : 'Answer saved · You can change it before finishing');
         }
 
         function finishQuiz() {
-            // Calculate score
-            score = Object.values(answers).filter(answer => answer === true).length;
-            
-            // Hide current question
-            $(`#question-${currentQuestion}`).hide();
-            
-            // Show results
-            $('#quiz-result').show();
-            $('#quiz-score').text(`${score}/${totalQuestions}`);
-            
-            let feedback = '';
-            if (score === totalQuestions) {
-                feedback = '🎉 Perfect! You\'re a TestNG & XPath expert!';
-            } else if (score >= totalQuestions * 0.8) {
-                feedback = '👏 Excellent! You have a strong understanding!';
-            } else if (score >= totalQuestions * 0.6) {
-                feedback = '👍 Good job! Keep practicing to improve!';
-            } else {
-                feedback = '📚 Keep learning! Review the materials and try again!';
+            if (currentQuestion !== totalQuestions || answers[currentQuestion] === undefined) return;
+
+            let score = 0;
+            const reviewList = $('#quiz-review-list').empty();
+
+            for (let questionNumber = 1; questionNumber <= totalQuestions; questionNumber++) {
+                const question = $(`#question-${questionNumber}`);
+                const options = question.find('.quiz-option');
+                const correctIndex = options.index(options.filter('[data-correct="true"]'));
+                const selectedIndex = answers[questionNumber];
+                const isCorrect = selectedIndex === correctIndex;
+                const selectedText = selectedIndex === undefined
+                    ? 'No answer selected'
+                    : $.trim(options.eq(selectedIndex).text());
+                const correctText = $.trim(options.eq(correctIndex).text());
+                const title = question.find('h4').text().replace(/^Question\s+\d+:\s*/, '');
+
+                if (isCorrect) score++;
+
+                const reviewItem = $('<article>', { class: 'quiz-review-item' });
+                reviewItem.append($('<h5>').text(`Question ${questionNumber}: ${title}`));
+                reviewItem.append(
+                    $('<p>', { class: isCorrect ? 'review-correct' : 'review-incorrect' })
+                        .append($('<strong>').text('Your answer: '))
+                        .append(document.createTextNode(selectedText))
+                );
+                if (!isCorrect) {
+                    reviewItem.append(
+                        $('<p>', { class: 'review-correct' })
+                            .append($('<strong>').text('Correct answer: '))
+                            .append(document.createTextNode(correctText))
+                    );
+                }
+                reviewList.append(reviewItem);
             }
-            
+
+            $('#quiz-container .quiz-question').hide();
+            $('#quiz-score').text(`${score}/${totalQuestions}`);
+
+            let feedback;
+            if (score === totalQuestions) {
+                feedback = 'Perfect score! You have a strong grasp of XPath and TestNG.';
+            } else if (score >= totalQuestions * 0.8) {
+                feedback = 'Excellent work! You have a strong understanding.';
+            } else if (score >= totalQuestions * 0.6) {
+                feedback = 'Good job. Review the answers below and keep practicing.';
+            } else {
+                feedback = 'Keep learning. Review the answers below and try again.';
+            }
+
             $('#quiz-feedback').text(feedback);
-            
-            // Hide navigation buttons
-            $('#prevBtn, #nextBtn').hide();
-            $('#quiz-progress').css('width', '100%');
+            $('#quiz-result').show();
+            $('.quiz-card-topline, .quiz-progress-track, .quiz-controls').hide();
         }
 
         function resetQuiz() {
             currentQuestion = 1;
-            score = 0;
             answers = {};
-            
-            // Reset all questions
+
             $('.quiz-question').hide();
             $('#question-1').show();
-            $('.quiz-option').removeClass('correct incorrect');
-            
-            // Reset UI
+            $('.quiz-option').removeClass('selected').attr('aria-pressed', 'false');
             $('#quiz-result').hide();
-            $('#prevBtn, #nextBtn').show();
-            $('#prevBtn').prop('disabled', true);
-            $('#nextBtn').prop('disabled', true).text('Next').off('click').on('click', nextQuestion);
+            $('.quiz-card-topline, .quiz-progress-track, .quiz-controls').show();
             updateQuizProgress();
         }
 
@@ -1719,6 +1947,11 @@ TESTNG XML:
 
         // Event listeners
         $(document).ready(function() {
+            $('#quiz-container').on('click', '.quiz-option', function() {
+                selectOption(this);
+            });
+            updateQuizProgress();
+
             // Update progress bar on scroll
             $(window).scroll(updateProgressBar);
             
@@ -1755,16 +1988,14 @@ TESTNG XML:
             
             // Add keyboard navigation for quiz
             $(document).keydown(function(e) {
-                if ($('#quiz-section').is(':visible')) {
-                    if (e.key === 'ArrowLeft' && !$('#prevBtn').prop('disabled')) {
-                        previousQuestion();
-                    } else if (e.key === 'ArrowRight' && !$('#nextBtn').prop('disabled')) {
-                        if ($('#nextBtn').text().includes('Finish')) {
-                            finishQuiz();
-                        } else {
-                            nextQuestion();
-                        }
-                    }
+                if (!$(e.target).closest('#quiz-card').length) return;
+
+                if (e.key === 'ArrowLeft' && !$('#prevBtn').prop('disabled')) {
+                    e.preventDefault();
+                    previousQuestion();
+                } else if (e.key === 'ArrowRight' && !$('#nextBtn').prop('disabled')) {
+                    e.preventDefault();
+                    nextQuestion();
                 }
             });
         });
@@ -1843,11 +2074,6 @@ TESTNG XML:
         .code-container:hover {
             transform: scale(1.02);
             transition: transform 0.3s ease;
-        }
-
-        /* Quiz option hover effects */
-        .quiz-option:hover {
-            transform: translateX(10px);
         }
 
         /* Responsive improvements */
